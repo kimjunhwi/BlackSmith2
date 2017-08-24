@@ -18,6 +18,8 @@ public class Player
     CGameEquiment GearEquipmnet = null;
     CGameEquiment AccessoryEquipmnet = null;
 
+    private SpawnManager spawnManager;
+
     public Inventory inventory;
 
 	public int GetSmithLevel() { return changeStats.nBlackSmithLevel; }
@@ -173,7 +175,7 @@ public class Player
 
 	public void SetRepairPower () {
 
-		float fResultRepairPowerPercent = 1.0f;
+		float fResultRepairPowerPercent = 0.0f;
 
 		if (WeaponEquipment != null)	fResultRepairPowerPercent += WeaponEquipment.fReapirPower;
 		if (GearEquipmnet != null) 		fResultRepairPowerPercent += GearEquipmnet.fReapirPower;
@@ -183,12 +185,17 @@ public class Player
 			fResultRepairPowerPercent += creatorWeapon.fSasinBossValue;
 		}
 
-		m_fRepairPower = changeStats.fRepairPower + (changeStats.fRepairPower * fResultRepairPowerPercent * 0.01f);
+        //로이 아르바이트가 배치중이라면 스킬을 적용
+        if (spawnManager != null)
+            if (spawnManager.m_BatchArbait[(int)E_ARBAIT.E_ROY].activeSelf == true)
+                spawnManager.array_ArbaitData[(int)E_ARBAIT.E_ROY].ApplySkill();
+
+        m_fRepairPower = changeStats.fRepairPower + (changeStats.fRepairPower * fResultRepairPowerPercent * 0.01f);
 	}
 
 	public void SetAccuracyRate()
 	{
-		float fResultAccuracyRatePercent = 1.0f;
+		float fResultAccuracyRatePercent = 0.0f;
 
 		if (WeaponEquipment != null)	fResultAccuracyRatePercent += WeaponEquipment.fAccuracyRate;
 		if (GearEquipmnet != null) 		fResultAccuracyRatePercent += GearEquipmnet.fAccuracyRate;
@@ -203,7 +210,7 @@ public class Player
 
 	public void SetArbaitRepairPower()
 	{
-		float fResultArbaitRepairPower = 1.0f;
+		float fResultArbaitRepairPower = 0.0f;
 
 		if (WeaponEquipment != null)	fResultArbaitRepairPower += WeaponEquipment.fArbaitRepair;
 		if (GearEquipmnet != null) 		fResultArbaitRepairPower += GearEquipmnet.fArbaitRepair;
@@ -218,7 +225,7 @@ public class Player
 
 	public void SetGoldPlusPercent()
 	{
-		float fResultGoldPlusPercent = 1.0f;
+		float fResultGoldPlusPercent = 0.0f;
 
 		if (WeaponEquipment != null)	fResultGoldPlusPercent += WeaponEquipment.fGoldPlus;
 		if (GearEquipmnet != null) 		fResultGoldPlusPercent += GearEquipmnet.fGoldPlus;
@@ -230,7 +237,7 @@ public class Player
 
 	public void SetHonorPlusPercent()
 	{
-		float fResultHonorPlusPercent = 1.0f;
+		float fResultHonorPlusPercent = 0.0f;
 
 		if (WeaponEquipment != null)	fResultHonorPlusPercent += WeaponEquipment.fHonorPlus;
 		if (GearEquipmnet != null) 		fResultHonorPlusPercent += GearEquipmnet.fHonorPlus;
@@ -242,7 +249,7 @@ public class Player
 
 	public void SetWaterPlus()
 	{
-		float fResultWaterPlusPercent = 1.0f;
+		float fResultWaterPlusPercent = 0.0f;
 
 		if (WeaponEquipment != null)	fResultWaterPlusPercent += WeaponEquipment.fWaterChargePlus;
 		if (GearEquipmnet != null) 		fResultWaterPlusPercent += GearEquipmnet.fWaterChargePlus;
@@ -254,22 +261,31 @@ public class Player
 
 	public void SetCriticalChance()
 	{
-		float fResultCriticalChancePercent = 1.0f;
+		float fResultCriticalChancePercent = 0.0f;
 
+        //각종 장비들을 체크
 		if (WeaponEquipment != null)	fResultCriticalChancePercent += WeaponEquipment.fCritical;
 		if (GearEquipmnet != null) 		fResultCriticalChancePercent += GearEquipmnet.fCritical;
 		if (AccessoryEquipmnet != null) fResultCriticalChancePercent += AccessoryEquipmnet.fCritical;
-		if (creatorWeapon != null) {
+
+        //제작무기 장착
+        if (creatorWeapon != null) {
 			fResultCriticalChancePercent += creatorWeapon.fCriticalChance;
 			fResultCriticalChancePercent += creatorWeapon.fFireBossValue;
 		}
+
+        //널스 아르바이트가 배치중이라면 스킬을 적용
+        if (spawnManager != null)
+            if(spawnManager.m_BatchArbait[(int)E_ARBAIT.E_NURSE].activeSelf == true)
+                spawnManager.array_ArbaitData[(int)E_ARBAIT.E_NURSE].ApplySkill();
+            
 
 		m_fCriticalChance = changeStats.fCriticalChance + (changeStats.fCriticalChance * fResultCriticalChancePercent * 0.01f);
 	}
 
 	public void SetCriticalDamage()
 	{
-		float fResultCriticalDamagePercent = 1.5f;
+		float fResultCriticalDamagePercent = 0f;
 
 		if (WeaponEquipment != null)	fResultCriticalDamagePercent += WeaponEquipment.fCriticalDamage;
 		if (GearEquipmnet != null) 		fResultCriticalDamagePercent += GearEquipmnet.fCriticalDamage;
@@ -281,7 +297,7 @@ public class Player
 
 	public void SetBigSuccessed()
 	{
-		float fResultBigSuccessedPercent = 1.0f;
+		float fResultBigSuccessedPercent = 0.0f;
 
 		if (WeaponEquipment != null)	fResultBigSuccessedPercent += WeaponEquipment.fBigCritical;
 		if (GearEquipmnet != null) 		fResultBigSuccessedPercent += GearEquipmnet.fBigCritical;
@@ -318,7 +334,7 @@ public class Player
 		return List_items.Count;
 	}
 
-	/*
+    /*
 	public E_BOSS_WEAPON Check_Equipment()
 	{
 		if (WeaponEquipment != null)
@@ -329,80 +345,90 @@ public class Player
 
     //아이템을 장착할 경우
     public void EquipItem(CGameEquiment _item)
-	{
-		//아이템이 어디 부위인지 확인한다.
-		switch (_item.nSlotIndex) {
-		case (int)E_EQUIMNET_INDEX.E_WEAPON:
+    {
+        //아이템이 어디 부위인지 확인한다.
+        switch (_item.nSlotIndex)
+        {
+            case (int)E_EQUIMNET_INDEX.E_WEAPON:
 
                 //만약 무기가 있을 경우 그 무기가 현재 플레이어에 적용되는 값을 빼고 아이템을 넣어줌
                 //그 후 다시 아이템 효과를 플레이어에게 적용한다.
-			if (WeaponEquipment == _item) {
+                if (WeaponEquipment == _item)
+                {
 
-				WeaponEquipment.bIsEquip = false;
+                    WeaponEquipment.bIsEquip = false;
 
-				WeaponEquipment = null;
+                    WeaponEquipment = null;
 
-				PlayerStatsSetting ();
+                    PlayerStatsSetting();
 
-				return;
-			}
-			else if (WeaponEquipment != null)
-				WeaponEquipment.bIsEquip = false;
-			
-
-			WeaponEquipment = _item;
-
-			WeaponEquipment.bIsEquip = true;
-			break;
-		case (int)E_EQUIMNET_INDEX.E_WEAR:
-
-			if (GearEquipmnet == _item) {
-
-				GearEquipmnet.bIsEquip = false;
-
-				GearEquipmnet = null;
-
-				PlayerStatsSetting ();
-
-				return;
-			}
-			else if (GearEquipmnet != null)
-				GearEquipmnet.bIsEquip = false;
+                    return;
+                }
+                else if (WeaponEquipment != null)
+                    WeaponEquipment.bIsEquip = false;
 
 
-			GearEquipmnet = _item;
+                WeaponEquipment = _item;
 
-			GearEquipmnet.bIsEquip = true;
-			break;
-		case (int)E_EQUIMNET_INDEX.E_ACCESSORY:
+                WeaponEquipment.bIsEquip = true;
+                break;
+            case (int)E_EQUIMNET_INDEX.E_WEAR:
+
+                if (GearEquipmnet == _item)
+                {
+
+                    GearEquipmnet.bIsEquip = false;
+
+                    GearEquipmnet = null;
+
+                    PlayerStatsSetting();
+
+                    return;
+                }
+                else if (GearEquipmnet != null)
+                    GearEquipmnet.bIsEquip = false;
 
 
-			if (AccessoryEquipmnet == _item) {
+                GearEquipmnet = _item;
 
-				AccessoryEquipmnet.bIsEquip = false;
-
-				AccessoryEquipmnet = null;
-
-				PlayerStatsSetting ();
-
-				return;
-			}
-
-			else if (AccessoryEquipmnet != null)
-				AccessoryEquipmnet.bIsEquip = false;
+                GearEquipmnet.bIsEquip = true;
+                break;
+            case (int)E_EQUIMNET_INDEX.E_ACCESSORY:
 
 
-			AccessoryEquipmnet = _item;
+                if (AccessoryEquipmnet == _item)
+                {
 
-			AccessoryEquipmnet.bIsEquip = true;
+                    AccessoryEquipmnet.bIsEquip = false;
 
-			break;
-		}
-		PlayerStatsSetting ();
+                    AccessoryEquipmnet = null;
 
-		//아이템을 장착했기에 다시 정렬
-		inventory.inventorySlots [_item.nSlotIndex].RefreshDisplay ();
-	}
+                    PlayerStatsSetting();
+
+                    return;
+                }
+
+                else if (AccessoryEquipmnet != null)
+                    AccessoryEquipmnet.bIsEquip = false;
+
+
+                AccessoryEquipmnet = _item;
+
+                AccessoryEquipmnet.bIsEquip = true;
+
+                break;
+        }
+        PlayerStatsSetting();
+
+        //아이템을 장착했기에 다시 정렬
+        inventory.inventorySlots[_item.nSlotIndex].RefreshDisplay();
+    }
+
+    //계속해서 받아올 수 없기에 미리 캐싱해둠
+    public void GetSpawnManager(SpawnManager _spawnManager)
+    {
+        spawnManager = _spawnManager;
+    }
 }
 
 

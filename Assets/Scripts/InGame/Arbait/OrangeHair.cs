@@ -4,6 +4,9 @@ using UnityEngine;
 using ReadOnlys;
 
 public class OrangeHair : ArbaitBatch {
+
+    private float fGetPlusWater = 0.0f;
+    private float fMinusPlusWater = 0.0f;
     private float fChangePlusWater = 0.0f;
 
     protected override void Awake()
@@ -42,23 +45,36 @@ public class OrangeHair : ArbaitBatch {
         ReliveSkill();
 
         base.OnDisable();
+
+        fGetPlusWater = 0.0f;
+        fMinusPlusWater = 0.0f;
+        fChangePlusWater = 0.0f;
     }
 
     public override void ApplySkill()
     {
-        if (fChangePlusWater != 0)
+        if (fChangePlusWater >= 1)
             ReliveSkill();
 
-		fChangePlusWater = playerData.GetBasicWaterPlus() * (m_CharacterChangeData.fSkillPercent * 0.01f);
+        fGetPlusWater = playerData.GetBasicWaterPlus();
 
-		playerData.SetBasicWaterPlus(playerData.GetBasicWaterPlus() + fChangePlusWater);
+        fChangePlusWater = fGetPlusWater * (m_CharacterChangeData.fSkillPercent * 0.01f);
+
+		playerData.SetBasicWaterPlus(fGetPlusWater + fChangePlusWater);
     }
 
     protected override void ReliveSkill()
     {
-		playerData.SetBasicWaterPlus(playerData.GetBasicWaterPlus() - fChangePlusWater);
-    }
+        if(fChangePlusWater <= 1)
+            return;
 
+        fGetPlusWater = playerData.GetBasicWaterPlus();
+
+        fMinusPlusWater = fGetPlusWater - fChangePlusWater;
+
+        playerData.SetBasicWaterPlus(fMinusPlusWater);
+    }
+    
     public override void RelivePauseSkill()
     {
         base.RelivePauseSkill();

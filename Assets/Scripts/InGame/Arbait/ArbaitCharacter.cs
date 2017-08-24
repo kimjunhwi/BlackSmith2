@@ -211,7 +211,7 @@ public class ArbaitCharacter : MonoBehaviour {
 //        }
     }
 
-    void ChangeArbaitText()
+    public void ChangeArbaitText()
     {
         LevelText.text = m_CharacterData.level.ToString();
         NameText.text = m_CharacterData.name;
@@ -220,6 +220,5 @@ public class ArbaitCharacter : MonoBehaviour {
         AttackSpeedText.text = m_CharacterData.fAttackSpeed.ToString("F1");
         CriticalText.text = m_CharacterData.fCritical.ToString("F1");
         AccuracyText.text = m_CharacterData.fAccuracyRate.ToString("F1");
-	
     }
 }

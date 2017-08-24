@@ -17,9 +17,9 @@ public class BlueHair : ArbaitBatch {
         base.Awake();
 
         nIndex = (int)E_ARBAIT.E_ROY;
-
-
     }
+
+
 
     protected override void Update()
     {
@@ -66,8 +66,6 @@ public class BlueHair : ArbaitBatch {
 
         fChangeRepair = fGetRepairPower * (m_CharacterChangeData.fSkillPercent * 0.01f);
 
-        fChangeRepair = Mathf.Round(fChangeRepair);
-
 		playerData.SetBasicRepairPower(fGetRepairPower + fChangeRepair);
     }
 
@@ -79,8 +77,6 @@ public class BlueHair : ArbaitBatch {
 		fGetRepairPower = playerData.GetBasicRepairPower();
 
         fMinusRepair = fGetRepairPower - fChangeRepair;
-
-        fMinusRepair = Mathf.Round(fMinusRepair);
 
 		playerData.SetBasicRepairPower(fMinusRepair);
     }

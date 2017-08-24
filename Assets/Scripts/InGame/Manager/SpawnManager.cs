@@ -32,6 +32,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	public List<int> checkList = new List<int> ();
 
+    public List<ArbaitCharacter> list_ArbaitUI = new List<ArbaitCharacter>();
+
 	public int nRandomIndex;
 
     public Transform[] m_BatchPosition;
@@ -90,7 +92,11 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		SoundManager.instance.LoadSource ();
 		SoundManager.instance.PlaySound (eSoundArray.BGM_Main);
 
+        //SpawnManager를 미리 캐싱
+        GameManager.Instance.player.GetSpawnManager(this);
 	}
+
+    public SpawnManager GetSpawnManager() { return this; }
 
     private void Update()
     {
@@ -147,20 +153,28 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
             //미리 ArbaitBatch를 캐싱해준후 아르바이트 데이터를 넣어줌
             array_ArbaitData[nIndex] = m_BatchArbait[nIndex].GetComponent<ArbaitBatch>();
 
+            array_ArbaitData[nIndex].spawnManager = this;
             array_ArbaitData[nIndex].m_CharacterChangeData = GameManager.Instance.GetArbaitData(nIndex);
+            
 
             m_BatchArbait[nIndex].SetActive(false);
         }
 
         for (int nIndex = 0; nIndex < m_BatchArbait.Length; nIndex++)
         {
+            ArbaitCharacter arbiatCharacter = null;
+
             GameObject createArbaitUI = Instantiate(ArbaitPanel);
 
-            createArbaitUI.GetComponent<ArbaitCharacter>().SetUp(nIndex, arbaitSprite[nIndex]);
+            arbiatCharacter = createArbaitUI.GetComponent<ArbaitCharacter>();
+
+            arbiatCharacter.SetUp(nIndex, arbaitSprite[nIndex]);
 
             createArbaitUI.transform.SetParent(contentsPanel, false);
 
             createArbaitUI.transform.localScale = Vector3.one;
+
+            list_ArbaitUI.Add(arbiatCharacter);
         }
     }
 
@@ -504,8 +518,11 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
             for (int nIndex = 0; nIndex < m_BatchArbait.Length; nIndex++)
             {
-                if(m_BatchArbait[nIndex].activeSelf)
-					StartCoroutine(array_ArbaitData[nIndex].ApplyWaterBuffAttackSpeed(fValue,fTime));
+                if (m_BatchArbait[nIndex].activeSelf)
+                {
+                    StartCoroutine(array_ArbaitData[nIndex].ApplyWaterBuffAttackSpeed(fValue, fTime));
+                    list_ArbaitUI[nIndex].ChangeArbaitText();
+                }
             }
 		}
 
@@ -514,9 +531,14 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			fTime = array_ArbaitData [(int)E_ARBAIT.E_ROSA].m_CharacterChangeData.fCurrentFloat;
 			fValue = array_ArbaitData [(int)E_ARBAIT.E_ROSA].m_CharacterChangeData.fSkillPercent;
 
-            for (int nIndex = 0; nIndex < array_ArbaitData.Length; nIndex++) 
-				if(m_BatchArbait[nIndex].activeSelf)
-					StartCoroutine(array_ArbaitData [nIndex].ApplyWaterBuffRepairPower (fValue,fTime));
+            for (int nIndex = 0; nIndex < array_ArbaitData.Length; nIndex++)
+            {
+                if (m_BatchArbait[nIndex].activeSelf)
+                {
+                    StartCoroutine(array_ArbaitData[nIndex].ApplyWaterBuffRepairPower(fValue, fTime));
+                    list_ArbaitUI[nIndex].ChangeArbaitText();
+                }
+            }
         }
 
 		if (m_BatchArbait [(int)E_ARBAIT.E_LUNA].activeSelf) 

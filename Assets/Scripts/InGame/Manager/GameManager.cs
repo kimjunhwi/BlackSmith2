@@ -364,13 +364,13 @@ public class GameManager : GenericMonoSingleton<GameManager> {
 
 
 
-    //void OnApplicationQuit()
-    //{
+    void OnApplicationQuit()
+    {
 
-    //    DataSave();
+        DataSave();
 
-    //    StopAllCoroutines();
-    //}
+        //StopAllCoroutines();
+    }
 
     //데이터 저장시 호출된다.
     //저장이 되는 부분은 OnApplicationPuase가 TRUE 이고 플레이어가 존재할시 호출
@@ -402,20 +402,20 @@ public class GameManager : GenericMonoSingleton<GameManager> {
 
         PlayerPrefs.Save();
 
-        StopAllCoroutines();
+        //StopAllCoroutines();
     }
 
-    //public void OnApplicationPause(bool bIsPause)
-    //{
-     //   if (bIsPause)
-      //  {
-	//		if (player != null && SceneManager.GetActiveScene().buildIndex == 2)
-     //       {
-     //           Debug.Log("Puase");
-     //           DataSave();
-      //      }
-      //  }
-   // }
+    public void OnApplicationPause(bool bIsPause)
+    {
+        if (bIsPause)
+        {
+			if (player != null && SceneManager.GetActiveScene().buildIndex == 2)
+            {
+                Debug.Log("Puase");
+                DataSave();
+            }
+        }
+    }
 
 
     public void SavePlayerData()

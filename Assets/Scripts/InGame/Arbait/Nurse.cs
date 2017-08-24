@@ -5,8 +5,19 @@ using ReadOnlys;
 
 public class Nurse : ArbaitBatch {
 
+
+
+    //크리티컬 받아오기 위함
+    private float fGetCritical = 0.0f;
+
+    //크리티컬 감소되는 값
+    private float fMinusCritical = 0.0f;
+
     //크리확률증가를 위함
     private float fChangeCritical = 0.0f;
+
+    
+
 
     protected override void Awake()
     {
@@ -49,20 +60,26 @@ public class Nurse : ArbaitBatch {
 
     public override void ApplySkill()
     {
-        if (fChangeCritical != 0)
+        if (fChangeCritical >= 1)
             ReliveSkill();
 
-		fChangeCritical = playerData.GetBasicCriticalChance() * (m_CharacterChangeData.fSkillPercent * 0.01f);
+        fGetCritical = playerData.GetBasicCriticalChance();
 
-		playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() + fChangeCritical);
+		fChangeCritical = fGetCritical * (m_CharacterChangeData.fSkillPercent * 0.02f);
+
+		playerData.SetBasicCriticalChance(fGetCritical + fChangeCritical);
     }
 
     protected override void ReliveSkill()
     {
-        if (fChangeCritical == 0)
+        if (fChangeCritical <= 1)
             return;
 
-		playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() - fChangeCritical);
+        fGetCritical = playerData.GetBasicCriticalChance();
+
+        fMinusCritical = fGetCritical - fChangeCritical;
+
+        playerData.SetBasicCriticalChance(fGetCritical - fMinusCritical);
     }
 
     public override void RelivePauseSkill()

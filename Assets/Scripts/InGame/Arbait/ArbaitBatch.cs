@@ -53,6 +53,8 @@ public class ArbaitBatch : MonoBehaviour {
     //무기가 보일 말풍선(?) // 미정
 	protected RepairObject RepairShowObject;
 
+    public SpawnManager spawnManager;
+
     //캐릭터 스프라이트
 	protected SpriteRenderer myCharacterSprite;
 
@@ -103,7 +105,7 @@ public class ArbaitBatch : MonoBehaviour {
 		animator = GetComponent<Animator> ();
 
 		playerData = GameManager.Instance.player;
-	}
+    }
 
 	protected virtual void Update()
 	{
@@ -216,7 +218,7 @@ public class ArbaitBatch : MonoBehaviour {
 		
         //물 사용시 공격속도 증가 버프
         if (m_bIsWaterAttackSpeed)
-            m_CharacterChangeData.fAttackSpeed -= m_fWaterAttackSpeedValue;
+            m_CharacterChangeData.fAttackSpeed += m_fWaterAttackSpeedValue;
 
 
         //물 사용시 수리력 증가 버프
@@ -236,7 +238,10 @@ public class ArbaitBatch : MonoBehaviour {
 
         //대장간 크리티컬시 공격속도 증가 버프
         if (m_bIsSmithCriticalAttackSpeed)
-            m_CharacterChangeData.fAttackSpeed -= m_fSmithCriticalAttackSpeedValue;
+            m_CharacterChangeData.fAttackSpeed += m_fSmithCriticalAttackSpeedValue;
+
+        if (m_bIsCriticalArbaitAttackSpeed)
+            m_CharacterChangeData.fAttackSpeed += m_fCriticalArbaitAttackSpeedValue;
     }
 
     public virtual void ApplyPauseSkill()
@@ -256,9 +261,11 @@ public class ArbaitBatch : MonoBehaviour {
         if (m_bIsWaterCritical)
             m_CharacterChangeData.fCritical += m_fWaterCriticalValue;
 
+
         //대장간 수리시 명중률 증가버프
         if (m_bIsSmithBuffAccuracy)
             m_CharacterChangeData.fAccuracyRate += m_fArbaitAccuracyValue;
+
 
         //대장간 크리티컬시 공격속도 증가 버프
         if (m_bIsSmithCriticalAttackSpeed)
@@ -312,6 +319,8 @@ public class ArbaitBatch : MonoBehaviour {
 
         m_bIsWaterAttackSpeed = false;
         m_CharacterChangeData.fAttackSpeed += m_fWaterAttackSpeedValue;
+
+        spawnManager.list_ArbaitUI[nIndex].ChangeArbaitText();
     }
 
     public IEnumerator ApplyWaterBuffRepairPower(float _fValue, float _fTime) 
@@ -350,6 +359,8 @@ public class ArbaitBatch : MonoBehaviour {
 
         m_bIsWaterRepairPower = false;
         m_CharacterChangeData.fRepairPower -= m_fWaterRepairPowerValue;
+
+        spawnManager.list_ArbaitUI[nIndex].ChangeArbaitText();
     }
 
     public IEnumerator ApplyWaterBuffCritical(float _fValue, float _fTime) 
@@ -386,6 +397,8 @@ public class ArbaitBatch : MonoBehaviour {
 
         m_bIsWaterCritical = false;
         m_CharacterChangeData.fCritical += m_fWaterCriticalValue;
+
+        spawnManager.list_ArbaitUI[nIndex].ChangeArbaitText();
     }
 
     #endregion
@@ -435,6 +448,8 @@ public class ArbaitBatch : MonoBehaviour {
 
         m_bIsSmithBuffAccuracy = false;
 		m_CharacterChangeData.fAccuracyRate -= m_fArbaitAccuracyValue;
+
+        spawnManager.list_ArbaitUI[nIndex].ChangeArbaitText();
     }
 
     #endregion
@@ -487,6 +502,8 @@ public class ArbaitBatch : MonoBehaviour {
 
         m_bIsSmithCriticalAttackSpeed = false;
         m_CharacterChangeData.fAttackSpeed += m_fSmithCriticalAttackSpeedValue;
+
+        spawnManager.list_ArbaitUI[nIndex].ChangeArbaitText();
     }
 
     #endregion
@@ -539,7 +556,9 @@ public class ArbaitBatch : MonoBehaviour {
 
 		m_bIsCriticalArbaitAttackSpeed = false;
 		m_CharacterChangeData.fAttackSpeed += m_fCriticalArbaitAttackSpeedValue;
-	}
+
+        spawnManager.list_ArbaitUI[nIndex].ChangeArbaitText();
+    }
 
 	#endregion
 

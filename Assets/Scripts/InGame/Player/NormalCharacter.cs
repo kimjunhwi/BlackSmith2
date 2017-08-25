@@ -456,7 +456,7 @@ public class NormalCharacter : Character {
 
 			nDay = cPlayerData.GetDay ();
 
-			fGold = 500 * Mathf.Pow (1.1f, nDay - 1);
+			fGold = 500 * Mathf.Pow (1.1f,Mathf.Min(nDay - 1,55)) * Mathf.Pow(nDay - 56,0) +( Mathf.Min(nDay -1, 55) * 50);
 
 			ScoreManager.ScoreInstance.GoldPlus (fGold);
 

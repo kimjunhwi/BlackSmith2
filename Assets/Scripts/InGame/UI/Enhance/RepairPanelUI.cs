@@ -54,7 +54,7 @@ public class RepairPanelUI : EnhanceUI {
 //			EnhanceText.text = strEnhanceName + nLevel;
 //		}
 
-		fCostGold = 3000 * Mathf.Pow (1.15f, Mathf.Min (nLevel, 50)) * Mathf.Pow (1.155f, Mathf.Max (nLevel - 50, 0)) * Mathf.Pow (1.16f, Mathf.Max (nLevel - 100, 0));
+		fCostGold = 3000 * Mathf.Pow (1.1f, Mathf.Min (nLevel, 100)) * Mathf.Pow (1.06f, Mathf.Max (nLevel - 100, 0));
 
 		if (fCostGold <= ScoreManager.ScoreInstance.GetGold ()) {
 

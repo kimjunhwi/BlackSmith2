@@ -94,8 +94,6 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		SoundManager.instance.SetSoundObjPool (simpleSoundObjPool);
 		SoundManager.instance.LoadSource ();
 		SoundManager.instance.PlaySound (eSoundArray.BGM_Main);
-
-        
 	}
 
     public SpawnManager GetSpawnManager() { return this; }

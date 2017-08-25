@@ -1304,8 +1304,8 @@ public class RepairObject : MonoBehaviour
 			fWeaponDownTemperature = fMaxTemperature * 0.3f;
 		
 			// 수리력 = 수리력 * ( 현재온도 * 11 * 0.00556) * ( 1 - 물수치(플레이어의 무기 + 장비의 물수치))
-			fCurrentComplate += GameManager.Instance.player.GetRepairPower() * (fCurrentTemperature  * 11f* 0.00556f) * 
-				(1f - (weaponData.fMinusUseWater * 0.05f));
+			fCurrentComplate += GameManager.Instance.player.GetRepairPower() * (fCurrentTemperature  * 11f * 0.00556f) * 
+				(1f + (weaponData.fMinusUseWater * 0.05f));
 			
 
 			fCurrentTemperature -= fMaxTemperature * 0.5f;

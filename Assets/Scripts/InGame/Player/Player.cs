@@ -18,7 +18,7 @@ public class Player
     CGameEquiment GearEquipmnet = null;
     CGameEquiment AccessoryEquipmnet = null;
 
-    private SpawnManager spawnManager;
+	private SpawnManager spawnManager = null;
 
     public Inventory inventory;
 
@@ -47,11 +47,11 @@ public class Player
 	public void SetBasicWaterPlus(float _fValue) { changeStats.fWaterPlus = _fValue; }
 
 	public float GetBasicRepairPower(){ return changeStats.fRepairPower; }
-	public void SetBasicRepairPower(float _fValue) { 
+	public void SetBasicRepairPower(float _fValue,bool _bIsNoneSet = false) { 
 		changeStats.fRepairPower = _fValue;  
 
 		changeStats.fRepairPower = Mathf.Round (changeStats.fRepairPower * 100) * 0.01f;
-
+		
 		SetRepairPower ();
 	}
 
@@ -186,9 +186,10 @@ public class Player
 		}
 
         //로이 아르바이트가 배치중이라면 스킬을 적용
-        if (spawnManager != null)
-            if (spawnManager.m_BatchArbait[(int)E_ARBAIT.E_ROY].activeSelf == true)
-                spawnManager.array_ArbaitData[(int)E_ARBAIT.E_ROY].ApplySkill();
+		if (spawnManager != null)
+			if (spawnManager.list_ArbaitUI.Count != 0)
+				if (spawnManager.m_BatchArbait [(int)E_ARBAIT.E_ROY].activeSelf == true)
+			fResultRepairPowerPercent += spawnManager.array_ArbaitData[(int)E_ARBAIT.E_ROY].m_CharacterChangeData.fSkillPercent;
 
         m_fRepairPower = changeStats.fRepairPower + (changeStats.fRepairPower * fResultRepairPowerPercent * 0.01f);
 	}
@@ -274,10 +275,12 @@ public class Player
 			fResultCriticalChancePercent += creatorWeapon.fFireBossValue;
 		}
 
-        //널스 아르바이트가 배치중이라면 스킬을 적용
-        if (spawnManager != null)
-            if(spawnManager.m_BatchArbait[(int)E_ARBAIT.E_NURSE].activeSelf == true)
-                spawnManager.array_ArbaitData[(int)E_ARBAIT.E_NURSE].ApplySkill();
+        //널스 아르바이트가 배치중이라면 스킬을 적용 
+
+		if (spawnManager != null)
+			if (spawnManager.list_ArbaitUI.Count != 0)
+				if (spawnManager.m_BatchArbait [(int)E_ARBAIT.E_NURSE].activeSelf == true)
+			fResultCriticalChancePercent += spawnManager.array_ArbaitData[(int)E_ARBAIT.E_NURSE].m_CharacterChangeData.fSkillPercent;
             
 
 		m_fCriticalChance = changeStats.fCriticalChance + (changeStats.fCriticalChance * fResultCriticalChancePercent * 0.01f);

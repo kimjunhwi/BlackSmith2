@@ -55,7 +55,7 @@ namespace ReadOnlys
 		E_BOSSREPAIR,
     }
 
-	public enum E_ARBAIT : int
+	public enum E_ARBAIT
 	{
 		E_ROY = 0,
 		E_MIA,

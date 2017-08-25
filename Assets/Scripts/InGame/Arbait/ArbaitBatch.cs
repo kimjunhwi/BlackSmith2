@@ -242,6 +242,12 @@ public class ArbaitBatch : MonoBehaviour {
 
         if (m_bIsCriticalArbaitAttackSpeed)
             m_CharacterChangeData.fAttackSpeed += m_fCriticalArbaitAttackSpeedValue;
+
+		if (m_bIsWaterCheck) 
+		{
+			m_CharacterChangeData.fAttackSpeed += m_fWaterAttackSpeed;
+			m_CharacterChangeData.fRepairPower -= m_fWaterRepairPower;
+		}
     }
 
     public virtual void ApplyPauseSkill()
@@ -274,6 +280,11 @@ public class ArbaitBatch : MonoBehaviour {
 		if(m_bIsCriticalArbaitAttackSpeed)
 			m_CharacterChangeData.fAttackSpeed -= m_fCriticalArbaitAttackSpeedValue;
 
+		if (m_bIsWaterCheck) 
+		{
+			m_CharacterChangeData.fAttackSpeed -= m_fWaterAttackSpeed;
+			m_CharacterChangeData.fRepairPower += m_fWaterRepairPower;
+		}
     }
 
     //물 사용 했을 때 버프를 적용시키기 위함
@@ -562,6 +573,44 @@ public class ArbaitBatch : MonoBehaviour {
 
 	#endregion
 
+	//물 게이지 70% 이상 일 때
+	#region if Smith Critical, Apply and Relive Arbait AttackSpeed Buff
+
+	private bool m_bIsWaterCheck = false;
+	private float m_fWaterAttackSpeed = 0.0f;
+	private float m_fWaterRepairPower = 0.0f;
+
+	public void ApplyWaterUp(float _fValue)
+	{
+		if (m_bIsWaterCheck)
+			return;
+
+		m_bIsWaterCheck = true;
+
+		m_fWaterAttackSpeed = m_CharacterChangeData.fAttackSpeed * (_fValue * 0.01f);
+		m_fWaterRepairPower = m_CharacterChangeData.fRepairPower * (_fValue * 0.01f);
+
+		m_CharacterChangeData.fAttackSpeed -= m_fWaterAttackSpeed;
+		m_CharacterChangeData.fRepairPower += m_fWaterRepairPower;
+
+		spawnManager.list_ArbaitUI[nIndex].ChangeArbaitText();
+	}
+
+	public void ReliveWaterUp()
+	{
+		if (!m_bIsWaterCheck)
+			return;
+
+		m_bIsWaterCheck = false;
+
+		m_CharacterChangeData.fAttackSpeed += m_fWaterAttackSpeed;
+		m_CharacterChangeData.fRepairPower -= m_fWaterRepairPower;
+
+		spawnManager.list_ArbaitUI[nIndex].ChangeArbaitText();
+	}
+
+	#endregion
+
 
     //무기 수리 완료시 호출
 	protected void ComplateWeapon()
@@ -624,6 +673,10 @@ public class ArbaitBatch : MonoBehaviour {
 		bIsComplate = false;
 
 		weaponData = null;
+
+		m_bIsWaterCheck = false;
+		m_fWaterAttackSpeed = 0.0f;
+		m_fWaterRepairPower = 0.0f;
 
 		if (AfootOjbect != null) 
 			SpawnManager.Instance.ReturnInsertData (AfootOjbect,false,true, m_fComplate, m_fTemperator);

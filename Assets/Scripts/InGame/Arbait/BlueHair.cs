@@ -39,14 +39,18 @@ public class BlueHair : ArbaitBatch {
 
         CheckCharacterState(E_STATE);
 
-        ApplySkill();
+        //ApplySkill();
+
+		//playerData.SetBasicRepairPower(fGetRepairPower + fChangeRepair);
 
         SpawnManager.Instance.InsertWeaponArbait(m_CharacterChangeData.index, nBatchIndex);
     }
 
     protected override void OnDisable()
 	{
-        ReliveSkill();
+        //ReliveSkill();
+
+		//playerData.SetBasicRepairPower(fMinusRepair);
 
         base.OnDisable();
 
@@ -59,26 +63,22 @@ public class BlueHair : ArbaitBatch {
 
     public override void ApplySkill()
     {
-        if (fChangeRepair >= 1)
-            ReliveSkill();
-
-        fGetRepairPower = playerData.GetBasicRepairPower();
-
-        fChangeRepair = fGetRepairPower * (m_CharacterChangeData.fSkillPercent * 0.01f);
-
-		playerData.SetBasicRepairPower(fGetRepairPower + fChangeRepair);
+//        if (fChangeRepair >= 1)
+//            ReliveSkill();
+//
+//        fGetRepairPower = playerData.GetBasicRepairPower();
+//
+//        fChangeRepair = fGetRepairPower * (m_CharacterChangeData.fSkillPercent * 0.01f);
     }
 
     protected override void ReliveSkill()
     {
-        if (fChangeRepair <= 1)
-            return;
-
-		fGetRepairPower = playerData.GetBasicRepairPower();
-
-        fMinusRepair = fGetRepairPower - fChangeRepair;
-
-		playerData.SetBasicRepairPower(fMinusRepair);
+//        if (fChangeRepair <= 1)
+//            return;
+//
+//		fGetRepairPower = playerData.GetBasicRepairPower();
+//
+//        fMinusRepair = fGetRepairPower - fChangeRepair;
     }
 
     public override void RelivePauseSkill()

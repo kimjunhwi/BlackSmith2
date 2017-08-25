@@ -72,6 +72,9 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
         //몬스터 풀을 만듬
         CreateMonsterPool();
 
+		//SpawnManager를 미리 캐싱
+		GameManager.Instance.player.GetSpawnManager(this);
+
         //터치 오브젝트들을 초기화 밑 할당 해줌 (추후 텍스트 추가)
         BreakBoomPool.Instance.Init();
 
@@ -92,8 +95,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		SoundManager.instance.LoadSource ();
 		SoundManager.instance.PlaySound (eSoundArray.BGM_Main);
 
-        //SpawnManager를 미리 캐싱
-        GameManager.Instance.player.GetSpawnManager(this);
+        
 	}
 
     public SpawnManager GetSpawnManager() { return this; }
@@ -725,6 +727,31 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
             array_ArbaitData[nIndex].ApplyPauseSkill();
         }
     }
+
+	public void WaterCheck()
+	{
+		float fValue = 0.0f;
+
+		if (m_BatchArbait [(int)E_ARBAIT.E_BELL].activeSelf) 
+		{
+			fValue = array_ArbaitData [(int)E_ARBAIT.E_ELLIE].m_CharacterChangeData.fSkillPercent;
+
+			for (int nIndex = 0; nIndex < array_ArbaitData.Length; nIndex++) 
+				if(m_BatchArbait[nIndex].activeSelf)
+					array_ArbaitData[nIndex].ApplyWaterUp(fValue);
+
+
+		}
+	}
+
+	public void UnWaterCheck()
+	{
+		if (m_BatchArbait [(int)E_ARBAIT.E_BELL].activeSelf) {
+			for (int nIndex = 0; nIndex < array_ArbaitData.Length; nIndex++)
+				if (m_BatchArbait [nIndex].activeSelf)
+					array_ArbaitData [nIndex].ReliveWaterUp ();
+		}
+	}
 
     #endregion
 

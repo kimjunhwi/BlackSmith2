@@ -5,6 +5,7 @@ using ReadOnlys;
 
 public class Bell : ArbaitBatch {
 
+	private bool m_bIsBuff = false;
 	private float fChangeCritical = 0.0f;
 
 	protected override void Awake()
@@ -45,9 +46,14 @@ public class Bell : ArbaitBatch {
 		base.OnDisable();
 	}
 
+	public override void ApplySkill ()
+	{
+
+	}
+
 	protected override void ReliveSkill()
 	{
-		playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() - fChangeCritical);
+		
 	}
 
 	public override void CheckCharacterState(E_ArbaitState _E_STATE)

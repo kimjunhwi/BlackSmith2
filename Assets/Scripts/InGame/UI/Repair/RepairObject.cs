@@ -492,6 +492,13 @@ public class RepairObject : MonoBehaviour
 			fTemperatureSlideTime = 0.0f;
 
 			fCurrentWater += (fPlusWater  - (fPlusWater * fSmallFireMinusWater));
+
+			if (fCurrentWater / player.GetBasicMaxWaterPlus () > 0.7)
+				SpawnManager.Instance.WaterCheck ();
+			
+			else
+				SpawnManager.Instance.UnWaterCheck ();
+
 			//Debug.Log ("CurPlusWater / " +GameManager.Instance.player.GetWaterPlus() + "WaterMax " + fMaxWater );
 			if (fCurrentTemperature > 0) 
 			{

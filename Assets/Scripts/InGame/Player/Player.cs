@@ -173,8 +173,8 @@ public class Player
 		SetBigSuccessed ();
 	}
 
-	public void SetRepairPower () {
-
+	public void SetRepairPower () 
+	{
 		float fResultRepairPowerPercent = 0.0f;
 
 		if (WeaponEquipment != null)	fResultRepairPowerPercent += WeaponEquipment.fReapirPower;
@@ -186,9 +186,11 @@ public class Player
 		}
 
         //로이 아르바이트가 배치중이라면 스킬을 적용
+		/*
         if (spawnManager != null)
             if (spawnManager.m_BatchArbait[(int)E_ARBAIT.E_ROY].activeSelf == true)
                 spawnManager.array_ArbaitData[(int)E_ARBAIT.E_ROY].ApplySkill();
+                */
 
         m_fRepairPower = changeStats.fRepairPower + (changeStats.fRepairPower * fResultRepairPowerPercent * 0.01f);
 	}
@@ -275,11 +277,12 @@ public class Player
 		}
 
         //널스 아르바이트가 배치중이라면 스킬을 적용
+		/*
         if (spawnManager != null)
             if(spawnManager.m_BatchArbait[(int)E_ARBAIT.E_NURSE].activeSelf == true)
                 spawnManager.array_ArbaitData[(int)E_ARBAIT.E_NURSE].ApplySkill();
             
-
+		*/
 		m_fCriticalChance = changeStats.fCriticalChance + (changeStats.fCriticalChance * fResultCriticalChancePercent * 0.01f);
 	}
 

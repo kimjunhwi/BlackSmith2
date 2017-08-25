@@ -1,0 +1,9 @@
+lastUpgrade=00940
+proj.pluginVersion=0.9.40
+proj.AppId=636450548930
+and.BundleId=com.Wiz.BlackSmith_Test
+proj.classDir=Assets
+proj.ConstantsClassName=GPGSIds
+and.ResourceData=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-8%22%3f%3e%0a%3c%21--%0aGoogle+Play+game+services+IDs.%0aSave+this+file+as+res%2fvalues%2fgames-ids.xml+in+your+project.%0a--%3e%0a%3cresources%3e%0a++%3c%21--+app_id+--%3e%0a++%3cstring+name%3d%22app_id%22+translatable%3d%22false%22%3e636450548930%3c%2fstring%3e%0a++%3c%21--+package_name+--%3e%0a++%3cstring+name%3d%22package_name%22+translatable%3d%22false%22%3ecom.Wiz.BlackSmith_Test%3c%2fstring%3e%0a++%3c%21--+achievement+1+--%3e%0a++%3cstring+name%3d%22achievement_1%22+translatable%3d%22false%22%3eCgkIwtmi-8ISEAIQAQ%3c%2fstring%3e%0a++%3c%21--+achievement+2+--%3e%0a++%3cstring+name%3d%22achievement_2%22+translatable%3d%22false%22%3eCgkIwtmi-8ISEAIQAg%3c%2fstring%3e%0a++%3c%21--+achievement+3+--%3e%0a++%3cstring+name%3d%22achievement_3%22+translatable%3d%22false%22%3eCgkIwtmi-8ISEAIQAw%3c%2fstring%3e%0a++%3c%21--+achievement+4+--%3e%0a++%3cstring+name%3d%22achievement_4%22+translatable%3d%22false%22%3eCgkIwtmi-8ISEAIQBA%3c%2fstring%3e%0a++%3c%21--+achievement+5+--%3e%0a++%3cstring+name%3d%22achievement_5%22+translatable%3d%22false%22%3eCgkIwtmi-8ISEAIQBQ%3c%2fstring%3e%0a++%3c%21--+leaderboard+BlackSmithTopDays+--%3e%0a++%3cstring+name%3d%22leaderboard_blacksmithtopdays%22+translatable%3d%22false%22%3eCgkIwtmi-8ISEAIQBg%3c%2fstring%3e%0a%3c%2fresources%3e
+and.ClientId=
+android.SetupDone=true

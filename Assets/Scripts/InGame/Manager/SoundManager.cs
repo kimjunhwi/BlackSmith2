@@ -214,6 +214,7 @@ public class SoundManager : MonoBehaviour
 	{
 		AudioSource aSource = SoundManager.instance.SoundArray [(int)_index].gameObject.GetComponent<AudioSource> ();
 		aSource.Play ();
+
 	}
 	//사운드 끔
 	public void StopSound(eSoundArray _index)

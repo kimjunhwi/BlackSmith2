@@ -4,30 +4,43 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
+using GooglePlayGames.BasicApi.SavedGame;
 using UnityEngine.SocialPlatforms;
 
-public class LogoManager : MonoBehaviour {
+public class LogoManager : MonoBehaviour
+{
 
     AsyncOperation ao;
 
     public Text loadingText;
 
     public bool bIsSuccessed = false;
+	public bool bIsUnityEditorComplete = false;
+	public bool bIsLoginComplete = false;
+
+	public GameObject loginWindow;
+	public LogoTextBlink logoBlink;
 
 	// Use this for initialization
 	void Start () 
 	{
+		#if UNITY_EDITOR
+		StartCoroutine( GameManager.Instance.DataLoad());
+		#elif UNITY_ANDROID
 		//EnableGameSave
 		PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
-			// enables saving game progress.
-			.EnableSavedGames()
-			.Build();
+		// enables saving game progress.
+		.EnableSavedGames()
+		.Build();
 		PlayGamesPlatform.InitializeInstance(config);
 		//GoogleLogin Active
 		PlayGamesPlatform.Activate();
 
 		StartCoroutine( GameManager.Instance.DataLoad());
+		#endif
 	}
+
+
 	
 	// Update is called once per frame
 	void Update () 
@@ -39,29 +52,35 @@ public class LogoManager : MonoBehaviour {
 			StartLoadScene();
 			bIsSuccessed = false;
 		}
+
+		if(bIsUnityEditorComplete == true)
+		{
+			if (Input.GetMouseButtonDown (0)) 
+			{
+				ao.allowSceneActivation = true;
+			}
+		}
+
 		#elif UNITY_ANDROID
 
-		Debug.Log("Android Build");
+		//Debug.Log("Android Build");
+
 
 		if(bIsSuccessed == true)
 		{
 			bIsSuccessed = false;
 
-			Social.localUser.Authenticate((bool success) =>
-			{
-				if (success)
-				{
-					StartLoadScene();
-					Debug.Log("You've successfully logged in");
-				}
-				else
-				{
-					Debug.Log("Login failed for some reason");
-				}
-			});
-
-
+			StartLoadScene();
 		}
+
+		if(bIsLoginComplete == true)
+		{
+			if (Input.GetMouseButtonDown (0)) 
+			{
+				ao.allowSceneActivation = true;
+			}
+		}
+
 		#endif
 
 	}
@@ -70,8 +89,9 @@ public class LogoManager : MonoBehaviour {
         StartCoroutine (this.LoadScene());
 	}
 
-	IEnumerator LoadScene(){
-		Debug.Log ("StartLoadScene");
+	IEnumerator LoadScene()
+	{
+		#if UNITY_EDITOR
 		yield return new WaitForSeconds (0.3f);
 
 		ao = SceneManager.LoadSceneAsync (1);
@@ -79,19 +99,80 @@ public class LogoManager : MonoBehaviour {
 
 		while (!ao.isDone) 
 		{
-			Debug.Log ("While In!!");
 			if (ao.progress == 0.9f)
 			{
-
 				Debug.Log ("Ready To Start!!");
-				loadingText.text = "Press Button";
-				if (Input.GetMouseButtonDown (0)) 
-				{
-					yield return new WaitForSeconds (1.0f);
-					ao.allowSceneActivation = true;
-				}
+				loadingText.text = "화면을 터치하세요";
+				bIsUnityEditorComplete = true;
+				logoBlink.StartBlinkText();
+				yield break;
 			}
 			yield return null;
 		}
+		#elif UNITY_ANDROID
+		yield return new WaitForSeconds (0.3f);
+
+		ao = SceneManager.LoadSceneAsync (1);
+		ao.allowSceneActivation = false;
+
+		while (!ao.isDone) 
+		{
+			if (ao.progress == 0.9f)
+			{
+				//Debug.Log ("Ready To Start!!");
+				loadingText.text = "화면을 터치하세요";
+				if(Social.localUser.authenticated == true)
+				{
+					bIsLoginComplete = true;
+					logoBlink.StartBlinkText();
+					yield break;
+				}
+				else
+				{
+					LoginWindow_Active(true);	
+					yield break;
+				}
+			
+			}
+			yield return null;
+		}
+		#endif
+	}
+
+	public void LoginWindow_Active(bool _isBool)
+	{
+		//Debug.Log ("WindowActive : " + _isBool);
+		loginWindow.SetActive (_isBool);
+	}
+
+	public void LoginGoogle()
+	{
+		Social.localUser.Authenticate((bool success) =>
+			{
+				if (success)
+				{
+					Debug.Log("You've successfully logged in");
+					bIsLoginComplete = true;
+					LoginWindow_Active(false);
+					logoBlink.StartBlinkText();
+					//yield return new WaitForSeconds (1.0f);
+					//ao.allowSceneActivation = true;
+
+				}
+				else
+				{
+					Debug.Log("Login failed for some reason");
+					return;
+				}
+			});
+		
+
+	}
+
+	public void LoginGuest()
+	{
+		bIsLoginComplete = true;
+		LoginWindow_Active(false);
+		logoBlink.StartBlinkText();
 	}
 }

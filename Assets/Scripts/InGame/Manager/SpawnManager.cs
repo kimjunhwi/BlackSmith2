@@ -95,7 +95,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		SoundManager.instance.LoadSource ();
 		SoundManager.instance.PlaySound (eSoundArray.BGM_Main);
 
-        
+		GameManager.Instance.player.PlayerStatsSetting ();
 	}
 
     public SpawnManager GetSpawnManager() { return this; }
@@ -498,6 +498,13 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			{
 				if (array_ArbaitData [nIndex].ArbaitPanelObject == _obj) {
 					m_BatchArbait[nIndex].SetActive(false);
+
+					if (nIndex == (int)E_ARBAIT.E_ROY)
+						GameManager.Instance.player.SetRepairPower ();
+
+					if (nIndex == (int)E_ARBAIT.E_NURSE)
+						GameManager.Instance.player.SetCriticalChance ();
+
 					m_nBatchArbaitCount--;
 					break;
 				}

@@ -17,7 +17,7 @@ public class RepairPanelUI : EnhanceUI {
 
 		m_EnhanceData = enhanceDatas[(int)E_SMITH_INDEX.E_REPAIR];
 
-		CostGoldText.text = (3000 * Mathf.Pow (1.15f, Mathf.Min (nLevel, 50)) * Mathf.Pow (1.155f, Mathf.Max (nLevel - 50, 0)) * Mathf.Pow (1.16f, Mathf.Max (nLevel - 100, 0))).ToString();
+		CostGoldText.text = (3000 * Mathf.Pow (1.1f, Mathf.Min (nLevel -1, 100)) * Mathf.Pow (1.06f, Mathf.Max (nLevel - 101, 0))).ToString();
 	}
 
 	protected override void EnhanceButtonClick ()
@@ -54,7 +54,7 @@ public class RepairPanelUI : EnhanceUI {
 //			EnhanceText.text = strEnhanceName + nLevel;
 //		}
 
-		fCostGold = 3000 * Mathf.Pow (1.1f, Mathf.Min (nLevel, 100)) * Mathf.Pow (1.06f, Mathf.Max (nLevel - 100, 0));
+		fCostGold = 3000 * Mathf.Pow (1.1f, Mathf.Min (nLevel - 1, 100)) * Mathf.Pow (1.06f, Mathf.Max (nLevel - 101, 0));
 
 		if (fCostGold <= ScoreManager.ScoreInstance.GetGold ()) {
 
@@ -62,7 +62,7 @@ public class RepairPanelUI : EnhanceUI {
 
 			cPlayer.SetRepairLevel (nLevel);
 
-			fEnhanceValue = cPlayer.GetCreatorWeapon().fRepair * Mathf.Pow (1.125f, nLevel);
+			fEnhanceValue = cPlayer.GetCreatorWeapon().fRepair * Mathf.Pow (1.125f, nLevel - 1);
 
 			cPlayer.SetBasicRepairPower(fEnhanceValue);
 
@@ -70,7 +70,7 @@ public class RepairPanelUI : EnhanceUI {
 
 			ScoreManager.ScoreInstance.GoldPlus (-fCostGold	);
 
-			CostGoldText.text  = (3000 * Mathf.Pow (1.15f, Mathf.Min (nLevel, 50)) * Mathf.Pow (1.155f, Mathf.Max (nLevel - 50, 0)) * Mathf.Pow (1.16f, Mathf.Max (nLevel - 100, 0))).ToString();
+			CostGoldText.text  = (3000 * Mathf.Pow (1.1f, Mathf.Min (nLevel - 1, 100)) * Mathf.Pow (1.06f, Mathf.Max (nLevel - 101, 0))).ToString();
 		}
 	}
 }

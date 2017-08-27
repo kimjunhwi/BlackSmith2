@@ -679,7 +679,9 @@ public class RepairObject : MonoBehaviour
         //피버일경우 크리 데미지로 완성도를 증가시킴
         if (m_bIsFever)
         {
-			fCalcValue = (player.GetRepairPower () +(player.GetRepairPower () * weaponData.fMinusRepair * 0.01f) * 1.5f);
+			fCalcValue = (player.GetRepairPower () +(player.GetRepairPower () * weaponData.fMinusRepair * 0.01f));
+
+			fCalcValue *= 1.5f;
 
 			ShowDamage ((int)fCalcValue,_position);
 
@@ -740,7 +742,9 @@ public class RepairObject : MonoBehaviour
 
             SpawnManager.Instance.PlayerCritical();
 
-			fCalcValue = (player.GetRepairPower () +(player.GetRepairPower () * weaponData.fMinusRepair * 0.01f) * 1.5f);
+			fCalcValue = (player.GetRepairPower () +(player.GetRepairPower () * weaponData.fMinusRepair * 0.01f));
+
+			fCalcValue *= 1.5f;
 
 			ShowDamage ((int)fCalcValue,_position);
 

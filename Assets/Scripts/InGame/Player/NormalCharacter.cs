@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 [System.Serializable]
 public class NormalCharacter : Character {
     
+	public PlayerController playerController;
 
 	private int m_nCheck = -1;
 
@@ -84,6 +85,8 @@ public class NormalCharacter : Character {
         m_VecStartPos = spawnTransform.position;
 
 		ComplateScale.localScale = new Vector3 (1.0f, 0, 1.0f);
+
+		playerController = GameObject.FindGameObjectWithTag ("Character").GetComponent<PlayerController> ();
     }
 
     //활성화 됐을 때 초기화
@@ -455,6 +458,8 @@ public class NormalCharacter : Character {
 		if ((weaponData.fMaxComplate * 0.7) < _fComplate) {
 
 			nDay = cPlayerData.GetDay ();
+
+			playerController.GuestSuccessed ();
 
 			fGold = 500 * Mathf.Pow (1.1f,Mathf.Min(nDay - 1,55)) * Mathf.Pow(nDay - 56,0) +( Mathf.Min(nDay -1, 55) * 50);
 

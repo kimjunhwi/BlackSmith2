@@ -12,12 +12,15 @@ public class PlayerController : MonoBehaviour {
 	public GameObject BigSuccesdObject;
 	public BasicParticle BigSuccessed;
 
+	public Transform GuestSuccessedPosition;
+	public SuccessedPool GuestSuccessedPool;
 
     void Start()
     {
         m_Animator = GetComponent<Animator>();
 
 		BigSuccesdObject.SetActive (false);
+		GuestSuccessedPool.Init ();
     }
 
 
@@ -47,8 +50,6 @@ public class PlayerController : MonoBehaviour {
 		obj.transform.position = normalPosition.position;
 
         obj.GetComponent<NormalRepairParticle>().Play();
-
-        
     }
 
     public void CreateCriticalEffect()
@@ -65,6 +66,15 @@ public class PlayerController : MonoBehaviour {
 	public void NormalTouchSound()
 	{
 		SoundManager.instance.PlayTouchNormalWeapon ();
+	}
+
+	public void GuestSuccessed()
+	{
+		GameObject obj = GuestSuccessedPool.GetObject();
+
+		obj.transform.position = GuestSuccessedPosition.position;
+
+		obj.GetComponent<SuccessedParticle>().Play(GuestSuccessedPool);
 	}
 
 	public void CriticalTouchSound()

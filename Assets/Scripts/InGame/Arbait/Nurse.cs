@@ -46,54 +46,37 @@ public class Nurse : ArbaitBatch {
 
         CheckCharacterState(E_STATE);
 
-        ApplySkill();
+		GameManager.Instance.player.SetCriticalChance ();
 
         SpawnManager.Instance.InsertWeaponArbait(m_CharacterChangeData.index, nBatchIndex);
     }
 
     protected override void OnDisable()
     {
-        ReliveSkill();
 
         base.OnDisable();
     }
 
     public override void ApplySkill()
     {
-        if (fChangeCritical >= 1)
-            ReliveSkill();
-
-        fGetCritical = playerData.GetBasicCriticalChance();
-
-		fChangeCritical = fGetCritical * (m_CharacterChangeData.fSkillPercent * 0.02f);
-
-		playerData.SetBasicCriticalChance(fGetCritical + fChangeCritical);
+        
     }
 
     protected override void ReliveSkill()
     {
-        if (fChangeCritical <= 1)
-            return;
-
-        fGetCritical = playerData.GetBasicCriticalChance();
-
-        fMinusCritical = fGetCritical - fChangeCritical;
-
-        playerData.SetBasicCriticalChance(fGetCritical - fMinusCritical);
+        
     }
 
     public override void RelivePauseSkill()
     {
         base.RelivePauseSkill();
 
-        ReliveSkill();
     }
 
     public override void ApplyPauseSkill()
     {
         base.ApplyPauseSkill();
 
-        ApplySkill();
     }
 
     public override void CheckCharacterState(E_ArbaitState _E_STATE)

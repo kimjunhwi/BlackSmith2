@@ -39,6 +39,8 @@ public class BlueHair : ArbaitBatch {
 
         CheckCharacterState(E_STATE);
 
+		playerData.SetRepairPower ();
+
         //ApplySkill();
 
 		//playerData.SetBasicRepairPower(fGetRepairPower + fChangeRepair);

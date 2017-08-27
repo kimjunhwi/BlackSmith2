@@ -21,3 +21,4 @@
 /Users/ImaiDakaki/BlackSmith5/Temp/bin/Debug/Unity.CecilTools.dll
 /Users/ImaiDakaki/BlackSmith5/Temp/bin/Debug/Mono.Cecil.Pdb.dll
 /Users/ImaiDakaki/BlackSmith5/Temp/bin/Debug/Mono.Cecil.Mdb.dll
+/Users/ImaiDakaki/BlackSmith5/Temp/bin/Debug/Facebook.Unity.Settings.dll

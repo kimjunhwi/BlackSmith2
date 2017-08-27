@@ -63,9 +63,9 @@ public class MakingUI : MonoBehaviour {
 		playerData = GameManager.Instance.GetPlayer ();
 		MakingButton.onClick.AddListener (MakeWeapon);
 
-		//playerData.SetDay (1);
+		playerData.SetDay (11);
 
-		//MakeWeapon ();
+		MakeWeapon ();
 	}
 
 	void Start()

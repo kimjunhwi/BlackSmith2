@@ -369,7 +369,13 @@ public class BossPopUpWindow : MonoBehaviour
 		GoldText.text = "골드";
 		Image GoldRewardImage = Gold.transform.GetChild(1).GetComponent<Image> ();
 		GoldRewardImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache (strGoldImagePath);
-		ScoreManager.ScoreInstance.GoldPlus (bossCharacter.bossInfo.nGold);
+
+		float goldValue =   Mathf.Pow (1.2f, GameManager.Instance.player.GetDay () - 1);
+
+		ScoreManager.ScoreInstance.GoldPlus (goldValue);
+
+
+
 		//Honor
 		GameObject Honor = rewardObjPool.GetObject ();
 		Honor.transform.SetParent (PopUpWindow_RewardPanel.transform, false);

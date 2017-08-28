@@ -107,10 +107,14 @@ public class ScoreManager : MonoBehaviour
 		GameManager.Instance.player.SetDay (_Days);
 	}
 
+
+
+
 	public void SetMaxDays(int _Days)
 	{
 		playerDaysInfo.MaxDaysText.text = string.Format ("{0}", _Days);
 		GameManager.Instance.player.SetMaxDay (_Days);
 	}
+
 
 }

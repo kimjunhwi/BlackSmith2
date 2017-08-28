@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.SavedGame;
+using System.Text;
 using UnityEngine.SocialPlatforms;
 
 public class LogoManager : MonoBehaviour
@@ -17,15 +18,19 @@ public class LogoManager : MonoBehaviour
     public bool bIsSuccessed = false;
 	public bool bIsUnityEditorComplete = false;
 	public bool bIsLoginComplete = false;
+	public bool bIsCloundDataLoaded = false;
 
 	public GameObject loginWindow;
 	public LogoTextBlink logoBlink;
+
+
 
 	// Use this for initialization
 	void Start () 
 	{
 		#if UNITY_EDITOR
 		StartCoroutine( GameManager.Instance.DataLoad());
+	
 		#elif UNITY_ANDROID
 		//EnableGameSave
 		PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
@@ -37,6 +42,7 @@ public class LogoManager : MonoBehaviour
 		PlayGamesPlatform.Activate();
 
 		StartCoroutine( GameManager.Instance.DataLoad());
+		DontDestroyOnLoad(this);
 		#endif
 	}
 
@@ -155,6 +161,7 @@ public class LogoManager : MonoBehaviour
 					bIsLoginComplete = true;
 					LoginWindow_Active(false);
 					logoBlink.StartBlinkText();
+					GameManager.Instance.LoadDataGoogleCloud();
 					//yield return new WaitForSeconds (1.0f);
 					//ao.allowSceneActivation = true;
 
@@ -175,4 +182,6 @@ public class LogoManager : MonoBehaviour
 		LoginWindow_Active(false);
 		logoBlink.StartBlinkText();
 	}
+
+
 }

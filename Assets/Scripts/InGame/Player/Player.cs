@@ -11,6 +11,7 @@ public class Player
 
 	//플레이어 제작 무기  
 	private CreatorWeapon creatorWeapon;
+	private EpicOption epicOpion;
 
     public List<CGameEquiment> List_items;
 
@@ -21,6 +22,8 @@ public class Player
 	private SpawnManager spawnManager = null;
 
     public Inventory inventory;
+
+
 
 	public int GetSmithLevel() { return changeStats.nBlackSmithLevel; }
 	public void SetSmithLevel(int _nValue) { changeStats.nBlackSmithLevel = _nValue; }
@@ -62,6 +65,15 @@ public class Player
 		changeStats.fArbaitsPower = Mathf.Round (changeStats.fArbaitsPower * 100) * 0.01f;
 
 		SetArbaitRepairPower ();
+	}
+
+	public float GetBasicGoldPlusPercent() {return changeStats.fGoldPlusPercent;}
+	public void SetBasicGoldPlusPercent(float _fValue){ 
+		changeStats.fGoldPlusPercent = _fValue;
+
+		changeStats.fGoldPlusPercent = Mathf.Round (changeStats.fArbaitsPower * 100) * 0.01f;
+
+		SetGoldPlusPercent ();
 	}
 
 	public float GetBasicMaxWaterPlus() { return changeStats.fMaxWaterPlus; }
@@ -228,10 +240,23 @@ public class Player
 	{
 		float fResultGoldPlusPercent = 0.0f;
 
-		if (WeaponEquipment != null)	fResultGoldPlusPercent += WeaponEquipment.fGoldPlus;
-		if (GearEquipmnet != null) 		fResultGoldPlusPercent += GearEquipmnet.fGoldPlus;
-		if (AccessoryEquipmnet != null) fResultGoldPlusPercent += AccessoryEquipmnet.fGoldPlus;
-		if (creatorWeapon != null) 		fResultGoldPlusPercent += creatorWeapon.fPlusGoldPercent;
+		if (WeaponEquipment != null)
+			fResultGoldPlusPercent += WeaponEquipment.fGoldPlus;
+		if (GearEquipmnet != null)
+			fResultGoldPlusPercent += GearEquipmnet.fGoldPlus;
+		if (AccessoryEquipmnet != null)
+			fResultGoldPlusPercent += AccessoryEquipmnet.fGoldPlus;
+		if (creatorWeapon != null)
+			fResultGoldPlusPercent += creatorWeapon.fPlusGoldPercent;
+
+		if (epicOpion != null) 
+		{
+			if (epicOpion.nIndex == (int)E_EPIC_INDEX.E_EPIC_GOLD_HAMMER) 
+			{
+				GoldHammer goldHammer = epicOpion as GoldHammer;
+				fResultGoldPlusPercent += goldHammer.fValue;
+			}
+		}
 
 		m_fGoldPlusPercent = changeStats.fGoldPlusPercent + (changeStats.fGoldPlusPercent * fResultGoldPlusPercent * 0.01f);
 	}
@@ -280,7 +305,7 @@ public class Player
 		if (spawnManager != null)
 			if (spawnManager.list_ArbaitUI.Count != 0)
 				if (spawnManager.m_BatchArbait [(int)E_ARBAIT.E_NURSE].activeSelf == true)
-			fResultCriticalChancePercent += spawnManager.array_ArbaitData[(int)E_ARBAIT.E_NURSE].m_CharacterChangeData.fSkillPercent;
+					fResultCriticalChancePercent += spawnManager.array_ArbaitData[(int)E_ARBAIT.E_NURSE].m_CharacterChangeData.fSkillPercent;
             
 
 		m_fCriticalChance = changeStats.fCriticalChance + (changeStats.fCriticalChance * fResultCriticalChancePercent * 0.01f);
@@ -432,6 +457,8 @@ public class Player
     {
         spawnManager = _spawnManager;
     }
+
+
 }
 
 

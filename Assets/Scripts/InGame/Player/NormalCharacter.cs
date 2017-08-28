@@ -86,7 +86,7 @@ public class NormalCharacter : Character {
 
 		ComplateScale.localScale = new Vector3 (1.0f, 0, 1.0f);
 
-		playerController = GameObject.FindGameObjectWithTag ("Character").GetComponent<PlayerController> ();
+		playerController = GameObject.Find("PlayerRig").GetComponent<PlayerController> ();
     }
 
     //활성화 됐을 때 초기화

@@ -416,10 +416,12 @@ public class GameManager : GenericMonoSingleton<GameManager>
     {
         if (bIsPause)
         {
-			if (player != null && SceneManager.GetActiveScene().buildIndex == 2)
+			if (player != null && SceneManager.GetActiveScene().buildIndex == 1)
             {
                 Debug.Log("Puase");
-                DataSave();
+
+				LoadDataGoogleCloud ();
+				isGoogleClounSave = true;
             }
         }
     }
@@ -1245,7 +1247,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	private void SaveGame(ISavedGameMetadata game)
 	{
-		
+		Debug.Log ("GoogleGameSave Active");
 		#if UNITY_EDITOR
 			string filePath = Path.Combine(Application.streamingAssetsPath, strPlayerPath);
 		#elif UNITY_ANDROID
@@ -1270,11 +1272,13 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		//uploading data to the cloud
 		((PlayGamesPlatform)Social.Active).SavedGame.CommitUpdate(game, update, dataToSave,
 			OnSavedGameDataWritten);
+
+		isGoogleClounSave = false;
 	}
 	//callback for CommitUpdate
 	private void OnSavedGameDataWritten(SavedGameRequestStatus status, ISavedGameMetadata game)
 	{
-
+		Debug.Log ("OnSaveGameDataWritten");
 	}
 	/*
 	public void SaveData()

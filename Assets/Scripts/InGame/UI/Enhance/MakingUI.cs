@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using ReadOnlys;
 
 public class MakingUI : MonoBehaviour {
 
@@ -18,6 +19,8 @@ public class MakingUI : MonoBehaviour {
 	public BossSoul[] BossSoulSlots;
 
 	Player playerData;
+
+	EpicOption createEpic = null;
 
 	//기본 값
 	const int m_nBasicGold = 1200;
@@ -148,7 +151,7 @@ public class MakingUI : MonoBehaviour {
 		nCalcMaxRepair = Mathf.RoundToInt(m_nBasicMaxRepair + (float)(m_nBasicMaxRepair * (m_nPlusRepairMaxPercent * playerData.GetDay() * 0.01f)));
 
 		//수리력 
-		createWeapon.fRepair = Mathf.RoundToInt (Random.Range (nCalcMinRepair, nCalcMaxRepair + 1));
+		createWeapon.fRepair = 1000000000000000000000000000000.0f; //Mathf.RoundToInt (Random.Range (nCalcMinRepair, nCalcMaxRepair + 1));
 
 		int nOptionLength = 3;
 
@@ -243,7 +246,26 @@ public class MakingUI : MonoBehaviour {
 			}
 		}
 
-		//특수 옵션 미정 
+		//특수 옵션 미정
+
+		if (Random.Range (0, 100) <= 100) 
+		{
+			if (createEpic != null) 
+			{
+				
+			} 
+			else 
+			{
+				int nRandomIndex = (int)E_EPIC_INDEX.E_EPIC_GOLD_HAMMER; //Random.Range (0, (int)E_EPIC_INDEX.E_EPIC_MAX);
+
+				createEpic = EpicFactory (nRandomIndex);
+
+				if (createEpic != null) 
+				{
+					createEpic.Init (playerData.GetDay(),playerData);
+				}
+			}
+		}
 
 		playerData.SetDay (playerData.GetDay () - 10);
 
@@ -446,5 +468,27 @@ public class MakingUI : MonoBehaviour {
 			return true;
 
 		return false;
+	}
+
+	public EpicOption EpicFactory(int _nIndex)
+	{
+		EpicOption resultOption = null;
+
+		switch (_nIndex) 
+		{
+		case (int)E_EPIC_INDEX.E_EPIC_MAGIC: 			resultOption = new MagicStick (); break;
+		case (int)E_EPIC_INDEX.E_EPIC_KO_HAMMER: 		resultOption = new KoHammer (); break;
+		case (int)E_EPIC_INDEX.E_EPIC_GOLD_HAMMER: 		resultOption = new GoldHammer (); break;
+		case (int)E_EPIC_INDEX.E_EPIC_FREEZING_TUNA: 	resultOption = new FreezingTuna (); break;
+		case (int)E_EPIC_INDEX.E_EPIC_RUBBER_CHICKEN: 	resultOption = new RubberChicken ();break;
+		case (int)E_EPIC_INDEX.E_EPIC_ENGINE_HAMMER: 	resultOption = new EngineHammer (); break;
+		case (int)E_EPIC_INDEX.E_EPIC_GOBLIN_HAMMER:	resultOption = new GoblinHammer ();break;
+		case (int)E_EPIC_INDEX.E_EPIC_SLEDE_HAMMER:		resultOption = new SledeHammer (); break;
+		
+		default:
+			break;
+		}
+
+		return resultOption;
 	}
 }

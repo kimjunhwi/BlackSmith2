@@ -86,7 +86,7 @@ public class NormalCharacter : Character {
 
 		ComplateScale.localScale = new Vector3 (1.0f, 0, 1.0f);
 
-		playerController = GameObject.FindGameObjectWithTag ("Character").GetComponent<PlayerController> ();
+		playerController = GameObject.Find ("PlayerRig").GetComponent<PlayerController> ();
     }
 
     //활성화 됐을 때 초기화
@@ -306,6 +306,14 @@ public class NormalCharacter : Character {
 
 				mySprite.sortingOrder = (int)E_SortingSprite.E_BACK;
 
+				//이미지 변경이나 효과 애니메이션 변경등을 진행
+				mySprite.flipX = false; 
+
+				mySprite.sortingOrder = (int)E_SortingSprite.E_BACK;
+
+				WeaponBackground.SetActive(false);
+				TimerGameobject.SetActive (false);
+
                 //현재 오브젝트를 보내서 있는지 확인
 				RepairShowObject.CheckMyObject (gameObject);
 
@@ -485,14 +493,6 @@ public class NormalCharacter : Character {
 		}
 
 		m_bIsRepair = true;
-
-		//이미지 변경이나 효과 애니메이션 변경등을 진행
-		mySprite.flipX = false; 
-
-		mySprite.sortingOrder = (int)E_SortingSprite.E_BACK;
-
-		WeaponBackground.SetActive(false);
-		TimerGameobject.SetActive (false);
 	}
 
 	public void RepairObjectInputWeapon()

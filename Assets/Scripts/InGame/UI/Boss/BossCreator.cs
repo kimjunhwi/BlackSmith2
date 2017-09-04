@@ -43,6 +43,10 @@ public class BossCreator : MonoBehaviour
 	public BossElement[] bossElementList;			//보스 리스트 원소
 	public BossEffect bossEffect;					//보스 이펙트
 
+	//보스정보
+	public Sprite[] bossInfoSprite;
+	public GameObject bossHint_Obj;
+
 	//각각의 보스 남은 도전 횟수
 	public int nBossSasinLeftCount = 3;
 	public int nBossIceLeftCount = 3;
@@ -55,6 +59,13 @@ public class BossCreator : MonoBehaviour
 	private int maxLevel = 100;	//최대래벨
 	private int minLevel = 1;	//최소래벨
 
+	//보스와 처음 싸울때 확인 
+	private bool m_bIsFirstFightToIceBoss;
+	private bool m_bIsFirstFightToSasinBoss;
+	private bool m_bIsFirstFightToFireBoss;
+	private bool m_bIsFirstFightToMusicBoss;
+
+
 
 
 	private int nBossIndex =0; 
@@ -64,6 +75,8 @@ public class BossCreator : MonoBehaviour
 		uiManager = FindObjectOfType<UIManager> ();
 		bossTimer = bossTimer_Obj.GetComponent<BossTimer> ();
 		bossUIDisable.SetActive (false);
+
+
 	}
 
 	public void BossPanelSetUp()
@@ -108,15 +121,24 @@ public class BossCreator : MonoBehaviour
 
 			bossElementList[0].BossLeftCount_Text.text = string.Format("{0} / {1}", GameManager.Instance.cBossPanelListInfo[0].nBossIceLeftCount, nBossMaxLeftCount);
 			bossElementList[0].bossLevel_Text.text = string.Format ("Lv {0}", GameManager.Instance.cBossPanelListInfo[0].nBossIceCurLevel);
+			bossElementList [0].curLevel = GameManager.Instance.cBossPanelListInfo [0].nBossIceCurLevel;
+
 			bossElementList[1].BossLeftCount_Text.text = string.Format("{0} / {1}",  GameManager.Instance.cBossPanelListInfo[0].nBossSasinLeftCount, nBossMaxLeftCount);
 			bossElementList[1].bossLevel_Text.text = string.Format ("Lv {0}", GameManager.Instance.cBossPanelListInfo[0].nBossSasinCurLevel);
+			bossElementList [1].curLevel = GameManager.Instance.cBossPanelListInfo [0].nBossSasinCurLevel;
+
 			bossElementList[2].BossLeftCount_Text.text = string.Format("{0} / {1}",  GameManager.Instance.cBossPanelListInfo[0].nBossFireLeftCount, nBossMaxLeftCount);
 			bossElementList[2].bossLevel_Text.text = string.Format ("Lv {0}", GameManager.Instance.cBossPanelListInfo[0].nBossFireCurLevel);
+			bossElementList [2].curLevel = GameManager.Instance.cBossPanelListInfo [0].nBossFireCurLevel;
+
 			bossElementList[3].BossLeftCount_Text.text = string.Format("{0} / {1}",  GameManager.Instance.cBossPanelListInfo[0].nBossMusicLeftCount, nBossMaxLeftCount);
 			bossElementList[3].bossLevel_Text.text = string.Format ("Lv {0}", GameManager.Instance.cBossPanelListInfo[0].nBossMusicCurLevel);
+			bossElementList [3].curLevel = GameManager.Instance.cBossPanelListInfo [0].nBossMusicCurLevel;
+
 			bossConsumeItemInfo.nInviteMentCurCount = GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCount;
 
-			bossConsumeItemInfo.positionCount_Text.text = string.Format ("{0}", bossConsumeItemInfo.nPotionCount);
+
+			bossConsumeItemInfo.positionCount_Text.text = string.Format ("{0}",GameManager.Instance.cBossPanelListInfo[0].nBossPotionCount );
 
 			//보스 도전 횟수(개개인) 이 다 됬을시 충전 버튼 활성화
 			if (GameManager.Instance.cBossPanelListInfo [0].nBossIceLeftCount <= 0)
@@ -132,24 +154,51 @@ public class BossCreator : MonoBehaviour
 			nBossIceLeftCount = GameManager.Instance.cBossPanelListInfo [0].nBossIceLeftCount;
 			nBossFireLeftCount = GameManager.Instance.cBossPanelListInfo [0].nBossFireLeftCount;
 			nBossMusicLeftCount = GameManager.Instance.cBossPanelListInfo [0].nBossMusicLeftCount;
-			
+
+			m_bIsFirstFightToIceBoss = GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss;
+			m_bIsFirstFightToSasinBoss = GameManager.Instance.cBossPanelListInfo [0].isFirstFightToSasinBoss;
+			m_bIsFirstFightToFireBoss = GameManager.Instance.cBossPanelListInfo [0].isFirstFightToFireBoss;
+			m_bIsFirstFightToMusicBoss = GameManager.Instance.cBossPanelListInfo [0].isFirstFightToMusicBoss;
+
 		}
 		else
 		{
 			Debug.Log ("Load Init Info");
 	
-			bossElementList[0].BossLeftCount_Text.text = string.Format("{0} / {1}", nBossIceLeftCount, nBossMaxLeftCount);
-			bossElementList[0].bossLevel_Text.text = string.Format ("Lv {0}", minLevel);
-			bossElementList[1].BossLeftCount_Text.text = string.Format("{0} / {1}", nBossSasinLeftCount, nBossMaxLeftCount);
-			bossElementList[1].bossLevel_Text.text = string.Format ("Lv {0}", minLevel);
-			bossElementList[2].BossLeftCount_Text.text = string.Format("{0} / {1}", nBossFireLeftCount, nBossMaxLeftCount);
-			bossElementList[2].bossLevel_Text.text = string.Format ("Lv {0}", minLevel);
-			bossElementList[3].BossLeftCount_Text.text = string.Format("{0} / {1}", nBossMusicLeftCount, nBossMaxLeftCount);
-			bossElementList[3].bossLevel_Text.text = string.Format ("Lv {0}", minLevel);
+			bossElementList[0].BossLeftCount_Text.text = string.Format("{0} / {1}", GameManager.Instance.cBossPanelListInfo[0].nBossIceLeftCount, nBossMaxLeftCount);
+			bossElementList[0].bossLevel_Text.text = string.Format ("Lv {0}", GameManager.Instance.cBossPanelListInfo[0].nBossIceCurLevel);
+			bossElementList [0].curLevel = GameManager.Instance.cBossPanelListInfo [0].nBossIceCurLevel;
+
+			bossElementList[1].BossLeftCount_Text.text = string.Format("{0} / {1}",  GameManager.Instance.cBossPanelListInfo[0].nBossSasinLeftCount, nBossMaxLeftCount);
+			bossElementList[1].bossLevel_Text.text = string.Format ("Lv {0}", GameManager.Instance.cBossPanelListInfo[0].nBossSasinCurLevel);
+			bossElementList [1].curLevel = GameManager.Instance.cBossPanelListInfo [0].nBossSasinCurLevel;
+
+			bossElementList[2].BossLeftCount_Text.text = string.Format("{0} / {1}",  GameManager.Instance.cBossPanelListInfo[0].nBossFireLeftCount, nBossMaxLeftCount);
+			bossElementList[2].bossLevel_Text.text = string.Format ("Lv {0}", GameManager.Instance.cBossPanelListInfo[0].nBossFireCurLevel);
+			bossElementList [2].curLevel = GameManager.Instance.cBossPanelListInfo [0].nBossFireCurLevel;
+
+			bossElementList[3].BossLeftCount_Text.text = string.Format("{0} / {1}",  GameManager.Instance.cBossPanelListInfo[0].nBossMusicLeftCount, nBossMaxLeftCount);
+			bossElementList[3].bossLevel_Text.text = string.Format ("Lv {0}", GameManager.Instance.cBossPanelListInfo[0].nBossMusicCurLevel);
+			bossElementList [3].curLevel = GameManager.Instance.cBossPanelListInfo [0].nBossMusicCurLevel;
+
+			bossConsumeItemInfo.nInviteMentCurCount = GameManager.Instance.cBossPanelListInfo[0].nBossPotionCount;
+
 
 			bossConsumeItemInfo.nInviteMentCurCount = bossConsumeItemInfo.nInviteMentMaxCount;
-			bossConsumeItemInfo.nPotionCount = 0;
-			bossConsumeItemInfo.positionCount_Text.text = string.Format ("{0}", bossConsumeItemInfo.nPotionCount);
+			//bossConsumeItemInfo.nPotionCount = 0;
+			bossConsumeItemInfo.positionCount_Text.text = string.Format ("{0}",GameManager.Instance.cBossPanelListInfo[0].nBossPotionCount);
+		
+
+			nBossSasinLeftCount = GameManager.Instance.cBossPanelListInfo [0].nBossSasinLeftCount;
+			nBossIceLeftCount = GameManager.Instance.cBossPanelListInfo [0].nBossIceLeftCount;
+			nBossFireLeftCount = GameManager.Instance.cBossPanelListInfo [0].nBossFireLeftCount;
+			nBossMusicLeftCount = GameManager.Instance.cBossPanelListInfo [0].nBossMusicLeftCount;
+
+			m_bIsFirstFightToIceBoss = GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss;
+			m_bIsFirstFightToSasinBoss = GameManager.Instance.cBossPanelListInfo [0].isFirstFightToSasinBoss;
+			m_bIsFirstFightToFireBoss = GameManager.Instance.cBossPanelListInfo [0].isFirstFightToFireBoss;
+			m_bIsFirstFightToMusicBoss = GameManager.Instance.cBossPanelListInfo [0].isFirstFightToMusicBoss;
+
 		}
 
 	}
@@ -170,16 +219,15 @@ public class BossCreator : MonoBehaviour
 
 		//보스 선택 창
 		bossPanel.SetActive (false);
+		bossUIDisable.SetActive (true);
+		nBossIndex = bossPopUpWindow.nBossIndex;
+
 
 		while (SpawnManager.Instance.bIsBossCreate == false)
 		{
 			Debug.Log ("손님들 들어가는중...");
 		}
-		//배경화면 전환
-		bossUIDisable.SetActive (true);
-		nBossIndex = bossPopUpWindow.nBossIndex;
-		bossBackGround.StartChangeBackGroundToBossBackGround ();
-
+	
 		StartBossCreateInit ();
 	
 
@@ -225,8 +273,14 @@ public class BossCreator : MonoBehaviour
 			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE02] = "눈보라 ~~~!";
 			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "그럼 이만!";
 
-			bossList [0].SetActive (true);
+			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss == false &&
+				GameManager.Instance.player.GetDay() == 2)
+			{
+				StartCoroutine (StartShowBossHint (0));
+				uiManager.uiBossFirstFightMark.SetActive (false);
+			}
 
+		
 			nBossIceLeftCount--;
 			//사
 		}
@@ -257,7 +311,15 @@ public class BossCreator : MonoBehaviour
 			bossSasin.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE02] = "뿌우우우우우!!!";
 			bossSasin.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "꾸앙 ㅇㅁㅇ...";
 
-			bossList [1].SetActive (true);
+			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToSasinBoss == false && 
+				GameManager.Instance.player.GetDay() == 3)
+			{
+				StartCoroutine (StartShowBossHint (1));
+				uiManager.uiBossFirstFightMark.SetActive (false);
+			}
+
+
+			//bossList [1].SetActive (true);
 
 			nBossSasinLeftCount--;
 		}
@@ -293,7 +355,15 @@ public class BossCreator : MonoBehaviour
 			bossFire.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE02] = "파이어 ~~~!";
 			bossFire.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "Bye~~~!";
 
-			bossList [2].SetActive (true);
+			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToFireBoss == false && 
+				GameManager.Instance.player.GetDay() == 5)
+			{
+				StartCoroutine (StartShowBossHint (2));
+				uiManager.uiBossFirstFightMark.SetActive (false);
+			}
+
+
+			//bossList [2].SetActive (true);
 
 
 			nBossFireLeftCount--;
@@ -328,7 +398,15 @@ public class BossCreator : MonoBehaviour
 			bossMusic.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE02] = "Drop the beat~!";
 			bossMusic.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "SeeYa!";
 
-			bossList [3].SetActive (true);
+			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToMusicBoss == false &&
+				GameManager.Instance.player.GetDay() == 7)
+			{
+				StartCoroutine (StartShowBossHint (3));
+				uiManager.uiBossFirstFightMark.SetActive (false);
+			}
+
+
+			//bossList [3].SetActive (true);
 			nBossMusicLeftCount--;
 
 
@@ -340,24 +418,36 @@ public class BossCreator : MonoBehaviour
 	{
 		Debug.Log ("Save BossPanel Info!!");
 		GameManager.Instance.cBossPanelListInfo [0].isSaved = true;
-
+		//현재 남은 보스 (개별)도전횟수 
 		GameManager.Instance.cBossPanelListInfo [0].nBossMusicLeftCount = nBossMusicLeftCount;
 		GameManager.Instance.cBossPanelListInfo [0].nBossFireLeftCount = nBossFireLeftCount;
 		GameManager.Instance.cBossPanelListInfo [0].nBossSasinLeftCount = nBossSasinLeftCount;
 		GameManager.Instance.cBossPanelListInfo [0].nBossIceLeftCount = nBossIceLeftCount;
 		GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCount = 	bossConsumeItemInfo.nInviteMentCurCount;
-
+		//현재 남은 보스 포션 개수
 		GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount = bossConsumeItemInfo.nPotionCount;
-
+		//현재 보스 (개별)레벨
 		GameManager.Instance.cBossPanelListInfo [0].nBossIceCurLevel = bossElementList [0].curLevel;
 		GameManager.Instance.cBossPanelListInfo [0].nBossSasinCurLevel = bossElementList [1].curLevel;
 		GameManager.Instance.cBossPanelListInfo [0].nBossFireCurLevel = bossElementList [2].curLevel;
 		GameManager.Instance.cBossPanelListInfo [0].nBossMusicCurLevel = bossElementList [3].curLevel;
-
+		//현재 보스 첫 싸움을 했는지 아닌지
+		GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss = m_bIsFirstFightToIceBoss;
+		GameManager.Instance.cBossPanelListInfo [0].isFirstFightToSasinBoss = m_bIsFirstFightToSasinBoss;
+		GameManager.Instance.cBossPanelListInfo [0].isFirstFightToFireBoss = m_bIsFirstFightToFireBoss;
+		GameManager.Instance.cBossPanelListInfo [0].isFirstFightToMusicBoss = m_bIsFirstFightToMusicBoss;
+		//보스 초대장 시간과 리젠 시간
 		bossConsumeItemInfo.BossInviteMentSaveTime ();
 		bossRegenTimer.BossRegenTimeSave ();
 
-		GameManager.Instance.SaveBossPanelInfoList ();
+		GameManager.Instance.playerData = GameManager.Instance.player.changeStats;
+		GameManager.Instance.SavePlayerData ();			//Local Save
+		GameManager.Instance.GetPlayerSaveList ();		//Confirm
+		GameManager.Instance.SaveBossPanelInfoList();	//SaveBossPanel;
+
+
+		GameManager.Instance.isGoogleClounSave = true;
+		GameManager.Instance.LoadData ();				//cloud Save
 	}
 
 	public void BossChanllengeCountToMax()
@@ -366,6 +456,34 @@ public class BossCreator : MonoBehaviour
 		nBossIceLeftCount = nBossMaxLeftCount;
 		nBossFireLeftCount = nBossMaxLeftCount;
 		nBossSasinLeftCount = nBossMaxLeftCount;
+	}
+
+	public IEnumerator StartShowBossHint(int _index)
+	{
+		BossHint bossHint = bossHint_Obj.GetComponent<BossHint> ();
+		bossElementList [_index].ShowBossInfo (_index);
+		while (bossHint.m_isCheckBossHint == false)
+		{
+			yield return  new WaitForSeconds(0.5f);
+
+
+			Debug.Log ("보스 힌트 보는중...");
+
+		
+
+			if (bossHint.m_isCheckBossHint == true) 
+			{
+				//배경화면 전환
+			
+				bossBackGround.StartChangeBackGroundToBossBackGround ();
+
+				bossList [_index].SetActive (true);
+				bossHint.m_isCheckBossHint = false;
+
+			}
+
+		}
+
 	}
 
 }

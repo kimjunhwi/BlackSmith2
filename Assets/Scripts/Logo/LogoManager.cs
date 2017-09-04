@@ -30,11 +30,10 @@ public class LogoManager : MonoBehaviour
 	{
 		#if UNITY_EDITOR
 		StartCoroutine( GameManager.Instance.DataLoad());
-	
 		#elif UNITY_ANDROID
 		//EnableGameSave
-		PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
 		// enables saving game progress.
+		PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
 		.EnableSavedGames()
 		.Build();
 		PlayGamesPlatform.InitializeInstance(config);
@@ -42,7 +41,6 @@ public class LogoManager : MonoBehaviour
 		PlayGamesPlatform.Activate();
 
 		StartCoroutine( GameManager.Instance.DataLoad());
-		DontDestroyOnLoad(this);
 		#endif
 	}
 
@@ -161,7 +159,7 @@ public class LogoManager : MonoBehaviour
 					bIsLoginComplete = true;
 					LoginWindow_Active(false);
 					logoBlink.StartBlinkText();
-					GameManager.Instance.LoadDataGoogleCloud();
+					GameManager.Instance.LoadData();
 					//yield return new WaitForSeconds (1.0f);
 					//ao.allowSceneActivation = true;
 

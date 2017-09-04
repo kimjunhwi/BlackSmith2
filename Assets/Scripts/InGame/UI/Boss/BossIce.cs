@@ -37,6 +37,7 @@ public class BossIce : BossCharacter
 		else 
 		{
 			eCureentBossState = EBOSS_STATE.CREATEBOSS;
+			Debug.Log ("Start Ice Boss");
 			StartCoroutine (BossWait ());
 		}
 

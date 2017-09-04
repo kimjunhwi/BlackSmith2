@@ -1,25 +1,24 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/InGame/Manager/GameManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Logo/LogoTextBlink.cs">
     <Files>
-      <File FileName="Assets/Scripts/InGame/Manager/GameManager.cs" Line="419" Column="71" />
-      <File FileName="Assets/Scripts/Logo/LogoManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/Manager/ScoreManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Logo/LogoManager.cs" Line="162" Column="35" />
+      <File FileName="Assets/Scripts/InGame/Manager/GameManager.cs" Line="1546" Column="7" />
+      <File FileName="Assets/Scripts/InGame/Manager/ScoreManager.cs" Line="56" Column="30" />
+      <File FileName="Assets/Scripts/InGame/Manager/SpawnManager.cs" Line="207" Column="5" />
+      <File FileName="Assets/Scripts/InGame/Player/Player.cs" Line="7" Column="1" />
+      <File FileName="Assets/Scripts/InGame/UI/Enhance/MakingUI.cs" Line="154" Column="27" />
+      <File FileName="Assets/Scripts/InGame/Manager/UIManager.cs" Line="53" Column="39" />
+      <File FileName="Assets/Scripts/InGame/Manager/JsonUtil.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/InGame/UI/Boss/BossPopUpWindow.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/UI/Repair/RepairObject.cs" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Data/Boss.txt" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/UI/Boss/BossFire.cs" Line="130" Column="9" />
-      <File FileName="Assets/Scripts/InGame/UI/Boss/BossIce.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/UI/Boss/BossMusic.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/UI/Boss/BossSasin.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/UI/Boss/SkullObject.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/Manager/SpawnManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/Player/Player.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/Player/NormalCharacter.cs" Line="91" Column="2" />
+      <File FileName="Assets/Scripts/Logo/LogoTextBlink.cs" Line="8" Column="1" />
+      <File FileName="Assets/Scripts/InGame/UI/Boss/BossHint.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/Manager/UIManager.cs" line="27" column="28" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

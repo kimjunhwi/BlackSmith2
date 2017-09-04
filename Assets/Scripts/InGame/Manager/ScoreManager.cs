@@ -21,7 +21,6 @@ public class ScoreManager : MonoBehaviour
                 if (null == scireInstance)
                 {
                     var go = new GameObject("ScoreManager");
-
                     scireInstance = go.AddComponent<ScoreManager>();
                 }
             }

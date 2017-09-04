@@ -59,6 +59,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	public SimpleObjectPool simpleSoundObjPool;
 
+	public UIManager uiManager;
+
 	int m_nDay = 1;
 
     private void Awake()
@@ -188,7 +190,9 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		m_fLevelTime = 0.0f;
 
 		//손님을 전부 되돌림
-		if (list_Character.Count != 0) {
+		if (list_Character.Count != 0)
+		{
+
 
 			for(int nIndex = 0; nIndex < list_Character.Count; nIndex++)
 				list_Character[nIndex].GetComponent<NormalCharacter>().RetreatCharacter(4.0f,true,true);
@@ -202,6 +206,39 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			if (m_nDay > GameManager.Instance.player.GetMaxDay ()) {
 				ScoreManager.ScoreInstance.SetMaxDays (m_nDay);
 			}
+
+			if (m_nDay == 2 && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss == false)
+			{
+				uiManager.uiBossFirstFightMark.SetActive (true);
+			}
+			if (m_nDay == 3 && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss == false) 
+			{
+				uiManager.uiBossFirstFightMark.SetActive (true);
+			}
+			if (m_nDay == 5 && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss == false) 
+			{
+				uiManager.uiBossFirstFightMark.SetActive (true);
+			}
+
+			if (m_nDay == 7 && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss == false) 
+			{
+				
+				uiManager.uiBossFirstFightMark.SetActive (true);
+			}
+				
+
+
+			GameManager.Instance.playerData = GameManager.Instance.player.changeStats;
+			GameManager.Instance.SavePlayerData ();			//Local Save
+			GameManager.Instance.GetPlayerSaveList ();		//Confirm
+			GameManager.Instance.SaveBossPanelInfoList();	//SaveBossPanel;
+
+			//GameManager.Instance.isGoogleCloundDataDelete = true;
+			//GameManager.Instance.DeleteData ();
+
+			GameManager.Instance.isGoogleClounSave = true;
+			GameManager.Instance.LoadData ();				//cloud Save
+
 		}
 	}
 

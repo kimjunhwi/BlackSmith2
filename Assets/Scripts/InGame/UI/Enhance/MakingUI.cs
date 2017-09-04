@@ -66,7 +66,7 @@ public class MakingUI : MonoBehaviour {
 		playerData = GameManager.Instance.GetPlayer ();
 		MakingButton.onClick.AddListener (MakeWeapon);
 
-		playerData.SetDay (11);
+		//playerData.SetDay (11);
 
 		MakeWeapon ();
 	}
@@ -151,7 +151,7 @@ public class MakingUI : MonoBehaviour {
 		nCalcMaxRepair = Mathf.RoundToInt(m_nBasicMaxRepair + (float)(m_nBasicMaxRepair * (m_nPlusRepairMaxPercent * playerData.GetDay() * 0.01f)));
 
 		//수리력 
-		createWeapon.fRepair = 1000000000000000000000000000000.0f; //Mathf.RoundToInt (Random.Range (nCalcMinRepair, nCalcMaxRepair + 1));
+		createWeapon.fRepair = 10.0f; //Mathf.RoundToInt (Random.Range (nCalcMinRepair, nCalcMaxRepair + 1));
 
 		int nOptionLength = 3;
 

@@ -108,13 +108,17 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	//GoogleSave
 	private const string sSaveDataName = "BlackSmith_Save";
 	public bool isGoogleClounSave = false;
+	public bool isGoogleCloundDataDelete = false;
 
 	public IEnumerator DataLoad()
     {
 		//PlayerPrefs.DeleteKey ("BossRegenTime");
 		//PlayerPrefs.DeleteKey ("BossInvitementSaveTime");
+		//PlayerPrefs.DeleteKey("FirstLogin");
+       
+#if UNITY_EDITOR
 
-        logoManager = GameObject.Find("LogoManager").GetComponent<LogoManager>();
+		logoManager = GameObject.Find("LogoManager").GetComponent<LogoManager>();
 
 		Load_TableInfo_Sound ();
 
@@ -140,8 +144,6 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		Load_TableInfo_EquipmentEnhance ();
 
 
-#if UNITY_EDITOR
-
         ArbaitDataBase = ConstructString<ArbaitData>(strArbaitPath);
 
         equimnetData = ConstructString<CGameEquiment>(strEquiementPath);
@@ -151,10 +153,21 @@ public class GameManager : GenericMonoSingleton<GameManager>
         playerData = ConstructString<CGamePlayerData>(strPlayerPath)[0];
 
 		if(ConstructString<BossPanelInfo> (strBossPanelInfoPath) == null)
+		{
+			cBossPanelInfo = new BossPanelInfo();
 			cBossPanelListInfo.Add(cBossPanelInfo);
+		}
 		else
 			cBossPanelListInfo = ConstructString<BossPanelInfo> (strBossPanelInfoPath);
-		
+
+
+		Debug.Log(playerData.strName);
+
+
+		player = new Player();
+
+		player.Init(cInvetoryInfo, playerData);
+
         //ConstructEquimentDatabase();
 
         //ConstructWeaponDatabase();
@@ -165,6 +178,32 @@ public class GameManager : GenericMonoSingleton<GameManager>
         //ConstructArbaitDatabase();
 
 #elif UNITY_ANDROID
+		logoManager = GameObject.Find("LogoManager").GetComponent<LogoManager>();
+
+		Load_TableInfo_Sound ();
+
+		Load_TableInfo_Weapon();
+
+		Load_TableInfo_Quest();
+
+		Load_TableInfo_Equiment();
+
+		Load_TableInfo_Boss ();
+
+		Load_TableInfo_BossWeapon ();
+
+		////////////
+		/// 
+		/// 
+		/// //
+
+		Load_TableInfo_ArbaitEnhance ();
+
+		Load_TableInfo_SmithEnhance2 ();
+
+		Load_TableInfo_EquipmentEnhance ();
+
+
 
         string ArbaitFilePath = Path.Combine(Application.persistentDataPath, strArbaitPath);
 
@@ -223,20 +262,13 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		if(Directory.Exists(BossFilePath)) 
 			yield return StartCoroutine (LinkedBossPanelInfoAccess (BossFilePath));
 		else
+		{
+			Debug.Log("No Saved Local BossPanel Info");
+			cBossPanelInfo = new BossPanelInfo();
 			cBossPanelListInfo.Add(cBossPanelInfo);
+		}
 
 #endif
-
-        Debug.Log(playerData.strName);
-
-        //player = new Player();
-
-        //player.Init(cInvetoryInfo, playerData);
-
-        //SoundManager.instance.LoadSource();
-
-        //SoundManager.instance.PlayBGM(eSound.bgm_main);
-
         logoManager.bIsSuccessed = true;
 
         yield break;
@@ -373,8 +405,12 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
     void OnApplicationQuit()
     {
-
-        DataSave();
+		//Sign Out
+		if (Social.localUser.authenticated)
+		{
+			((PlayGamesPlatform)Social.Active).SignOut ();
+		}
+        //DataSave();
 
         //StopAllCoroutines();
     }
@@ -419,9 +455,11 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			if (player != null && SceneManager.GetActiveScene().buildIndex == 1)
             {
                 Debug.Log("Puase");
+				if (Social.localUser.authenticated == true)
+					Debug.Log ("Cur Login To google");
+				//isGoogleClounSave = true;
+				//LoadData ();
 
-				LoadDataGoogleCloud ();
-				isGoogleClounSave = true;
             }
         }
     }
@@ -429,6 +467,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
     public void SavePlayerData()
 	{
+
+		Debug.Log ("nMaxDays ; " + playerData.nMaxDay);
 		#if UNITY_EDITOR
 		string filePath = Path.Combine(Application.streamingAssetsPath, strPlayerPath);
 
@@ -1139,98 +1179,60 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	#region GooglePlayCloud
 
-
-	public void LoadDataGoogleCloud()
+	public void DeleteData()
 	{
-		string nullText = "";
-		string dataAsString;
-		string playerfilePath = Path.Combine(Application.streamingAssetsPath, strPlayerPath);
-
+		string dataAsString = "";
 
 		if (!PlayerPrefs.HasKey(sSaveDataName))
 			PlayerPrefs.SetString(sSaveDataName, string.Empty);
 		
 		dataAsString = sSaveDataName;
 
+		if (Social.localUser.authenticated == true)
+		{
+			Debug.Log ("Success LoadDataGoogleCloud");
+			((PlayGamesPlatform)Social.Active).SavedGame.OpenWithAutomaticConflictResolution (dataAsString,
+				DataSource.ReadCacheOrNetwork, ConflictResolutionStrategy.UseLongestPlaytime, OnDeleteGameData);
+		}
+		else 
+		{
+			Debug.Log ("Fail LoadDataGoogleCloud -> Load Local Data");
+			//Load Local data -> json
+		}
+	}
+
+	public void LoadData()
+	{
+		string nullText = "";
+		string dataAsString = "";
+		//string playerfilePath = Path.Combine(Application.streamingAssetsPath, strPlayerPath);
+
+		if (!PlayerPrefs.HasKey ("FirstLogin"))
+			PlayerPrefs.SetInt ("FirstLogin", 1);
+
+		if (!PlayerPrefs.HasKey(sSaveDataName))
+			PlayerPrefs.SetString(sSaveDataName, string.Empty);
 		
+		dataAsString = sSaveDataName;
+
+		//isGoogleCloundDataDelete = true;
 
 		//로그인이 되었다면 data Load
 		if (Social.localUser.authenticated == true)
 		{
 			Debug.Log ("Success LoadDataGoogleCloud");
-			((PlayGamesPlatform)Social.Active).SavedGame.OpenWithManualConflictResolution (dataAsString,
-				DataSource.ReadCacheOrNetwork, true, ResolveConflict, OnSavedGameOpened);
+			((PlayGamesPlatform)Social.Active).SavedGame.OpenWithAutomaticConflictResolution (dataAsString,
+				DataSource.ReadCacheOrNetwork, ConflictResolutionStrategy.UseLongestPlaytime, OnSavedGameOpened);
 		}
 		else 
 		{
-			Debug.Log ("Fail LoadDataGoogleCloud");
+			Debug.Log ("Fail LoadDataGoogleCloud -> Load Local Data");
+			//Load Local data -> json
+
+
 		}
 	}
 
-
-	//this overload is used when user is connected to the internet
-	//parsing string to game data (stored in CloudVariables), also deciding if we should use local or cloud save
-	void StringToGameData(string cloudData, string localData)
-	{
-		//if it's the first time that game has been launched after installing it and successfuly logging into Google Play Games
-		if (PlayerPrefs.GetInt("IsFirstTime") == 1)
-		{
-			//set playerpref to be 0 (false)
-			PlayerPrefs.SetInt("IsFirstTime", 0);
-			if (int.Parse(cloudData) > int.Parse(localData)) //cloud save is more up to date
-			{
-				//set local save to be equal to the cloud save
-				//PlayerPrefs.SetString(SAVE_NAME, cloudData);
-			}
-		}
-		//if it's not the first time, start comparing
-		else
-		{
-			//comparing integers, if one int has higher score in it than the other, we update it
-			if (int.Parse(localData) > int.Parse(cloudData))
-			{
-				//update the cloud save, first set CloudVariables to be equal to localSave
-				//CloudVariables.Highscore = int.Parse(localData);
-				//also send the more up to date high score to leaderboard
-				//AddScoreToLeaderboard(GPGSIds.leaderboard_leaderboard, CloudVariables.Highscore);
-				//isCloudDataLoaded = true;
-				//saving the updated CloudVariables to the cloud
-				//SaveData();
-				//return;
-			}
-		}
-		//if the code above doesn't trigger return and the code below executes,
-		//cloud save and local save are identical, so we can load either one
-		//CloudVariables.Highscore = int.Parse(cloudData);
-		//isCloudDataLoaded = true;
-	}
-
-
-	//this overload is used when there's no internet connection - loading only local data
-	void StringToGameData(string localData)
-	{
-		//CloudVariables.Highscore = int.Parse(localData);
-	}
-
-	//used for loading data from the cloud or locally
-	public void LoadData()
-	{
-		//basically if we're connected to the internet, do everything on the cloud
-		if (Social.localUser.authenticated)
-		{
-			//isSaving = false;
-			//((PlayGamesPlatform)Social.Active).SavedGame.OpenWithManualConflictResolution(SAVE_NAME,
-			//	DataSource.ReadCacheOrNetwork, true, ResolveConflict, OnSavedGameOpened);
-		}
-		//this will basically only run in Unity Editor, as on device,
-		//localUser will be authenticated even if he's not connected to the internet (if the player is using GPG)
-		else
-		{
-			LoadLocal();
-		}
-
-
-	}
 
 	private void LoadLocal()
 	{
@@ -1239,34 +1241,59 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	private void LoadGame(ISavedGameMetadata game)
 	{
-		if(playerData == null)
-			player = new Player();
+		Debug.Log ("LoadGame");
+		Debug.Log("GetInt : " + PlayerPrefs.GetInt("FirstLogin"));
+		if (PlayerPrefs.GetInt("FirstLogin") == 1)
+		{
+			Debug.Log ("No Player Data -> player Data init");
+
+			//Player
+			player = new Player ();
+			player.Init(cInvetoryInfo, playerData);
+			//BossPanelInfo
+			cBossPanelInfo = new BossPanelInfo();
+			cBossPanelListInfo.Add(cBossPanelInfo);
+
+			Debug.Log (player);
+			Debug.Log (cBossPanelListInfo[0]);
+
+			PlayerPrefs.SetInt ("FirstLogin", 0);
+			return;
+		}
+		else
+			((PlayGamesPlatform)Social.Active).SavedGame.ReadBinaryData(game, OnSavedGameDataRead);
 		
-		((PlayGamesPlatform)Social.Active).SavedGame.ReadBinaryData(game, OnSavedGameDataRead);
 	}
 
 	private void SaveGame(ISavedGameMetadata game)
 	{
+		
+
 		Debug.Log ("GoogleGameSave Active");
-		#if UNITY_EDITOR
-			string filePath = Path.Combine(Application.streamingAssetsPath, strPlayerPath);
-		#elif UNITY_ANDROID
-			string filePath = Path.Combine(Application.persistentDataPath, strPlayerPath);
-		#endif
-			playerSave.Add (playerData);
+		string divideMark = "^";
 
+		PlayerPrefs.SetFloat("Gold", ScoreManager.ScoreInstance.GetGold());
+		PlayerPrefs.SetFloat("Honor", ScoreManager.ScoreInstance.GetHonor());
+
+		SpawnManager.Instance.ReleliveArbait();
+		//PlayerData
 		string dataAsString_PlayerData = JsonHelper.ListToJson<CGamePlayerData>(playerSave);
+		//ArbaitData
+		string dataAsString_ArabaitData = JsonHelper.ListToJson<ArbaitData>(ArbaitDataBase);
+		//Inventory
+		string dataAsString_Inventory = JsonHelper.ListToJson<CGameEquiment>(cInvetoryInfo);
+		//Quest
+		string dataAsString_Quest = JsonHelper.ListToJson<CGameQuestInfo>(cQuestSaveListInfo);
+		//BossPanelInfo
+		string dataAsString_BossPaenl = JsonHelper.ListToJson<BossPanelInfo>(cBossPanelListInfo);
+	
+		SpawnManager.Instance.ApplyArbait();
 
-		//Debug.Log (dataAsString_PlayerData);
-
-		//File.WriteAllText(filePath, dataAsString_PlayerData);
-
-		string stringToSave = dataAsString_PlayerData;
-		//saving also locally (can also call SaveLocal() instead)
-		//PlayerPrefs.SetString(SAVE_NAME, stringToSave);
-
+		string ResultData = dataAsString_PlayerData + divideMark + dataAsString_ArabaitData + divideMark + dataAsString_Inventory
+		                    + divideMark + dataAsString_Quest + divideMark + dataAsString_BossPaenl;
+		Debug.Log (ResultData);
 		//encoding to byte array
-		byte[] dataToSave = Encoding.ASCII.GetBytes(stringToSave);
+		byte[] dataToSave = Encoding.ASCII.GetBytes(ResultData);
 		//updating metadata with new description
 		SavedGameMetadataUpdate update = new SavedGameMetadataUpdate.Builder().Build();
 		//uploading data to the cloud
@@ -1309,57 +1336,22 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	*/
 
 
-	private void ResolveConflict(IConflictResolver resolver, ISavedGameMetadata original, byte[] originalData,
-		ISavedGameMetadata unmerged, byte[] unmergedData)
-	{
-		if (originalData == null)
-			resolver.ChooseMetadata(unmerged);
-		else if (unmergedData == null)
-			resolver.ChooseMetadata(original);
-		else
-		{
-			Debug.Log ("Processing Resovle Conflict");
-			//decoding byte data into string
-			string originalStr = Encoding.ASCII.GetString(originalData);
-			string unmergedStr = Encoding.ASCII.GetString(unmergedData);
-
-			//parsing
-			int originalNum = int.Parse(originalStr);
-			int unmergedNum = int.Parse(unmergedStr);
-
-			//if original score is greater than unmerged
-			if (originalNum > unmergedNum)
-			{
-				resolver.ChooseMetadata(original);
-				return;
-			}
-			//else (unmerged score is greater than original)
-			else if (unmergedNum > originalNum)
-			{
-				resolver.ChooseMetadata(unmerged);
-				return;
-			}
-			//if return doesn't get called, original and unmerged are identical
-			//we can keep either one
-			resolver.ChooseMetadata(original);
-		}
-	}
-
-
-
-
 	private void OnSavedGameOpened(SavedGameRequestStatus status, ISavedGameMetadata game)
 	{
 		//if we are connected to the internet
 		if (status == SavedGameRequestStatus.Success)
 		{
 			Debug.Log ("Success To Connected Internet And SaveAndLoad Data");
+		
+
 			//if we're LOADING game data
 			if (!isGoogleClounSave)
-				LoadGame(game);
+				LoadGame (game);
 			//if we're SAVING game data
 			else
-				SaveGame(game);
+			{
+				SaveGame (game);
+			}
 		}
 		//if we couldn't successfully connect to the cloud, runs while on device,
 		//the same code that is in else statements in LoadData() and SaveData()
@@ -1373,53 +1365,140 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		}
 	}
 
-
-	IEnumerator playerDataLoad(string cloundStr)
+	//Callback For deleteData
+	private void OnDeleteGameData(SavedGameRequestStatus status, ISavedGameMetadata game)
 	{
-		//WWW www = new WWW(cloundStr);
+		//if we are connected to the internet
+		if (status == SavedGameRequestStatus.Success)
+		{
+			if (isGoogleCloundDataDelete == true) 
+			{
+				Debug.Log ("Delete Cloud Data");
+				ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
+				savedGameClient.Delete(game);
+				isGoogleCloundDataDelete = false;
+				return;
+			}
 
+		}
+		else
+		{
+			Debug.Log ("Fail To Connected Internet And SaveAndLoad Data");
+		}
 
-
-		Debug.Log ("Google Cloud Data Load Success" + playerData);
-
-		yield return null;
-
-		//string dataAsJson = www.text.ToString();
-
-
-
-		//playerData = JsonHelper.ListFromJson<CGamePlayerData>(dataAsJson)[0];
-	
 	}
 
 	//callback for ReadBinaryData
 	private void OnSavedGameDataRead(SavedGameRequestStatus status, byte[] savedData)
 	{
+
 		//if reading of the data was successful
 		if (status == SavedGameRequestStatus.Success)
 		{
-			string cloudDataString;
+			playerData = null;
+			string cloudDataString = "";
+			string getCloudDataString = "";
 			//if we've never played the game before, savedData will have length of 0
-			if (savedData.Length == 0)
+
+			if (savedData.Length == 0) 
+			{
 				//in such case, we want to assign "0" to our string
-				cloudDataString = "0";
+				Debug.Log("No Saved Data");
+				//player = new Player ();
+				//player.Init(cInvetoryInfo, playerData);
+
+				//cloudDataString = "0";
+			}
 			//otherwise take the byte[] of data and encode it to string
 			else
-				cloudDataString =  Encoding.ASCII.GetString(savedData);
+			{
 
+
+				int inputCount = 0;
+				string divideMark = "^";
+				cloudDataString = Encoding.ASCII.GetString (savedData);
+				//Debug.Log ("DataLength : " + cloudDataString);
+				Debug.Log(cloudDataString.Length);
+				for (int i = 0; i < cloudDataString.Length; i++)
+				{
+
+					if (cloudDataString [i] == '^') {
+						Debug.Log ("I : " + i);
+						//getCloudDataString.Remove(i - 1 ,1);
+						//Debug.Log ("Delete Divide Mark : " + getCloudDataString[i]);
+						Debug.Log (getCloudDataString);
+
+						inputCount++;
+						if (inputCount == 1) {
+							playerData = JsonHelper.ListFromJson<CGamePlayerData> (getCloudDataString) [0];
+							player.Init (cInvetoryInfo, playerData);
+							Debug.Log ("Google Loaded GameData  Player = RepairPower : " + playerData.fRepairPower + "  nDays : " + playerData.nDay + "  nMaxDays : " + playerData.nMaxDay);
+							getCloudDataString = "";
+							continue;
+						}
+
+						if (inputCount == 2) {
+							ArbaitDataBase = JsonHelper.ListFromJson<ArbaitData> (getCloudDataString);
+							Debug.Log (" Google Loaded GameData Arbait Data");
+							getCloudDataString = "";
+							continue;
+						}
+
+						if (inputCount == 3) {
+							Debug.Log ("Google Loaded GameData Invetory Data");
+							cInvetoryInfo = JsonHelper.ListFromJson<CGameEquiment> (getCloudDataString);
+							getCloudDataString = "";
+							continue;
+						}
+						if (inputCount == 4) {
+							Debug.Log ("Google Loaded GameData QuestInfo Data");
+							cQuestSaveListInfo = JsonHelper.ListFromJson<CGameQuestInfo> (getCloudDataString);
+							getCloudDataString = "";
+							continue;
+						}
+					
+
+
+					} 
+					else 
+					{
+						getCloudDataString += cloudDataString [i];
+						if (i == cloudDataString.Length - 1) 
+						{
+							Debug.Log (getCloudDataString);
+							Debug.Log ("Google Loaded GameData BossPanelInfo Data");
+							cBossPanelListInfo = JsonHelper.ListFromJson<BossPanelInfo> (getCloudDataString);
+							getCloudDataString = "";
+							continue;
+						}
+					}
+					
+						
+				}
+
+				//playerData = JsonHelper.ListFromJson<CGamePlayerData>(cloudDataString)[0];
+
+
+				//player.Init (cInvetoryInfo, playerData);
+
+			}
 			//getting local data (if we've never played before on this device, localData is already
 			//"0", so there's no need for checking as with cloudDataString)
 			//string localDataString = PlayerPrefs.GetString(SAVE_NAME);
 
-			StartCoroutine(playerDataLoad(cloudDataString));
-	
-			player.Init(cInvetoryInfo, playerData);
+			//StartCoroutine(playerDataLoad(cloudDataString));
 
+		
 			//this method will compare cloud and local data
 			//StringToGameData(cloudDataString, localDataString);
 		}
 	}
 
+	public void GetPlayerSaveList()
+	{
+		Debug.Log (playerSave [0].fAccuracyRate + "/" + playerSave [0].fArbaitsPower + "/" + playerSave [0].fBigSuccessed + "/" + playerSave [0].fCriticalChance
+		+ "/" + playerSave [0].fRepairPower + "/" + playerSave [0].strName + "/" + playerSave [0].nMaxDay + "/" + playerSave [0].nEnhanceMaxWaterLevel);
+	}
 
 	#endregion
 
@@ -1886,6 +1965,10 @@ public class BossWeapon : CGameEquiment
 public class BossPanelInfo
 {
 	public bool isSaved;
+	public bool isFirstFightToIceBoss;
+	public bool isFirstFightToSasinBoss;
+	public bool isFirstFightToFireBoss;
+	public bool isFirstFightToMusicBoss;
 
 	public int nBossInviteMentCount;
 	public int nBossPotionCount;
@@ -1904,6 +1987,38 @@ public class BossPanelInfo
 	public int nBossMusicCurLevel;
 	public int nBossIceCurLevel;
 	public int nBossFireCurLevel;
+
+	
+
+
+	public BossPanelInfo()
+	{
+		isSaved = false;
+		isFirstFightToIceBoss = false;
+		isFirstFightToSasinBoss = false;
+		isFirstFightToFireBoss = false;
+		isFirstFightToMusicBoss = false;
+
+		nBossInviteMentCount = 10;
+		nBossPotionCount = 0;
+
+		nBossSasinLeftCount = 3;
+		nBossMusicLeftCount = 3;
+		nBossIceLeftCount = 3;
+		nBossFireLeftCount = 3;
+
+
+		nBossSasinCurLevel = 1;
+		nBossMusicCurLevel = 1;
+		nBossIceCurLevel = 1;
+		nBossFireCurLevel = 1;
+
+		nBossInviteMentCurMin = 0;
+		fBossInviteMentCurSec = 0f;
+		nBossRegenCurMin = 0;
+		fBossRegenCurSec = 0f;
+
+	}
 }
 
 [System.Serializable]

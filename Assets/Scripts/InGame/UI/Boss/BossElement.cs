@@ -15,6 +15,8 @@ public class BossElement : MonoBehaviour
 	public GameObject ReloadButton_Obj;			//충전 버튼
 	public Button ReloadButton;
 
+	public Button BossExplian_Button;	//보스설명버튼
+
 	public int curLevel = 1;	//현재래벨
 	private int maxLevel = 100;	//최대래벨
 	private int minLevel = 1;	//최소래벨
@@ -33,5 +35,13 @@ public class BossElement : MonoBehaviour
 		bossLevel_Text.text = "Lv " + curLevel.ToString ();
 	}
 
-
+	public void ShowBossInfo(int _nIndex)
+	{
+		Image tmpImage = bossCreator.bossHint_Obj.GetComponent<Image> ();
+		tmpImage.sprite = bossCreator.bossInfoSprite [_nIndex];
+		bossCreator.bossHint_Obj.GetComponent<Image> ().sprite = tmpImage.sprite;
+		bossCreator.bossHint_Obj.SetActive (true);
+		bossCreator.bossHint_Obj.GetComponent<BossHintTextBlink> ().StartBlinkText ();
+	}
+	
 }

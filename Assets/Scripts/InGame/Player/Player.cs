@@ -10,8 +10,8 @@ public class Player
 	public CGamePlayerData changeStats;
 
 	//플레이어 제작 무기  
-	private CreatorWeapon creatorWeapon;
-	private EpicOption epicOpion;
+	private CreatorWeapon creatorWeapon = null;
+	private EpicOption epicOpion = null;
 
     public List<CGameEquiment> List_items;
 

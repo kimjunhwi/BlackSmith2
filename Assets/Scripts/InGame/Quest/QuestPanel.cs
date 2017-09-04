@@ -56,10 +56,11 @@ public class QuestPanel : MonoBehaviour
 
 	void Update()
 	{
-		if (getGold == nCompareCondition) 
-		{
+		/*
+		if (getGold == nCompareCondition) {
 			QuestComplete ();
 		}
+		*/
 	}
 
 	public void GiveUpActive()
@@ -71,8 +72,8 @@ public class QuestPanel : MonoBehaviour
 	public void GetQuest(CGameQuestInfo _quest, QusetManager _questManager)
     {
         bIsQuest = true;
-		_quest.bIsActive = true;
-		nItemIndex = _quest.nIndex;				//index
+		//_quest.bIsActive = true;
+		//nItemIndex = _quest.nIndex;			//index
         questData = _quest;						//퀘스트 정보
 		questManager = _questManager;			//퀘스트 매니저  
        
@@ -80,6 +81,7 @@ public class QuestPanel : MonoBehaviour
 
 		textProgressValue.text = getGold.ToString () + "/" + questData.nCompleteCondition.ToString ();
 		nCompareCondition = questData.nCompleteCondition;
+
 		if (questData.nRewardGold != 0)
 		{
 			textReward.text = questData.nRewardGold.ToString ();

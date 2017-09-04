@@ -159,7 +159,7 @@ public class LogoManager : MonoBehaviour
 					bIsLoginComplete = true;
 					LoginWindow_Active(false);
 					logoBlink.StartBlinkText();
-					GameManager.Instance.LoadData();
+					//GameManager.Instance.LoadData();
 					//yield return new WaitForSeconds (1.0f);
 					//ao.allowSceneActivation = true;
 

@@ -78,7 +78,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
     public List<CGameEquiment> cInvetoryInfo = null;            //인벤토리 정보들
 
-	public List<CGameQuestInfo> cQuestSaveListInfo = null;				//퀘스트 저장
+	public List<CGameQuestSaveInfo> cQuestSaveListInfo = new List<CGameQuestSaveInfo>();				//퀘스트 저장
 
 
 	public List<BossPanelInfo> cBossPanelListInfo = new List<BossPanelInfo>();
@@ -151,6 +151,14 @@ public class GameManager : GenericMonoSingleton<GameManager>
         cInvetoryInfo = ConstructString<CGameEquiment>(strInvetoryPath);
 
         playerData = ConstructString<CGamePlayerData>(strPlayerPath)[0];
+
+		cQuestSaveListInfo = ConstructString<CGameQuestSaveInfo>(strQuestPath);
+		if(cQuestSaveListInfo == null)
+		{
+			cQuestSaveListInfo = new List<CGameQuestSaveInfo>();
+			CGameQuestSaveInfo tmpQuestSaveInfo = new CGameQuestSaveInfo();
+			cQuestSaveListInfo.Add(tmpQuestSaveInfo);
+		}
 
 		if(ConstructString<BossPanelInfo> (strBossPanelInfoPath) == null)
 		{
@@ -250,14 +258,25 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		}
 		else 
 		{
-		Debug.Log("No SearchPlayerData");
-		PlayerFilePath = Path.Combine(Application.streamingAssetsPath, strPlayerPath);
-		yield return StartCoroutine(LinkedPlayerAccess (PlayerFilePath));
+			Debug.Log("No SearchPlayerData");
+			PlayerFilePath = Path.Combine(Application.streamingAssetsPath, strPlayerPath);
+			yield return StartCoroutine(LinkedPlayerAccess (PlayerFilePath));
+			//Player
+			player = new Player ();
+			player.Init(cInvetoryInfo, playerData);
+				
 		}
 		Debug.Log("7");
 
 		if(Directory.Exists(QuestFilePath)) 
 			yield return StartCoroutine (LinkedQuestAccess (QuestFilePath));
+		else
+		{
+			Debug.Log("No SavedQuestData Create New ");
+			cQuestSaveListInfo = new List<CGameQuestSaveInfo>();
+			CGameQuestSaveInfo tmpQuestSaveInfo = new CGameQuestSaveInfo();
+			cQuestSaveListInfo.Add(tmpQuestSaveInfo);
+		}
 
 		if(Directory.Exists(BossFilePath)) 
 			yield return StartCoroutine (LinkedBossPanelInfoAccess (BossFilePath));
@@ -269,6 +288,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		}
 
 #endif
+
+
         logoManager.bIsSuccessed = true;
 
         yield break;
@@ -363,7 +384,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		Debug.Log (dataAsJson);
 
-		cQuestSaveListInfo = JsonHelper.ListFromJson<CGameQuestInfo>(dataAsJson);
+		cQuestSaveListInfo = JsonHelper.ListFromJson<CGameQuestSaveInfo>(dataAsJson);
 	}
 
 	IEnumerator LinkedBossPanelInfoAccess(string filePath)
@@ -388,14 +409,14 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
         string filePath = Path.Combine(Application.streamingAssetsPath, _strPath);
 
-        if (File.Exists(filePath))
-        {
-            string dataAsJson = File.ReadAllText(filePath);
+		if (File.Exists (filePath)) {
+			string dataAsJson = File.ReadAllText (filePath);
 
-            getList = JsonHelper.ListFromJson<T>(dataAsJson);
+			getList = JsonHelper.ListFromJson<T> (dataAsJson);
 
-            return getList;
-        }
+			return getList;
+		}
+
 
         return null;
     }
@@ -405,13 +426,14 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
     void OnApplicationQuit()
     {
+		
+        DataSave();
 		//Sign Out
 		if (Social.localUser.authenticated)
-		{
-			((PlayGamesPlatform)Social.Active).SignOut ();
+		{	
+			isGoogleClounSave = true;
+			LoadData ();
 		}
-        //DataSave();
-
         //StopAllCoroutines();
     }
 
@@ -419,7 +441,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
     //저장이 되는 부분은 OnApplicationPuase가 TRUE 이고 플레이어가 존재할시 호출
     void DataSave()
     {
-        Debug.Log("Quit");
+        Debug.Log("Quit And Local Save....");
 
         if (player == null)
             return;
@@ -427,6 +449,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
         PlayerPrefs.SetFloat("Gold", ScoreManager.ScoreInstance.GetGold());
         PlayerPrefs.SetFloat("Honor", ScoreManager.ScoreInstance.GetHonor());
 
+		//아르바이트 버프 해제
         SpawnManager.Instance.ReleliveArbait();
 
         playerData = player.changeStats;
@@ -445,6 +468,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
         PlayerPrefs.Save();
 
+		Debug.Log("Save Complete!!");
         //StopAllCoroutines();
     }
 
@@ -454,12 +478,12 @@ public class GameManager : GenericMonoSingleton<GameManager>
         {
 			if (player != null && SceneManager.GetActiveScene().buildIndex == 1)
             {
-                Debug.Log("Puase");
-				if (Social.localUser.authenticated == true)
-					Debug.Log ("Cur Login To google");
+                //Debug.Log("Puase");
+				//if (Social.localUser.authenticated == true)
+				//	Debug.Log ("Cur Login To google");
 				//isGoogleClounSave = true;
 				//LoadData ();
-
+				DataSave();
             }
         }
     }
@@ -543,7 +567,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	public void SetQuestData(List<CGameQuestInfo> _QuestData)
 	{
-		cQuestSaveListInfo = _QuestData;
+
 	}
 
 	public void SaveQuestList()
@@ -560,7 +584,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		#endif
 
 
-		string dataAsJson = JsonHelper.ListToJson<CGameQuestInfo>(cQuestSaveListInfo);
+		string dataAsJson = JsonHelper.ListToJson<CGameQuestSaveInfo>(cQuestSaveListInfo);
 
 		File.WriteAllText(filePath, dataAsJson);
 	}
@@ -629,7 +653,6 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			kInfo[i - 1].nGrade = int.Parse(Cells[13]);
             kInfo[i - 1].WeaponSprite = ObjectCashing.Instance.LoadSpriteFromCache(kInfo[i - 1].strPath);
         }
-
         cWeaponInfo = kInfo;
     }
 
@@ -700,13 +723,14 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
             kInfo[i - 1] = new CGameQuestInfo();
             kInfo[i - 1].nIndex = int.Parse(Cells[0]);
-            kInfo[i - 1].nGrade = int.Parse(Cells[1]);
+			kInfo[i - 1].nType = int.Parse(Cells[1]);
 			kInfo[i - 1].strExplain = Cells[2];
-			kInfo[i - 1].nCompleteCondition = int.Parse(Cells[3]);
-			kInfo[i - 1].nRewardGold = int.Parse(Cells[4]);
-			kInfo[i - 1].nRewardHonor = int.Parse(Cells[5]);
-			kInfo[i - 1].nRewardBossPotion = int.Parse(Cells[6]);
-			kInfo [i - 1].bIsActive = bool.Parse (Cells [7]);
+			kInfo[i - 1].strMultipleCondition = Cells [3];
+			kInfo[i - 1].nCompleteCondition = int.Parse(Cells[4]);
+			kInfo[i - 1].nRewardGold = int.Parse(Cells[5]);
+			kInfo[i - 1].nRewardHonor = int.Parse(Cells[6]);
+			kInfo[i - 1].nRewardBossPotion = int.Parse(Cells[7]);
+
         }
 
         cQusetInfo = kInfo;
@@ -1250,6 +1274,10 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			//Player
 			player = new Player ();
 			player.Init(cInvetoryInfo, playerData);
+			//Quest
+			CGameQuestSaveInfo tmpQuestSave = new CGameQuestSaveInfo();
+			cQuestSaveListInfo.Add (tmpQuestSave);
+		
 			//BossPanelInfo
 			cBossPanelInfo = new BossPanelInfo();
 			cBossPanelListInfo.Add(cBossPanelInfo);
@@ -1283,7 +1311,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		//Inventory
 		string dataAsString_Inventory = JsonHelper.ListToJson<CGameEquiment>(cInvetoryInfo);
 		//Quest
-		string dataAsString_Quest = JsonHelper.ListToJson<CGameQuestInfo>(cQuestSaveListInfo);
+		string dataAsString_Quest = JsonHelper.ListToJson<CGameQuestSaveInfo>(cQuestSaveListInfo);
 		//BossPanelInfo
 		string dataAsString_BossPaenl = JsonHelper.ListToJson<BossPanelInfo>(cBossPanelListInfo);
 	
@@ -1291,6 +1319,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		string ResultData = dataAsString_PlayerData + divideMark + dataAsString_ArabaitData + divideMark + dataAsString_Inventory
 		                    + divideMark + dataAsString_Quest + divideMark + dataAsString_BossPaenl;
+		
 		Debug.Log (ResultData);
 		//encoding to byte array
 		byte[] dataToSave = Encoding.ASCII.GetBytes(ResultData);
@@ -1452,7 +1481,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 						}
 						if (inputCount == 4) {
 							Debug.Log ("Google Loaded GameData QuestInfo Data");
-							cQuestSaveListInfo = JsonHelper.ListFromJson<CGameQuestInfo> (getCloudDataString);
+							cQuestSaveListInfo = JsonHelper.ListFromJson<CGameQuestSaveInfo> (getCloudDataString);
 							getCloudDataString = "";
 							continue;
 						}
@@ -1792,20 +1821,50 @@ public class CGamePlayerEnhance
 	public int nHonorCost;
 }
 
+//퀘스트 파싱 클래스
 [System.Serializable]
 public class CGameQuestInfo
 {
     public int nIndex = 0;
-    public int nGrade = 0;
+    public int nType = 0;
 	public string strExplain = "";
+	public string strMultipleCondition = "";
 	public int nCompleteCondition = 0;
     
 	public int nRewardGold = 0;
 	public int nRewardHonor=0;
 	public int nRewardBossPotion =0;
-	public bool bIsActive = false;
-    
+
 }
+//퀘스트 저장 클래스
+[System.Serializable]
+public class CGameQuestSaveInfo
+{
+	//처음 실행시
+	public bool bIsFirstActive;
+	//구글 클라우드 저장이 되어있는지
+	public bool bIsGoogleSave;
+	//해당 퀘스트의 인덱스와 진행도
+	public int nQuestIndex01;
+	public int nQeustIndex01_ProgressValue;
+	public int nQuestIndex02;
+	public int nQuestIndex02_ProgressValue;
+	public int nQuestIndex03;
+	public int nQeustINdex03_ProgressValue;
+
+	public CGameQuestSaveInfo()
+	{
+		bIsFirstActive = true;
+		bIsGoogleSave = false;
+		nQuestIndex01 = -1;
+		nQeustIndex01_ProgressValue = -1;
+		nQuestIndex02 = -1;
+		nQuestIndex02_ProgressValue = -1;
+		nQuestIndex03 = -1;
+		nQeustINdex03_ProgressValue = -1;
+	}
+}
+
 
 [System.Serializable]
 public class CGameEnhanceData

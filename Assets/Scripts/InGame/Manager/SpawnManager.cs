@@ -192,8 +192,6 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		//손님을 전부 되돌림
 		if (list_Character.Count != 0)
 		{
-
-
 			for(int nIndex = 0; nIndex < list_Character.Count; nIndex++)
 				list_Character[nIndex].GetComponent<NormalCharacter>().RetreatCharacter(4.0f,true,true);
 			
@@ -222,11 +220,10 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 			if (m_nDay == 7 && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss == false) 
 			{
-				
 				uiManager.uiBossFirstFightMark.SetActive (true);
 			}
 				
-
+			/*
 
 			GameManager.Instance.playerData = GameManager.Instance.player.changeStats;
 			GameManager.Instance.SavePlayerData ();			//Local Save
@@ -238,6 +235,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 			GameManager.Instance.isGoogleClounSave = true;
 			GameManager.Instance.LoadData ();				//cloud Save
+			*/
 
 		}
 	}

@@ -15,7 +15,7 @@ public class QuestTimer : MonoBehaviour
 
 	public float fCurSec;
 	public int curMin;													//현재 분
-	private int nInitTime_Min = 179;
+	private int nInitTime_Min = 59;
 	private int nInitTime_sec = 59;
 
 	public bool isTimeOn = false;				//시간이 켜져 있는지 아닌지
@@ -50,7 +50,7 @@ public class QuestTimer : MonoBehaviour
 		int nCheck = Mathf.Abs(nEndTime - nStartTime);
 
 		//하루가 지나거나 100분이 지나면 그냥 현재 퀘스트 개수만 띄워준다.
-		if (timeCal.Days != 0 || nCheck >= 6000) {
+		if (timeCal.Days != 0 || nCheck >= 3600) {
 			//QuestTimer_Text.text = questManager.nQuestCount.ToString () + " / " + questManager.nQuestMaxCount.ToString ();
 			return true;
 		} else
@@ -59,6 +59,8 @@ public class QuestTimer : MonoBehaviour
 
 	public void LoadTime()
 	{
+		
+
 		if (PlayerPrefs.HasKey ("EndSaveTime"))
 		{
 			strTime = PlayerPrefs.GetString ("EndSaveTime");
@@ -74,7 +76,7 @@ public class QuestTimer : MonoBehaviour
 		int nCheck = Mathf.Abs(nEndTime - nStartTime);
 
 		//하루가 지나거나 100분이 지나면 그냥 현재 퀘스트 개수만 띄워준다.
-		if (timeCal.Days != 0 || nCheck >= 6000 ) 
+		if (timeCal.Days != 0 || nCheck >= 3600 ) 
 		{
 			//QuestTimer_Text.text = questManager.nQuestCount.ToString () + " / " + questManager.nQuestMaxCount.ToString ();
 			QuestTimer_Text.enabled = false;
@@ -132,14 +134,14 @@ public class QuestTimer : MonoBehaviour
 		gameObject.SetActive (true);
 		QuestTimer_Text.enabled = true;
 		isTimeOn = true;
-		nInitTime_Min = 179;
+		nInitTime_Min = 59;
 		nInitTime_sec = 59;
 		Debug.Log ("QuestTimer is On : " + isTimeOn + " Start Timer !");
 		StartCoroutine (Timer (nInitTime_Min, nInitTime_sec));
 	}
 	public void InitQuestTimer()
 	{
-		nInitTime_Min = 179;
+		nInitTime_Min = 59;
 		nInitTime_sec = 59;
 		Debug.Log ("QuestTimer is On : " + isTimeOn + " Start Timer !");
 		QuestTimer_Text.enabled = false;

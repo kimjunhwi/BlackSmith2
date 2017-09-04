@@ -67,7 +67,6 @@
      <Compile Include="Assets\GooglePlayGames\Editor\xcode\Utils.cs" />
      <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Editor\ReporterEditor.cs" />
      <None Include="Assets\Resources\Data\HammerEpic.txt" />
-     <None Include="Assets\Resources\Data\Quest.txt" />
      <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver_v1.2.37.0.txt" />
      <None Include="Assets\Resources\Data\BossWeapon.txt" />
      <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />
@@ -76,6 +75,7 @@
      <None Include="Assets\GooglePlayGames\Editor\template-AndroidManifest.txt" />
      <None Include="Assets\Boomlagoon\JSON\Readme.txt" />
      <None Include="Assets\Resources\Data\Arbait.txt" />
+     <None Include="Assets\Resources\Data\Quest.txt" />
      <None Include="Assets\Resources\Data\Shop.txt" />
      <None Include="Assets\PlayServicesResolver\proguard-unity.txt" />
      <None Include="Assets\Resources\Data\ArbaitEnhance2.txt" />

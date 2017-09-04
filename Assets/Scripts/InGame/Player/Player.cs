@@ -23,8 +23,6 @@ public class Player
 
     public Inventory inventory;
 
-
-
 	public int GetSmithLevel() { return changeStats.nBlackSmithLevel; }
 	public void SetSmithLevel(int _nValue) { changeStats.nBlackSmithLevel = _nValue; }
 
@@ -126,14 +124,13 @@ public class Player
 
 	public int GetSuccessedGuestCount() { return changeStats.nSuccessedGuest; }
 	public void SetSuccessedGuestCount(int _nValue){changeStats.nSuccessedGuest = _nValue;}
-
-	public int GetFaieldGuestCount()	{ return changeStats.nFaieldGuest; }
-	public void SetFaieldGuestCount(int _nValue){ changeStats.nFaieldGuest = _nValue; }
 	
 	//08.09
 	//플레이어 제작 
-	public void SetCreatorWeapon(CreatorWeapon _weapon){
+	public void SetCreatorWeapon(CreatorWeapon _weapon,EpicOption _EpicOption){
 		creatorWeapon = _weapon; 
+
+		epicOpion = _EpicOption;
 
 		PlayerStatsSetting ();
 	}
@@ -336,9 +333,10 @@ public class Player
 	}
 
 
-    public void Init(List<CGameEquiment> _itemList, CGamePlayerData _defaultStats)
+	public void Init(List<CGameEquiment> _itemList, CGamePlayerData _defaultStats,CreatorWeapon _creatorWeapon)
     {
         List_items = _itemList;
+		creatorWeapon = _creatorWeapon;
 		changeStats = new CGamePlayerData(_defaultStats);
     }
 

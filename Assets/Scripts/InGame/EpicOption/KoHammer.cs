@@ -6,7 +6,7 @@ using ReadOnlys;
 public class KoHammer : EpicOption {
 
 	int nTouchCount = 0;
-	int nTouchValue = 1;
+	const int nTouchValue = 3;
 
 	public override void Init (int _nDay,Player _player)
 	{
@@ -19,7 +19,7 @@ public class KoHammer : EpicOption {
 
 	public override string GetExplain () { return strExplain; }
 
-	public override int CheckOption ()
+	public override bool CheckOption ()
 	{
 		nTouchCount++;
 
@@ -27,9 +27,9 @@ public class KoHammer : EpicOption {
 		{
 			nTouchCount = 0;
 
-			return nIndex;
+			return true;
 		}
 
-		return (int)E_EPIC_INDEX.E_EPIC_FAIEL;
+		return false;
 	}
 }

@@ -482,10 +482,8 @@ public class NormalCharacter : Character {
 			{
                 //날짜 초기화
                 cPlayerData.SetSuccessedGuestCount(0);
-                cPlayerData.SetFaieldGuestCount(0);
 
                 ScoreManager.ScoreInstance.SetSuccessedGuestCount(0);
-                ScoreManager.ScoreInstance.SetFaieldGuestCount(0);
 
                 //날짜를 1일 추가
                 SpawnManager.Instance.SetDayInitInfo (cPlayerData.GetDay () + 1);	

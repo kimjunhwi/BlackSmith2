@@ -13,7 +13,7 @@ public class EpicOption {
 
 	public virtual string GetExplain() {return null;}
 
-	public virtual int CheckOption(){ return (int)E_EPIC_INDEX.E_EPIC_FAIEL; }
+	public virtual bool CheckOption(){ return false; }
 
-
+	public virtual void Relive(){ }
 }

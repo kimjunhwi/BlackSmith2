@@ -263,6 +263,7 @@
      <Compile Include="Assets\Scripts\InGame\EpicOption\FreezingTuna.cs" />
      <Compile Include="Assets\Scripts\InGame\EpicOption\GoblinHammer.cs" />
      <Compile Include="Assets\Scripts\InGame\EpicOption\GoldHammer.cs" />
+     <Compile Include="Assets\Scripts\InGame\EpicOption\IcePunch.cs" />
      <Compile Include="Assets\Scripts\InGame\EpicOption\KoHammer.cs" />
      <Compile Include="Assets\Scripts\InGame\EpicOption\MagicStick.cs" />
      <Compile Include="Assets\Scripts\InGame\EpicOption\RubberChicken.cs" />

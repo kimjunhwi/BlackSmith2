@@ -19,10 +19,13 @@ public class RubberChicken : EpicOption {
 
 	public override string GetExplain () { return strExplain; }
 
-	public override int CheckOption ()
+	public override bool CheckOption ()
 	{
-		
+		return false;
+	}
 
-		return (int)E_EPIC_INDEX.E_EPIC_FAIEL;
+	public override void Relive ()
+	{
+		cPlayerData.SetBigSuccessed ();
 	}
 }

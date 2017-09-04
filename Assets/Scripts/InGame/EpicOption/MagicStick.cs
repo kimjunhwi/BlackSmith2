@@ -18,11 +18,15 @@ public class MagicStick : EpicOption {
 
 	public override string GetExplain () { return strExplain; }
 
-	public override int CheckOption ()
+	public override bool CheckOption ()
 	{
 		if (Random.Range (0, 100) <= fValue)
-			return nIndex;
+			return true;
 
-		return (int)E_EPIC_INDEX.E_EPIC_FAIEL;
+		return false;
+	}
+
+	public override void Relive ()
+	{
 	}
 }

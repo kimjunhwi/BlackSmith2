@@ -25,8 +25,13 @@ public class GoldHammer : EpicOption {
 
 	public override string GetExplain () { return strExplain; }
 
-	public override int CheckOption ()
+	public override bool CheckOption ()
 	{
-		return nIndex;
+		return true;
+	}
+
+	public override void Relive ()
+	{
+		cPlayerData.SetGoldPlusPercent ();
 	}
 }

@@ -151,7 +151,7 @@ public class MakingUI : MonoBehaviour {
 		nCalcMaxRepair = Mathf.RoundToInt(m_nBasicMaxRepair + (float)(m_nBasicMaxRepair * (m_nPlusRepairMaxPercent * playerData.GetDay() * 0.01f)));
 
 		//수리력 
-		createWeapon.fRepair = 1000000000000000000000000000000.0f; //Mathf.RoundToInt (Random.Range (nCalcMinRepair, nCalcMaxRepair + 1));
+		createWeapon.fRepair = Mathf.RoundToInt (Random.Range (nCalcMinRepair, nCalcMaxRepair + 1));
 
 		int nOptionLength = 3;
 

@@ -440,14 +440,14 @@ public class BossCreator : MonoBehaviour
 		bossConsumeItemInfo.BossInviteMentSaveTime ();
 		bossRegenTimer.BossRegenTimeSave ();
 
-		GameManager.Instance.playerData = GameManager.Instance.player.changeStats;
-		GameManager.Instance.SavePlayerData ();			//Local Save
-		GameManager.Instance.GetPlayerSaveList ();		//Confirm
-		GameManager.Instance.SaveBossPanelInfoList();	//SaveBossPanel;
+		//GameManager.Instance.playerData = GameManager.Instance.player.changeStats;
+		//GameManager.Instance.SavePlayerData ();			//Local Save
+		//GameManager.Instance.GetPlayerSaveList ();		//Confirm
+		//GameManager.Instance.SaveBossPanelInfoList();	//SaveBossPanel;
 
 
-		GameManager.Instance.isGoogleClounSave = true;
-		GameManager.Instance.LoadData ();				//cloud Save
+		//GameManager.Instance.isGoogleClounSave = true;
+		//GameManager.Instance.LoadData ();				//cloud Save
 	}
 
 	public void BossChanllengeCountToMax()

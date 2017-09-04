@@ -35,7 +35,6 @@ public class ScoreManager : MonoBehaviour
     public Text goldText;
 	public Text honorText;
 	public Text SuccessedGuestCount;
-	public Text FaieldGuestCount;
 
     private float m_fGetGold = 0;
 	private float m_fGetHonor = 0;
@@ -68,12 +67,6 @@ public class ScoreManager : MonoBehaviour
 	{
 		SuccessedGuestCount.text = string.Format ("Successed {0} / 10", _nValue);
 	}
-
-	public void SetFaieldGuestCount(int _nValue)
-	{
-		FaieldGuestCount.text = string.Format ("Faield {0} / 1", _nValue);
-	}
-
 
     private string GetCurrentcyIntoString(float _fValueToConvert)
     {

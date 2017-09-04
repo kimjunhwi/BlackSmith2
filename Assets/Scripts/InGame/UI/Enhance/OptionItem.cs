@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using ReadOnlys;
 
 public class OptionItem : MonoBehaviour {
 
@@ -18,6 +19,7 @@ public class OptionItem : MonoBehaviour {
 
 	public Text OptionText;
 
+	private MakingUI makingUI;
 	private CGameMainWeaponOption WeaponOption;
 
 	void Awake()
@@ -42,11 +44,16 @@ public class OptionItem : MonoBehaviour {
 		LockImage.sprite = UnLockSprite;
 	}
 
-	public void Setup(CGameMainWeaponOption _WeaponOption)
+	public void Setup(CGameMainWeaponOption _WeaponOption,MakingUI _makingUI)
 	{
+		makingUI = _makingUI;
 		WeaponOption = _WeaponOption;
 
-		OptionText.text = string.Format ("{0} : {1}", WeaponOption.strOptionName, WeaponOption.nValue);
+		if (_WeaponOption.nIndex != (int)E_CREATOR.E_EPIC)
+			OptionText.text = string.Format ("{0} : {1}", WeaponOption.strOptionName, WeaponOption.nValue);
+		
+		else
+			OptionText.text = WeaponOption.strOptionName;
 
 		if (WeaponOption.bIsLock) 
 		{
@@ -64,5 +71,27 @@ public class OptionItem : MonoBehaviour {
 	//버튼 클릭시 아이템을 보여주기 위함
 	public void HandleClick()
 	{
+		if (WeaponOption.nIndex == (int)E_CREATOR.E_EPIC) 
+		{
+			if (WeaponOption.bIsLock == false) 
+			{
+				WeaponOption.bIsLock = true;
+				makingUI.createEpic.bIsLock = true;
+				OptionImage.sprite = OptionSprite;
+				LockImage.sprite = LockSprite;
+			} 
+			else 
+			{
+				WeaponOption.bIsLock = false;
+				makingUI.createEpic.bIsLock = false;
+				OptionImage.sprite = UnOptionSprite;
+				LockImage.sprite = UnLockSprite;
+			}
+
+		} 
+		else if (WeaponOption.nIndex <= (int)E_CREATOR.E_MAX) 
+		{
+
+		}
 	}
 }

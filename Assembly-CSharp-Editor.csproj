@@ -86,9 +86,6 @@
      <None Include="Assets\PlayServicesResolver\proguard-messaging-workaround.txt" />
      <None Include="Assets\StreamingAssets\build_info.txt" />
      <None Include="Assets\Resources\Data\EquimpentEnhance2.txt" />
- <Reference Include="Assembly-UnityScript">
- <HintPath>/Users/ImaiDakaki/BlackSmith5/Library/ScriptAssemblies/Assembly-UnityScript.dll</HintPath>
- </Reference>
  <Reference Include="Facebook.Unity.Settings">
  <HintPath>/Users/ImaiDakaki/BlackSmith5/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
  </Reference>

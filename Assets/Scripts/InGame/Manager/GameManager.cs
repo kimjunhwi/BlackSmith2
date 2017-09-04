@@ -65,17 +65,18 @@ public class GameManager : GenericMonoSingleton<GameManager> {
 
 	public BossWeapon[] bossWeaponInfo = null;
 
+	//세이브가 필요한 부분들은 LitJson을 사용함
+	private List<CGamePlayerData> playerSave = new List<CGamePlayerData>();	//플레이어 데이터 저장
 
-	List<CGamePlayerData> playerSave = new List<CGamePlayerData>();
-    //세이브가 필요한 부분들은 LitJson을 사용함
-    //
-    private List<ArbaitData> ArbaitDataBase = new List<ArbaitData>();
+	private List<CreatorWeapon> CreateWeapon = new List<CreatorWeapon> ();
+    
+    private List<ArbaitData> ArbaitDataBase = new List<ArbaitData>();		//아르바이트 데이터 저장
 
-    private List<CGameEquiment> equimnetData = new List<CGameEquiment>();
+    private List<CGameEquiment> equimnetData = new List<CGameEquiment>();	//상점 장비들 저장
 
-    public List<CGameEquiment> cInvetoryInfo = null;            //인벤토리 정보들
+    public List<CGameEquiment> cInvetoryInfo = null;            			//인벤토리 정보들
 
-	public List<CGameQuestInfo> cQuestSaveListInfo = null;				//퀘스트 저장
+	public List<CGameQuestInfo> cQuestSaveListInfo = null;					//퀘스트 저장
 
 
 	public List<BossPanelInfo> cBossPanelListInfo = new List<BossPanelInfo>();
@@ -89,6 +90,7 @@ public class GameManager : GenericMonoSingleton<GameManager> {
     private LogoManager logoManager;
 
     private const string strPlayerPath = "PlayerData.json";
+	private const string strCreateWeapon = "CreateWeapon.json";
     private const string strArbaitPath = "ArbaitData.json";
     private const string strEquiementPath = "Equiment.json";
     private const string strInvetoryPath = "Inventory.json";
@@ -100,6 +102,8 @@ public class GameManager : GenericMonoSingleton<GameManager> {
     public Player player;
 
     public CGamePlayerData playerData;
+	public CreatorWeapon creatorWeaponData = null;
+
 	public GameObject Root_ui;
 
 	public IEnumerator DataLoad()
@@ -143,6 +147,8 @@ public class GameManager : GenericMonoSingleton<GameManager> {
 
         playerData = ConstructString<CGamePlayerData>(strPlayerPath)[0];
 
+		CreateWeapon = ConstructString<CreatorWeapon>(strCreateWeapon)[0];
+
 		if(ConstructString<BossPanelInfo> (strBossPanelInfoPath) == null)
 			cBossPanelListInfo.Add(cBossPanelInfo);
 		else
@@ -171,6 +177,15 @@ public class GameManager : GenericMonoSingleton<GameManager> {
 
 		string BossFilePath =  Path.Combine (Application.persistentDataPath, strBossPanelInfoPath);
 
+		string strCreate = Path.Combine (Application.persistentDataPath, strCreateWeapon);
+
+		//제작 무기 저장 
+		if(Directory.Exists(strCreate)) 
+		{
+			Debug.Log("Search CreateWeapon");
+			yield return StartCoroutine (LinkedCreateWeaponAccess (strCreate));
+		}
+
 		if(Directory.Exists(ArbaitFilePath)) 
 		yield return StartCoroutine (LinkedArbaitAccess (ArbaitFilePath));
 
@@ -179,23 +194,14 @@ public class GameManager : GenericMonoSingleton<GameManager> {
 			ArbaitFilePath = Path.Combine(Application.streamingAssetsPath, strArbaitPath);
 		yield return StartCoroutine(LinkedArbaitAccess (ArbaitFilePath));
 		}
-		Debug.Log("1");
 
 
 		if(Directory.Exists(InventoryFilePath)) 
 		 yield return StartCoroutine (LinkedInventoryAccess (InventoryFilePath));
 
 
-		Debug.Log("4");
-
 		if(Directory.Exists(EquimentFilePath)) 
 		yield return StartCoroutine (LinkedShopAccess (EquimentFilePath));
-
-//		else 
-//		{
-//		EquimentFilePath = Path.Combine(Application.streamingAssetsPath, strEquiementPath);
-//		yield return StartCoroutine(LinkedShopAccess (EquimentFilePath));
-//		}
 
 		if(Directory.Exists(PlayerFilePath)) 
 		{
@@ -208,7 +214,6 @@ public class GameManager : GenericMonoSingleton<GameManager> {
 		PlayerFilePath = Path.Combine(Application.streamingAssetsPath, strPlayerPath);
 		yield return StartCoroutine(LinkedPlayerAccess (PlayerFilePath));
 		}
-		Debug.Log("7");
 
 		if(Directory.Exists(QuestFilePath)) 
 			yield return StartCoroutine (LinkedQuestAccess (QuestFilePath));
@@ -220,11 +225,9 @@ public class GameManager : GenericMonoSingleton<GameManager> {
 
 #endif
 
-        Debug.Log(playerData.strName);
-
         player = new Player();
 
-        player.Init(cInvetoryInfo, playerData);
+		player.Init(cInvetoryInfo, playerData,creatorWeaponData);
 
         //SoundManager.instance.LoadSource();
 
@@ -248,10 +251,6 @@ public class GameManager : GenericMonoSingleton<GameManager> {
 		Debug.Log (dataAsJson);
 
         ArbaitDataBase = JsonHelper.ListFromJson<ArbaitData>(dataAsJson);
-
-		Debug.Log ("ArbaitData Count" + ArbaitDataBase.Count);
-
-		Debug.Log("3");
     }
 
 	IEnumerator LinkedInventoryAccess(string filePath)
@@ -270,10 +269,6 @@ public class GameManager : GenericMonoSingleton<GameManager> {
 			yield break;
 
 		cInvetoryInfo = JsonHelper.ListFromJson<CGameEquiment>(dataAsJson);
-
-		Debug.Log ("cInvetoryInfo Count" + cInvetoryInfo.Count);
-
-		Debug.Log("6");
 	}
 
 	IEnumerator LinkedShopAccess(string filePath)
@@ -311,6 +306,16 @@ public class GameManager : GenericMonoSingleton<GameManager> {
 		playerData = JsonHelper.ListFromJson<CGamePlayerData>(dataAsJson)[0];
 	}
 
+	IEnumerator LinkedCreateWeaponAccess(string filePath)
+	{
+		WWW www = new WWW(filePath);
+
+		yield return www;
+
+		string dataAsJson = www.text.ToString();
+
+		creatorWeaponData = JsonHelper.ListFromJson<CreatorWeapon>(dataAsJson)[0];
+	}
 
 	IEnumerator LinkedQuestAccess(string filePath)
 	{
@@ -361,9 +366,6 @@ public class GameManager : GenericMonoSingleton<GameManager> {
         return null;
     }
 
-
-
-
     void OnApplicationQuit()
     {
 
@@ -387,6 +389,10 @@ public class GameManager : GenericMonoSingleton<GameManager> {
         SpawnManager.Instance.ReleliveArbait();
 
         playerData = player.changeStats;
+
+		creatorWeaponData = player.GetCreatorWeapon ();
+
+		SaveCreateWeaponData ();
 
         SaveArbaitData();
 
@@ -428,6 +434,8 @@ public class GameManager : GenericMonoSingleton<GameManager> {
 
 		#endif
 
+		playerSave.Clear ();
+
 		playerSave.Add (playerData);
 
 		string dataAsJson = JsonHelper.ListToJson<CGamePlayerData>(playerSave);
@@ -450,6 +458,25 @@ public class GameManager : GenericMonoSingleton<GameManager> {
 
         File.WriteAllText(filePath, dataAsJson);
     }
+
+	public void SaveCreateWeaponData()
+	{
+		#if UNITY_EDITOR
+		string filePath = Path.Combine(Application.streamingAssetsPath, strCreateWeapon);
+
+		#elif UNITY_ANDROID
+		string filePath = Path.Combine(Application.persistentDataPath, strCreateWeapon);
+
+		#endif
+
+		CreateWeapon.Clear ();
+
+		CreateWeapon.Add (creatorWeaponData);
+
+		string dataAsJson = JsonHelper.ListToJson<CreatorWeapon>(CreateWeapon);
+
+		File.WriteAllText(filePath, dataAsJson);
+	}
 
     public void SaveEquiment()
     {
@@ -1167,6 +1194,7 @@ enum E_CREATOR
 	E_BOSS_SASIN,
 	E_BOSS_FIRE,
 	E_BOSS_RUSIU,
+	E_EPIC,
 }
 
 #region Classese
@@ -1249,9 +1277,9 @@ public class CreatorWeapon
 	public float fSasinBossValue = 0.0f;
 	public float fFireBossValue = 0.0f;
 
-	public int nOneLockSlotIndex = 0;
-	public int nTwoLockSlotIndex = 0;
-	public int nThreeLockSlotIndex = 0;
+	public int nEpicIndex = -1;
+	public int nCostDay = 0;
+	public bool bIsLock = false;
 }
 
 [System.Serializable]
@@ -1351,7 +1379,6 @@ public class ArbaitData
 }
 
 [System.Serializable]
-
 public class CGameWeaponInfo
 {
     public int nIndex = 0;
@@ -1469,7 +1496,6 @@ public class CGamePlayerData
     public int nFireMaterial;
     public int nDay;
 	public int nMaxDay;
-	public int nFaieldGuest;
 	public int nSuccessedGuest;
     public int nGuestCount;
 
@@ -1500,7 +1526,6 @@ public class CGamePlayerData
         nFireMaterial = playerData.nFireMaterial;
         nDay = playerData.nDay;
 		nMaxDay = playerData.nMaxDay;
-		nFaieldGuest = playerData.nFaieldGuest;
 		nSuccessedGuest = playerData.nSuccessedGuest;
         nGuestCount = playerData.nGuestCount;
 	}

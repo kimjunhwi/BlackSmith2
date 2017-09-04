@@ -196,7 +196,6 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			m_nDay = _nDay;
 
 			ScoreManager.ScoreInstance.SetSuccessedGuestCount (0);
-			ScoreManager.ScoreInstance.SetFaieldGuestCount (0);
 			ScoreManager.ScoreInstance.SetCurrentDays (m_nDay);
 
 			if (m_nDay > GameManager.Instance.player.GetMaxDay ()) {

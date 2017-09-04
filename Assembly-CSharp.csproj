@@ -238,12 +238,6 @@
      <Compile Include="Assets\GooglePlayGames\Platforms\PlayGamesClientFactory.cs" />
      <Compile Include="Assets\GooglePlayGames\Platforms\TokenClient.cs" />
      <Compile Include="Assets\GooglePlayGames\PluginVersion.cs" />
-     <Compile Include="Assets\Resources\sc_fx\Script\FTCT02_AnimationScrollTexture.cs" />
-     <Compile Include="Assets\Resources\sc_fx\Script\FTCT02_AnimationSpriteSheet.cs" />
-     <Compile Include="Assets\Resources\sc_fx\Script\FTCT02_DeadTime.cs" />
-     <Compile Include="Assets\Resources\sc_fx\Script\FTCT02_SampleSceneGUI.cs" />
-     <Compile Include="Assets\Resources\sc_fx\Script\FTCT02_StopCam.cs" />
-     <Compile Include="Assets\Resources\sc_fx\Script\FTCT02_VisibleBG.cs" />
      <Compile Include="Assets\Scripts\BackGround.cs" />
      <Compile Include="Assets\Scripts\InGame\Arbait\ArbaitBatch.cs" />
      <Compile Include="Assets\Scripts\InGame\Arbait\ArbaitCharacter.cs" />

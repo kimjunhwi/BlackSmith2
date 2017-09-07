@@ -78,12 +78,12 @@ public class BossIce : BossCharacter
 					
 					if (nCurLevel >= 2)
 					{
-						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache (sBossWeaponSprite), bossInfo.fComplate +
-							(bossInfo.fComplate  * 0.05f) * nCurLevel - 1, 0, 0, this);
+						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache (sBossWeaponSprite), bossInfo.dComplate +
+							(bossInfo.dComplate  * 0.05f) * nCurLevel - 1, 0, 0, this);
 					} 
 					else 
 					{
-						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache(sBossWeaponSprite), bossInfo.fComplate, 0, 0, this);
+						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache(sBossWeaponSprite), bossInfo.dComplate, 0, 0, this);
 					}
 
 					ActiveTimer ();
@@ -109,8 +109,8 @@ public class BossIce : BossCharacter
 		isStandardPhaseFailed = true;
 		while (true)
 		{
-			float fCurComplete = repairObj.GetCurCompletion ();
-			float fMaxComplete =  bossInfo.fComplate;
+			double dCurComplete = repairObj.GetCurCompletion ();
+			double dMaxComplete =  bossInfo.dComplate;
 
 			//수리패널 얼음
 			if (fIceWallGenerateTimer >= fBossIceWallGenerateTime)
@@ -120,13 +120,13 @@ public class BossIce : BossCharacter
 				fIceWallGenerateTimer += Time.deltaTime;
 
 
-			if (fCurComplete < 0) 
+			if (dCurComplete < 0) 
 			{
 				FailState ();
 				yield break;
 			}
 
-			if (fCurComplete >=	(fMaxComplete / 100) * 30)
+			if (dCurComplete >=	(dMaxComplete / 100) * 30)
 				eCureentBossState = EBOSS_STATE.PHASE_01;
 
 			if (eCureentBossState == EBOSS_STATE.PHASE_01)
@@ -150,8 +150,8 @@ public class BossIce : BossCharacter
 		while (true)
 		{
 			//BossWeapon info
-			float fCurComplete = repairObj.GetCurCompletion ();
-			float fMaxComplete = bossInfo.fComplate;
+			double dCurComplete = repairObj.GetCurCompletion ();
+			double dMaxComplete = bossInfo.dComplate;
 
 
 			//수리패널 얼음
@@ -179,12 +179,12 @@ public class BossIce : BossCharacter
 				FreezeArbait ();
 	
 			//Fail Condition
-			if (fCurComplete < 0) {
+			if (dCurComplete < 0) {
 				FailState ();
 				yield break;
 			}
 
-			if (fCurComplete >=	(fMaxComplete / 100) * 60)
+			if (dCurComplete >=	(dMaxComplete / 100) * 60)
 				eCureentBossState = EBOSS_STATE.PHASE_02;
 
 			if (eCureentBossState == EBOSS_STATE.PHASE_02)
@@ -206,8 +206,8 @@ public class BossIce : BossCharacter
 		while (true)
 		{
 			//GetCompletion
-			float fCurComplete = repairObj.GetCurCompletion ();
-			float fMaxComplete =  bossInfo.fComplate;
+			double dCurComplete = repairObj.GetCurCompletion ();
+			double dMaxComplete =  bossInfo.dComplate;
 	
 
 
@@ -239,16 +239,16 @@ public class BossIce : BossCharacter
 			
 
 
-			if (fCurComplete < 0) {
+			if (dCurComplete < 0) {
 				FailState ();
 				yield break;
 			}
 
-			if (fCurComplete >=	(fMaxComplete / 100) * 90)
+			if (dCurComplete >=	(dMaxComplete / 100) * 90)
 				repairObj.bossWeaponAnimator.SetBool ("isPhase02", true);
 
 
-			if (fCurComplete >= fMaxComplete)
+			if (dCurComplete >= dMaxComplete)
 				eCureentBossState = EBOSS_STATE.DIE;
 
 			if (eCureentBossState == EBOSS_STATE.DIE)

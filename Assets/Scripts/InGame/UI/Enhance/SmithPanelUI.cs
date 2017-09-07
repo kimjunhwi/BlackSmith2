@@ -5,15 +5,11 @@ using ReadOnlys;
 
 public class SmithPanelUI : EnhanceUI {
 
-	CGamePlayerEnhance[] cGameSmith;
-
 	SmithEnhance m_EnhanceData;
 
 	protected override void Awake ()
 	{
 		base.Awake ();
-
-		cGameSmith = GameManager.Instance.cSmithEnhaceInfo;
 
 		nLevel = cPlayer.GetSmithLevel ();
 

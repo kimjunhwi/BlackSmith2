@@ -125,15 +125,15 @@ public class NormalCharacter : Character {
 		{
 			nDay = cPlayerData.GetDay ();
 
-			weaponData.fMaxComplate = (nDay <= 185)  ? 3 * Mathf.Pow(1.25f,nDay) * 60  : 3 * Mathf.Pow(125,185) * Mathf.Pow(125,nDay- 185) *60; 
-			weaponData.fMinusRepair = weaponData.fMinusRepair + (weaponData.fMinusRepair * nDay * 0.03f);
+			weaponData.dMaxComplate = (nDay <= 185)  ? 3 * Mathf.Pow(1.25f,nDay) * 60  : 3 * Mathf.Pow(125,185) * Mathf.Pow(125,nDay- 185) *60; 
+			weaponData.dMinusRepair = weaponData.dMinusRepair + (weaponData.dMinusRepair * nDay * 0.03f);
 			weaponData.fMinusChargingWater = weaponData.fMinusChargingWater + (weaponData.fMinusChargingWater * nDay * 0.03f);
-			weaponData.fMinusCriticalDamage = weaponData.fMinusCriticalDamage + (weaponData.fMinusCriticalDamage * nDay * 0.03f);
+			weaponData.dMinusCriticalDamage = weaponData.dMinusCriticalDamage + (weaponData.dMinusCriticalDamage * nDay * 0.03f);
 			weaponData.fMinusUseWater = weaponData.fMinusUseWater + (weaponData.fMinusUseWater * nDay * 0.03f);
 			weaponData.fMinusCriticalChance = weaponData.fMinusCriticalChance + (weaponData.fMinusCriticalChance * nDay * 0.03f);
 			weaponData.fMinusAccuracy = weaponData.fMinusAccuracy + (weaponData.fMinusAccuracy * nDay * 0.03f);
-			weaponData.fGold = weaponData.fGold + (weaponData.fGold * nDay * 0.03f);
-			weaponData.fHonor = weaponData.fHonor + (weaponData.fHonor * nDay * 0.03f);
+			weaponData.dGold = weaponData.dGold + (weaponData.dGold * nDay * 0.03f);
+			weaponData.dHonor = weaponData.dHonor + (weaponData.dHonor * nDay * 0.03f);
 		}
 
 		//다음 시간 저장 
@@ -143,7 +143,7 @@ public class NormalCharacter : Character {
 		Timer.sprite = TimerSprites [nTimerCount++];
 
 
-        m_fComplate = 0;
+        m_dComplate = 0;
 
         m_fTemperator = 0;
 
@@ -172,7 +172,7 @@ public class NormalCharacter : Character {
 
         m_bIsArrival = false;
 
-        m_fComplate = 0;
+        m_dComplate = 0;
 
         m_fTemperator = 0;
 
@@ -259,7 +259,7 @@ public class NormalCharacter : Character {
 					m_bIsRepair = true;
 					m_bIsArrival = true;
 
-					RepairShowObject.GetWeapon (gameObject, weaponData, m_fComplate, m_fTemperator);
+					RepairShowObject.GetWeapon (gameObject, weaponData, m_dComplate, m_fTemperator);
 
 					SpeechSelect ((int)E_SPEECH.E_PLAYER);
 					yield break;
@@ -278,7 +278,7 @@ public class NormalCharacter : Character {
 
 						SpeechSelect (m_nCheck);
 
-						SpawnManager.Instance.InsertArbaitWeapon (m_nCheck, gameObject, weaponData, m_fComplate, m_fTemperator);
+						SpawnManager.Instance.InsertArbaitWeapon (m_nCheck, gameObject, weaponData, m_dComplate, m_fTemperator);
 					}
 				}
 			}
@@ -324,7 +324,7 @@ public class NormalCharacter : Character {
 					SpawnManager.Instance.AutoInputWeaponData ();
 
                 //결과값 호출
-				Complate (m_fComplate);
+				Complate (m_dComplate);
 
 				//현재 아르바이트가 수리중인지 확인 
 				ArbaitBatch arbait =  SpawnManager.Instance.OverlapArbaitData (gameObject);
@@ -377,10 +377,10 @@ public class NormalCharacter : Character {
 		m_VecMoveDistance = new Vector3(m_VecEndPos.x + fDistance, transform.position.y, 0);
 	}
 
-	public void GetRepairData(bool _bIsRepair,bool _bIsResearch, float _fComplate, float _fTemperator)
+	public void GetRepairData(bool _bIsRepair,bool _bIsResearch, double _dComplate, float _fTemperator)
 	{
 		m_bIsRepair = _bIsRepair;
-		m_fComplate = _fComplate;
+		m_dComplate = _dComplate;
 		m_fTemperator = m_fTemperator;
 
 		if (_bIsResearch) 
@@ -392,7 +392,7 @@ public class NormalCharacter : Character {
 
 				SpeechSelect (m_nCheck);
 
-				SpawnManager.Instance.InsertArbaitWeapon (m_nCheck, gameObject, weaponData, m_fComplate, m_fTemperator);
+				SpawnManager.Instance.InsertArbaitWeapon (m_nCheck, gameObject, weaponData, m_dComplate, m_fTemperator);
 
 				return;
 			}
@@ -428,7 +428,7 @@ public class NormalCharacter : Character {
                 if (arbait != null)
                     arbait.ResetWeaponData();
 
-				RepairShowObject.GetWeapon (gameObject, weaponData, m_fComplate, m_fTemperator);
+				RepairShowObject.GetWeapon (gameObject, weaponData, m_dComplate, m_fTemperator);
 
 				backGround.sprite = PlayerRepairSpeech;
 			//}
@@ -436,14 +436,14 @@ public class NormalCharacter : Character {
 	}
 
     //완성도를 체크하고 온도를 저장하기 위한 함수이다.
-	public override bool CheckComplate (float _fComplate,float _fTemperator)
+	public override bool CheckComplate (double _dComplate,float _fTemperator)
 	{
 		float fCurCompletY;
 
-		m_fComplate = _fComplate;
+		m_dComplate = _dComplate;
 		m_fTemperator = _fTemperator;
 
-		fCurCompletY = m_fComplate / weaponData.fMaxComplate;
+		fCurCompletY = (float)(m_dComplate / weaponData.dMaxComplate);
 
         //만약 완성도가100% 라면
         //뒤로 이동 후 true 반환
@@ -460,16 +460,16 @@ public class NormalCharacter : Character {
 		return false;
 	}
 
-	public override void Complate(float _fComplate = 0.0f)
+	public override void Complate(double _dComplate = 0.0f)
 	{
 		//70%이상
-		if ((weaponData.fMaxComplate * 0.7) < _fComplate) {
+		if ((weaponData.dMaxComplate * 0.7) < _dComplate) {
 
 			nDay = cPlayerData.GetDay ();
 
 			playerController.GuestSuccessed ();
 
-			fGold = 500 * Mathf.Pow (1.1f,Mathf.Min(nDay - 1,55)) * Mathf.Pow(nDay - 56,0) +( Mathf.Min(nDay -1, 55) * 50);
+			fGold = 5000 * Mathf.Pow (1.1f,Mathf.Min(nDay - 1,55)) * Mathf.Pow(nDay - 56,0) +( Mathf.Min(nDay -1, 55) * 50);
 
 			ScoreManager.ScoreInstance.GoldPlus (fGold);
 
@@ -498,7 +498,7 @@ public class NormalCharacter : Character {
 		m_bIsRepair = true;
 		m_bIsArrival = true;
 
-		RepairShowObject.GetWeapon (gameObject, weaponData, m_fComplate, m_fTemperator);
+		RepairShowObject.GetWeapon (gameObject, weaponData, m_dComplate, m_fTemperator);
 
 		SpeechSelect ((int)E_SPEECH.E_PLAYER);
 	}

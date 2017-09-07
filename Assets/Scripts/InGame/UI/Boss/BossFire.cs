@@ -93,13 +93,12 @@ public class BossFire : BossCharacter
 				{
 					if (nCurLevel >= 2)
 					{
-						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache (sBossWeaponSprite), bossInfo.fComplate +
-							(bossInfo.fComplate  * 0.05f) * nCurLevel - 1, 0, 0, this);
+						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache (sBossWeaponSprite), bossInfo.dComplate +
+							(bossInfo.dComplate  * 0.05) * nCurLevel - 1, 0, 0, this);
 					} 
 					else 
-					{
-						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache(sBossWeaponSprite), bossInfo.fComplate, 0, 0, this);
-					}
+						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache(sBossWeaponSprite), bossInfo.dComplate, 0, 0, this);
+					
 					ActiveTimer ();
 					uiDisable.isBossSummon = false;
 					break;
@@ -129,20 +128,20 @@ public class BossFire : BossCharacter
 
 			fTime += Time.deltaTime;
 
-			float fCurComplete = repairObj.GetCurCompletion ();
-			float fMaxComplete =  bossInfo.fComplate;
+			double dCurComplete = repairObj.GetCurCompletion ();
+			double dMaxComplete =  bossInfo.dComplate;
 
 			if (fTime >= 2.0f && nCurFireCount < nSmallFireMaxCount && isSmallFireActive == true)
 				CreateSmallFire ();
 		
 		
 
-			if (fCurComplete < 0) {
+			if (dCurComplete < 0) {
 				FailState ();
 				yield break;
 			}
 
-			if (fCurComplete >=	(fMaxComplete / 100) * 30) {
+			if (dCurComplete >=	(dMaxComplete / 100) * 30) {
 				eCureentBossState = EBOSS_STATE.PHASE_01;
 			}
 			if (eCureentBossState == EBOSS_STATE.PHASE_01)
@@ -172,19 +171,19 @@ public class BossFire : BossCharacter
 			fTime += Time.deltaTime;
 
 			//BossWeapon info
-			float fCurComplete = repairObj.GetCurCompletion ();
-			float fMaxComplete = bossInfo.fComplate;
+			double dCurComplete = repairObj.GetCurCompletion ();
+			double dMaxComplete = bossInfo.dComplate;
 
 			if (fTime >= 1.5f  && nCurFireCount < nSmallFireMaxCount && isSmallFireActive == true )
 				CreateSmallFire ();
 
 		
-			if (fCurComplete < 0) {
+			if (dCurComplete < 0) {
 				FailState ();
 				yield break;
 			}
 
-			if (fCurComplete >=	(fMaxComplete / 100) * 60) {
+			if (dCurComplete >=	(dMaxComplete / 100) * 60) {
 				eCureentBossState = EBOSS_STATE.PHASE_02;
 			}
 			if (eCureentBossState == EBOSS_STATE.PHASE_02)
@@ -209,8 +208,8 @@ public class BossFire : BossCharacter
 			fTime += Time.deltaTime;
 
 			//GetCompletion
-			float fCurComplete = repairObj.GetCurCompletion ();
-			float fMaxComplete =  bossInfo.fComplate;
+			double dCurComplete = repairObj.GetCurCompletion ();
+			double dMaxComplete =  bossInfo.dComplate;
 
 			if (fTime >= 1.0f  && nCurFireCount < 20 && isSmallFireActive == true)
 				CreateSmallFire ();
@@ -226,13 +225,13 @@ public class BossFire : BossCharacter
 			
 				
 		
-			if (fCurComplete < 0) 
+			if (dCurComplete < 0) 
 			{
 				FailState ();
 				yield break;
 			}
 
-			if (fCurComplete >= fMaxComplete)
+			if (dCurComplete >= dMaxComplete)
 				eCureentBossState = EBOSS_STATE.DIE;
 
 			if (eCureentBossState == EBOSS_STATE.DIE)

@@ -93,8 +93,6 @@ public class ArbaitCharacter : MonoBehaviour {
 
 		m_CharacterData = GameManager.Instance.GetArbaitData(nIndex);
 
-        ArbaitEnhanceData = GameManager.Instance.GetArbaitGradeEnhanceData(m_CharacterData.grade);
-
         CheckBuyCharacter();
 	}
 
@@ -216,7 +214,7 @@ public class ArbaitCharacter : MonoBehaviour {
         LevelText.text = m_CharacterData.level.ToString();
         NameText.text = m_CharacterData.name;
         SkillExplainText.text = m_CharacterData.strExplains;
-        RepairPowerText.text = m_CharacterData.fRepairPower.ToString("F1");
+        RepairPowerText.text = m_CharacterData.dRepairPower.ToString("F1");
         AttackSpeedText.text = m_CharacterData.fAttackSpeed.ToString("F1");
         CriticalText.text = m_CharacterData.fCritical.ToString("F1");
         AccuracyText.text = m_CharacterData.fAccuracyRate.ToString("F1");

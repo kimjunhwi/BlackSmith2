@@ -89,12 +89,12 @@ public class BossMusic : BossCharacter
 				{
 					if (nCurLevel >= 2)
 					{
-						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache (sBossWeaponSprite), bossInfo.fComplate +
-							(bossInfo.fComplate  * 0.05f) * nCurLevel - 1, 0, 0, this);
+						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache (sBossWeaponSprite), bossInfo.dComplate +
+							(bossInfo.dComplate  * 0.05) * nCurLevel - 1, 0, 0, this);
 					} 
 					else 
 					{
-						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache(sBossWeaponSprite), bossInfo.fComplate, 0, 0, this);
+						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache(sBossWeaponSprite), bossInfo.dComplate, 0, 0, this);
 					}
 					repairObj.bossWeaponAnimator.SetBool ("isBackGroundChanged", true);
 					ActiveTimer ();
@@ -122,8 +122,8 @@ public class BossMusic : BossCharacter
 			fRandomXPos = bossWeapon.transform.position.x;
 			fRandomYPos = bossWeapon.transform.position.y;
 
-			float fCurComplete = repairObj.GetCurCompletion ();
-			float fMaxComplete =  bossInfo.fComplate;
+			double dCurComplete = repairObj.GetCurCompletion ();
+			double dMaxComplete =  bossInfo.dComplate;
 
 			if (fReflectRoutineTime <= 1.0f)
 				fReflectRoutineTime = 1.0f;
@@ -165,12 +165,12 @@ public class BossMusic : BossCharacter
 				
 
 			//현재 완성도 (실패조건)
-			if (fCurComplete < 0) {
+			if (dCurComplete < 0) {
 				FailState ();
 				yield break;
 			}
 		
-			if (fCurComplete >=	(fMaxComplete / 100) * 30)
+			if (dCurComplete >=	(dMaxComplete / 100) * 30)
 				eCureentBossState = EBOSS_STATE.PHASE_01;
 
 			if (eCureentBossState == EBOSS_STATE.PHASE_01)
@@ -205,8 +205,8 @@ public class BossMusic : BossCharacter
 			fRandomXPos = bossWeapon.transform.position.x;
 			fRandomYPos = bossWeapon.transform.position.y;
 		
-			float fCurComplete = repairObj.GetCurCompletion ();
-			float fMaxComplete = bossInfo.fComplate;
+			double dCurComplete = repairObj.GetCurCompletion ();
+			double dMaxComplete = bossInfo.dComplate;
 
 			fTime += Time.deltaTime;
 			//Note 생성 
@@ -247,12 +247,12 @@ public class BossMusic : BossCharacter
 			}
 
 		
-			if (fCurComplete < 0) {
+			if (dCurComplete < 0) {
 				FailState ();
 				yield break;
 			}
 			
-			if (fCurComplete >=	(fMaxComplete / 100) * 60)
+			if (dCurComplete >=	(dMaxComplete / 100) * 60)
 				eCureentBossState = EBOSS_STATE.PHASE_02;
 
 			if (eCureentBossState == EBOSS_STATE.PHASE_02)
@@ -279,8 +279,8 @@ public class BossMusic : BossCharacter
 			fRandomYPos = bossWeapon.transform.position.y;
 
 
-			float fCurComplete = repairObj.GetCurCompletion ();
-			float fMaxComplete =  bossInfo.fComplate;
+			double dCurComplete = repairObj.GetCurCompletion ();
+			double dMaxComplete =  bossInfo.dComplate;
 
 			fTime += Time.deltaTime;
 			//Note 생성 
@@ -323,12 +323,12 @@ public class BossMusic : BossCharacter
 
 
 
-			if (fCurComplete < 0) {
+			if (dCurComplete < 0) {
 				FailState ();
 				yield break;
 			}
 
-			if (fCurComplete >= fMaxComplete)
+			if (dCurComplete >= dMaxComplete)
 				eCureentBossState = EBOSS_STATE.DIE;
 
 			if (eCureentBossState == EBOSS_STATE.DIE)

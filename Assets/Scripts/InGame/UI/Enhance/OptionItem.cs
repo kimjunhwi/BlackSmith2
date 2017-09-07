@@ -65,7 +65,6 @@ public class OptionItem : MonoBehaviour {
 			OptionImage.sprite = UnOptionSprite;
 			LockImage.sprite = UnLockSprite;
 		}
-
 	}
 
 	//버튼 클릭시 아이템을 보여주기 위함

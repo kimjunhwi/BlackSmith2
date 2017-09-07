@@ -17,6 +17,7 @@ public class MakingUI : MonoBehaviour {
 	public Button MakingButton;
 
 	public BossSoul[] BossSoulSlots;
+	public ResultEpicUI ResultUI;
 
 	Player playerData;
 
@@ -48,6 +49,7 @@ public class MakingUI : MonoBehaviour {
 
 	int nInsertValue;
 
+	private string[] strBossExplains = {"명중률 증가" ,"수리력 증가", "크리확률 증가","알바 수리력 증가"};
 
 	//08.07
 
@@ -59,7 +61,6 @@ public class MakingUI : MonoBehaviour {
 
 	public SimpleObjectPool optionPanelPool;
 
-	private string[] strBossExplains = {"명중률 증가" ,"수리력 증가", "크리확률 증가","알바 수리력 증가"};
 
 	void Awake()
 	{
@@ -73,87 +74,96 @@ public class MakingUI : MonoBehaviour {
 		} 
 		else 
 		{
-			CreatorWeapon createWeapon = new CreatorWeapon( playerData.GetCreatorWeapon());
+			CreatorWeapon createWeapon = new CreatorWeapon();
+
+			//저장 된 데이터를 미리 캐싱해 둔다 
+			CreatorWeapon LoadCreateWeapon = playerData.GetCreatorWeapon ();
 
 			#region SetCreateWeaponSetting
 
-			if (createWeapon.fArbaitRepair != 0)
-				CheckData (createWeapon, (int)E_CREATOR.E_ARBAIT, (int)createWeapon.fArbaitRepair);
+			createWeapon.fRepair = LoadCreateWeapon.fRepair;
 
-			if (createWeapon.fPlusHonorPercent != 0)
-				CheckData (createWeapon, (int)E_CREATOR.E_HONOR, (int)createWeapon.fPlusHonorPercent);
+			if ( LoadCreateWeapon.fArbaitRepair != 0)
+				CheckData (createWeapon, (int)E_CREATOR.E_ARBAIT, (int)LoadCreateWeapon.fArbaitRepair);
 
-			if (createWeapon.fPlusGoldPercent != 0)
-				CheckData (createWeapon, (int)E_CREATOR.E_GOLD, (int)createWeapon.fPlusGoldPercent);
+			if ( LoadCreateWeapon.fPlusHonorPercent != 0)
+				CheckData (createWeapon, (int)E_CREATOR.E_HONOR, (int)LoadCreateWeapon.fPlusHonorPercent);
 
-			if (createWeapon.fWaterPlus != 0)
-				CheckData (createWeapon, (int)E_CREATOR.E_WATERCHARGE, (int)createWeapon.fWaterPlus);
+			if ( LoadCreateWeapon.fPlusGoldPercent != 0)
+				CheckData (createWeapon, (int)E_CREATOR.E_GOLD, (int)LoadCreateWeapon.fPlusGoldPercent);
 
-			if (createWeapon.fActiveWater != 0)
-				CheckData (createWeapon, (int)E_CREATOR.E_WATERUSE, (int)createWeapon.fActiveWater);
+			if ( LoadCreateWeapon.fWaterPlus != 0)
+				CheckData (createWeapon, (int)E_CREATOR.E_WATERCHARGE, (int)LoadCreateWeapon.fWaterPlus);
 
-			if (createWeapon.fCriticalChance != 0)
-				CheckData (createWeapon, (int)E_CREATOR.E_CRITICAL, (int)createWeapon.fCriticalChance);
+			if ( LoadCreateWeapon.fActiveWater != 0)
+				CheckData (createWeapon, (int)E_CREATOR.E_WATERUSE, (int)LoadCreateWeapon.fActiveWater);
 
-			if (createWeapon.fCriticalDamage != 0)
-				CheckData (createWeapon, (int)E_CREATOR.E_CRITICALD, (int)createWeapon.fCriticalDamage);
+			if ( LoadCreateWeapon.fCriticalChance != 0)
+				CheckData (createWeapon, (int)E_CREATOR.E_CRITICAL, (int)LoadCreateWeapon.fCriticalChance);
 
-			if (createWeapon.fBigSuccessed != 0)
-				CheckData (createWeapon, (int)E_CREATOR.E_BIGCRITICAL, (int)createWeapon.fBigSuccessed);
+			if ( LoadCreateWeapon.fCriticalDamage != 0)
+				CheckData (createWeapon, (int)E_CREATOR.E_CRITICALD, (int)LoadCreateWeapon.fCriticalDamage);
 
-			if (createWeapon.fAccuracyRate != 0)
-				CheckData (createWeapon, (int)E_CREATOR.E_ACCURACY, (int)createWeapon.fAccuracyRate);
+			if ( LoadCreateWeapon.fBigSuccessed != 0)
+				CheckData (createWeapon, (int)E_CREATOR.E_BIGCRITICAL, (int)LoadCreateWeapon.fBigSuccessed);
 
-			if (createWeapon.fIceBossValue != 0) 
+			if ( LoadCreateWeapon.fAccuracyRate != 0)
+				CheckData (createWeapon, (int)E_CREATOR.E_ACCURACY, (int)LoadCreateWeapon.fAccuracyRate);
+
+			if ( LoadCreateWeapon.fIceBossValue != 0) 
 			{
 				CGameMainWeaponOption plusItem = new CGameMainWeaponOption ();
 
 				plusItem.nIndex = (int)E_CREATOR.E_BOSS_ICE;
 				plusItem.strOptionName = strBossExplains [0];
-				plusItem.nValue = nInsertValue;
+				plusItem.nValue =  (int)LoadCreateWeapon.fIceBossValue;
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
 			}
 
-			if (createWeapon.fRusiuBossValue != 0) 
+			if ( LoadCreateWeapon.fRusiuBossValue != 0) 
 			{
 				CGameMainWeaponOption plusItem = new CGameMainWeaponOption ();
 
 				plusItem.nIndex = (int)E_CREATOR.E_BOSS_RUSIU;
 				plusItem.strOptionName = strBossExplains [1];
-				plusItem.nValue = nInsertValue;
+				plusItem.nValue =  (int)LoadCreateWeapon.fRusiuBossValue;
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
 			}
 
-			if (createWeapon.fSasinBossValue != 0) 
+			if ( LoadCreateWeapon.fSasinBossValue != 0) 
 			{
 				CGameMainWeaponOption plusItem = new CGameMainWeaponOption ();
 
 				plusItem.nIndex = (int)E_CREATOR.E_BOSS_SASIN;
 				plusItem.strOptionName = strBossExplains [2];
-				plusItem.nValue = nInsertValue;
+				plusItem.nValue =  (int)LoadCreateWeapon.fSasinBossValue;
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
 			}
 
-			if (createWeapon.fFireBossValue != 0) 
+			if ( LoadCreateWeapon.fFireBossValue != 0) 
 			{
 				CGameMainWeaponOption plusItem = new CGameMainWeaponOption ();
 
 				plusItem.nIndex = (int)E_CREATOR.E_BOSS_FIRE;
 				plusItem.strOptionName = strBossExplains [3];
-				plusItem.nValue = nInsertValue;
+				plusItem.nValue =  (int)LoadCreateWeapon.fFireBossValue;
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
 			}
 
-			if(createWeapon.nEpicIndex != (int)E_EPIC_INDEX.E_EPIC_FAIEL)
+			if( LoadCreateWeapon.nEpicIndex != (int)E_EPIC_INDEX.E_EPIC_FAIEL)
 			{
+				createWeapon.nEpicIndex = LoadCreateWeapon.nEpicIndex;
+
+				createEpic = EpicFactory (createWeapon.nEpicIndex);
+
 				createEpic.Init (createWeapon.nCostDay, playerData);
 
 				//에픽 옵션 추가 
@@ -170,8 +180,6 @@ public class MakingUI : MonoBehaviour {
 
 			float fRepair = Mathf.RoundToInt (createWeapon.fRepair);
 
-			NowRepairPower.text = string.Format("{0}", fRepair);
-
 			playerData.SetCreatorWeapon (createWeapon,createEpic);
 
 			float fEnhanceValue = playerData.GetCreatorWeapon().fRepair * Mathf.Pow (1.125f, playerData.GetRepairLevel());
@@ -182,10 +190,13 @@ public class MakingUI : MonoBehaviour {
 
 			RefreshDisplay ();
 
-			CostDayText.text = string.Format("{0}",playerData.GetDay());
-
 			nCalcMinRepair = (int)Mathf.Round(m_nBasicMinRepair + (float)(m_nBasicMinRepair * (m_nPlusRepairMinPercent * playerData.GetDay() * 0.01f)));
 			nCalcMaxRepair = (int)Mathf.Round(m_nBasicMaxRepair + m_nBasicMaxRepair * (m_nPlusRepairMaxPercent * playerData.GetDay() * 0.01f));
+
+
+			NowRepairPower.text = string.Format("{0}", fRepair);
+
+			CostDayText.text = string.Format("{0}",playerData.GetDay());
 
 			RandomRepairPower.text = string.Format("제작시 수리력 {0:F1} ~ {1:F1}",nCalcMinRepair,nCalcMaxRepair);
 
@@ -258,141 +269,58 @@ public class MakingUI : MonoBehaviour {
 		if (playerData.GetDay() <= 10)
 			return;
 
-		int nDight = 0;
-		int nDightCost = playerData.GetDay ();
+		ResultUI.Init (BossSoulSlots);
 
-		float fCostDay = (float)nDightCost;
+//		playerData.SetDay (playerData.GetDay () - 10);
+//
+//		float fRepair = Mathf.RoundToInt (createWeapon.fRepair);
+//
+//		playerData.SetCreatorWeapon (createWeapon,createEpic);
+//
+//		float fEnhanceValue = playerData.GetCreatorWeapon().fRepair * Mathf.Pow (1.125f, playerData.GetRepairLevel());
+//
+//		playerData.SetBasicRepairPower (fEnhanceValue);
+//
+//		SpawnManager.Instance.SetDayInitInfo (playerData.GetDay ());
+//
+//		RefreshDisplay ();
+//
+//		nCalcMinRepair = (int)Mathf.Round(m_nBasicMinRepair + (float)(m_nBasicMinRepair * (m_nPlusRepairMinPercent * playerData.GetDay() * 0.01f)));
+//		nCalcMaxRepair = (int)Mathf.Round(m_nBasicMaxRepair + m_nBasicMaxRepair * (m_nPlusRepairMaxPercent * playerData.GetDay() * 0.01f));
+//
+//		NowRepairPower.text = string.Format("{0}", fRepair);
+//
+//		CostDayText.text = string.Format("{0}",playerData.GetDay());
+//
+//		RandomRepairPower.text = string.Format("제작시 수리력 {0:F1} ~ {1:F1}",nCalcMinRepair,nCalcMaxRepair);
+	}
 
-		while (fCostDay >= 1) 
-		{
-			fCostDay *= 0.1f;
-			nDight++;
-		}
-
-		CreatorWeapon createWeapon = new CreatorWeapon ();
-
-		nCalcMinRepair = Mathf.RoundToInt(m_nBasicMinRepair + (float)(m_nBasicMinRepair * (m_nPlusRepairMinPercent * playerData.GetDay() * 0.01f)));
-		nCalcMaxRepair = Mathf.RoundToInt(m_nBasicMaxRepair + (float)(m_nBasicMaxRepair * (m_nPlusRepairMaxPercent * playerData.GetDay() * 0.01f)));
-
-		//수리력 설정
-		createWeapon.fRepair = Mathf.RoundToInt (Random.Range (nCalcMinRepair, nCalcMaxRepair + 1));
-
-		int nOptionLength = 3;
-
-		//리스트에서 지움 
-		LIST_OPTION.Clear();
-
-		//추가 옵션 범위 
-		nCalcAddMinOption = Mathf.RoundToInt(m_nBasicMinOption + (float)(m_nBasicMinOption *(m_nPlusOptionMinPercent * nDight * 0.01f)));
-		nCalcAddMaxOption = Mathf.RoundToInt(m_nBasicMaxOption + (float)(m_nBasicMaxOption *(m_nPlusOptionMaxPercent * nDight * 0.01f)));
-
-		//옵션 셋팅 
-		while(nOptionLength > 0)
-		{
-			int nInsertIndex = 0;
-
-			nInsertIndex = Random.Range((int)E_CREATOR.E_ARBAIT, (int)E_CREATOR.E_MAX);
-			nInsertValue = Random.Range (nCalcAddMinOption, nCalcAddMaxOption + 1);
-
-			if (CheckData(createWeapon, nInsertIndex, nInsertValue))
-				nOptionLength--;
-		}
-
-		//보스 옵션 셋팅 
-		for (int nIndex = 0; nIndex < BossSoulSlots.Length; nIndex++) 
-		{
-			//만약 체크가 됐다면 
-			if (BossSoulSlots [nIndex].bIsCheck) {
-				nInsertValue = Random.Range (nCalcAddMinOption, nCalcAddMaxOption + 1);
-
-				if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_ICE)
-					createWeapon.fIceBossValue = nInsertValue;
-
-				else if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_SASIN)
-					createWeapon.fSasinBossValue = nInsertValue;
-
-				else if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_FIRE)
-					createWeapon.fFireBossValue = nInsertValue;
-
-				else if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_MUSIC)
-					createWeapon.fRusiuBossValue = nInsertValue;
-
-				CGameMainWeaponOption plusItem = new CGameMainWeaponOption ();
-
-				plusItem.nIndex = nIndex + (int)E_CREATOR.E_BOSS_ICE;
-				plusItem.strOptionName = strBossExplains [nIndex];
-				plusItem.nValue = nInsertValue;
-				plusItem.bIsLock = false;
-
-				BossSoulSlots [nIndex].ReSetting ();
-
-				LIST_OPTION.Add (plusItem);
-			}
-		}
-
-		//만약 전 에픽이 있을 경우 락을 했는지 안했는지 넣어 줌
-		if (createEpic != null) 
-		{
-			createWeapon.bIsLock = createEpic.bIsLock;
-			createWeapon.nCostDay = createEpic.nCostDay;
-			createWeapon.nEpicIndex = createEpic.nIndex;
-		}
-
-		//락이 아닐 경우 다시 에픽 확률을 계산 해서 넣어 줌 
-		if (createWeapon.bIsLock == false) {
-			//특수 옵션 미정
-			if (Random.Range (0, 100) <= 100) {
-				if (createEpic != null) {
-
-				} else {
-					int nRandomIndex = (int)E_EPIC_INDEX.E_EPIC_MAGIC; //Random.Range (0, (int)E_EPIC_INDEX.E_EPIC_MAX);
-
-					createEpic = EpicFactory (nRandomIndex);
-
-					if (createEpic != null) {
-						createEpic.Init (playerData.GetDay (), playerData);
-					}
-				}
-			}
-		} 
-		//락 일경우 추가 된 일차로 옵션 수치만 다시 설정 해준다.
-		else 
-			createEpic.Init (playerData.GetDay (), playerData);
-
-		//에픽 옵션 추가 
-		CGameMainWeaponOption EpicOption = new CGameMainWeaponOption ();
-
-		EpicOption.nIndex = (int)E_CREATOR.E_EPIC;
-		EpicOption.strOptionName = createEpic.strExplain;
-		EpicOption.nValue = nInsertValue;
-		EpicOption.bIsLock = false;
-		createEpic.bIsLock = false;
-
-		LIST_OPTION.Add (EpicOption);
-		///////////////////////////////////////
+	public void CreateWeapon(CreatorWeapon _weapon,EpicOption _epicOption, List<CGameMainWeaponOption> _List_Option)
+	{
+		LIST_OPTION = _List_Option;
 
 		playerData.SetDay (playerData.GetDay () - 10);
-
-		float fRepair = Mathf.RoundToInt (createWeapon.fRepair);
-
-		NowRepairPower.text = string.Format("{0}", fRepair);
-
-		playerData.SetCreatorWeapon (createWeapon,createEpic);
-
-		float fEnhanceValue = playerData.GetCreatorWeapon().fRepair * Mathf.Pow (1.125f, playerData.GetRepairLevel());
-
+	
+		float fRepair = Mathf.RoundToInt (_weapon.fRepair);
+	
+		playerData.SetCreatorWeapon (_weapon, _epicOption);
+	
+		float fEnhanceValue = playerData.GetCreatorWeapon ().fRepair * Mathf.Pow (1.125f, playerData.GetRepairLevel ());
+	
 		playerData.SetBasicRepairPower (fEnhanceValue);
-
+	
 		SpawnManager.Instance.SetDayInitInfo (playerData.GetDay ());
-
+	
 		RefreshDisplay ();
-
-		CostDayText.text = string.Format("{0}",playerData.GetDay());
-
-		nCalcMinRepair = (int)Mathf.Round(m_nBasicMinRepair + (float)(m_nBasicMinRepair * (m_nPlusRepairMinPercent * playerData.GetDay() * 0.01f)));
-		nCalcMaxRepair = (int)Mathf.Round(m_nBasicMaxRepair + m_nBasicMaxRepair * (m_nPlusRepairMaxPercent * playerData.GetDay() * 0.01f));
-
-		RandomRepairPower.text = string.Format("제작시 수리력 {0:F1} ~ {1:F1}",nCalcMinRepair,nCalcMaxRepair);
+	
+		nCalcMinRepair = (int)Mathf.Round (m_nBasicMinRepair + (float)(m_nBasicMinRepair * (m_nPlusRepairMinPercent * playerData.GetDay () * 0.01f)));
+		nCalcMaxRepair = (int)Mathf.Round (m_nBasicMaxRepair + m_nBasicMaxRepair * (m_nPlusRepairMaxPercent * playerData.GetDay () * 0.01f));
+	
+		NowRepairPower.text = string.Format ("{0}", fRepair);
+	
+		CostDayText.text = string.Format ("{0}", playerData.GetDay ());
+	
+		RandomRepairPower.text = string.Format ("제작시 수리력 {0:F1} ~ {1:F1}", nCalcMinRepair, nCalcMaxRepair);
 	}
 
 	private bool CheckData(CreatorWeapon _equiment, int nIndex, int _nInsertValue)

@@ -34,7 +34,7 @@ public class Character : MonoBehaviour
     }
     public float fGold;
     //완성도
-    public float m_fComplate { get; set; }
+	public double m_dComplate { get; set; }
     //온도
     public float m_fTemperator { get; set; }
 
@@ -98,9 +98,9 @@ public class Character : MonoBehaviour
 		cPlayerData = GameManager.Instance.player;
 	}
 
-	public virtual bool CheckComplate(float _fComplate,float _fTemperator) {return false; }
+	public virtual bool CheckComplate(double _dComplate,float _fTemperator) {return false; }
     
-    public virtual void Complate(float _fComplate = 0.0f) { }
+	public virtual void Complate(double _dComplate = 0.0f) { }
 
     
 }

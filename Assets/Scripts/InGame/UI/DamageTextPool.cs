@@ -20,9 +20,9 @@ public class DamageTextPool : MonoBehaviour {
 		damageText = gameObject.GetComponent<Text> ();
 	}
 
-	public void Damage(int nDamage)
+	public void Damage(string strDamage)
 	{
-		damageText.text = nDamage.ToString ();
+		damageText.text = strDamage;
 	}
 
 	// Update is called once per frame

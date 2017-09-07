@@ -118,8 +118,8 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		if (silder.value <= ((float)nQuestMileCount / (float)nQeustMaxMileCount))
 			silder.value += ((float)nQuestMileCount / (float)nQeustMaxMileCount) * sliderSpeed * Time.deltaTime;
 
-		if (questTimer.isTimeOn == false)
-			questTimer.StartQuestTimer ();
+		//if (questTimer.isTimeOn == false)
+		//	questTimer.StartQuestTimer ();
 	}
 
 	public void OnPointerClick (PointerEventData eventData)
@@ -168,8 +168,9 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	public void CompleteQuest()
 	{
 		questYesAndExitPopUpWindow_Yes.SetActive (false);
-		questTimer.StartQuestTimer ();
 		questTimer.addQuestToEmptySpace.SetActive (false);
+		//questTimer.StartQuestTimer ();
+	
 	}
 
 
@@ -295,7 +296,6 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			questTimer.isTimeOn = false;
 			questTimer.isTimeEnd = false;
 			questTimer.InitQuestTimer ();
-			questTimer.StartQuestTimer ();
 			return;
 		}
 

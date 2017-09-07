@@ -151,6 +151,7 @@ public class QuestTimer : MonoBehaviour
 		isTimeOn = false;
 		gameObject.SetActive (false);
 		addQuestToEmptySpace.SetActive (false);
+		StartQuestTimer ();
 	}
 
 	public IEnumerator Timer(int _curMin, int _curSec)

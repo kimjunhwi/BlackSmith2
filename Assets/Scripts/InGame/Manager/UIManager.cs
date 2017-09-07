@@ -74,6 +74,8 @@ public class UIManager : MonoBehaviour
 			//보스 패널 열시 시간 로드 
 			if (nIndex == 3) 
 			{
+				Debug.Log ("BossPanelOn!!");
+				bossCreator.CheckCurDaysAndBossUnlock ();
 				bossCreator.BossPanelSetUp ();
 				bossCreator.bossConsumeItemInfo.BossInviteMentLoadTime ();
 				bossCreator.bossConsumeItemInfo.bossRegenTimer.BossRegenTimeLoad ();

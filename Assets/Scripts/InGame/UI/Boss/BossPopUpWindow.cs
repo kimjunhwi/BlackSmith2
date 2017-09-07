@@ -366,11 +366,12 @@ public class BossPopUpWindow : MonoBehaviour
 		Gold.transform.SetParent (PopUpWindow_RewardPanel.transform, false);
 		Gold.transform.localScale = Vector3.one;
 		Text GoldText = Gold.GetComponentInChildren<Text> ();
-		GoldText.text = "골드";
+
 		Image GoldRewardImage = Gold.transform.GetChild(1).GetComponent<Image> ();
 		GoldRewardImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache (strGoldImagePath);
 
 		float goldValue =   Mathf.Pow (1.2f, GameManager.Instance.player.GetDay () - 1);
+		GoldText.text = string.Format("{0}", goldValue);
 
 		ScoreManager.ScoreInstance.GoldPlus (goldValue);
 
@@ -381,18 +382,20 @@ public class BossPopUpWindow : MonoBehaviour
 		Honor.transform.SetParent (PopUpWindow_RewardPanel.transform, false);
 		Honor.transform.localScale = Vector3.one;
 		Text HonorText = Honor.GetComponentInChildren<Text> ();
-		HonorText.text = "명예";
+
 		Image HonorRewardImage = Honor.transform.GetChild(1).GetComponent<Image> ();
 		HonorRewardImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache (strHonorImagePath);
 		ScoreManager.ScoreInstance.HonorPlus (bossCharacter.bossInfo.nHonor);
+		HonorText.text = string.Format("{0}", bossCharacter.bossInfo.nHonor);
 		//Dia
 		GameObject Dia = rewardObjPool.GetObject ();
 		Dia.transform.SetParent (PopUpWindow_RewardPanel.transform, false);
 		Dia.transform.localScale = Vector3.one;
 		Text DiaText = Dia.GetComponentInChildren<Text> ();
-		DiaText.text = "보석";
+	
 		Image DiaRewardImage = Dia.transform.GetChild(1).GetComponent<Image> ();
 		DiaRewardImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache (strRubyImagePath);
+		DiaText.text = string.Format("{0}", bossCharacter.bossInfo.nDia);
 		//ScoreManager.ScoreInstance.HonorPlus (bossCharacter.bossInfo.nDia);
 
 	}

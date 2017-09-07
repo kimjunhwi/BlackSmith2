@@ -4,6 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum E_BOSSAPPEARDAYS
+{
+	E_BOSSAPPEARDAYS_ICE = 10,
+	E_BOSSAPPEARDAYS_SASIN = 20,
+	E_BOSSAPPEARDAYS_FIRE = 30,
+	E_BOSSAPPEARDAYS_MUSIC = 40
+}
+
 public enum E_BOSSWORD
 {
 	E_BOSSWORD_BEGIN = 0,
@@ -75,8 +83,6 @@ public class BossCreator : MonoBehaviour
 		uiManager = FindObjectOfType<UIManager> ();
 		bossTimer = bossTimer_Obj.GetComponent<BossTimer> ();
 		bossUIDisable.SetActive (false);
-
-
 	}
 
 	public void BossPanelSetUp()
@@ -274,8 +280,9 @@ public class BossCreator : MonoBehaviour
 			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "그럼 이만!";
 
 			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss == false &&
-				GameManager.Instance.player.GetDay() == 2)
+				GameManager.Instance.player.GetDay() == (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_ICE)
 			{
+				m_bIsFirstFightToIceBoss = true;
 				StartCoroutine (StartShowBossHint (0));
 				uiManager.uiBossFirstFightMark.SetActive (false);
 			}
@@ -312,8 +319,9 @@ public class BossCreator : MonoBehaviour
 			bossSasin.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "꾸앙 ㅇㅁㅇ...";
 
 			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToSasinBoss == false && 
-				GameManager.Instance.player.GetDay() == 3)
+				GameManager.Instance.player.GetDay() == (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_SASIN)
 			{
+				m_bIsFirstFightToSasinBoss = true; 
 				StartCoroutine (StartShowBossHint (1));
 				uiManager.uiBossFirstFightMark.SetActive (false);
 			}
@@ -356,8 +364,9 @@ public class BossCreator : MonoBehaviour
 			bossFire.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "Bye~~~!";
 
 			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToFireBoss == false && 
-				GameManager.Instance.player.GetDay() == 5)
+				GameManager.Instance.player.GetDay() == (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_FIRE)
 			{
+				m_bIsFirstFightToFireBoss = true;
 				StartCoroutine (StartShowBossHint (2));
 				uiManager.uiBossFirstFightMark.SetActive (false);
 			}
@@ -399,8 +408,9 @@ public class BossCreator : MonoBehaviour
 			bossMusic.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "SeeYa!";
 
 			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToMusicBoss == false &&
-				GameManager.Instance.player.GetDay() == 7)
+				GameManager.Instance.player.GetDay() == (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_MUSIC)
 			{
+				m_bIsFirstFightToMusicBoss = true;
 				StartCoroutine (StartShowBossHint (3));
 				uiManager.uiBossFirstFightMark.SetActive (false);
 			}
@@ -486,4 +496,28 @@ public class BossCreator : MonoBehaviour
 
 	}
 
+
+	public void CheckCurDaysAndBossUnlock()
+	{
+		if (GameManager.Instance.cBossPanelListInfo [0].isUnlockIceBoss == true) 
+		{
+			bossElementList [0].BossUnlock_Obj.SetActive (false);
+		}
+		if (GameManager.Instance.cBossPanelListInfo [0].isUnlockSasinBoss == true)
+		{
+	
+			bossElementList [1].BossUnlock_Obj.SetActive (false);
+		}
+			
+		if (GameManager.Instance.cBossPanelListInfo [0].isUnlockFireBoss == true) 
+		{
+
+			bossElementList [2].BossUnlock_Obj.SetActive (false);
+		}
+		if (GameManager.Instance.cBossPanelListInfo [0].isUnlockMusicBoss == true)
+		{
+
+			bossElementList [3].BossUnlock_Obj.SetActive (false);
+		}
+	}
 }

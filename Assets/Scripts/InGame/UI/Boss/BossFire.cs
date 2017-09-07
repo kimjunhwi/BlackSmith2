@@ -29,6 +29,8 @@ public class BossFire : BossCharacter
 
 	public int nCurLevel = 0;
 
+	public float fplayerOriginWaterValue = 0f;
+
 
 
 	private void Start()
@@ -51,6 +53,7 @@ public class BossFire : BossCharacter
 		} 
 		else 
 		{
+			fplayerOriginWaterValue = GameManager.Instance.player.GetWaterPlus ();
 			eCureentBossState = EBOSS_STATE.CREATEBOSS;
 			StartCoroutine (BossWait ());
 		}
@@ -349,6 +352,10 @@ public class BossFire : BossCharacter
 		StopCoroutine (BossDie ());
 		StopCoroutine (BossResult ());
 
+		//물 충전량 원래대로
+		GameManager.Instance.player.changeStats.fWaterPlus = fplayerOriginWaterValue;
+		GameManager.Instance.player.SetWaterPlus ();
+		Debug.Log ("Cur Player WaterPlus :" + GameManager.Instance.player.GetWaterPlus ()); 
 
 		isFailed = false;
 		isStandardPhaseFailed = false;

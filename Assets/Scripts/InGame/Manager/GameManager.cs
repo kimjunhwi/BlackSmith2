@@ -12,6 +12,7 @@ using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.SavedGame;
 using UnityEngine.SocialPlatforms;
+using UnityEngine.Advertisements;
 
 //모든 데이터 및 로드, 세이브를 관리하는 클래스 
 //어디서든 사용해야 하기 때문에 제네릭싱글톤을 통해 구현
@@ -115,6 +116,12 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	public bool isGoogleClounSave = false;
 	public bool isGoogleCloundDataDelete = false;
 
+	//Ads
+	private const string sAds_AndroidGameID = "1534491";
+	private QusetManager questManager = null;
+	private bool isQuestAdsOn = false;
+
+
 	public IEnumerator DataLoad()
     {
 		//PlayerPrefs.DeleteKey ("BossRegenTime");
@@ -165,6 +172,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		cQuestSaveListInfo = ConstructString<CGameQuestSaveInfo>(strQuestPath);
 		if(cQuestSaveListInfo == null)
 		{
+			Debug.Log("Init QuestInfo");
 			cQuestSaveListInfo = new List<CGameQuestSaveInfo>();
 			CGameQuestSaveInfo tmpQuestSaveInfo = new CGameQuestSaveInfo();
 			cQuestSaveListInfo.Add(tmpQuestSaveInfo);
@@ -172,6 +180,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		if(ConstructString<BossPanelInfo> (strBossPanelInfoPath) == null)
 		{
+			Debug.Log("Init BossPanelInfo");
 			cBossPanelInfo = new BossPanelInfo();
 			cBossPanelListInfo.Add(cBossPanelInfo);
 		}
@@ -308,6 +317,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		player.Init(cInvetoryInfo, playerData,creatorWeaponData);
 
 #endif
+		InitAds ();
 
         logoManager.bIsSuccessed = true;
 
@@ -1266,7 +1276,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		}
 	}
 
-	public void LoadData()
+	public void LoadDataCloud()
 	{
 		string nullText = "";
 		string dataAsString = "";
@@ -1377,33 +1387,6 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	{
 		Debug.Log ("OnSaveGameDataWritten");
 	}
-	/*
-	public void SaveData()
-	{
-		//if we're still running on local data (cloud data has not been loaded yet), we also want to save only locally
-		if (!isCloudDataLoaded)
-		{
-			SaveLocal();
-			return;
-		}
-		//same as in LoadData
-		if (Social.localUser.authenticated)
-		{
-			isSaving = true;
-			((PlayGamesPlatform)Social.Active).SavedGame.OpenWithManualConflictResolution(SAVE_NAME,
-				DataSource.ReadCacheOrNetwork, true, ResolveConflict, OnSavedGameOpened);
-		}
-		else
-		{
-			SaveLocal();
-		}
-	}
-
-	private void SaveLocal()
-	{
-		PlayerPrefs.SetString(SAVE_NAME, GameDataToString());
-	}
-	*/
 
 
 	private void OnSavedGameOpened(SavedGameRequestStatus status, ISavedGameMetadata game)
@@ -1562,6 +1545,28 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			//this method will compare cloud and local data
 			//StringToGameData(cloudDataString, localDataString);
 		}
+
+
+	}
+
+	//SaveLocal -> byte -> cloud
+	public void SaveCloudData()
+	{
+		Debug.Log ("Save Data Cloud !!");
+		DataSave();					
+		GetPlayerSaveList ();		//Confirm
+
+		isGoogleClounSave = true;
+		LoadDataCloud ();				//cloud Save
+	}
+
+	public void LoadCloudData()
+	{
+		Debug.Log ("Load Cloud Data!!");
+		isGoogleClounSave = false;
+		LoadDataCloud ();
+
+
 	}
 
 	public void GetPlayerSaveList()
@@ -1580,6 +1585,79 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		return null;
 	}
+
+	#region UnityAds
+	public void InitAds()
+	{
+		if(Advertisement.isSupported)
+			Advertisement.Initialize (sAds_AndroidGameID, true);
+	}
+
+	public void ShowSkipAd_Quest(QusetManager _questManager)
+	{
+		if (questManager == null)
+			questManager = _questManager;
+
+		isQuestAdsOn = true;
+
+		if (Advertisement.IsReady("video"))
+		{
+			var options = new ShowOptions { resultCallback = HandleShowResult };
+			Advertisement.Show("video", options);
+		}
+	}
+
+	public void ShowRewardedAd_Quest(QusetManager _questManager)
+	{
+		if (questManager == null)
+			questManager = _questManager;
+
+		isQuestAdsOn = true;
+
+		if (Advertisement.IsReady("rewardedVideo"))
+		{
+			var options = new ShowOptions { resultCallback = HandleShowResult };
+			Advertisement.Show("rewardedVideo", options);
+		}
+	}
+
+	private void HandleShowResult(ShowResult result)
+	{
+		switch (result)
+		{
+		case ShowResult.Finished:
+			Debug.Log ("The ad was successfully shown.");
+			//
+			// YOUR CODE TO REWARD THE GAMER
+			// Give coins etc.
+			if (isQuestAdsOn == true) 
+			{
+				isQuestAdsOn = false;
+				if (questManager.questObjects.Count == questManager.nQuestMaxHaveCount) 
+				{
+					questManager.ShowEmptyQuestFull ();
+					return;
+				}
+				else
+					questManager.QuestInit ();
+			}
+			break;
+		case ShowResult.Skipped:
+			Debug.Log("The ad was skipped before reaching the end.");
+			if (isQuestAdsOn == true) 
+			{
+				questManager.QuestInit ();
+				isQuestAdsOn = false;
+			}
+			break;
+
+		case ShowResult.Failed:
+			Debug.LogError("The ad failed to be shown.");
+			break;
+		}
+	}
+
+	#endregion
 }
 
 enum E_Equiment
@@ -2093,6 +2171,12 @@ public class BossWeapon : CGameEquiment
 public class BossPanelInfo
 {
 	public bool isSaved;
+
+	public bool isUnlockIceBoss;
+	public bool isUnlockSasinBoss;
+	public bool isUnlockFireBoss;
+	public bool isUnlockMusicBoss;
+
 	public bool isFirstFightToIceBoss;
 	public bool isFirstFightToSasinBoss;
 	public bool isFirstFightToFireBoss;
@@ -2122,6 +2206,12 @@ public class BossPanelInfo
 	public BossPanelInfo()
 	{
 		isSaved = false;
+
+		isUnlockIceBoss = false;
+		isUnlockSasinBoss = false;
+		isUnlockFireBoss = false;
+		isUnlockMusicBoss = false;
+
 		isFirstFightToIceBoss = false;
 		isFirstFightToSasinBoss = false;
 		isFirstFightToFireBoss = false;

@@ -6,15 +6,24 @@ using UnityEngine.UI;
 
 public enum QuestType
 {
-	E_QUESTTYPE_GOLD = 0,			//골드 증감
-	E_QUESTTYPE_HONOR ,				//명예 증감
-	E_QUESTTYPE_COMPLETE,			//완성도 증가
-	E_QUESTTYPE_CUSTOMERSUCCESS, 	//손님 성공
-	E_QUESTTYPE_SHOPBUY,			//상점구매
-	E_QUESTTYPE_CRITICALSUCCESS,	//크리 성공
-	E_QUESTTYPE_WATER,				//물 뿌리기
-	E_QUESTTYPE_BIGSUCCESS,			//대성공
-	E_QUESTTYPE_BOSSSUCCESS,		//보스 성공
+	E_QUESTTYPE_CUSTOMERSUCCESS = 0,			//손님 x명 성공
+	E_QUESTTYPE_DAYS ,							//x일차 증가
+	E_QUESTTYPE_WATERUSE,						//물사용 증가
+	E_QUESTTYPE_MISS, 							//수리시 빗나감
+	E_QUESTTYPE_CRITICALSUCCESS,				//크리 성공
+	E_QUESTTYPE_ARBAITSUCCESS,					//아르바이트 성공
+	E_QUESTTYPE_BIGSUCCESS,						//대성공
+	E_QUESTTYPE_BIGSUCCESSANDCUSTOMERSUCCESS,	//대성공중 손님 50명 성공
+	E_QUESTTYPE_CREATEHAMMER,					//x회 망치 제작
+	E_QUESTTYPE_INTIMECUTOMERSUCCESS,			//시간내에 x명 손님 성공
+	E_QUESTTYPE_NOMISSCUTOMERSUCCESS,			//수리시 빗나가지 않고 x명 성공
+	E_QUESTTYPE_NOWATERUSE,						//물 사용하지 않고 x명 성공
+	E_QUESTTYPE_ANYBOSSSUCCESS,					//아무 보스 x회 성공
+	E_QUESTTYPE_BOSSICESUCCESS,					//얼음 보스 x회 성공
+	E_QUESTTYPE_BOSSSASINSUCCESS,				//사신 보스 x회 성공 
+	E_QUESTTYPE_BOSSFIRESUCCESS,				//불 보스 x회 성공
+	E_QUESTTYPE_BOSSMUSICSUCCESS,				//음악 보스 x회 성공
+	E_QUESTTYPE_CONSTANTACCESS,					//접속유지 x분
 }
 
 public class QusetManager : MonoBehaviour, IPointerClickHandler
@@ -25,20 +34,20 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	public int nQuestMaxHaveCount = 3;
 	private int nQuestMileCount = 0;
 	private int nQeustMaxMileCount = 0;				
-	private int nQuestTotalCount = 0;				//전체 퀘스트 개수
+	private int nQuestTotalCount = 0;						//전체 퀘스트 개수
 
-	public GameObject questPopUpWindow_YesNo;		//Yes or No
-	public Button questPopUpWindow_YesButton;		//Yes or No가 있는 창에서의 YesButton
-	public Button questPopUpWindow_NoButton;		//Yes or No가 있는 창에서의 NoButton
-	public Text questPopUpWindowYesNo_Text;			//Yes or No창의 text
+	public GameObject questAdsPopUpWindow_YesNo;			//Yes or No
+	public Button questAdsPopUpWindow_AdsButton;			//Yes or No가 있는 창에서의 YesButton
+	public Button questAdsPopUpWindow_RubyButton;			//Yes or No가 있는 창에서의 NoButton
+
 	private bool isInitConfirm;
 
-	public GameObject questPopUpWindow_Yes;			//Yes
-	public Button completeButton;					//Yes만 있는 창에서의 YesButton
-	public Text rewardText;							//Yes만 있는 창에서의 YesButton
+	public GameObject questYesAndExitPopUpWindow_Yes;		//Yes
+	public Button questYesAndExitPopUpWindow_YesButton;		//Yes만 있는 창에서의 YesButton
+	public Text questYesAndExitPopUpWindow_Yes_Text;					//Yes만 있는 창에서의 YesButton
 
 
-	public GameObject questDay;						//QuestElement를 가지는 Obj
+	public GameObject questDay;								//QuestElement를 가지는 Obj
 		
 
 	//현재 퀘스트의 정보를 가지는 리스트
@@ -86,37 +95,20 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		//
 		else
 		{
-			//초기화 시간이 지나 있으면 자동으로 초기화 해준다
+			//초기화 시간이 지나 있으면 추가하기 버튼이 활성화
 			if (questTimer.checkIsTimeGone() == true)
 			{
 				isInitConfirm = true;
-				QuestInitStart ();
+				questTimer.addQuestToEmptySpace.SetActive(true);
+				//QuestInitStart ();
 			} 
 			else 
 			{
-				//아직 지나있지 않으면 저장되 있던 퀘스트 리스트를 불러온다
-				//저장되어 있는 퀘스트를 불러온다 없으면 무작위로 뿌린다.
-				if (GameManager.Instance.cQuestSaveListInfo.Count != 0)
-				{
-					isInitConfirm = false;
-					//퀘스트 카운트가 3개
-					QuestSaveInitStart ();
-				}
-			}
-			/*
-			if (questDay.transform.childCount < 3)
-			{
-				questTimer.gameObject.SetActive (true);
+				//시간이 지나있지 않다면 시간만 로드 한다
+				isInitConfirm = false;
 				questTimer.LoadTime();
 			}
-			*/
 		}
-
-	
-
-
-		questPopUpWindow_NoButton.onClick.AddListener(() => GameObjectSetActive(questPopUpWindow_YesNo, false));
-		//completeButton.onClick.AddListener (() => CompleteQuest(0f));
 	}
 
 
@@ -125,6 +117,9 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		//마일리지 슬라이더
 		if (silder.value <= ((float)nQuestMileCount / (float)nQeustMaxMileCount))
 			silder.value += ((float)nQuestMileCount / (float)nQeustMaxMileCount) * sliderSpeed * Time.deltaTime;
+
+		if (questTimer.isTimeOn == false)
+			questTimer.StartQuestTimer ();
 	}
 
 	public void OnPointerClick (PointerEventData eventData)
@@ -133,6 +128,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 		if (getInfoGameObject.gameObject.name == "QuestPanel")
 		{
+			/*
 			GameManager.Instance.cQuestSaveListInfo.Clear ();
 			int curItemCount = questDay.transform.childCount;
 			for (int i = 0; i < curItemCount; i++) 
@@ -141,49 +137,21 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 				QuestPanel childQuestPanel = child.GetComponent<QuestPanel> ();
 				//GameManager.Instance.cQuestSaveListInfo.Add (childQuestPanel.questData);
 			}
+			*/
 			questTimer.SaveTime ();
 			getInfoGameObject.SetActive (false);
-		}
-
-		//Test
-		if (getInfoGameObject.gameObject.name == "CompleteButton") 
-		{
-			QuestPanel questPanel = getInfoGameObject.GetComponentInParent<QuestPanel> ();
-			questPanel.getGold = questPanel.questData.nCompleteCondition;
-			questPanel.textProgressValue.text = questPanel.getGold.ToString () + "/" + questPanel.questData.nCompleteCondition.ToString ();
-			questPanel.QuestComplete ();
-			questPanel.bIsQuest = false;
-			nQuestMileCount++;
-
-			if (nQuestMileCount == nFirstReward) 
-			{
-				//rewardCheckImage01.color = CheckColor;
-				rewardCheckImage01.enabled = true;
-			}
-
-			if (nQuestMileCount == nSecondReward) 
-			{
-				//rewardCheckImage02.color = CheckColor;
-				rewardCheckImage02.enabled = true;
-			}
-
-			if (nQuestMileCount == nThirdReward) 
-			{
-				//rewardCheckImage03.color = CheckColor;
-				rewardCheckImage03.enabled = true;
-			}
 		}
 	}
 
 	//포기 버튼을 누를시
 	public void GiveUpQuest()
 	{
-		if (!questPopUpWindow_YesNo.activeSelf) 
+		if (!questAdsPopUpWindow_YesNo.activeSelf) 
 		{
-			questPopUpWindow_YesNo.SetActive (true);
-			questPopUpWindowYesNo_Text.text = "퀘스트를 포기 하시겠습니까?";
-			questPopUpWindow_YesButton.onClick.AddListener (CheckQuestDestroy);
-			questPopUpWindow_YesButton.onClick.AddListener (() => GameObjectSetActive(questPopUpWindow_YesNo, false));
+			questYesAndExitPopUpWindow_Yes.SetActive (true);
+			questYesAndExitPopUpWindow_Yes_Text.text = "퀘스트를 포기 하시겠습니까?";
+
+			questYesAndExitPopUpWindow_YesButton.onClick.AddListener (CheckQuestDestroy);
 		}
 	}
 
@@ -197,20 +165,11 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	}
 
 	//퀘스트완료  
-	public void CompleteQuest(float _gold)
+	public void CompleteQuest()
 	{
-		//Complete
-		if (questPopUpWindow_Yes.activeSelf) 
-		{
-			questPopUpWindow_Yes.SetActive (false);
-			CheckQuestDestroy ();
-		} 
-		else 
-		{
-			rewardText.text = _gold.ToString () + " 획득!!";
-			ScoreManager.ScoreInstance.GoldPlus (_gold);
-			questPopUpWindow_Yes.SetActive (true);
-		}
+		questYesAndExitPopUpWindow_Yes.SetActive (false);
+		questTimer.StartQuestTimer ();
+		questTimer.addQuestToEmptySpace.SetActive (false);
 	}
 
 
@@ -226,11 +185,11 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			if (deleteQuestPanel.bIsQuest == false)
 			{
 				deleteQuestPanel.bIsQuest = false;
-				deleteQuestPanel.startButton.SetActive (false);
+				deleteQuestPanel.completeButton.SetActive (false);
 				questObjectPool.ReturnObject (go);
 				questObjects.Remove (deleteQuestPanel);
-				questPopUpWindow_YesButton.onClick.RemoveListener (CheckQuestDestroy);
-				questPopUpWindow_YesButton.onClick.RemoveListener (() => GameObjectSetActive(questPopUpWindow_YesNo, false));
+				questYesAndExitPopUpWindow_YesButton.onClick.RemoveListener (CheckQuestDestroy);
+
 				deleteQuestPanel = null;
 			}
 		}
@@ -254,13 +213,13 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	//시간이 지나가지 않아도 초기화 버튼으로 초기화 할때
 	public void QuestInit_ShowWindow()
 	{
-		if (!questPopUpWindow_YesNo.activeSelf) 
+		if (!questAdsPopUpWindow_YesNo.activeSelf) 
 		{
-			//추후 루비 추가 해야됨
-			questPopUpWindow_YesNo.SetActive (true);
-			questPopUpWindowYesNo_Text.text = "퀘스트를 초기화 하시겠습니까?";
-			questPopUpWindow_YesButton.onClick.AddListener (QuestInitStart);
-			questTimer.isTimeEnd = true;
+			//추후 루비 추가 해야됨 ,광고 추가 
+			questAdsPopUpWindow_YesNo.SetActive (true);
+			//questAdsPopUpWindowYesNo_Text.text = "퀘스트를 초기화 하기위해 광고나 루비 무엇을 쓰시겠습니까?";
+			questAdsPopUpWindow_AdsButton.onClick.AddListener (SpawnManager.Instance.ShowAdsSkipInGameManager); 	//QuestInit에서 다시 지움
+			questAdsPopUpWindow_RubyButton.onClick.AddListener(SpawnManager.Instance.ShowAdsSkipInGameManager);		
 		}
 		else
 		{
@@ -292,6 +251,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			quest.transform.localScale = Vector3.one;
 		
 			QuestPanel questPanel = quest.gameObject.GetComponent<QuestPanel> ();
+			questPanel.nQuestPanelIndex = i;
 			questObjects.Add (questPanel);
 		}
 
@@ -305,10 +265,11 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	public void QuestInitStart()
 	{
 		GameObject quest;
-		questPopUpWindow_YesNo.SetActive (false);
-		questPopUpWindow_YesButton.onClick.RemoveListener (QuestInitStart);
+		questAdsPopUpWindow_YesNo.SetActive (false);
+		questAdsPopUpWindow_AdsButton.onClick.RemoveListener (SpawnManager.Instance.ShowAdsSkipInGameManager);
+		questAdsPopUpWindow_RubyButton.onClick.RemoveListener (SpawnManager.Instance.ShowAdsSkipInGameManager);		
 
-		//처음 사용시
+		//처음 퀘스트 켜질시
 		if (GameManager.Instance.cQuestSaveListInfo [0].bIsFirstActive == true)
 		{
 			GameManager.Instance.cQuestSaveListInfo [0].bIsFirstActive = false;
@@ -325,6 +286,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 				quest.transform.localScale = Vector3.one;
 
 				QuestPanel questPanel = quest.gameObject.GetComponent<QuestPanel> ();
+				questPanel.nQuestPanelIndex = i;
 				questObjects.Add (questPanel);
 			}
 
@@ -332,18 +294,25 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 			questTimer.isTimeOn = false;
 			questTimer.isTimeEnd = false;
+			questTimer.InitQuestTimer ();
 			questTimer.StartQuestTimer ();
 			return;
 		}
 
-		//시간이 다 될시   
-		if (questTimer.isTimeEnd == true)
+		//시간이 다 안되고 초기화 버튼을 누를시
+		if (questTimer.isTimeEnd == false && isInitConfirm == true)
 		{
+			Debug.Log ("NoTime And Init Call!");
 			nQuestCount = 0;
-			AllDestroyQuest ();
-			questObjects.Clear ();
+			//AllDestroyQuest ();
+			//questObjects.Clear ();
 			//Add
-			for (int i = 0; i < nQuestMaxHaveCount; i++)
+
+			//퀘가 꽉차 있다면 
+			if (questObjects.Count >= 3)
+				return;
+
+			for (int i = questObjects.Count ; questObjects.Count < nQuestMaxHaveCount; i++)
 			{
 				nQuestCount++;
 				quest = questObjectPool.GetObject ();
@@ -351,6 +320,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 				quest.transform.localScale = Vector3.one;
 
 				QuestPanel questPanel = quest.gameObject.GetComponent<QuestPanel> ();
+				questPanel.nQuestPanelIndex = i;
 				questObjects.Add (questPanel);
 			}
 
@@ -359,18 +329,25 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			questTimer.isTimeOn = false;
 			questTimer.isTimeEnd = false;
 			questTimer.InitQuestTimer ();
-
+			questTimer.addQuestToEmptySpace.SetActive (false);
 			return;
 
 		}
-		//초기화 버튼을 누를시
-		if(isInitConfirm == true)
+
+		//초기화 버튼을 누를시 빈곳에 랜덤으로 넣어준다
+		if(isInitConfirm == true && questTimer.isTimeEnd == true) 
 		{
 			nQuestCount = 0;
-			AllDestroyQuest ();
-			questObjects.Clear ();
+			//AllDestroyQuest ();
+			//questObjects.Clear ();
 			//Add
-			for (int i = 0; i < nQuestMaxHaveCount; i++)
+
+			if (questObjects.Count == nQuestMaxHaveCount) 
+			{
+				ShowEmptyQuestFull ();
+			}
+
+			for (int i = questObjects.Count ; questObjects.Count < nQuestMaxHaveCount  ; i++)
 			{
 				nQuestCount++;
 				quest = questObjectPool.GetObject ();
@@ -379,16 +356,25 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 				QuestPanel questPanel = quest.gameObject.GetComponent<QuestPanel> ();
 				questObjects.Add (questPanel);
+				QuestDataDispatch (i);
 			}
 
-			QuestDataDispatch ();	//Data Dispatch
 
 			isInitConfirm = false;
 			questTimer.isTimeOn = false;
 			questTimer.InitQuestTimer ();
+		
 
 			return;
 		}
+		//
+
+	}
+
+	public void ShowEmptyQuestFull()
+	{
+		questYesAndExitPopUpWindow_Yes.SetActive (true);
+		questYesAndExitPopUpWindow_Yes_Text.text = "주의 : 빈칸의 퀘스트를 채움니다.";
 
 	}
 
@@ -411,17 +397,66 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			QuestPanel questPanel = questObjects[i].gameObject.GetComponent<QuestPanel> ();
 				
 			int random = Random.Range (0, nQuestTotalCount - 1 );
+
 			questPanel.GetQuest (questDatas [random], this);
+			questPanel.InitQuestValue ();
 		} 
     }
+	//Saved Quest Data 할당
+	public void QuestDataDispatch(int _index)
+	{
+		nQuestTotalCount = GameManager.Instance.cQusetInfo.Length;
+
+		QuestPanel questPanel = questObjects[_index].gameObject.GetComponent<QuestPanel> ();
+
+		int random = Random.Range (0, nQuestTotalCount - 1 );
+
+		questPanel.GetQuest (questDatas [random], this);
+		questPanel.InitQuestValue ();
+
+	}
 
 
-	public void QuestSuccessCheck(QuestType _questTypeIndex, float _value)
+	public void QuestSuccessCheck(QuestType _questTypeIndex, int _value)
 	{
 		//해당 타입의 value를 받아서 각각
 		switch (_questTypeIndex) 
 		{
-		case QuestType.E_QUESTTYPE_GOLD:
+		case QuestType.E_QUESTTYPE_CUSTOMERSUCCESS:
+			break;
+		case QuestType.E_QUESTTYPE_DAYS:
+			break;
+		case QuestType.E_QUESTTYPE_WATERUSE:
+			break;
+		case QuestType.E_QUESTTYPE_MISS:
+			break;
+		case QuestType.E_QUESTTYPE_CRITICALSUCCESS:
+			break;
+		case QuestType.E_QUESTTYPE_ARBAITSUCCESS:
+			break;
+		case QuestType.E_QUESTTYPE_BIGSUCCESS:
+			break;
+		case QuestType.E_QUESTTYPE_BIGSUCCESSANDCUSTOMERSUCCESS:
+			break;
+		case QuestType.E_QUESTTYPE_CREATEHAMMER:
+			break;
+		case QuestType.E_QUESTTYPE_INTIMECUTOMERSUCCESS:
+			break;
+		case QuestType.E_QUESTTYPE_NOMISSCUTOMERSUCCESS:
+			break;
+		case QuestType.E_QUESTTYPE_NOWATERUSE:
+			break;
+		case QuestType.E_QUESTTYPE_ANYBOSSSUCCESS:
+			break;
+		case QuestType.E_QUESTTYPE_BOSSICESUCCESS:
+			break;
+		case QuestType.E_QUESTTYPE_BOSSSASINSUCCESS:
+			break;
+		case QuestType.E_QUESTTYPE_BOSSFIRESUCCESS:
+			break;
+		case QuestType.E_QUESTTYPE_BOSSMUSICSUCCESS:
+			break;
+		case QuestType.E_QUESTTYPE_CONSTANTACCESS:
 			break;
 		default :
 			break;

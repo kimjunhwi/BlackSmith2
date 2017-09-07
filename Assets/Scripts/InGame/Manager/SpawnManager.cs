@@ -61,6 +61,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	public UIManager uiManager;
 
+	public QusetManager questManager;
+
 	int m_nDay = 1;
 
     private void Awake()
@@ -204,38 +206,28 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 				ScoreManager.ScoreInstance.SetMaxDays (m_nDay);
 			}
 
-			if (m_nDay == 2 && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss == false)
+			if (m_nDay == (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_ICE && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss == false)
 			{
+				GameManager.Instance.cBossPanelListInfo [0].isUnlockIceBoss = true;
 				uiManager.uiBossFirstFightMark.SetActive (true);
 			}
-			if (m_nDay == 3 && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss == false) 
+			if (m_nDay == (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_SASIN && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToSasinBoss == false) 
 			{
+				GameManager.Instance.cBossPanelListInfo [0].isUnlockSasinBoss = true;
 				uiManager.uiBossFirstFightMark.SetActive (true);
 			}
-			if (m_nDay == 5 && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss == false) 
+			if (m_nDay == (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_FIRE && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToFireBoss == false) 
 			{
+				GameManager.Instance.cBossPanelListInfo [0].isUnlockFireBoss = true;
 				uiManager.uiBossFirstFightMark.SetActive (true);
 			}
 
-			if (m_nDay == 7 && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss == false) 
+			if (m_nDay == (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_MUSIC && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToMusicBoss == false) 
 			{
+				GameManager.Instance.cBossPanelListInfo [0].isUnlockMusicBoss = true;
 				uiManager.uiBossFirstFightMark.SetActive (true);
 			}
-				
-			/*
-
-			GameManager.Instance.playerData = GameManager.Instance.player.changeStats;
-			GameManager.Instance.SavePlayerData ();			//Local Save
-			GameManager.Instance.GetPlayerSaveList ();		//Confirm
-			GameManager.Instance.SaveBossPanelInfoList();	//SaveBossPanel;
-
-			//GameManager.Instance.isGoogleCloundDataDelete = true;
-			//GameManager.Instance.DeleteData ();
-
-			GameManager.Instance.isGoogleClounSave = true;
-			GameManager.Instance.LoadData ();				//cloud Save
-			*/
-
+		
 		}
 	}
 
@@ -787,6 +779,26 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
     #endregion
 
+	public void SaveCloudDataInGameManager()
+	{
+		GameManager.Instance.SaveCloudData ();
+	}
+
+	public void LoadCloudDataInGameManager()
+	{
+		GameManager.Instance.LoadCloudData ();
+	}
+
+
+	public void ShowAdsSkipInGameManager()
+	{
+		GameManager.Instance.ShowSkipAd_Quest (questManager);
+	}
+
+	public void ShowRewardInGameManager()
+	{
+		GameManager.Instance.ShowRewardedAd_Quest (questManager);
+	}
 }
 
 

@@ -22,8 +22,8 @@ public class RepairObject : MonoBehaviour
 	float fComplateSlideTime = 0.0f;
 	float fTemperatureSlideTime = 0.0f;
 
-	private float fCurrentComplate = 0;				//현재완성도
-	private float fWeaponDownDamage ;				//현재무기 데미지
+	private double dCurrentComplate = 0;				//현재완성도
+	private string strMaxComplate = "";				//맥스 완성도 
     private float fWeaponDownTemperature = 0;		//무기 수리시 올라가는 온도
     private float fMaxTemperature;					//최대 온도
     private float fCurrentTemperature= 0;			//현재 온도
@@ -50,7 +50,7 @@ public class RepairObject : MonoBehaviour
 	//Boss
 	public BossCharacter bossCharacter;		//보스 캐릭터 받는 것
 	BossIce bossIce;
-	private float fBossMaxComplete;		//보스 캐릭터 최대 완성도
+	private double dBossMaxComplete;		//보스 캐릭터 최대 완성도
 	GameObject waterObject;				//물 오브젝트
 	public GameObject waterPaching;
 	GameObject bossWeaponObject;		//보스 무기 버튼
@@ -75,7 +75,7 @@ public class RepairObject : MonoBehaviour
 	private float fYPos;
 
 	int nChancePercent = 50;									//미스 확률
-	float fCalcValue = 0.0f; 
+	double dCalcValue = 0.0f; 
 
 
 	//BossMusic
@@ -145,6 +145,8 @@ public class RepairObject : MonoBehaviour
 	public BossWeaponShake bossWeaponShake;
 	public WeaponShakeIt normalWeaponShake;
 
+	string[] unit = new string[]{ "G", "K", "M", "B", "T", "aa", "bb", "cc", "dd", "ee" }; 
+
 	void Start()
 	{
 		isTouchWater = false;
@@ -197,7 +199,6 @@ public class RepairObject : MonoBehaviour
 
 		fPlusWater = player.GetWaterPlus ();
 		fMaxWater = GameManager.Instance.player.GetBasicMaxWaterPlus() +( (GameManager.Instance.player.GetWaterPlusLevel() -1 ) * 1000f);
-		fWeaponDownDamage = player.GetRepairPower ();
 
 		TemperatureSlider.maxValue = fMaxTemperature;
 		TemperatureSlider.value = 0;
@@ -357,25 +358,25 @@ public class RepairObject : MonoBehaviour
 						bossIce.DefreezeAllArbait ();
 
 
-					if (fBossMaxComplete == 0.0f)
-						fCurrentComplate = (fCurrentComplate) - weaponData.fMaxComplate * 0.3f;
+					if (dBossMaxComplete == 0.0f)
+						dCurrentComplate = (dCurrentComplate) - weaponData.dMaxComplate * 0.3f;
 
 					else 
 					{
 						//SpawnManager.Instance.ComplateCharacter(AfootObject, weaponData.fMaxComplate);
 						//무기 실패취급으로 리턴
 						if(bossCharacter != null)
-							fCurrentComplate -= (fBossMaxComplete * 0.3f);  
+							dCurrentComplate -= (dBossMaxComplete * 0.3f);  
 						else
-							fCurrentComplate = (fCurrentComplate) - weaponData.fMaxComplate * 0.3f;
+							dCurrentComplate = (dCurrentComplate) - weaponData.dMaxComplate * 0.3f;
 
-						if (fCurrentComplate <= 0) {
+						if (dCurrentComplate <= 0) {
 							SpawnManager.Instance.bIsBossCreate = false;
 							continue;
 						}
 					}
 
-                    if (fCurrentComplate > 0)
+                    if (dCurrentComplate > 0)
                     {
                         GameObject obj = TemperatureBoomPool.Instance.GetObject();
 
@@ -383,7 +384,7 @@ public class RepairObject : MonoBehaviour
 
                         obj.GetComponent<TemperatureBoomParticle>().Play();
 
-                        SpawnManager.Instance.CheckComplateWeapon(AfootObject, fCurrentComplate, fCurrentTemperature);
+                        SpawnManager.Instance.CheckComplateWeapon(AfootObject, dCurrentComplate, fCurrentTemperature);
                     }
 
                     else
@@ -432,13 +433,13 @@ public class RepairObject : MonoBehaviour
 			else
 				fCurrentWater = fMaxWater;
 
-			if (ComplateSlider.value != fCurrentComplate) 
+			if (ComplateSlider.value != dCurrentComplate) 
 			{
 				fComplateSlideTime += Time.deltaTime;
 
-				ComplateSlider.value = Mathf.Lerp (ComplateSlider.value, fCurrentComplate, fComplateSlideTime);
+				ComplateSlider.value = Mathf.Lerp (ComplateSlider.value, (float)dCurrentComplate, fComplateSlideTime);
 
-				ComplateText.text = string.Format("{0:####} / {1}", ComplateSlider.value, ComplateSlider.maxValue);
+				ComplateText.text = string.Format("{0} / {1}", ChangeValue(ComplateSlider.value), ChangeValue(ComplateSlider.maxValue));
 			}
 		}
 	}
@@ -458,7 +459,7 @@ public class RepairObject : MonoBehaviour
 
 		BoomObject.GetComponent<TemperatureBoomParticle> ().Play ();
 
-		SpawnManager.Instance.ComplateCharacter (AfootObject, fCurrentComplate);
+		SpawnManager.Instance.ComplateCharacter (AfootObject, dCurrentComplate);
 	}
 
 	IEnumerator OneSecondPlay()
@@ -509,7 +510,7 @@ public class RepairObject : MonoBehaviour
         //SpawnManager.Instance.SettingFever(m_fNormalCretaeTime, m_fNormalSpeed);
     }
 
-    public void GetWeapon(GameObject obj, CGameWeaponInfo data, float _fComplate, float _fTemperator)
+	public void GetWeapon(GameObject obj, CGameWeaponInfo data, double _dComplate, float _fTemperator)
     {
 		bossWeaponObject.SetActive (false);
 		bossWaterObject.SetActive (false);
@@ -527,37 +528,36 @@ public class RepairObject : MonoBehaviour
         }
         else
         {
-			SpawnManager.Instance.ReturnInsertData(AfootObject,false,false, fCurrentComplate, fCurrentTemperature);
+			SpawnManager.Instance.ReturnInsertData(AfootObject,false,false, dCurrentComplate, fCurrentTemperature);
 
             AfootObject = obj;
 
             weaponData = data;
         }
 
-        fMaxTemperature = weaponData.fMaxComplate * 0.3f;
-        TemperatureSlider.maxValue = fMaxTemperature;
+		fMaxTemperature = (float)(weaponData.dMaxComplate * 0.3f);
+		TemperatureSlider.maxValue = (float)fMaxTemperature;
 
-		fCurrentComplate = _fComplate;
-		ComplateSlider.maxValue = weaponData.fMaxComplate;
-		ComplateSlider.value = fCurrentComplate;
+		dCurrentComplate = _dComplate;
+
+		ComplateSlider.maxValue = (float)weaponData.dMaxComplate;
+		ComplateSlider.value = (float)dCurrentComplate;
+
+		strMaxComplate = ChangeValue (weaponData.dMaxComplate);
 
         fCurrentTemperature = _fTemperator;
 		WeaponSprite.sprite = weaponData.WeaponSprite;
 
-		if(_fComplate != 0)
-			ComplateText.text = string.Format("{0:####} / {1}", _fComplate, weaponData.fMaxComplate);
+		if(_dComplate != 0)
+			ComplateText.text = string.Format("{0} / {1}", ChangeValue(_dComplate), strMaxComplate);
 
 		else
-			ComplateText.text = string.Format("{0} / {1}", _fComplate, weaponData.fMaxComplate);
+			ComplateText.text = string.Format("{0} / {1}", 0, strMaxComplate);
     }
 
-	public void GetBossWeapon(Sprite _sprite, float _fMaxBossComplete ,float _fComplate,
+	public void GetBossWeapon(Sprite _sprite, double _dMaxBossComplete ,double _dComplate,
 		float _fTemperator , BossCharacter _bossData)
 	{
-		Debug.Log ("Arbait Get Damage!");
-		//fWeaponDownDamage += SpawnManager.Instance.GetActiveArbaitRepair ();
-
-		fWeaponDownDamage = player.GetRepairPower ();
 		bossWeaponObject.SetActive (true);
 		bossWaterObject.SetActive (true);
 
@@ -613,20 +613,26 @@ public class RepairObject : MonoBehaviour
 
 		//weaponData = data;
 
-		fMaxTemperature = bossCharacter.bossInfo.fComplate * 0.03f;
+		fMaxTemperature = (float)(bossCharacter.bossInfo.dComplate * 0.03);
 		TemperatureSlider.maxValue = fMaxTemperature;
 
-		fCurrentComplate = _fComplate;
-		fBossMaxComplete = bossCharacter.bossInfo.fComplate ;
-		ComplateSlider.maxValue = _fMaxBossComplete;
-		ComplateSlider.value = fCurrentComplate;
+		dCurrentComplate = _dComplate;
+		dBossMaxComplete = bossCharacter.bossInfo.dComplate ;
+
+		strMaxComplate = ChangeValue (dBossMaxComplete);
+
+
+		ComplateSlider.maxValue = (float)_dMaxBossComplete;
+		ComplateSlider.value = (float)dCurrentComplate;
 
 		fCurrentTemperature = _fTemperator;
-		ComplateText.text = string.Format("{0} / {1}", _fComplate, bossCharacter.bossInfo.fComplate);
+		ComplateText.text = string.Format("{0} / {1}", _dComplate, strMaxComplate);
 	}
 
-	public void ShowDamage(int nDamage,Vector3 _position)
+	public void ShowDamage(double _dDamage,Vector3 _position)
 	{
+		string strDamage = ChangeValue (_dDamage);
+
 		//int nRandomX = Random.Range (0, 20);
 		//int nRandomY = Random.Range (0, 10);
 		//fRandomXPos = Random.Range (textParent.transform.position.x - nRandomX,textParent.transform.position.x + nRandomX);
@@ -640,7 +646,7 @@ public class RepairObject : MonoBehaviour
 		damageText.name = "Damage";
 
 		DamageTextPool damagePool = damageText.GetComponent<DamageTextPool> ();
-		damagePool.Damage (nDamage);
+		damagePool.Damage (strDamage);
 		damagePool.textObjPool = damageTextPool;
 		damagePool.leftSecond = nEnableTime;
 	}
@@ -661,13 +667,13 @@ public class RepairObject : MonoBehaviour
         //피버일경우 크리 데미지로 완성도를 증가시킴
         if (m_bIsFever)
         {
-			fCalcValue = (player.GetRepairPower () +(player.GetRepairPower () * weaponData.fMinusRepair * 0.01f));
+			dCalcValue = (player.GetRepairPower () +(player.GetRepairPower () * weaponData.dMinusRepair * 0.01));
 
-			fCalcValue *= 1.5f;
+			dCalcValue *= 1.5;
 
-			ShowDamage ((int)fCalcValue,_position);
+			ShowDamage (dCalcValue,_position);
 
-			fCurrentComplate += fCalcValue;
+			dCurrentComplate += dCalcValue;
 
             GameObject obj = CriticalTouchPool.Instance.GetObject();
 
@@ -680,7 +686,7 @@ public class RepairObject : MonoBehaviour
             m_PlayerAnimationController.UserCriticalRepair();
 
             //완성이 됐는지 확인 밑 오브젝트에 진행사항 전달
-			if (SpawnManager.Instance.CheckComplateWeapon (AfootObject, fCurrentComplate, fCurrentTemperature)) {
+			if (SpawnManager.Instance.CheckComplateWeapon (AfootObject, dCurrentComplate, fCurrentTemperature)) {
 				ComplateSlider.value = 0;
 				TemperatureSlider.value = 0;
 
@@ -724,13 +730,13 @@ public class RepairObject : MonoBehaviour
 
             SpawnManager.Instance.PlayerCritical();
 
-			fCalcValue = (player.GetRepairPower () +(player.GetRepairPower () * weaponData.fMinusRepair * 0.01f));
+			dCalcValue = (player.GetRepairPower () +(player.GetRepairPower () * weaponData.dMinusRepair * 0.01));
 
-			fCalcValue *= 1.5f;
+			dCalcValue *= 1.5;
 
-			ShowDamage ((int)fCalcValue,_position);
+			ShowDamage (dCalcValue,_position);
 
-			fCurrentComplate += fCalcValue;
+			dCurrentComplate += dCalcValue;
         }
         else
         {
@@ -746,11 +752,11 @@ public class RepairObject : MonoBehaviour
 
             m_PlayerAnimationController.UserNormalRepair();
 
-			fCalcValue = (player.GetRepairPower () +(player.GetRepairPower () * weaponData.fMinusRepair * 0.01f));
+			dCalcValue = (player.GetRepairPower () +(player.GetRepairPower () * weaponData.dMinusRepair * 0.01f));
 
-			ShowDamage ((int)fCalcValue,_position);
+			ShowDamage (dCalcValue,_position);
 
-			fCurrentComplate += fCalcValue;
+			dCurrentComplate += dCalcValue;
         }
         //공식에 따른 온도 증가
 
@@ -760,7 +766,7 @@ public class RepairObject : MonoBehaviour
 
 
         //완성이 됐는지 확인 밑 오브젝트에 진행사항 전달
-		if (SpawnManager.Instance.CheckComplateWeapon (AfootObject, fCurrentComplate,fCurrentTemperature)) {
+		if (SpawnManager.Instance.CheckComplateWeapon (AfootObject, dCurrentComplate,fCurrentTemperature)) {
 
 
             //만약 완성됐을때 빅 성공인지를 체크
@@ -818,9 +824,9 @@ public class RepairObject : MonoBehaviour
 
 					SpawnManager.Instance.PlayerCritical ();
 
-					fCurrentComplate = fCurrentComplate + player.GetRepairPower ();
+					dCurrentComplate = dCurrentComplate + player.GetRepairPower ();
 
-					ShowDamage ((int)player.GetRepairPower (),_position);
+					ShowDamage (player.GetRepairPower (),_position);
 
 					m_PlayerAnimationController.UserCriticalRepair ();
 
@@ -841,9 +847,9 @@ public class RepairObject : MonoBehaviour
 					m_PlayerAnimationController.UserNormalRepair();
 
 				
-					fCurrentComplate = fCurrentComplate + player.GetRepairPower ();
+					dCurrentComplate = dCurrentComplate + player.GetRepairPower ();
 
-					ShowDamage ((int)player.GetRepairPower (),_position);
+					ShowDamage (player.GetRepairPower (),_position);
 
 
 					m_PlayerAnimationController.UserNormalRepair ();
@@ -871,9 +877,9 @@ public class RepairObject : MonoBehaviour
 
 					SpawnManager.Instance.PlayerCritical ();
 
-					fCurrentComplate = fCurrentComplate + player.GetRepairPower ();
+					dCurrentComplate = dCurrentComplate + player.GetRepairPower ();
 
-					ShowDamage ((int)player.GetRepairPower (),_position);
+					ShowDamage (player.GetRepairPower (),_position);
 
 					m_PlayerAnimationController.UserCriticalRepair ();
 				}
@@ -891,9 +897,9 @@ public class RepairObject : MonoBehaviour
 
 					m_PlayerAnimationController.UserNormalRepair();
 
-					fCurrentComplate =  fCurrentComplate + player.GetRepairPower ();
+					dCurrentComplate =  dCurrentComplate + player.GetRepairPower ();
 
-					ShowDamage ((int)player.GetRepairPower (),_position);
+					ShowDamage (player.GetRepairPower (),_position);
 
 					m_PlayerAnimationController.UserNormalRepair ();
 
@@ -957,9 +963,9 @@ public class RepairObject : MonoBehaviour
 
 						SpawnManager.Instance.PlayerCritical ();
 
-						fCurrentComplate = fCurrentComplate + ((player.GetRepairPower () * 1.5f) * 0.7f);
+						dCurrentComplate = dCurrentComplate + ((player.GetRepairPower () * 1.5f) * 0.7f);
 
-						ShowDamage ((int)((player.GetRepairPower () * 1.5f) * 0.7f),_position);
+						ShowDamage (((player.GetRepairPower () * 1.5f) * 0.7f),_position);
 
 						m_PlayerAnimationController.UserCriticalRepair ();
 
@@ -979,9 +985,9 @@ public class RepairObject : MonoBehaviour
 						m_PlayerAnimationController.UserNormalRepair(); 
 
 					
-						fCurrentComplate = fCurrentComplate + (player.GetRepairPower () * 0.7f);
+						dCurrentComplate = dCurrentComplate + (player.GetRepairPower () * 0.7f);
 
-						ShowDamage ((int)(player.GetRepairPower () * 0.7f),_position);
+						ShowDamage ((player.GetRepairPower () * 0.7f),_position);
 
 
 						m_PlayerAnimationController.UserNormalRepair ();
@@ -1041,9 +1047,9 @@ public class RepairObject : MonoBehaviour
 
 
 
-					fCurrentComplate = fCurrentComplate + (player.GetRepairPower () * 1.5f);
+					dCurrentComplate = dCurrentComplate + (player.GetRepairPower () * 1.5f);
 
-					ShowDamage ((int)(player.GetRepairPower () * 1.5f),_position);
+					ShowDamage ((player.GetRepairPower () * 1.5f),_position);
 
 					m_PlayerAnimationController.UserCriticalRepair ();
 				}
@@ -1060,9 +1066,9 @@ public class RepairObject : MonoBehaviour
 
 					m_PlayerAnimationController.UserNormalRepair();
 
-					fCurrentComplate =  fCurrentComplate + player.GetRepairPower ();
+					dCurrentComplate =  dCurrentComplate + player.GetRepairPower ();
 
-					ShowDamage ((int)player.GetRepairPower (),_position);
+					ShowDamage (player.GetRepairPower (),_position);
 
 
 					m_PlayerAnimationController.UserNormalRepair ();
@@ -1088,9 +1094,9 @@ public class RepairObject : MonoBehaviour
 
 					SpawnManager.Instance.PlayerCritical ();
 
-					fCurrentComplate = fCurrentComplate + (player.GetRepairPower () * 1.5f);
+					dCurrentComplate = dCurrentComplate + (player.GetRepairPower () * 1.5f);
 
-					ShowDamage ((int)(player.GetRepairPower () * 1.5f),_position);
+					ShowDamage ((player.GetRepairPower () * 1.5f),_position);
 
 
 					m_PlayerAnimationController.UserCriticalRepair ();
@@ -1107,9 +1113,9 @@ public class RepairObject : MonoBehaviour
 
 					m_PlayerAnimationController.UserNormalRepair();
 
-					fCurrentComplate =  fCurrentComplate + player.GetRepairPower ();
+					dCurrentComplate =  dCurrentComplate + player.GetRepairPower ();
 
-					ShowDamage ((int)player.GetRepairPower (),_position);
+					ShowDamage (player.GetRepairPower (),_position);
 
 
 					m_PlayerAnimationController.UserNormalRepair ();
@@ -1158,9 +1164,9 @@ public class RepairObject : MonoBehaviour
 
 					SpawnManager.Instance.PlayerCritical ();
 
-					fCurrentComplate = fCurrentComplate - (player.GetRepairPower () * 1.5f);
+					dCurrentComplate = dCurrentComplate - (player.GetRepairPower () * 1.5f);
 
-					ShowDamage ((int)(player.GetRepairPower () * 1.5f),_position);
+					ShowDamage ((player.GetRepairPower () * 1.5f),_position);
 
 					m_PlayerAnimationController.UserCriticalRepair ();
 				} else {
@@ -1175,9 +1181,9 @@ public class RepairObject : MonoBehaviour
 
 					m_PlayerAnimationController.UserNormalRepair();
 
-					fCurrentComplate =  fCurrentComplate + player.GetRepairPower ();
+					dCurrentComplate =  dCurrentComplate + player.GetRepairPower ();
 
-					ShowDamage ((int)player.GetRepairPower (),_position);
+					ShowDamage (player.GetRepairPower (),_position);
 
 
 					m_PlayerAnimationController.UserNormalRepair ();
@@ -1200,9 +1206,9 @@ public class RepairObject : MonoBehaviour
 
 					SpawnManager.Instance.PlayerCritical ();
 
-					fCurrentComplate = fCurrentComplate + player.GetRepairPower ();
+					dCurrentComplate = dCurrentComplate + player.GetRepairPower ();
 
-					ShowDamage ((int)player.GetRepairPower (),_position);
+					ShowDamage (player.GetRepairPower (),_position);
 
 
 					m_PlayerAnimationController.UserCriticalRepair ();
@@ -1221,9 +1227,9 @@ public class RepairObject : MonoBehaviour
 
 					m_PlayerAnimationController.UserNormalRepair();
 
-					fCurrentComplate = fCurrentComplate + player.GetRepairPower ();
+					dCurrentComplate = dCurrentComplate + player.GetRepairPower ();
 
-					ShowDamage ((int)player.GetRepairPower (),_position);
+					ShowDamage (player.GetRepairPower (),_position);
 
 
 					m_PlayerAnimationController.UserNormalRepair ();
@@ -1249,9 +1255,9 @@ public class RepairObject : MonoBehaviour
 
 			SpawnManager.Instance.PlayerCritical ();
 
-			fCurrentComplate = fCurrentComplate + (player.GetRepairPower () * 1.5f);
+			dCurrentComplate = dCurrentComplate + (player.GetRepairPower () * 1.5f);
 
-			ShowDamage ((int)(player.GetRepairPower () * 1.5f),_position);
+			ShowDamage ((player.GetRepairPower () * 1.5f),_position);
 
 
 			m_PlayerAnimationController.UserCriticalRepair ();
@@ -1270,9 +1276,9 @@ public class RepairObject : MonoBehaviour
 			m_PlayerAnimationController.UserNormalRepair();
 
 
-			fCurrentComplate = fCurrentComplate + player.GetRepairPower ();
+			dCurrentComplate = dCurrentComplate + player.GetRepairPower ();
 
-			ShowDamage ((int)player.GetRepairPower (),_position);
+			ShowDamage (player.GetRepairPower (),_position);
 
 
 			m_PlayerAnimationController.UserNormalRepair ();
@@ -1296,7 +1302,7 @@ public class RepairObject : MonoBehaviour
 			fWeaponDownTemperature = fMaxTemperature * 0.3f;
 		
 			// 수리력 = 수리력 * ( 현재온도 * 11 * 0.00556) * ( 1 - 물수치(플레이어의 무기 + 장비의 물수치))
-			fCurrentComplate += GameManager.Instance.player.GetRepairPower() * (fCurrentTemperature  * 11f * 0.00556f) * 
+			dCurrentComplate += GameManager.Instance.player.GetRepairPower() * (fCurrentTemperature  * 11f * 0.00556f) * 
 				(1f + (weaponData.fMinusUseWater * 0.05f));
 			
 
@@ -1312,9 +1318,9 @@ public class RepairObject : MonoBehaviour
 			}
 
 			float	 resultWaterValue =  (weaponData.fMinusUseWater * 0.01f);
-			Debug.Log ("Before fCurrent : " + fCurrentComplate);          
+			Debug.Log ("Before fCurrent : " + dCurrentComplate);          
 
-			Debug.Log ("After fCurrent : " + fCurrentComplate);     
+			Debug.Log ("After fCurrent : " + dCurrentComplate);     
 
 			Debug.Log ("TouchWater!!");
 			//bossWaterCat_animator.SetBool ("isTouchWater", true);
@@ -1323,13 +1329,13 @@ public class RepairObject : MonoBehaviour
 
 			WaterSlider.value = fCurrentWater;
 
-			if (fCurrentComplate > weaponData.fMaxComplate)
-				fCurrentComplate = weaponData.fMaxComplate;
+			if (dCurrentComplate > weaponData.dMaxComplate)
+				dCurrentComplate = weaponData.dMaxComplate;
 
 			TemperatureSlider.value = fCurrentTemperature;
 
-			if (fCurrentComplate >= weaponData.fMaxComplate)
-				SpawnManager.Instance.ComplateCharacter (AfootObject, weaponData.fMaxComplate);
+			if (dCurrentComplate >= weaponData.dMaxComplate)
+				SpawnManager.Instance.ComplateCharacter (AfootObject, weaponData.dMaxComplate);
 		}
 	}
 
@@ -1389,19 +1395,19 @@ public class RepairObject : MonoBehaviour
 			//플레이어가 장비하고 있는 무기 물수치의 1%
 			// 수리력 = 수리력 * ( 현재온도 * 11 * 0.00556) * ( 1 - 물수치(플레이어의 무기 + 장비의 물수치))
 			// 플레이어 수리력 추가 해야됨
-			float completeValueResult;
+			double completeValueResult;
 
 			//불 보스 일 경우에만  물수치가 50%감소
 			if (bossCharacter.bossInfo.nIndex == (int)E_BOSSNAME.E_BOSSNAME_FIRE) 
 			{
-				completeValueResult = (GameManager.Instance.player.GetRepairPower () * (fCurrentTemperature * 11f * 0.00556f));
-				fCurrentComplate += completeValueResult;
+				completeValueResult = (GameManager.Instance.player.GetRepairPower () * (fCurrentTemperature * 11f * 0.00556));
+				dCurrentComplate += completeValueResult;
 				Debug.Log ("FireBossWaterValue : " + completeValueResult);
 			}
 			else 
 			{
-				completeValueResult = (GameManager.Instance.player.GetRepairPower () * (fCurrentTemperature * 11f * 0.00556f));
-				fCurrentComplate += completeValueResult;
+				completeValueResult = (GameManager.Instance.player.GetRepairPower () * (fCurrentTemperature * 11f * 0.00556));
+				dCurrentComplate += completeValueResult;
 				Debug.Log ("OtherBossWaterValue : " + completeValueResult);
 			}
 
@@ -1421,8 +1427,8 @@ public class RepairObject : MonoBehaviour
 
 			WaterSlider.value = fCurrentWater;
 
-			if (fCurrentComplate > bossCharacter.bossInfo.fComplate)
-				fCurrentComplate = bossCharacter.bossInfo.fComplate;
+			if (dCurrentComplate > bossCharacter.bossInfo.dComplate)
+				dCurrentComplate = bossCharacter.bossInfo.dComplate;
 
 			if (fCurrentWater < 0)
 				fCurrentWater = 0;
@@ -1433,7 +1439,7 @@ public class RepairObject : MonoBehaviour
 			TemperatureSlider.value = fCurrentTemperature;
 
 
-			if (fCurrentComplate >= bossCharacter.bossInfo.fComplate) {
+			if (dCurrentComplate >= bossCharacter.bossInfo.dComplate) {
 				SpawnManager.Instance.bIsBossCreate = false;
 				//bossCharacter.
 			}
@@ -1441,12 +1447,79 @@ public class RepairObject : MonoBehaviour
 
 	}
 
+	//값을 수치로 표기하기 위한 함수 
+	string ChangeValue(double _dValue)
+	{ 
+		//
+		int[] cVal = new int[10]; 
+
+		int index = 0; 
+
+		string strValue =  string.Format ("{0:####}", _dValue);
+
+		while (true) { 
+			string last4 = ""; 
+			if (strValue.Length >= 4) { 
+
+				last4 = strValue.Substring (strValue.Length - 4); 
+
+				int intLast4 = int.Parse (last4); 
+
+				cVal [index] = intLast4 % 1000; 
+
+				strValue = strValue.Remove (strValue.Length - 3); 
+			} else { 
+				cVal [index] = int.Parse (strValue); 
+				break; 
+			} 
+
+			index++; 
+		} 
+
+		//1000,00
+		//1000,000,00
+		//1000,000,000,00
+
+		while (_dValue >= 1000) 
+		{
+			_dValue *= 0.001f;
+		}
+
+		if (index > 0) { 
+
+			if (_dValue >= 100) 
+			{
+				int nResult = cVal [index] * 1000 + cVal [index - 1]; 
+
+				string strFirstValue = nResult.ToString ().Substring (0, 3);
+
+				string strSecondValue = nResult.ToString ().Substring (3, 1);
+
+				return string.Format ("{0}.{1:##}{2}", strFirstValue, strSecondValue, unit [index]); 
+			} 
+			else 
+			{
+				int nResult = cVal [index] * 1000 + cVal [index - 1]; 
+
+				string strFirstValue = nResult.ToString ().Substring (0, 2);
+
+				string strSecondValue = nResult.ToString ().Substring (2, 2);
+
+				return string.Format ("{0}.{1:##}{2}", strFirstValue, strSecondValue, unit [index]); 
+
+			}
+		} 
+
+		return strValue; 
+	}
+
+
     //만약 수리중에 대기시간이 다 지나서 되돌아갈때 확인함
     public void CheckMyObject(GameObject _obj)
     {
         if (_obj == AfootObject)
         {
-			SpawnManager.Instance.ReturnInsertData(AfootObject,false,false, fCurrentComplate, TemperatureSlider.value);
+			SpawnManager.Instance.ReturnInsertData(AfootObject,false,false, dCurrentComplate, TemperatureSlider.value);
             InitWeaponData();
         }
     }
@@ -1460,24 +1533,24 @@ public class RepairObject : MonoBehaviour
 		WeaponSprite.sprite =  main_Touch_Sprite;
 
         
-		fCurrentComplate = 0;
+		dCurrentComplate = 0;
 
         ComplateSlider.value = 0;
         ComplateSlider.maxValue = 0;
         TemperatureSlider.value = 0;
         fCurrentTemperature = 0;
 
-		ComplateText.text = string.Format("{0} / {1}", fCurrentComplate, ComplateSlider.maxValue);
+		ComplateText.text = string.Format("{0} / {1}", dCurrentComplate, ComplateSlider.maxValue);
     }
 
 	//현재무기의 완성도를 가져온다
-	public float GetCurCompletion()
+	public double GetCurCompletion()
 	{
-		return fCurrentComplate;
+		return dCurrentComplate;
 	}
-	public void SetCurCompletion(float _value)
+	public void SetCurCompletion(double _value)
 	{
-		fCurrentComplate += _value;
+		dCurrentComplate += _value;
 	}
 	public bool isCurTemperatureOver()
 	{
@@ -1489,7 +1562,7 @@ public class RepairObject : MonoBehaviour
 	public void SetMaxTempuratrue()
 	{
 		fCurrentTemperature = fMaxTemperature;
-		fCurrentComplate = (fCurrentComplate) - (fBossMaxComplete * 0.3f);
+		dCurrentComplate = (dCurrentComplate) - (dBossMaxComplete * 0.3);
 	}
 
 	public void SetFinishBoss()
@@ -1504,7 +1577,7 @@ public class RepairObject : MonoBehaviour
 		WeaponObject.SetActive (true);
 		waterObject.SetActive (true);
 
-		fCurrentComplate = 0;
+		dCurrentComplate = 0;
 		WaterSlider.minValue = 0;
 		ComplateSlider.minValue = 0;
 		TemperatureSlider.minValue = 0;
@@ -1518,7 +1591,6 @@ public class RepairObject : MonoBehaviour
 		fUseWater = 10.0f;
 		fPlusWater = player.GetWaterPlus ();
 		fMaxWater = player.GetBasicMaxWaterPlus ();
-		fWeaponDownDamage = player.GetRepairPower ();
 
 		//FireBoss
 		fSmallFireMinusWater = 0f;				
@@ -1532,7 +1604,7 @@ public class RepairObject : MonoBehaviour
 
 		WeaponSprite.sprite = main_Touch_Sprite;
 
-		ComplateText.text = string.Format ("{0} / {1}", fCurrentComplate, ComplateSlider.maxValue);
+		ComplateText.text = string.Format ("{0} / {1}", dCurrentComplate, ComplateSlider.maxValue);
 
 
 		//음악 노트 모두 제거 

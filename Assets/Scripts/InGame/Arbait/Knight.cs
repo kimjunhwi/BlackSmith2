@@ -87,7 +87,7 @@ public class Knight : ArbaitBatch {
 
 		m_bIsApplyBuff = true;
 
-		m_fChangeAccuracy = playerData.GetBasicRepairPower() * (m_CharacterChangeData.fSkillPercent * 0.01f);
+		m_fChangeAccuracy = playerData.GetBasicAccuracyRate() * (m_CharacterChangeData.fSkillPercent * 0.01f);
 
 		m_fChangeAccuracy = Mathf.Round(m_fChangeAccuracy);
 
@@ -182,19 +182,19 @@ public class Knight : ArbaitBatch {
 
 				//크리티컬 확률 
 				if (Random.Range (1, 100) <= Mathf.Round (m_CharacterChangeData.fAccuracyRate)) 
-					m_fComplate += m_CharacterChangeData.fRepairPower * 1.5f * fRepairDownPercent;
+					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f * fRepairDownPercent;
 				else 
-					m_fComplate += m_CharacterChangeData.fRepairPower *fRepairDownPercent;
+					m_dComplate += m_CharacterChangeData.dRepairPower *fRepairDownPercent;
 
 				//완성 됐을 경우
-				if (m_fComplate >= weaponData.fMaxComplate)
+				if (m_dComplate >= weaponData.dMaxComplate)
 				{
 					ScoreManager.ScoreInstance.GoldPlus(100);
 
 					ComplateWeapon();
 				}
 
-				SpawnManager.Instance.CheckComplateWeapon(AfootOjbect, m_fComplate,m_fTemperator);
+				SpawnManager.Instance.CheckComplateWeapon(AfootOjbect, m_dComplate,m_fTemperator);
 			}
 			break;
 		case E_ArbaitState.E_BOSSREPAIR:
@@ -209,7 +209,7 @@ public class Knight : ArbaitBatch {
 
 				animator.SetTrigger("bIsRepair");
 
-				RepairShowObject.SetCurCompletion(m_CharacterChangeData.fRepairPower );
+				RepairShowObject.SetCurCompletion(m_CharacterChangeData.dRepairPower );
 			}
 
 			break;

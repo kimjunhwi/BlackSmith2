@@ -4,21 +4,6 @@ using UnityEngine;
 
 namespace ReadOnlys
 {
-	public struct Buff
-	{
-		public int nIndex;
-		public float fValue;
-        public float fCurrentFloat;
-        public string strBuffExplain;
-
-		public Buff(int _nIndex,float _fValue, float _fCurrentFloat ,string _strBuffExplain)
-		{
-			nIndex = _nIndex;
-			fValue = _fValue;
-            fCurrentFloat = _fCurrentFloat;
-            strBuffExplain = _strBuffExplain;
-		}
-	}
 
 	enum E_Enhace
 	{

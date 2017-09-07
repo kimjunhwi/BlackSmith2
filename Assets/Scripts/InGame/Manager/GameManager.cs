@@ -22,42 +22,15 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
     public CGameWeaponInfo[] cWeaponInfo = null;                //무기 정보들
 
-    public CGameCharacterInfo[] cCharacterInfo = null;          //캐릭터 정보들
-
     public CGameEquiment[] cEquimentInfo = null;                //장비 정보들
 
     public CGameQuestInfo[] cQusetInfo = null;                  //퀘스트 정보들
 
 	public BossPanelInfo cBossPanelInfo = null;
 
-	public CGamePlayerEnhance[] cSmithEnhaceInfo = null;          //대장간 강화 정보
-
-	public CGamePlayerEnhance[] cRepairEnhanceInfo = null;      //수리 강화 정보
-
-	public CGamePlayerEnhance[] cMaxWaterEnhanceInfo = null;  //물 최대치 강화 정보
-
-	public CGamePlayerEnhance[] cWaterPlusEnhanceInfo = null;//물 증가량 강화 정보
-
-	public CGamePlayerEnhance[] cAccuracyRateInfo = null;        //명중률 강화 정보
-
-	public CGamePlayerEnhance[] cCriticalEnhance = null;      //크리티컬 강화 정보
-
 	public CGamePlayerEnhance[] cPlayerArbaitEnhace = null;		//아르바이트 강화 
 
-    public CGameEnhanceData[] cOneGradeEnhance = null;          //1등급 강화 데이터 모음
-
-    public CGameEnhanceData[] cTwoGradeEnhance = null;          //2등급 강화 데이터 모음
-
-    public CGameEnhanceData[] cThreeGradeEnhance = null;          //3등급 강화 데이터 모음
-
-    public CGameEnhanceData[] cFourGradeEnhance = null;          //4등급 강화 데이터 모음
-
 	public CGameSoundData[] cSoundsData = null;					//사운드 데이
-
-	public CGameArbaitGrade[] cArbaitCgrade = null;				//C등급 아르바이트
-	public CGameArbaitGrade[] cArbaitBgrade = null;				//B등급 아르바이트
-	public CGameArbaitGrade[] cArbaitAgrade = null;				//S등급 아르바이트
-	public CGameArbaitGrade[] cArbaitSgrade = null;				//A등급 아르바이트
 
 	public ArbaitEnhance[] cArbaitEnhance = null;
 	public SmithEnhance[] cSmithEnhance = null;
@@ -137,16 +110,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		Load_TableInfo_BossWeapon ();
 
-		////////////
-		/// 
-		/// 
-		/// //
 
-		Load_TableInfo_ArbaitEnhance ();
-
-		Load_TableInfo_SmithEnhance2 ();
-
-		Load_TableInfo_EquipmentEnhance ();
 
 
         ArbaitDataBase = ConstructString<ArbaitData>(strArbaitPath);
@@ -468,13 +432,13 @@ public class GameManager : GenericMonoSingleton<GameManager>
         if (player == null)
             return;
 
-        PlayerPrefs.SetFloat("Gold", ScoreManager.ScoreInstance.GetGold());
-        PlayerPrefs.SetFloat("Honor", ScoreManager.ScoreInstance.GetHonor());
-
 		//아르바이트 버프 해제
         SpawnManager.Instance.ReleliveArbait();
 
         playerData = player.changeStats;
+
+		playerData.dGold = ScoreManager.ScoreInstance.GetGold ();
+		playerData.dHonor = ScoreManager.ScoreInstance.GetHonor ();
 
 		creatorWeaponData = player.GetCreatorWeapon ();
 
@@ -522,6 +486,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		string filePath = Path.Combine(Application.persistentDataPath, strPlayerPath);
 
 		#endif
+
+		playerSave.Clear ();
 
 		playerSave.Add (playerData);
 
@@ -681,64 +647,20 @@ public class GameManager : GenericMonoSingleton<GameManager>
             kInfo[i - 1].nIndex = int.Parse(Cells[0]);
 			kInfo[i - 1].strPath = Cells[1];
 			kInfo[i - 1].strName = Cells[2];
-			kInfo [i - 1].fMaxComplate = float.Parse (Cells [3]);
-			kInfo [i - 1].fMinusRepair= float.Parse(Cells[4]);
+			kInfo [i - 1].dMaxComplate = double.Parse (Cells [3]);
+			kInfo [i - 1].dMinusRepair= double.Parse(Cells[4]);
 			kInfo [i - 1].fMinusChargingWater = float.Parse (Cells [5]);
-			kInfo [i - 1].fMinusCriticalDamage = float.Parse (Cells [6]);
+			kInfo [i - 1].dMinusCriticalDamage = double.Parse (Cells [6]);
 			kInfo [i - 1].fMinusUseWater= float.Parse(Cells[7]);
 			kInfo [i - 1].fMinusCriticalChance = float.Parse (Cells [8]);
 			kInfo [i - 1].fMinusAccuracy= float.Parse(Cells[9]);
-            kInfo[i - 1].fGold = float.Parse(Cells[10]);
-			kInfo[i - 1].fHonor = float.Parse(Cells[11]);
+			kInfo[i - 1].dGold = double.Parse(Cells[10]);
+			kInfo[i - 1].dHonor = double.Parse(Cells[11]);
 			kInfo[i - 1].fLimitedTime = float.Parse(Cells[12]);
 			kInfo[i - 1].nGrade = int.Parse(Cells[13]);
             kInfo[i - 1].WeaponSprite = ObjectCashing.Instance.LoadSpriteFromCache(kInfo[i - 1].strPath);
         }
         cWeaponInfo = kInfo;
-    }
-
-    void Load_TableInfo_charic()
-    {
-        if (cCharacterInfo != null) return;
-
-        string txtFilePath = "Character";
-        TextAsset ta = LoadTextAsset(txtFilePath);
-        List<string> line = LineSplit(ta.text);
-
-        CGameCharacterInfo[] kInfo = new CGameCharacterInfo[line.Count - 1];
-
-        for (int i = 0; i < line.Count; i++)
-        {
-            //Console.WriteLine("line : " + line[i]);
-            if (line[i] == null) continue;
-            if (i == 0) continue; 	// Title skip
-
-            string[] Cells = line[i].Split("\t"[0]);	// cell split, tab
-            if (Cells[0] == "") continue;
-
-            kInfo[i - 1] = new CGameCharacterInfo();
-            kInfo[i - 1].nIndex = int.Parse(Cells[0]);
-            kInfo[i - 1].nGrade = int.Parse(Cells[1]);
-            kInfo[i - 1].strName = Cells[2];
-            kInfo[i - 1].strResourcePath = Cells[3];
-            kInfo[i - 1].fRepair = float.Parse(Cells[4]);
-            kInfo[i - 1].fPlusRepair = float.Parse(Cells[5]);
-            kInfo[i - 1].fArbaitRepair = float.Parse(Cells[6]);
-            kInfo[i - 1].fHonor = float.Parse(Cells[7]);
-            kInfo[i - 1].fGetGoldPercent = float.Parse(Cells[8]);
-            kInfo[i - 1].fWaterPlusTime = float.Parse(Cells[9]);
-            kInfo[i - 1].fWater = float.Parse(Cells[10]);
-            kInfo[i - 1].fCreaticalPercent = float.Parse(Cells[11]);
-            kInfo[i - 1].fCreaticlaDamage = float.Parse(Cells[12]);
-            kInfo[i - 1].fSuccessedPercent = float.Parse(Cells[13]);
-            kInfo[i - 1].fAccuracyRate = float.Parse(Cells[14]);
-            kInfo[i - 1].fGuestWaitTimePlus = float.Parse(Cells[15]);
-            kInfo[i - 1].fGuestTime = float.Parse(Cells[16]);
-            kInfo[i - 1].fSpecialGuest = float.Parse(Cells[17]);
-            kInfo[i - 1].fRaidGuest = float.Parse(Cells[18]);
-        }
-
-        cCharacterInfo = kInfo;
     }
 
     void Load_TableInfo_Quest()
@@ -771,12 +693,10 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			kInfo[i - 1].nRewardGold = int.Parse(Cells[5]);
 			kInfo[i - 1].nRewardHonor = int.Parse(Cells[6]);
 			kInfo[i - 1].nRewardBossPotion = int.Parse(Cells[7]);
-
         }
 
         cQusetInfo = kInfo;
     }
-
 
     void Load_TableInfo_Equiment()
     {
@@ -845,12 +765,12 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 			kInfo[i - 1] = new Boss();
 			kInfo[i - 1].nIndex = int.Parse(Cells[0]);
-			kInfo [i - 1].bossName = Cells [1];
+			kInfo[i - 1].bossName = Cells [1];
 			kInfo[i - 1].skillExplainOne =Cells[2];
 			kInfo[i - 1].skillExplainTwo = Cells[3];
 			kInfo[i - 1].bossWeaponName = Cells[4];
 			kInfo[i - 1].GetWeaponsIndex = Cells[5];
-			kInfo[i - 1].fComplate = float.Parse(Cells[6]);
+			kInfo[i - 1].dComplate = double.Parse(Cells[6]);
 			kInfo[i - 1].nGold = int.Parse(Cells[7]);
 			kInfo[i - 1].nHonor = int.Parse(Cells[8]);
 			kInfo[i - 1].nDia = int.Parse(Cells[9]);
@@ -941,112 +861,6 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		cSoundsData = kInfo;
 	}
 
-	void Load_TableInfo_ArbaitEnhance()
-	{
-		if (cArbaitEnhance.Length != 0) return;
-
-		string txtFilePath = "ArbaitEnhance2";
-
-		TextAsset ta = LoadTextAsset(txtFilePath);
-
-		List<string> line = LineSplit(ta.text);
-
-		ArbaitEnhance[] kInfo = new ArbaitEnhance[line.Count - 1];
-
-		for (int i = 0; i < line.Count; i++)
-		{
-			//Console.WriteLine("line : " + line[i]);
-			if (line[i] == null) continue;
-			if (i == 0) continue; 	// Title skip
-
-			string[] Cells = line[i].Split("\t"[0]);	// cell split, tab
-			if (Cells[0] == "") continue;
-
-			kInfo[i - 1] = new ArbaitEnhance();
-
-			kInfo[i - 1].nIndex = int.Parse(Cells[0]);
-			kInfo[i - 1].fRepairPercent = float.Parse(Cells[1]);
-			kInfo[i - 1].fCriticalPercent = float.Parse(Cells[2]);
-			kInfo[i - 1].fSpecialPercent = float.Parse(Cells[3]);
-			kInfo[i - 1].fBasicGold = float.Parse(Cells[4]);
-			kInfo[i - 1].fBasicHonor = float.Parse(Cells[5]);
-			kInfo[i - 1].fPlusGoldValue = float.Parse(Cells[6]);
-			kInfo[i - 1].fPlusHonorValue = float.Parse(Cells[7]);
-		}
-
-		cArbaitEnhance = kInfo;
-	}
-
-	void Load_TableInfo_SmithEnhance2()
-	{
-		if (cSmithEnhance.Length != 0) return;
-
-		string txtFilePath = "SmithEnhance2";
-
-		TextAsset ta = LoadTextAsset(txtFilePath);
-
-		List<string> line = LineSplit(ta.text);
-
-		SmithEnhance[] kInfo = new SmithEnhance[line.Count - 1];
-
-		for (int i = 0; i < line.Count; i++)
-		{
-			//Console.WriteLine("line : " + line[i]);
-			if (line[i] == null) continue;
-			if (i == 0) continue; 	// Title skip
-
-			string[] Cells = line[i].Split("\t"[0]);	// cell split, tab
-			if (Cells[0] == "") continue;
-
-			kInfo[i - 1] = new SmithEnhance();
-
-			kInfo[i - 1].nIndex = int.Parse(Cells[0]);
-			kInfo[i - 1].fBasicPercent = float.Parse(Cells[1]);
-			kInfo[i - 1].fPlusPercent = float.Parse(Cells[2]);
-			kInfo[i - 1].fBasicGold = float.Parse(Cells[3]);
-			kInfo[i - 1].fBasicHonor = float.Parse(Cells[4]);
-			kInfo[i - 1].fPlusGoldValue = float.Parse(Cells[5]);
-			kInfo[i - 1].fPlusHonorValue = float.Parse(Cells[6]);
-		}
-
-		cSmithEnhance = kInfo;
-	}
-
-	void Load_TableInfo_EquipmentEnhance()
-	{
-		if (cEquipmentEnhance.Length != 0) return;
-
-		string txtFilePath = "EquimpentEnhance2";
-
-		TextAsset ta = LoadTextAsset(txtFilePath);
-
-		List<string> line = LineSplit(ta.text);
-
-		EquipmentEnhance[] kInfo = new EquipmentEnhance[line.Count - 1];
-
-		for (int i = 0; i < line.Count; i++)
-		{
-			//Console.WriteLine("line : " + line[i]);
-			if (line[i] == null) continue;
-			if (i == 0) continue; 	// Title skip
-
-			string[] Cells = line[i].Split("\t"[0]);	// cell split, tab
-			if (Cells[0] == "") continue;
-
-			kInfo[i - 1] = new EquipmentEnhance();
-
-			kInfo[i - 1].nIndex = int.Parse(Cells[0]);
-			kInfo[i - 1].fPlusPercent = float.Parse(Cells[1]);
-			kInfo[i - 1].fBasicGold = float.Parse(Cells[2]);
-			kInfo [i - 1].fBasicHonor = float.Parse (Cells [3]);
-			kInfo[i - 1].fPlusGoldValue = float.Parse(Cells[4]);
-			kInfo[i - 1].fPlusHonorValue = float.Parse(Cells[5]);
-		}
-
-		cEquipmentEnhance = kInfo;
-	}
-
-
 	#endregion
 
 	#region SplitText
@@ -1122,18 +936,6 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	}
 
-	public CGameArbaitGrade[] GetArbaitGradeEnhanceData(int _nGradeIndex)
-	{
-		switch (_nGradeIndex) {
-
-		case (int)E_ArbaitGrade.E_Cgrade: return cArbaitCgrade;
-		case (int)E_ArbaitGrade.E_Bgrade: return cArbaitBgrade;
-		case (int)E_ArbaitGrade.E_Agrade: return cArbaitAgrade;
-		case (int)E_ArbaitGrade.E_Sgrade: return cArbaitSgrade;
-		
-		default:	Debug.Log ("Range Error"); return null;
-		}
-	}
 
     public CGameWeaponInfo GetWeaponData(int _nGrade)
     {
@@ -1151,8 +953,6 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
     public int EquimentShopLength()
     {
-        
-
         return equimnetData.Count;
     }
 
@@ -1341,9 +1141,6 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		Debug.Log ("GoogleGameSave Active");
 		string divideMark = "^";
 
-		PlayerPrefs.SetFloat("Gold", ScoreManager.ScoreInstance.GetGold());
-		PlayerPrefs.SetFloat("Honor", ScoreManager.ScoreInstance.GetHonor());
-
 		SpawnManager.Instance.ReleliveArbait();
 		//PlayerData
 		string dataAsString_PlayerData = JsonHelper.ListToJson<CGamePlayerData>(playerSave);
@@ -1502,7 +1299,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 						if (inputCount == 1) {
 							playerData = JsonHelper.ListFromJson<CGamePlayerData> (getCloudDataString) [0];
 							player.Init (cInvetoryInfo, playerData,creatorWeaponData);
-							Debug.Log ("Google Loaded GameData  Player = RepairPower : " + playerData.fRepairPower + "  nDays : " + playerData.nDay + "  nMaxDays : " + playerData.nMaxDay);
+							Debug.Log ("Google Loaded GameData  Player = RepairPower : " + playerData.dRepairPower + "  nDays : " + playerData.nDay + "  nMaxDays : " + playerData.nMaxDay);
 							getCloudDataString = "";
 							continue;
 						}
@@ -1567,7 +1364,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	public void GetPlayerSaveList()
 	{
 		Debug.Log (playerSave [0].fAccuracyRate + "/" + playerSave [0].fArbaitsPower + "/" + playerSave [0].fBigSuccessed + "/" + playerSave [0].fCriticalChance
-		+ "/" + playerSave [0].fRepairPower + "/" + playerSave [0].strName + "/" + playerSave [0].nMaxDay + "/" + playerSave [0].nEnhanceMaxWaterLevel);
+		+ "/" + playerSave [0].dRepairPower + "/" + playerSave [0].strName + "/" + playerSave [0].nMaxDay + "/" + playerSave [0].nEnhanceMaxWaterLevel);
 	}
 
 	#endregion
@@ -1626,23 +1423,23 @@ public class AllArbaitData
 [System.Serializable]
 public class CGameEquiment
 {
-    public int nIndex = 0;
-    public string strResource = "";
-    public string strName = "";
-    public bool bIsBuy = false;
-    public int nSlotIndex = 0;
-	public string sGrade = "";
-    public float fReapirPower = 0;
-	public float fArbaitRepair = 0;
-	public float fHonorPlus = 0;
-	public float fGoldPlus = 0;
-	public float fWaterChargePlus = 0;
-	public float fCritical = 0;
-	public float fCriticalDamage = 0;
-	public float fBigCritical = 0;
-	public float fAccuracyRate = 0;
-	public int nStrenthCount = 0;
-    public bool bIsEquip = false;
+    public int nIndex 				= 0;
+    public string strResource 		= "";
+    public string strName 			= "";
+    public bool bIsBuy 				= false;
+    public int nSlotIndex 			= 0;
+	public string sGrade			= "";
+	public float fReapirPower 		= 0;
+	public float fArbaitRepair 		= 0;
+	public float fHonorPlus 		= 0;
+	public float fGoldPlus 		= 0;
+	public float fWaterChargePlus 	= 0;
+	public float fCritical 			= 0;
+	public float fCriticalDamage 	= 0;
+	public float fBigCritical 		= 0;
+	public float fAccuracyRate 		= 0;
+	public int nStrenthCount 		= 0;
+    public bool bIsEquip 			= false;
 
 	public CGameEquiment(){}
 
@@ -1676,19 +1473,19 @@ public class CGameEquiment
 [System.Serializable]
 public class CreatorWeapon
 {
-	public string strResource = "";
-	public int nGrade = 0;				//옵션 등급
+	public string strResource 		= "";
+	public int nGrade 				= 0;				//옵션 등급
 
-	public float fRepair = 0.0f;		//수리력
-	public float fArbaitRepair = 0.0f;	//아르바이트 수리력
-	public float fPlusHonorPercent = 0.0f ;//명예 추가 증가량
-	public float fPlusGoldPercent = 0.0f;	//골드 추가 증가량
-	public float fWaterPlus = 0.0f;		//물 추가 수치
-	public float fActiveWater = 0.0f;		//물 사용시 추가 증가
-	public float fCriticalChance = 0.0f;	//크리티컬 찬스
-	public float fCriticalDamage = 0.0f;	//크리티컬 데미지
-	public float fBigSuccessed = 0.0f;	//대 성공 확률 
-	public float fAccuracyRate = 0.0f;	//명중률
+	public float fRepair		 	= 0.0f;		//수리력
+	public float fArbaitRepair 		= 0.0f;	//아르바이트 수리력
+	public float fPlusHonorPercent 	= 0.0f ;//명예 추가 증가량
+	public float fPlusGoldPercent 	= 0.0f;	//골드 추가 증가량
+	public float fWaterPlus 		= 0.0f;		//물 추가 수치
+	public float fActiveWater 		= 0.0f;		//물 사용시 추가 증가
+	public float fCriticalChance 	= 0.0f;	//크리티컬 찬스
+	public float fCriticalDamage 	= 0.0f;	//크리티컬 데미지
+	public float fBigSuccessed 		= 0.0f;	//대 성공 확률 
+	public float fAccuracyRate 		= 0.0f;	//명중률
 
 	public float fIceBossValue = 0.0f;
 	public float fRusiuBossValue = 0.0f;
@@ -1744,7 +1541,7 @@ public class ArbaitData
     public int batch;
 
     //수리 량
-	public float fRepairPower;
+	public double dRepairPower;
 
 	//공격속도
 	public float fAttackSpeed;
@@ -1754,7 +1551,6 @@ public class ArbaitData
 
 	//명중률
 	public float fAccuracyRate;
-
 
 	//특수능력 설명 
 	public string strExplains;
@@ -1795,7 +1591,7 @@ public class ArbaitData
 
 		batch = _data.batch;
 
-		fRepairPower = _data.fRepairPower;
+		dRepairPower = _data.dRepairPower;
 
 		fAttackSpeed = _data.fAttackSpeed;
 
@@ -1830,15 +1626,15 @@ public class CGameWeaponInfo
     public int nIndex = 0;
     public string strPath = string.Empty;
 	public string strName = string.Empty;
-	public float fMaxComplate = 0;
-	public float fMinusRepair = 0;
+	public double dMaxComplate = 0;
+	public double dMinusRepair = 0;
 	public float fMinusChargingWater = 0f;
 	public float fMinusCriticalChance = 0f;
 	public float fMinusUseWater = 0f;
-	public float fMinusCriticalDamage = 0f;
+	public double dMinusCriticalDamage = 0f;
 	public float fMinusAccuracy = 0f;
-    public float fGold = 0.0f;
-	public float fHonor = 0.0f;
+	public double dGold = 0.0f;
+	public double dHonor = 0.0f;
 	public float fLimitedTime = 0.0f;
 	public int nGrade = 0;
     public Sprite WeaponSprite = null;
@@ -1852,15 +1648,15 @@ public class CGameWeaponInfo
 		nIndex = weaponData.nIndex;
 		strName = weaponData.strName;
 		strPath = weaponData.strPath;
-		fMaxComplate = weaponData.fMaxComplate;
-		fMinusRepair = weaponData.fMinusRepair;
+		dMaxComplate = weaponData.dMaxComplate;
+		dMinusRepair = weaponData.dMinusRepair;
 		fMinusChargingWater = weaponData.fMinusChargingWater;
 		fMinusCriticalChance = weaponData.fMinusCriticalChance;
 		fMinusUseWater = weaponData.fMinusUseWater;
-		fMinusCriticalDamage = weaponData.fMinusCriticalDamage;
+		dMinusCriticalDamage = weaponData.dMinusCriticalDamage;
 		fMinusAccuracy = weaponData.fMinusAccuracy;
-		fGold = weaponData.fGold;
-		fHonor = weaponData.fHonor;
+		dGold = weaponData.dGold;
+		dHonor = weaponData.dHonor;
 		fLimitedTime = weaponData.fLimitedTime;
 		nGrade = weaponData.nGrade;
 		WeaponSprite = weaponData.WeaponSprite;
@@ -1948,15 +1744,17 @@ public class CGameEnhanceData
 public class CGamePlayerData
 {
     public string strName;			//닉네임			
-    public float fRepairPower;		//수리력 
+	public double dRepairPower;		//수리력 
     public float fArbaitsPower;		//알바수리력 
-    public float fHornorPlusPercent;		//명예추가 증가량
-    public float fGold;
-    public float fGoldPlusPercent;		//골드추가 증가량
+	public double dGoldPlusPercent;		//골드추가 증가량
+	public double dHornorPlusPercent;		//명예추가 증가량
+	public double dGold;
+	public double dHonor;
+	public int nRuby;
     public float fWaterPlus;		//물증가량
     public float fMaxWaterPlus;		//물최대치 증가량 
     public float fCriticalChance;		//크리티컬 확률
-    public float fCriticalDamage;		//크리데미지
+	public double dCriticalDamage;		//크리데미지
     public float fBigSuccessed;		//대성공
     public float fAccuracyRate;		//정확도
     public int nBlackSmithLevel;			//대장간 레벨
@@ -1979,15 +1777,17 @@ public class CGamePlayerData
 	public CGamePlayerData(CGamePlayerData playerData)
 	{
 		strName = playerData.strName;
-		fRepairPower = playerData.fRepairPower;
+		dRepairPower = playerData.dRepairPower;
 		fArbaitsPower = playerData.fArbaitsPower;		 
-		fHornorPlusPercent = playerData.fHornorPlusPercent;		
-		fGold = playerData.fGold;
-		fGoldPlusPercent= playerData.fGoldPlusPercent;		
+		dHornorPlusPercent = playerData.dHornorPlusPercent;		
+		dGold = playerData.dGold;
+		dHonor = playerData.dHonor;
+		nRuby = playerData.nRuby;
+		dGoldPlusPercent= playerData.dGoldPlusPercent;		
 		fWaterPlus= playerData.fWaterPlus;		
 		fMaxWaterPlus = playerData.fMaxWaterPlus;		 
 		fCriticalChance= playerData.fCriticalChance;		
-		fCriticalDamage = playerData.fCriticalDamage;		
+		dCriticalDamage = playerData.dCriticalDamage;		
 		fBigSuccessed = playerData.fBigSuccessed;		
 		fAccuracyRate= playerData.fAccuracyRate;		
 		nBlackSmithLevel= playerData.nBlackSmithLevel;
@@ -2020,30 +1820,6 @@ public class CGameMainWeaponOption
 }
 
 [System.Serializable]
-public class CGameCharacterInfo
-{
-    public int nIndex = 0;
-    public int nGrade = 0;                          //캐릭터 타입(근,원)
-    public string strName = string.Empty;           //캐릭터 이름
-    public string strResourcePath = string.Empty;   //캐릭터 경로
-    public float fRepair = 0.0f;                    //캐릭터 수리력
-    public float fPlusRepair = 0.0f;                //온도 증감량
-    public float fArbaitRepair = 0.0f;              //알바 수리력
-    public float fHonor = 0.0f;                     //명예 획득량
-    public float fGetGoldPercent = 0.0f;            //골드 획득량
-    public float fWaterPlusTime = 0.0f;             //물 충전시간
-    public float fWater = 0.0f;                     //물 수치
-    public float fCreaticalPercent = 0.0f;          //크리 확률
-    public float fCreaticlaDamage = 0.0f;           //크리 데미지
-    public float fSuccessedPercent = 0.0f;          //대 성공 확률
-    public float fAccuracyRate = 0.0f;              //명중률
-    public float fGuestWaitTimePlus = 0.0f;         //손님 대기시간
-    public float fGuestTime = 0.0f;                 //손님 등장시간
-    public float fSpecialGuest = 0.0f;              //특수 손님 등장확률
-    public float fRaidGuest = 0.0f;                 //레이드 손님 등장확률
-}
-
-[System.Serializable]
 public class Boss
 {
 	//id값
@@ -2059,7 +1835,7 @@ public class Boss
 	//Weapon reward index
 	public string GetWeaponsIndex;
 	//완성도
-	public float fComplate;
+	public double dComplate;
 	//골드
 	public int nGold;
 	//명예

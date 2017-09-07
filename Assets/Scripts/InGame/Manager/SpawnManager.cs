@@ -269,7 +269,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
     }
 
     //게임 오브젝트를 찾아서 데이터를 넣어줌
-	public void ReturnInsertData(GameObject obj,bool bIsRepair,bool bIsResearch, float _fComplate,float _fTemperator)
+	public void ReturnInsertData(GameObject obj,bool bIsRepair,bool bIsResearch, double _dComplate,float _fTemperator)
     {
         GameObject tempObject = null;
 
@@ -278,10 +278,10 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
         //있을 경우 데이터를 넣어줌
         if (tempObject)
-			tempObject.GetComponent<NormalCharacter>().GetRepairData(bIsRepair,bIsResearch, _fComplate, _fTemperator);
+			tempObject.GetComponent<NormalCharacter>().GetRepairData(bIsRepair,bIsResearch, _dComplate, _fTemperator);
     }
 
-    public void ComplateCharacter(GameObject _obj,float fComplate)
+	public void ComplateCharacter(GameObject _obj,double dComplate)
     {
         GameObject tempObject = null;
 
@@ -293,14 +293,14 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
     }
 
     //무기가 완성이 됐는지 확인을 해주는 함수 이다.
-	public bool CheckComplateWeapon(GameObject _obj, float _fComplate,float _fTemperator)
+	public bool CheckComplateWeapon(GameObject _obj, double _dComplate,float _fTemperator)
 	{
 		GameObject tempObject = null;
 
 		tempObject = SearchCharacter(_obj);
 
 		if (tempObject) 
-			return tempObject.GetComponent<NormalCharacter> ().CheckComplate (_fComplate,_fTemperator);
+			return tempObject.GetComponent<NormalCharacter> ().CheckComplate (_dComplate,_fTemperator);
 
 		return false;
 	}
@@ -487,7 +487,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
     //만약 넣었을 경우 실행하는 함수 한번에 하지 않은 이유는 만약 넣을 수 없는데
     //현재 이 함수의 인자 값을 전부 복사해서 확인하면 부하가 커질거 같기 때문이다.
-    public void InsertArbaitWeapon(int _nIndex, GameObject _obj, CGameWeaponInfo _data, float _fComplate, float _fTemperator)
+	public void InsertArbaitWeapon(int _nIndex, GameObject _obj, CGameWeaponInfo _data, double _dComplate, float _fTemperator)
     {
 		int nIndex;
 
@@ -496,7 +496,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			if (array_ArbaitData [nIndex].nBatchIndex == _nIndex)
 				break;
 		}
-        array_ArbaitData[nIndex].GetWeaponData(_obj, _data, _fComplate, _fTemperator);
+        array_ArbaitData[nIndex].GetWeaponData(_obj, _data, _dComplate, _fTemperator);
     }
     ////////////////////////////////////////////////////////////////
 
@@ -516,7 +516,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 				charData.SpeechSelect (_nBatchIndex);
 
-                array_ArbaitData[_nIndex].GetWeaponData(_obj, charData.weaponData, charData.m_fComplate, charData.m_fTemperator);
+                array_ArbaitData[_nIndex].GetWeaponData(_obj, charData.weaponData, charData.m_dComplate, charData.m_fTemperator);
                 break;
             }
         }

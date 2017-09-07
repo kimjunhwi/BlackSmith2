@@ -163,19 +163,19 @@ public class BlueHair : ArbaitBatch {
 
 				//크리티컬 확률 
 				if (Random.Range (1, 100) <= Mathf.Round (m_CharacterChangeData.fAccuracyRate)) 
-					m_fComplate += m_CharacterChangeData.fRepairPower * 1.5f * fRepairDownPercent;
+					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f * fRepairDownPercent;
 				else 
-					m_fComplate += m_CharacterChangeData.fRepairPower *fRepairDownPercent;
+					m_dComplate += m_CharacterChangeData.dRepairPower *fRepairDownPercent;
 				
 				//완성 됐을 경우
-				if (m_fComplate >= weaponData.fMaxComplate)
+				if (m_dComplate >= weaponData.dMaxComplate)
 				{
 					ScoreManager.ScoreInstance.GoldPlus(100);
 
 					ComplateWeapon();
 				}
 
-				SpawnManager.Instance.CheckComplateWeapon (AfootOjbect, m_fComplate,m_fTemperator);
+				SpawnManager.Instance.CheckComplateWeapon (AfootOjbect, m_dComplate,m_fTemperator);
 			}
 			break;
 
@@ -191,7 +191,7 @@ public class BlueHair : ArbaitBatch {
 
 				animator.SetTrigger("bIsRepair");
 
-				RepairShowObject.SetCurCompletion(m_CharacterChangeData.fRepairPower );
+				RepairShowObject.SetCurCompletion(m_CharacterChangeData.dRepairPower );
 			}
 
 			break;

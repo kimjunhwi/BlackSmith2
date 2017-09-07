@@ -28,16 +28,16 @@ public class ArbaitBatch : MonoBehaviour {
 	protected float fBuffTime = 0.0f;
     
     //무기 완성도
-    protected float m_fComplate;
+	protected double m_dComplate;
+
+	//무기 완성 맥스치
+	protected double m_dMaxComplate;
 
     //무기 수리 시간
     protected float m_fRepairTime;
 
     // 무기 온도
     protected float m_fTemperator;
-
-    //무기 완성 맥스치
-    protected float m_fMaxComplate;
 
     //아르바이트 현재 상태
 	public E_ArbaitState E_STATE;
@@ -73,7 +73,7 @@ public class ArbaitBatch : MonoBehaviour {
 	private bool m_bIsCriticalArbaitAttackSpeed = false;
 
     private float m_fWaterAttackSpeedValue = 0.0f;
-    private float m_fWaterRepairPowerValue = 0.0f;
+	private double m_dWaterRepairPowerValue = 0.0f;
     private float m_fWaterCriticalValue = 0.0f;
 
     //private float m_fWaterAttackSpeedTime = 0.0f;
@@ -133,7 +133,7 @@ public class ArbaitBatch : MonoBehaviour {
         if (m_bIsWaterRepairPower)
         {
             m_bIsWaterRepairPower = false;
-            m_CharacterChangeData.fRepairPower -= m_fWaterRepairPowerValue;
+            m_CharacterChangeData.dRepairPower -= m_dWaterRepairPowerValue;
         }
 
         //물사용시 크리티컬증가 버프
@@ -178,7 +178,7 @@ public class ArbaitBatch : MonoBehaviour {
     }
 
     //무기 받음
-    public void GetWeaponData(GameObject _obj, CGameWeaponInfo _data, float _fComplate, float _fTemperator)
+	public void GetWeaponData(GameObject _obj, CGameWeaponInfo _data, double _dComplate, float _fTemperator)
     {
         //무기를 받았기에 수리로 변경
         bIsRepair = true;
@@ -190,11 +190,11 @@ public class ArbaitBatch : MonoBehaviour {
         weaponData = _data;
 
         //완성도를 대입
-        m_fComplate = _fComplate;
+        m_dComplate = _dComplate;
 
         m_fTemperator = _fTemperator;
 
-        m_fMaxComplate = _data.fMaxComplate;
+        m_dMaxComplate = _data.dMaxComplate;
 
         E_STATE = E_ArbaitState.E_REPAIR;
     }
@@ -223,7 +223,7 @@ public class ArbaitBatch : MonoBehaviour {
 
         //물 사용시 수리력 증가 버프
         if (m_bIsWaterRepairPower)
-            m_CharacterChangeData.fRepairPower -= m_fWaterRepairPowerValue;
+            m_CharacterChangeData.dRepairPower -= m_dWaterRepairPowerValue;
 
 
         //물사용시 크리티컬증가 버프
@@ -246,7 +246,7 @@ public class ArbaitBatch : MonoBehaviour {
 		if (m_bIsWaterCheck) 
 		{
 			m_CharacterChangeData.fAttackSpeed += m_fWaterAttackSpeed;
-			m_CharacterChangeData.fRepairPower -= m_fWaterRepairPower;
+			m_CharacterChangeData.dRepairPower -= m_dWaterRepairPower;
 		}
     }
 
@@ -261,7 +261,7 @@ public class ArbaitBatch : MonoBehaviour {
 
         //물 사용시 수리력 증가 버프
         if (m_bIsWaterRepairPower)
-            m_CharacterChangeData.fRepairPower += m_fWaterRepairPowerValue;
+            m_CharacterChangeData.dRepairPower += m_dWaterRepairPowerValue;
 
         //물사용시 크리티컬증가 버프
         if (m_bIsWaterCritical)
@@ -283,7 +283,7 @@ public class ArbaitBatch : MonoBehaviour {
 		if (m_bIsWaterCheck) 
 		{
 			m_CharacterChangeData.fAttackSpeed -= m_fWaterAttackSpeed;
-			m_CharacterChangeData.fRepairPower += m_fWaterRepairPower;
+			m_CharacterChangeData.dRepairPower += m_dWaterRepairPower;
 		}
     }
 
@@ -349,11 +349,9 @@ public class ArbaitBatch : MonoBehaviour {
 
         m_bIsWaterRepairPower = true;
 
-        m_fWaterRepairPowerValue = m_CharacterChangeData.fRepairPower * (_fValue * 0.01f);
+        m_dWaterRepairPowerValue = m_CharacterChangeData.dRepairPower * (_fValue * 0.01f);
 
-        m_CharacterChangeData.fRepairPower += m_fWaterRepairPowerValue;
-
-		Debug.Log ("RepairPower" + m_CharacterChangeData.fRepairPower);
+        m_CharacterChangeData.dRepairPower += m_dWaterRepairPowerValue;
 
         while (true)
         {
@@ -369,7 +367,7 @@ public class ArbaitBatch : MonoBehaviour {
 			yield break;
 
         m_bIsWaterRepairPower = false;
-        m_CharacterChangeData.fRepairPower -= m_fWaterRepairPowerValue;
+        m_CharacterChangeData.dRepairPower -= m_dWaterRepairPowerValue;
 
         spawnManager.list_ArbaitUI[nIndex].ChangeArbaitText();
     }
@@ -578,7 +576,7 @@ public class ArbaitBatch : MonoBehaviour {
 
 	private bool m_bIsWaterCheck = false;
 	private float m_fWaterAttackSpeed = 0.0f;
-	private float m_fWaterRepairPower = 0.0f;
+	private double m_dWaterRepairPower = 0.0f;
 
 	public void ApplyWaterUp(float _fValue)
 	{
@@ -588,10 +586,10 @@ public class ArbaitBatch : MonoBehaviour {
 		m_bIsWaterCheck = true;
 
 		m_fWaterAttackSpeed = m_CharacterChangeData.fAttackSpeed * (_fValue * 0.01f);
-		m_fWaterRepairPower = m_CharacterChangeData.fRepairPower * (_fValue * 0.01f);
+		m_dWaterRepairPower = m_CharacterChangeData.dRepairPower * (double)(_fValue * 0.01);
 
 		m_CharacterChangeData.fAttackSpeed -= m_fWaterAttackSpeed;
-		m_CharacterChangeData.fRepairPower += m_fWaterRepairPower;
+		m_CharacterChangeData.dRepairPower += m_dWaterRepairPower;
 
 		spawnManager.list_ArbaitUI[nIndex].ChangeArbaitText();
 	}
@@ -604,7 +602,7 @@ public class ArbaitBatch : MonoBehaviour {
 		m_bIsWaterCheck = false;
 
 		m_CharacterChangeData.fAttackSpeed += m_fWaterAttackSpeed;
-		m_CharacterChangeData.fRepairPower -= m_fWaterRepairPower;
+		m_CharacterChangeData.dRepairPower -= m_dWaterRepairPower;
 
 		spawnManager.list_ArbaitUI[nIndex].ChangeArbaitText();
 	}
@@ -616,7 +614,7 @@ public class ArbaitBatch : MonoBehaviour {
 	protected void ComplateWeapon()
     {
         //현재 수리중인 오브젝트와 무기의 완성도를 보내 수리한다.
-		SpawnManager.Instance.CheckComplateWeapon (AfootOjbect, m_fComplate, m_fTemperator);
+		SpawnManager.Instance.CheckComplateWeapon (AfootOjbect, m_dComplate, m_fTemperator);
 
         //초기화
 		fTime = 0.0f;
@@ -629,9 +627,9 @@ public class ArbaitBatch : MonoBehaviour {
 
 		AfootOjbect = null;
 
-		m_fComplate = 0.0f;
-
-		m_fMaxComplate = 0.0f;
+		m_dComplate = 0.0f;
+	
+		m_dMaxComplate = 0.0f;
 
 		m_fTemperator = 0.0f;
 
@@ -650,11 +648,11 @@ public class ArbaitBatch : MonoBehaviour {
 
 		weaponData = null;
 			
-		SpawnManager.Instance.CheckComplateWeapon (AfootOjbect, m_fComplate, m_fTemperator);
+		SpawnManager.Instance.CheckComplateWeapon (AfootOjbect, m_dComplate, m_fTemperator);
 		
-		m_fComplate = 0.0f;
+		m_dComplate = 0.0f;
 
-		m_fMaxComplate = 0.0f;
+		m_dMaxComplate = 0.0f;
 
 		m_fTemperator = 0.0f;
 
@@ -676,14 +674,14 @@ public class ArbaitBatch : MonoBehaviour {
 
 		m_bIsWaterCheck = false;
 		m_fWaterAttackSpeed = 0.0f;
-		m_fWaterRepairPower = 0.0f;
+		m_dWaterRepairPower = 0.0f;
 
 		if (AfootOjbect != null) 
-			SpawnManager.Instance.ReturnInsertData (AfootOjbect,false,true, m_fComplate, m_fTemperator);
+			SpawnManager.Instance.ReturnInsertData (AfootOjbect,false,true, m_dComplate, m_fTemperator);
 		
-		m_fComplate = 0.0f;
+		m_dComplate = 0.0f;
 
-		m_fMaxComplate = 0.0f;
+		m_dMaxComplate = 0.0f;
 
 		m_fTemperator = 0.0f;
     }
@@ -698,9 +696,9 @@ public class ArbaitBatch : MonoBehaviour {
 
 		weaponData = null;
 
-		m_fComplate = 0.0f;
+		m_dComplate = 0.0f;
 
-		m_fMaxComplate = 0.0f;
+		m_dMaxComplate = 0.0f;
 
 		m_fTemperator = 0.0f;
 	}

@@ -13,7 +13,6 @@ public class GoblinHammer : EpicOption {
 
 		cPlayerData = _player;
 
-
 		strExplain = string.Format("터치 시 수리력이 0% ~ 200% 적용(10% 단위로 적용)");
 	}
 

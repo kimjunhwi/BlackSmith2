@@ -118,8 +118,6 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		Load_TableInfo_BossWeapon ();
 
 
-
-
         ArbaitDataBase = ConstructString<ArbaitData>(strArbaitPath);
 
         equimnetData = ConstructString<CGameEquiment>(strEquiementPath);
@@ -188,11 +186,11 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		/// 
 		/// //
 
-		Load_TableInfo_ArbaitEnhance ();
+		//Load_TableInfo_ArbaitEnhance ();
 
-		Load_TableInfo_SmithEnhance2 ();
+		//Load_TableInfo_SmithEnhance2 ();
 
-		Load_TableInfo_EquipmentEnhance ();
+		//Load_TableInfo_EquipmentEnhance ();
 
 
 
@@ -278,7 +276,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		//Player
 		player = new Player ();
-		player.Init(cInvetoryInfo, playerData,creatorWeaponData);
+		player.Init(cInvetoryInfo, playerData ,creatorWeaponData);
 
 #endif
 		InitAds ();
@@ -1443,8 +1441,13 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			Debug.Log("The ad was skipped before reaching the end.");
 			if (isQuestAdsOn == true) 
 			{
-				questManager.QuestInit ();
-				isQuestAdsOn = false;
+				if (questManager.questObjects.Count == questManager.nQuestMaxHaveCount) 
+				{
+					questManager.ShowEmptyQuestFull ();
+					return;
+				}
+				else
+					questManager.QuestInit ();
 			}
 			break;
 

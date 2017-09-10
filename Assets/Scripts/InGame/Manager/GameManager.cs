@@ -94,6 +94,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	private QusetManager questManager = null;
 	private bool isQuestAdsOn = false;
 
+	private ResultEpicUI resultEpicUI = null;
+
 
 	public IEnumerator DataLoad()
     {
@@ -477,7 +479,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			if (player != null && SceneManager.GetActiveScene().buildIndex == 1)
             {
  
-				DataSave();
+				//DataSave();
             }
         }
     }
@@ -1382,6 +1384,42 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	}
 
 	#region UnityAds
+
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+	public void ShowRewardedAd_Creator(ResultEpicUI _ResultEpicUI)
+	{
+		if (resultEpicUI == null)
+			resultEpicUI = _ResultEpicUI;
+
+		if (Advertisement.IsReady("rewardedVideo"))
+		{
+			var options = new ShowOptions { resultCallback = HandleShowResult_Creator };
+			Advertisement.Show("rewardedVideo", options);
+		}
+	}
+
+	private void HandleShowResult_Creator(ShowResult result)
+	{
+		switch (result)
+		{
+		case ShowResult.Finished:
+			Debug.Log ("The ad was successfully shown.");
+			//
+			// YOUR CODE TO REWARD THE GAMER
+			// Give coins etc.
+
+			resultEpicUI.CreateWeapon ();
+
+			break;
+
+		case ShowResult.Failed:
+			Debug.LogError("The ad failed to be shown.");
+			break;
+		}
+	}
+
+
 	public void InitAds()
 	{
 		if(Advertisement.isSupported)
@@ -1824,20 +1862,21 @@ public class CGameEnhanceData
 [System.Serializable]
 public class CGamePlayerData
 {
-    public string strName;			//닉네임			
-	public double dRepairPower;		//수리력 
-    public float fArbaitsPower;		//알바수리력 
-	public double dGoldPlusPercent;		//골드추가 증가량
+    public string strName;					//닉네임			
+	public double dRepairPower;				//수리력 
+    public float fArbaitsPower;				//알바수리력 
+	public double dGoldPlusPercent;			//골드추가 증가량
 	public double dHornorPlusPercent;		//명예추가 증가량
 	public double dGold;
 	public double dHonor;
 	public int nRuby;
-    public float fWaterPlus;		//물증가량
-    public float fMaxWaterPlus;		//물최대치 증가량 
-    public float fCriticalChance;		//크리티컬 확률
-	public double dCriticalDamage;		//크리데미지
-    public float fBigSuccessed;		//대성공
-    public float fAccuracyRate;		//정확도
+    public float fWaterPlus;				//물증가량
+    public float fMaxWater;					//물최대치 증가량 
+    public float fCriticalChance;			//크리티컬 확률
+	public double dCriticalDamage;			//크리데미지
+    public float fBigSuccessed;				//대성공
+	public float fFeverTime;				//피버 지속시간 
+    public float fAccuracyRate;				//정확도
     public int nBlackSmithLevel;			//대장간 레벨
     public int nEnhanceRepaireLevel;		//수리력 레벨
     public int nEnhanceMaxWaterLevel;		//물최대치 레벨
@@ -1845,6 +1884,7 @@ public class CGamePlayerData
 	public int nEnhanceAccuracyRateLevel;	//명중률 증가 레벨
 	public int nEnhanceCriticalLevel;		//크리티컬 확률 레벨
 	public int nEnhanceArbaitLevel;			//아르바이트 강화 레벨
+	public int nFeverTimeLevel;				//피버 타임 강화 레벨 
     public int nSasinMaterial;
     public int nRusiuMaterial;
     public int nIceMaterial;
@@ -1866,10 +1906,11 @@ public class CGamePlayerData
 		nRuby = playerData.nRuby;
 		dGoldPlusPercent= playerData.dGoldPlusPercent;		
 		fWaterPlus= playerData.fWaterPlus;		
-		fMaxWaterPlus = playerData.fMaxWaterPlus;		 
+		fMaxWater = playerData.fMaxWater;		 
 		fCriticalChance= playerData.fCriticalChance;		
 		dCriticalDamage = playerData.dCriticalDamage;		
-		fBigSuccessed = playerData.fBigSuccessed;		
+		fBigSuccessed = playerData.fBigSuccessed;	
+		fFeverTime = playerData.fFeverTime;
 		fAccuracyRate= playerData.fAccuracyRate;		
 		nBlackSmithLevel= playerData.nBlackSmithLevel;
 		nEnhanceRepaireLevel= playerData.nEnhanceRepaireLevel;
@@ -1878,6 +1919,7 @@ public class CGamePlayerData
 		nEnhanceAccuracyRateLevel= playerData.nEnhanceAccuracyRateLevel;
 		nEnhanceCriticalLevel= playerData.nEnhanceCriticalLevel;
 		nEnhanceArbaitLevel = playerData.nEnhanceArbaitLevel;
+		nFeverTimeLevel = playerData.nFeverTimeLevel;
         nSasinMaterial = playerData.nSasinMaterial;
         nRusiuMaterial = playerData.nRusiuMaterial;
         nIceMaterial = playerData.nIceMaterial;
@@ -1896,6 +1938,7 @@ public class CGameMainWeaponOption
 {
 	public int nIndex = 0;
 	public string strOptionName = "";
+	public string strOptionExplain = "";
 	public int nValue = 0;
 	public bool bIsLock = false;
 }

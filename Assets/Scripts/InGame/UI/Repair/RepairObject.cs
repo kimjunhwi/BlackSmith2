@@ -609,10 +609,6 @@ public class RepairObject : MonoBehaviour
 			return;
 		
 
-
-
-		//weaponData = data;
-
 		fMaxTemperature = (float)(bossCharacter.bossInfo.dComplate * 0.03);
 		TemperatureSlider.maxValue = fMaxTemperature;
 
@@ -782,7 +778,7 @@ public class RepairObject : MonoBehaviour
 
                 //SpawnManager.Instance.SettingFever(m_fFeverCreateTime, m_fFeverSpeed);
 
-                this.StartCoroutine(StartFever(m_fFeverTime));
+				this.StartCoroutine(StartFever(player.GetBasicFeverTime()));
             }
 
 			ComplateSlider.value = 0;
@@ -1456,6 +1452,9 @@ public class RepairObject : MonoBehaviour
 		int index = 0; 
 
 		string strValue =  string.Format ("{0:####}", _dValue);
+
+		if (_dValue < 10000)
+			return strValue;
 
 		while (true) { 
 			string last4 = ""; 

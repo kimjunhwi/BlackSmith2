@@ -5,8 +5,7 @@ using ReadOnlys;
 
 public class WaterPlusPanelUI : EnhanceUI {
 
-	SmithEnhance m_EnhanceData;
-
+	float fBasic = 150.0f;
 
 	protected override void Awake ()
 	{
@@ -14,56 +13,30 @@ public class WaterPlusPanelUI : EnhanceUI {
 
 		nLevel = cPlayer.GetWaterPlusLevel ();
 
-		EnhanceText.text = strEnhanceName + nLevel;
+		EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
 
-		m_EnhanceData = enhanceDatas[(int)E_SMITH_INDEX.E_WATER_CHARGING];
+		CostGoldText.text = ChangeValue(2000 * Mathf.Pow (1.1f, Mathf.Min (nLevel -1, 100)) * Mathf.Pow (1.06f, Mathf.Max (nLevel - 101, 0)));
 	}
 
 	protected override void EnhanceButtonClick ()
 	{
+		fCostGold = 2000 * Mathf.Pow (1.1f, Mathf.Min (nLevel - 1, 100)) * Mathf.Pow (1.06f, Mathf.Max (nLevel - 101, 0));
 
-		if (nLevel != 0 && (nLevel % 10 == 0)) 
-		{
-			if (ScoreManager.ScoreInstance.GetHonor() >= m_EnhanceData.fBasicHonor + (nLevel * m_EnhanceData.fPlusHonorValue))
-			{
-
-				ScoreManager.ScoreInstance.HonorPlus (-(m_EnhanceData.fBasicHonor + (nLevel * m_EnhanceData.fPlusHonorValue)));
-
-				nLevel++;
-
-				cPlayer.SetBasicWaterPlus(cPlayer.GetBasicWaterPlus() + 1 * m_EnhanceData.fPlusPercent);
-
-				cPlayer.SetWaterPlusLevel(nLevel);
-
-				EnhanceText.text = strEnhanceName + nLevel;
-
-				//물 최대 량증가
-				//repairObject.fMaxWater =  GameManager.Instance.player.GetBasicMaxWaterPlus() + ( (cPlayer.GetMaxWaterLevel () -1 ) * 1000f);
-				//repairObject.WaterSlider.maxValue = repairObject.fMaxWater;/.
-				//if(cPlayer.GetWaterPlusLevel() >= 
-			}
-
-			return;
-		}
-
-
-		if (ScoreManager.ScoreInstance.GetGold() >= m_EnhanceData.fBasicGold + (nLevel * m_EnhanceData.fPlusGoldValue)) {
-
-			ScoreManager.ScoreInstance.GoldPlus (-(m_EnhanceData.fBasicGold + (nLevel * m_EnhanceData.fPlusGoldValue)));
+		if (fCostGold <= ScoreManager.ScoreInstance.GetGold ()) {
 
 			nLevel++;
 
-			cPlayer.SetBasicWaterPlus(cPlayer.GetBasicWaterPlus() + 1 * m_EnhanceData.fPlusPercent);
+			cPlayer.SetWaterPlusLevel (nLevel);
 
-			cPlayer.SetWaterPlusLevel(nLevel);
+			fEnhanceValue = cPlayer.GetBasicWaterPlus() + (fBasic * 0.01f);
 
-			EnhanceText.text = strEnhanceName + nLevel;
+			cPlayer.SetBasicWaterPlus(fEnhanceValue);
 
-			//물 최대 량증가
-			//repairObject.fMaxWater =  GameManager.Instance.player.GetBasicMaxWaterPlus() +( (cPlayer.GetWaterPlusLevel () -1 ) * 1000f);
-			//repairObject.WaterSlider.maxValue = repairObject.fMaxWater;
-			//Debug.Log ("MaxWater : " + repairObject.fMaxWater);
+			EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
 
+			ScoreManager.ScoreInstance.GoldPlus (-fCostGold	);
+
+			CostGoldText.text  = ChangeValue(2000 * Mathf.Pow (1.1f, Mathf.Min (nLevel - 1, 100)) * Mathf.Pow (1.06f, Mathf.Max (nLevel - 101, 0)));
 		}
 	}
 }

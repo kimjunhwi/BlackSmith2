@@ -5,7 +5,6 @@ using ReadOnlys;
 
 public class RepairPanelUI : EnhanceUI {
 
-	SmithEnhance m_EnhanceData;
 
 	protected override void Awake ()
 	{
@@ -13,47 +12,13 @@ public class RepairPanelUI : EnhanceUI {
 
 		nLevel = cPlayer.GetRepairLevel ();
 
-		EnhanceText.text = strEnhanceName + nLevel;
+		EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
 
-		m_EnhanceData = enhanceDatas[(int)E_SMITH_INDEX.E_REPAIR];
-
-		CostGoldText.text = (3000 * Mathf.Pow (1.1f, Mathf.Min (nLevel -1, 100)) * Mathf.Pow (1.06f, Mathf.Max (nLevel - 101, 0))).ToString();
+		CostGoldText.text = ChangeValue(3000 * Mathf.Pow (1.1f, Mathf.Min (nLevel -1, 100)) * Mathf.Pow (1.06f, Mathf.Max (nLevel - 101, 0)));
 	}
 
 	protected override void EnhanceButtonClick ()
 	{
-//		if (nLevel != 0 && (nLevel % 10 == 0)) 
-//		{
-//			if (ScoreManager.ScoreInstance.GetHonor() >= m_EnhanceData.fBasicHonor + (nLevel * m_EnhanceData.fPlusHonorValue))
-//			{
-//				ScoreManager.ScoreInstance.HonorPlus (-(m_EnhanceData.fBasicHonor + (nLevel * m_EnhanceData.fPlusHonorValue)));
-//
-//				nLevel++;
-//
-//				cPlayer.SetBasicRepairPower(cPlayer.GetBasicRepairPower() + 1 * m_EnhanceData.fPlusPercent);
-//
-//				cPlayer.SetRepairLevel(nLevel);
-//
-//				EnhanceText.text = strEnhanceName + nLevel;
-//			}
-//
-//			return;
-//		}
-//
-//
-//		if (ScoreManager.ScoreInstance.GetGold() >= m_EnhanceData.fBasicGold + (nLevel * m_EnhanceData.fPlusGoldValue)) {
-//
-//			ScoreManager.ScoreInstance.GoldPlus (-(m_EnhanceData.fBasicGold + (nLevel * m_EnhanceData.fPlusGoldValue)));
-//
-//			nLevel++;
-//
-//			cPlayer.SetBasicRepairPower(cPlayer.GetBasicRepairPower() + 1 * m_EnhanceData.fPlusPercent);
-//
-//			cPlayer.SetRepairLevel(nLevel);
-//
-//			EnhanceText.text = strEnhanceName + nLevel;
-//		}
-
 		fCostGold = 3000 * Mathf.Pow (1.1f, Mathf.Min (nLevel - 1, 100)) * Mathf.Pow (1.06f, Mathf.Max (nLevel - 101, 0));
 
 		if (fCostGold <= ScoreManager.ScoreInstance.GetGold ()) {
@@ -66,11 +31,11 @@ public class RepairPanelUI : EnhanceUI {
 
 			cPlayer.SetBasicRepairPower(fEnhanceValue);
 
-			EnhanceText.text = strEnhanceName + nLevel;
+			EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
 
 			ScoreManager.ScoreInstance.GoldPlus (-fCostGold	);
 
-			CostGoldText.text  = (3000 * Mathf.Pow (1.1f, Mathf.Min (nLevel - 1, 100)) * Mathf.Pow (1.06f, Mathf.Max (nLevel - 101, 0))).ToString();
+			CostGoldText.text  = ChangeValue(3000 * Mathf.Pow (1.1f, Mathf.Min (nLevel - 1, 100)) * Mathf.Pow (1.06f, Mathf.Max (nLevel - 101, 0)));
 		}
 	}
 }

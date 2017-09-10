@@ -44,15 +44,21 @@ public class Player
 	public int GetArbaitEnhanceLevel() {return changeStats.nEnhanceArbaitLevel; }
 	public void SetArbaitEnhancLevel(int _nValue){changeStats.nEnhanceArbaitLevel = _nValue;}
 
-	public float GetBasicWaterPlus() { return changeStats.fWaterPlus; }
-	public void SetBasicWaterPlus(float _fValue) { changeStats.fWaterPlus = _fValue; }
+	public int GetFeverLevel() { return changeStats.nFeverTimeLevel; }
+	public void SetFeverLevel(int _nValue) { changeStats.nFeverTimeLevel = _nValue; }
 
+
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	public double GetBasicRepairPower(){ return changeStats.dRepairPower; }
 	public void SetBasicRepairPower(double _dValue,bool _bIsNoneSet = false) { 
 		changeStats.dRepairPower = _dValue;  
 
 		SetRepairPower ();
 	}
+
+	public float GetBasicMaxWater() {return changeStats.fMaxWater;}
+	public void SetBasicMaxWater(float _fValue){ changeStats.fMaxWater = _fValue; }
+
 
 	public float GetBasicArbaitRepairPower() {return changeStats.fArbaitsPower;}
 	public void SetBasicArbaitRepairPower(float _fValue){ 
@@ -63,6 +69,9 @@ public class Player
 		SetArbaitRepairPower ();
 	}
 
+	public float GetBasicWaterPlus() { return changeStats.fWaterPlus; }
+	public void SetBasicWaterPlus(float _fValue) { changeStats.fWaterPlus = _fValue; }
+
 	public double GetBasicGoldPlusPercent() {return changeStats.dGoldPlusPercent;}
 	public void SetBasicGoldPlusPercent(double _dValue){ 
 		changeStats.dGoldPlusPercent = _dValue;
@@ -70,8 +79,12 @@ public class Player
 		SetGoldPlusPercent ();
 	}
 
-	public float GetBasicMaxWaterPlus() { return changeStats.fMaxWaterPlus; }
-	public void SetBasicMaxWaterPlus(float _fValue) { changeStats.fMaxWaterPlus = _fValue; }
+	public float GetBasicMaxWaterPlus() { return changeStats.fMaxWater; }
+	public void SetBasicMaxWaterPlus(float _fValue) { 
+		changeStats.fMaxWater = _fValue; 
+
+		spawnManager.repairObject.WaterSlider.maxValue = changeStats.fMaxWater;
+	}
 
 	public float GetBasicAccuracyRate() { return changeStats.fAccuracyRate; }
 	public void SetBasicAccuracyRate(float _fValue) { 
@@ -99,6 +112,12 @@ public class Player
 		changeStats.fCriticalChance = _fValue; 
 	
 		SetCriticalChance ();
+	}
+
+	public float GetBasicFeverTime() { return changeStats.fFeverTime; }
+	public void SetBasicFeverTime(float _fValue) { 
+
+		changeStats.fFeverTime = _fValue; 
 	}
 
     public int GetSasinMaterial() { return changeStats.nSasinMaterial; }

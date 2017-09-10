@@ -67,6 +67,11 @@ public class MakingUI : MonoBehaviour {
 		playerData = GameManager.Instance.GetPlayer ();
 		MakingButton.onClick.AddListener (MakeWeapon);
 
+		for (int nIndex = 0; nIndex < BossSoulSlots.Length; nIndex++) 
+		{
+			BossSoulSlots [nIndex].SetUp (this, playerData, nIndex);
+		}
+
 		if (playerData.GetCreatorWeapon ().fRepair == 0) {
 			playerData.SetDay (11);
 
@@ -172,6 +177,7 @@ public class MakingUI : MonoBehaviour {
 				EpicOption.nIndex = (int)E_CREATOR.E_EPIC;
 				EpicOption.strOptionName = createEpic.strExplain;
 				EpicOption.nValue = nInsertValue;
+				EpicOption.strOptionExplain = createEpic.strExplain;
 				EpicOption.bIsLock = false;
 				createEpic.bIsLock = false;
 
@@ -202,17 +208,10 @@ public class MakingUI : MonoBehaviour {
 
 			#endregion
 		}
-
-
 	}
 
 	void Start()
 	{
-		for (int nIndex = 0; nIndex < BossSoulSlots.Length; nIndex++) 
-		{
-			BossSoulSlots [nIndex].SetUp (this, playerData, nIndex);
-		}
-
 		RefreshDisplay ();
 	}
 
@@ -268,10 +267,11 @@ public class MakingUI : MonoBehaviour {
 	{
 		if (playerData.GetDay() <= 10)
 			return;
+		
+		ResultUI.Init (playerData, BossSoulSlots);
 
-		ResultUI.Init (BossSoulSlots);
-
-//		playerData.SetDay (playerData.GetDay () - 10);
+		playerData.SetDay (playerData.GetDay () - 10);
+//		
 //
 //		float fRepair = Mathf.RoundToInt (createWeapon.fRepair);
 //
@@ -298,8 +298,6 @@ public class MakingUI : MonoBehaviour {
 	public void CreateWeapon(CreatorWeapon _weapon,EpicOption _epicOption, List<CGameMainWeaponOption> _List_Option)
 	{
 		LIST_OPTION = _List_Option;
-
-		playerData.SetDay (playerData.GetDay () - 10);
 	
 		float fRepair = Mathf.RoundToInt (_weapon.fRepair);
 	
@@ -338,6 +336,7 @@ public class MakingUI : MonoBehaviour {
 				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
 				plusItem.strOptionName = "아르바이트 수리력";
 				plusItem.nValue = _nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
@@ -355,6 +354,7 @@ public class MakingUI : MonoBehaviour {
 				plusItem.nIndex = (int)E_CREATOR.E_HONOR;
 				plusItem.strOptionName = "명예 추가 증가량";
 				plusItem.nValue = _nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
@@ -369,9 +369,10 @@ public class MakingUI : MonoBehaviour {
 
 				_equiment.fPlusGoldPercent = _nInsertValue;
 
-				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
+				plusItem.nIndex = (int)E_CREATOR.E_GOLD;
 				plusItem.strOptionName = "골드 추가 증가량";
 				plusItem.nValue = _nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
@@ -386,9 +387,10 @@ public class MakingUI : MonoBehaviour {
 
 				_equiment.fWaterPlus = _nInsertValue;
 
-				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
+				plusItem.nIndex = (int)E_CREATOR.E_WATERCHARGE;
 				plusItem.strOptionName = "물 증가량";
 				plusItem.nValue = _nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
@@ -404,9 +406,10 @@ public class MakingUI : MonoBehaviour {
 
 				_equiment.fActiveWater = _nInsertValue;
 
-				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
+				plusItem.nIndex = (int)E_CREATOR.E_WATERUSE;
 				plusItem.strOptionName = "물 추가 증가량";
 				plusItem.nValue = _nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
@@ -422,9 +425,11 @@ public class MakingUI : MonoBehaviour {
 				_equiment.fCriticalChance = _nInsertValue;
 
 
-				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
+				plusItem.nIndex = (int)E_CREATOR.E_CRITICAL;
 				plusItem.strOptionName = "크리티컬 확률 증가";
 				plusItem.nValue = _nInsertValue;
+
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
@@ -439,9 +444,10 @@ public class MakingUI : MonoBehaviour {
 
 				_equiment.fCriticalDamage = _nInsertValue;
 
-				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
+				plusItem.nIndex = (int)E_CREATOR.E_CRITICALD;
 				plusItem.strOptionName = "크리티컬 데미지 증가";
 				plusItem.nValue = _nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
@@ -456,9 +462,10 @@ public class MakingUI : MonoBehaviour {
 
 				_equiment.fBigSuccessed = _nInsertValue;
 
-				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
+				plusItem.nIndex = (int)E_CREATOR.E_BIGCRITICAL;
 				plusItem.strOptionName = "대성공 확률 증가";
 				plusItem.nValue = _nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
@@ -473,9 +480,10 @@ public class MakingUI : MonoBehaviour {
 
 				_equiment.fAccuracyRate = _nInsertValue;
 
-				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
+				plusItem.nIndex = (int)E_CREATOR.E_ACCURACY;
 				plusItem.strOptionName = "명중률 증가";
 				plusItem.nValue = _nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);

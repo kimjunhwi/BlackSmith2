@@ -59,11 +59,21 @@ public class ResultEpicUI : MonoBehaviour {
 		playerData = GameManager.Instance.GetPlayer ();
 
 		SuccessedButton.onClick.AddListener (Successed);
-		AdButton.onClick.AddListener (ShowAd );
+		AdButton.onClick.AddListener (ShowAdButton );
+
+		gameObject.SetActive (false);
+
+
 	}
 
-	public void Init(BossSoul[] _bossSoul)
+	public void Init(Player _player, BossSoul[] _bossSoul)
 	{
+		gameObject.SetActive (true);
+
+		AdButton.gameObject.SetActive (true);
+
+		playerData = _player;
+
 		BossSoulSlots = _bossSoul;
 
 		CreateWeapon ();
@@ -106,8 +116,8 @@ public class ResultEpicUI : MonoBehaviour {
 			newButton.transform.SetParent (contentPanel, false);
 			newButton.transform.localScale = Vector3.one;
 
-			//OptionItem sampleButton = newButton.GetComponent<OptionItem> ();
-			//sampleButton.Setup (item,this);
+			OptionScroll sampleButton = newButton.GetComponent<OptionScroll> ();
+			sampleButton.Setting (item);
 		}
 	}
 
@@ -177,6 +187,7 @@ public class ResultEpicUI : MonoBehaviour {
 				plusItem.nIndex = nIndex + (int)E_CREATOR.E_BOSS_ICE;
 				plusItem.strOptionName = strBossExplains [nIndex];
 				plusItem.nValue = nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
@@ -227,6 +238,7 @@ public class ResultEpicUI : MonoBehaviour {
 				EpicOption.nIndex = (int)E_CREATOR.E_EPIC;
 				EpicOption.strOptionName = createEpic.strExplain;
 				EpicOption.nValue = nInsertValue;
+				EpicOption.strOptionExplain = createEpic.strExplain;
 				EpicOption.bIsLock = false;
 				createEpic.bIsLock = false;
 		
@@ -249,6 +261,7 @@ public class ResultEpicUI : MonoBehaviour {
 				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
 				plusItem.strOptionName = "아르바이트 수리력";
 				plusItem.nValue = _nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
@@ -266,6 +279,7 @@ public class ResultEpicUI : MonoBehaviour {
 				plusItem.nIndex = (int)E_CREATOR.E_HONOR;
 				plusItem.strOptionName = "명예 추가 증가량";
 				plusItem.nValue = _nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
@@ -280,9 +294,10 @@ public class ResultEpicUI : MonoBehaviour {
 
 				_equiment.fPlusGoldPercent = _nInsertValue;
 
-				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
+				plusItem.nIndex = (int)E_CREATOR.E_GOLD;
 				plusItem.strOptionName = "골드 추가 증가량";
 				plusItem.nValue = _nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
@@ -297,9 +312,10 @@ public class ResultEpicUI : MonoBehaviour {
 
 				_equiment.fWaterPlus = _nInsertValue;
 
-				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
+				plusItem.nIndex = (int)E_CREATOR.E_WATERCHARGE;
 				plusItem.strOptionName = "물 증가량";
 				plusItem.nValue = _nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
@@ -315,9 +331,10 @@ public class ResultEpicUI : MonoBehaviour {
 
 				_equiment.fActiveWater = _nInsertValue;
 
-				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
+				plusItem.nIndex = (int)E_CREATOR.E_WATERUSE;
 				plusItem.strOptionName = "물 추가 증가량";
 				plusItem.nValue = _nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
@@ -333,9 +350,10 @@ public class ResultEpicUI : MonoBehaviour {
 				_equiment.fCriticalChance = _nInsertValue;
 
 
-				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
+				plusItem.nIndex = (int)E_CREATOR.E_CRITICAL;
 				plusItem.strOptionName = "크리티컬 확률 증가";
 				plusItem.nValue = _nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
@@ -350,9 +368,10 @@ public class ResultEpicUI : MonoBehaviour {
 
 				_equiment.fCriticalDamage = _nInsertValue;
 
-				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
+				plusItem.nIndex = (int)E_CREATOR.E_CRITICALD;
 				plusItem.strOptionName = "크리티컬 데미지 증가";
 				plusItem.nValue = _nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
@@ -367,9 +386,10 @@ public class ResultEpicUI : MonoBehaviour {
 
 				_equiment.fBigSuccessed = _nInsertValue;
 
-				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
+				plusItem.nIndex = (int)E_CREATOR.E_BIGCRITICAL;
 				plusItem.strOptionName = "대성공 확률 증가";
 				plusItem.nValue = _nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
@@ -384,9 +404,10 @@ public class ResultEpicUI : MonoBehaviour {
 
 				_equiment.fAccuracyRate = _nInsertValue;
 
-				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
+				plusItem.nIndex = (int)E_CREATOR.E_ACCURACY;
 				plusItem.strOptionName = "명중률 증가";
 				plusItem.nValue = _nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 
 				LIST_OPTION.Add (plusItem);
@@ -422,14 +443,31 @@ public class ResultEpicUI : MonoBehaviour {
 
 	void Successed()
 	{
-		makingUI.CreateWeapon (createWeapon, createEpic, LIST_OPTION);
-
 		gameObject.SetActive (false);
 	}
 
-	void ShowAd()
+	void ShowAdButton()
 	{
-		
+		GameManager.Instance.ShowRewardedAd_Creator (this);
+
+
+	}
+
+	public void ShowAd()
+	{
+		//감소를 시켜 놨기 때문에 현재 일차에서 10일을 추가 시켜준다.
+		playerData.SetDay (playerData.GetDay () + 10);
+
+		//무기 제작
+		CreateWeapon ();
+
+		//결과를 넣어줌
+		makingUI.CreateWeapon (createWeapon, createEpic, LIST_OPTION);
+
+		//옵션 재설
+		RefreshDisplay ();
+
+		AdButton.gameObject.SetActive (false);
 	}
 }
 

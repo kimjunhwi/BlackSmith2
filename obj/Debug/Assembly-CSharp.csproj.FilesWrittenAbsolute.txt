@@ -47,3 +47,4 @@
 /Users/cheolgeungi/BlackSmith2/Temp/bin/Debug/Mono.Cecil.Mdb.dll
 /Users/ImaiDakaki/BlackSmith5/Temp/bin/Debug/Facebook.Unity.Settings.dll
 /Users/cheolgeungi/BlackSmith2/Temp/bin/Debug/UnityEngine.Advertisements.dll
+/Users/ImaiDakaki/BlackSmith5/Temp/bin/Debug/UnityEngine.Advertisements.dll

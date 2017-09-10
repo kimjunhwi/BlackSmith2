@@ -158,10 +158,6 @@ public class QuestPanel : MonoBehaviour
 		{
 			//textReward.text = questData.nRewardBossPotion.ToString ();
 		}
-
-
-	
-
 	}
 
 

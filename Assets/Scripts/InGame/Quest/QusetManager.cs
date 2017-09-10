@@ -101,7 +101,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			return;
 		}
 	
-		//저장된 데이터 
+		//저장된 데이터 로드시
 		if (GameManager.Instance.cQuestSaveListInfo[0].bIsGoogleSave == false &&
 			GameManager.Instance.cQuestSaveListInfo[0].bIsFirstActive == false && isInGameOnOff == false) 
 		{
@@ -109,7 +109,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			Debug.Log ("Quest Load Data");
 			QuestSaveInitStart ();
 		}
-		//저장된 데이터 
+		//인게임에서 키고 끌시
 		if (GameManager.Instance.cQuestSaveListInfo[0].bIsGoogleSave == false &&
 			GameManager.Instance.cQuestSaveListInfo[0].bIsFirstActive == false && isInGameOnOff == true) 
 		{
@@ -122,13 +122,12 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		{
 			isInitConfirm = true;
 			questTimer.addQuestToEmptySpace.SetActive(true);
-			//QuestInitStart ();
 		} 
 		else 
 		{
 			//시간이 지나있지 않다면 시간만 로드 한다
 			isInitConfirm = false;
-			questTimer.LoadTime();
+			questTimer.LoadTimeAndCheckTimeEnd();
 		}
 
 		GameManager.Instance.SaveQuestList ();
@@ -152,16 +151,6 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 		if (getInfoGameObject.gameObject.name == "QuestPanel")
 		{
-			/*
-			GameManager.Instance.cQuestSaveListInfo.Clear ();
-			int curItemCount = questDay.transform.childCount;
-			for (int i = 0; i < curItemCount; i++) 
-			{
-				Transform child = questDay.transform.GetChild (i);
-				QuestPanel childQuestPanel = child.GetComponent<QuestPanel> ();
-				//GameManager.Instance.cQuestSaveListInfo.Add (childQuestPanel.questData);
-			}
-			*/
 			SaveQuestData ();
 			questTimer.SaveTime ();
 			getInfoGameObject.SetActive (false);
@@ -188,16 +177,6 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		} else
 			_gameObject.SetActive (false);
 	}
-
-	//퀘스트완료  
-	public void CompleteQuest()
-	{
-		questYesAndExitPopUpWindow_Yes.SetActive (false);
-		questTimer.addQuestToEmptySpace.SetActive (false);
-		//questTimer.StartQuestTimer ();
-	
-	}
-
 
 	public void CheckQuestDestroy()
 	{
@@ -274,7 +253,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		}
 	}
 
-	//시간이 지나면 호출되는 초기화
+	//추가하기 버튼으로 초기화하는 퀘스트 호출
 	public void QuestInit()
 	{
 		isInitConfirm = true;
@@ -472,7 +451,9 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	//퀘스트를 체크하는 곳에서 해당 퀘스트에 해당되는 enum 값을 넘겨서 퀘스트 목록중 해당되는 것을 찾아 값을 올린다
 	public void QuestSuccessCheck(QuestType _questTypeIndex, int _value)
 	{
-		int nGetQuestIndex = 0;
+		if (questObjects[0] == null)
+			return;
+		
 		for (int i = 0; i < questObjects.Count; i++) 
 		{
 			QuestPanel questPanel = questObjects[i].gameObject.GetComponent<QuestPanel> ();

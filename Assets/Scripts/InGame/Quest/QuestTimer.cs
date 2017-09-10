@@ -15,11 +15,11 @@ public class QuestTimer : MonoBehaviour
 
 	public float fCurSec;
 	public int curMin;													//현재 분
-	private int nInitTime_Min = 0;
-	private int nInitTime_sec = 20;
+	private int nInitTime_Min = 59;
+	private int nInitTime_sec = 59;
 
-	public bool isTimeOn = false;				//시간이 켜져 있는지 아닌지
-	public bool isTimeEnd = false;				//시간이 끝났는지 아닌지
+	public bool isTimeOn = false;										//시간이 켜져 있는지 아닌지
+	public bool isTimeEnd = false;										//시간이 끝났는지 아닌지
 
 	public QusetManager questManager;
 	public GameObject addQuestToEmptySpace;
@@ -30,6 +30,12 @@ public class QuestTimer : MonoBehaviour
 		System.DateTime EndData = System.DateTime.Now;
 		PlayerPrefs.SetString ("EndSaveTime", EndData.ToString ());
 		PlayerPrefs.Save ();
+
+		GameManager.Instance.cQuestSaveListInfo [0].nCurLeftMin = curMin;
+		GameManager.Instance.cQuestSaveListInfo [0].fCurLeftSec = fCurSec;
+
+		GameManager.Instance.SaveQuestList ();
+
 		Debug.Log ("EndTime :" + EndData.ToString ());
 	}
 
@@ -52,23 +58,22 @@ public class QuestTimer : MonoBehaviour
 		int nCheck = Mathf.Abs(nEndTime - nStartTime);
 
 		//하루가 지나거나 60분이 지나면 그냥 현재 퀘스트 개수만 띄워준다.
-		if (timeCal.Days != 0 || nCheck >= 3600) {
+		if (timeCal.Days != 0 || nCheck >= 3600) 
+		{
 			//QuestTimer_Text.text = questManager.nQuestCount.ToString () + " / " + questManager.nQuestMaxCount.ToString ();
-
 			return true;
 		} else
 			return false;
 	}
 
-	public void LoadTime()
+	public void LoadTimeAndCheckTimeEnd()
 	{
-		
-
 		if (PlayerPrefs.HasKey ("EndSaveTime"))
 		{
 			strTime = PlayerPrefs.GetString ("EndSaveTime");
 			EndData = System.Convert.ToDateTime (strTime);
 		}
+			
 		StartedTime = System.DateTime.Now;
 		Debug.Log ("StartTime :"+ StartedTime + " / EndTime :" + EndData);
 		timeCal = StartedTime - EndData;
@@ -78,56 +83,43 @@ public class QuestTimer : MonoBehaviour
 
 		int nCheck = Mathf.Abs(nEndTime - nStartTime);
 
-		//하루가 지나거나 100분이 지나면 그냥 현재 퀘스트 개수만 띄워준다.
+		//하루가 지나거나 60분이 지나면 추가하기 버튼 활성화 및 시간 비활성화
 		if (timeCal.Days != 0 || nCheck >= 3600 ) 
 		{
-			//QuestTimer_Text.text = questManager.nQuestCount.ToString () + " / " + questManager.nQuestMaxCount.ToString ();
+			isTimeEnd = true;
+			addQuestToEmptySpace.SetActive (true);
 			QuestTimer_Text.enabled = false;
 		}
 		//
 		else 
 		{
-			//StartTimer;
-			//6000s
-			//100m
-			//1h + 40m
 			int nPassedTime_Min = (int)timeCal.TotalMinutes;
-			int nPassedTime_Sec = (int)timeCal.Seconds % 60;
+			int nPassedTime_Sec = (int)timeCal.TotalSeconds % 60;
 			isTimeOn = true;
-			if (nPassedTime_Min < 20) 
+
+			//60분이 지나지 않았으면 현재까지 지난 시간을 띄워준다
+			//Local Load
+			if (nPassedTime_Min < 60 && GameManager.Instance.cQuestSaveListInfo [0].bIsGoogleLoad == false)
 			{
-				Debug.Log ("Start Timer");
-				StartCoroutine (Timer (nInitTime_Min - nPassedTime_Min, nInitTime_sec - nPassedTime_Sec));
+				int ResultTime_Min = nInitTime_Min - nPassedTime_Min;
+
+				int ResultTime_Sec = nInitTime_sec - nPassedTime_Sec;
+				if (ResultTime_Sec < 0)
+					ResultTime_Sec = -ResultTime_Sec;
+
+				StartCoroutine (Timer (ResultTime_Min, ResultTime_Sec));
 			}
-			else if (nPassedTime_Min < 40)
+			//Google Saved Load
+			else 
 			{
-				nPassedTime_Min = (int)nPassedTime_Min - 20;
-				nPassedTime_Sec = (int)((nPassedTime_Sec - 1200) % 60);
-				Debug.Log ("QuestTimer is On : " + isTimeOn + " Start Timer !");
-				StartCoroutine (Timer (nInitTime_Min - nPassedTime_Min, nInitTime_sec - nPassedTime_Sec));
-			} 
-			else if (nPassedTime_Min < 60)
-			{
-				nPassedTime_Min = (int)nPassedTime_Min - 40;
-				nPassedTime_Sec = (int)((nPassedTime_Sec - 2400) % 60);
-				Debug.Log ("QuestTimer is On : " + isTimeOn + " Start Timer !");
-				StartCoroutine (Timer (nInitTime_Min - nPassedTime_Min, nInitTime_sec - nPassedTime_Sec));
+				int ResultTime_Min =  nInitTime_Min - GameManager.Instance.cQuestSaveListInfo [0].nCurLeftMin;
+
+				int ResultTime_Sec =  nInitTime_sec - (int)GameManager.Instance.cQuestSaveListInfo [0].fCurLeftSec;
+				if (ResultTime_Sec < 0)
+					ResultTime_Sec = -ResultTime_Sec;
+
+				StartCoroutine (Timer (ResultTime_Min, ResultTime_Sec));
 			}
-			else if (nPassedTime_Min < 80)
-			{
-				nPassedTime_Min = (int)nPassedTime_Min - 60;
-				nPassedTime_Sec = (int)((nPassedTime_Sec - 3600) % 60);
-				Debug.Log ("QuestTimer is On : " + isTimeOn + " Start Timer !");
-				StartCoroutine (Timer (nInitTime_Min - nPassedTime_Min, nInitTime_sec -nPassedTime_Sec));
-			}
-			else if (nPassedTime_Min < 100)
-			{
-				nPassedTime_Min = (int)nPassedTime_Min - 80;
-				nPassedTime_Sec = (int)((nPassedTime_Sec - 4800) % 60);
-				Debug.Log ("QuestTimer is On : " + isTimeOn + " Start Timer !");
-				StartCoroutine (Timer (nInitTime_Min - nPassedTime_Min, nInitTime_sec - nPassedTime_Sec));
-			}
-		
 			QuestTimer_Text.enabled = true;
 		}
 	}

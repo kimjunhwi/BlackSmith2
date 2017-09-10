@@ -1867,6 +1867,8 @@ public class CGameQuestSaveInfo
 	public bool bIsFirstActive;
 	//구글 클라우드 저장이 되어있는지
 	public bool bIsGoogleSave;
+	//구글 클라우드에서 로드 하는지 않하는지
+	public bool bIsGoogleLoad;
 	//해당 퀘스트의 인덱스와 진행도
 	public int nQuestIndex01;
 	public int nQuestIndex01_ProgressValue;
@@ -1874,17 +1876,22 @@ public class CGameQuestSaveInfo
 	public int nQuestIndex02_ProgressValue;
 	public int nQuestIndex03;
 	public int nQuestIndex03_ProgressValue;
+	public int nCurLeftMin;
+	public float fCurLeftSec;
 
 	public CGameQuestSaveInfo()
 	{
 		bIsFirstActive = true;
 		bIsGoogleSave = false;
+		bIsGoogleLoad = false;
 		nQuestIndex01 = -1;
 		nQuestIndex01_ProgressValue = -1;
 		nQuestIndex02 = -1;
 		nQuestIndex02_ProgressValue = -1;
 		nQuestIndex03 = -1;
 		nQuestIndex03_ProgressValue = -1;
+		nCurLeftMin = -1;
+		fCurLeftSec = -1.0f;
 	}
 }
 

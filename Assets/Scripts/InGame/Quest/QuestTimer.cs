@@ -178,7 +178,7 @@ public class QuestTimer : MonoBehaviour
 			nInitTime_Min = curMin;
 			nInitTime_sec = second;
 
-			if (curMin == 0 && second == 0f)
+			if (curMin == 0 && second <= 0f)
 			{
 				isTimeEnd = true;
 				//break;

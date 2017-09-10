@@ -37,6 +37,7 @@ public class BossCharacter : Character
 	public UIDisable uiDisable;
 	public UIManager uiManager;
 	public GameObject bossPanel;
+	public QusetManager qusetManager;
 
 	public string[] bossWord = new string[4];						//보스 말풍선(시작시 할당) 
 

@@ -286,6 +286,7 @@ public class BossSasin : BossCharacter
 				bossPopUpWindow.SetBossRewardBackGroundImage (isFailed);
 				bossPopUpWindow.PopUpWindowReward_Switch_isFail ();
 				bossPopUpWindow.PopUpWindow_Reward_YesButton.onClick.AddListener (bossPopUpWindow.PopUpWindowReward_Switch_isFail);
+			
 			}
 
 			

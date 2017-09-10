@@ -48,3 +48,16 @@
 /Users/ImaiDakaki/BlackSmith5/Temp/bin/Debug/Facebook.Unity.Settings.dll
 /Users/cheolgeungi/BlackSmith2/Temp/bin/Debug/UnityEngine.Advertisements.dll
 /Users/ImaiDakaki/BlackSmith5/Temp/bin/Debug/UnityEngine.Advertisements.dll
+/Users/cheolgeungi/BlackSmith2/Temp/bin/Debug/UnityEngine.Purchasing.dll
+/Users/cheolgeungi/BlackSmith2/Temp/bin/Debug/ChannelPurchase.dll
+/Users/cheolgeungi/BlackSmith2/Temp/bin/Debug/UnityStore.dll
+/Users/cheolgeungi/BlackSmith2/Temp/bin/Debug/Editor.dll
+/Users/cheolgeungi/BlackSmith2/Temp/bin/Debug/Purchasing.Common.dll
+/Users/cheolgeungi/BlackSmith2/Temp/bin/Debug/Stores.dll
+/Users/cheolgeungi/BlackSmith2/Temp/bin/Debug/Apple.dll
+/Users/cheolgeungi/BlackSmith2/Temp/bin/Debug/FacebookStore.dll
+/Users/cheolgeungi/BlackSmith2/Temp/bin/Debug/Security.dll
+/Users/cheolgeungi/BlackSmith2/Temp/bin/Debug/Tizen.dll
+/Users/cheolgeungi/BlackSmith2/Temp/bin/Debug/winrt.dll
+/Users/cheolgeungi/BlackSmith2/Temp/bin/Debug/Assembly-CSharp-firstpass.dll
+/Users/cheolgeungi/BlackSmith2/Temp/bin/Debug/Assembly-CSharp-firstpass.dll.mdb

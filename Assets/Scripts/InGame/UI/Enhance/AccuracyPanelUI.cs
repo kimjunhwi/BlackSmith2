@@ -5,53 +5,38 @@ using ReadOnlys;
 
 public class AccuracyPanelUI : EnhanceUI {
 
-	SmithEnhance m_EnhanceData;
+	float fBasic = 100.0f;
 
 	protected override void Awake ()
 	{
 		base.Awake ();
 
-		nLevel = cPlayer.GetWaterPlusLevel ();
+		nLevel = cPlayer.GetAccuracyRateLevel ();
 
-		EnhanceText.text = strEnhanceName + nLevel;
+		EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
 
-		m_EnhanceData = enhanceDatas[(int)E_SMITH_INDEX.E_ACCURACY_RATE];
+		CostGoldText.text = ChangeValue(2000 * Mathf.Pow (1.1f, Mathf.Min (nLevel -1, 100)) * Mathf.Pow (1.06f, Mathf.Max (nLevel - 101, 0)));
 	}
 
 	protected override void EnhanceButtonClick ()
 	{
+		fCostGold = 2000 * Mathf.Pow (1.1f, Mathf.Min (nLevel - 1, 100)) * Mathf.Pow (1.06f, Mathf.Max (nLevel - 101, 0));
 
-		if (nLevel != 0 && (nLevel % 10 == 0)) 
-		{
-			if (ScoreManager.ScoreInstance.GetHonor() >= m_EnhanceData.fBasicHonor + (nLevel * m_EnhanceData.fPlusHonorValue))
-			{
-
-				ScoreManager.ScoreInstance.HonorPlus (-(m_EnhanceData.fBasicHonor + (nLevel * m_EnhanceData.fPlusHonorValue)));
-
-				nLevel++;
-
-				cPlayer.SetBasicAccuracyRate(cPlayer.GetBasicAccuracyRate() + 1 * m_EnhanceData.fPlusPercent);
-
-				cPlayer.SetAccuracyRateLevel(nLevel);
-
-				EnhanceText.text = strEnhanceName + nLevel;
-			}
-
-			return;
-		}
-
-
-		if (ScoreManager.ScoreInstance.GetGold() >= m_EnhanceData.fBasicGold + (nLevel * m_EnhanceData.fPlusGoldValue)) {
-
-			ScoreManager.ScoreInstance.GoldPlus (-(m_EnhanceData.fBasicGold + (nLevel * m_EnhanceData.fPlusGoldValue)));
+		if (fCostGold <= ScoreManager.ScoreInstance.GetGold ()) {
 
 			nLevel++;
 
-			cPlayer.SetBasicAccuracyRate(cPlayer.GetBasicAccuracyRate() + 1 * m_EnhanceData.fPlusPercent);
+			cPlayer.SetAccuracyRateLevel (nLevel);
 
-			cPlayer.SetAccuracyRateLevel(nLevel);
+			fEnhanceValue = cPlayer.GetBasicAccuracyRate() + (fBasic * 0.01f);
 
-			EnhanceText.text = strEnhanceName + nLevel;
+			cPlayer.SetBasicAccuracyRate(fEnhanceValue);
+
+			EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
+
+			ScoreManager.ScoreInstance.GoldPlus (-fCostGold	);
+
+			CostGoldText.text  = ChangeValue(2000 * Mathf.Pow (1.1f, Mathf.Min (nLevel - 1, 100)) * Mathf.Pow (1.06f, Mathf.Max (nLevel - 101, 0)));
 		}
 	}
 }

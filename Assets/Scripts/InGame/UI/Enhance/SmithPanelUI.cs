@@ -5,7 +5,10 @@ using ReadOnlys;
 
 public class SmithPanelUI : EnhanceUI {
 
-	SmithEnhance m_EnhanceData;
+	private float fBasic = 1;
+
+	const int nBasicHonor = 100;
+	const int nPlusPercent = 50;
 
 	protected override void Awake ()
 	{
@@ -13,42 +16,32 @@ public class SmithPanelUI : EnhanceUI {
 
 		nLevel = cPlayer.GetSmithLevel ();
 
-		EnhanceText.text = strEnhanceName + nLevel;
+		EnhanceText.text = string.Format("{0} : {1}", strEnhanceName ,nLevel);
 
-		m_EnhanceData = enhanceDatas[(int)E_SMITH_INDEX.E_SMITH];
+		fCostHonor = nBasicHonor + (nPlusPercent * nLevel - 1);
+
+		CostGoldText.text = ChangeValue(fCostHonor);
 	}
 
 	protected override void EnhanceButtonClick ()
 	{
-		if (nLevel != 0 && (nLevel % 10 == 0)) 
-		{
-			if (ScoreManager.ScoreInstance.GetHonor() >= m_EnhanceData.fBasicHonor + (nLevel * m_EnhanceData.fPlusHonorValue))
-			{
-				if(nLevel % 100 == 0)
-					cPlayer.SetBasicBigSuccessedPercent(cPlayer.GetBasicBigSuccessedPercent() + 1 * m_EnhanceData.fPlusPercent);
+		fCostHonor = nBasicHonor + (nPlusPercent * nLevel - 1);
 
-				ScoreManager.ScoreInstance.HonorPlus (-(m_EnhanceData.fBasicHonor + (nLevel * m_EnhanceData.fPlusHonorValue)));
-
-				nLevel++;
-
-				cPlayer.SetSmithLevel(nLevel);
-
-				EnhanceText.text = strEnhanceName + nLevel;
-			}
-
-			return;
-		}
-
-
-		if (ScoreManager.ScoreInstance.GetGold() >= m_EnhanceData.fBasicGold + (nLevel * m_EnhanceData.fPlusGoldValue)) {
-
-			ScoreManager.ScoreInstance.GoldPlus (-(m_EnhanceData.fBasicGold + (nLevel * m_EnhanceData.fPlusGoldValue)));
+		if (fCostHonor <= ScoreManager.ScoreInstance.GetHonor ()) {
 
 			nLevel++;
 
-			cPlayer.SetSmithLevel(nLevel);
+			cPlayer.SetSmithLevel (nLevel);
 
-			EnhanceText.text = strEnhanceName + nLevel;
+			fEnhanceValue = cPlayer.GetBasicBigSuccessedPercent() + (fBasic * 0.05f);
+
+			cPlayer.SetBasicBigSuccessedPercent(fEnhanceValue);
+
+			EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
+
+			ScoreManager.ScoreInstance.HonorPlus (-fCostHonor);
+
+			CostGoldText.text  = ChangeValue((float)(nBasicHonor + (nPlusPercent * nLevel - 1)));
 		}
 	}
 }

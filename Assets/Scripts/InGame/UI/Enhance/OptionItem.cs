@@ -11,11 +11,18 @@ public class OptionItem : MonoBehaviour {
 	public Image OptionImage;
 	public Image LockImage;
 
-	public Sprite OptionSprite;
-	public Sprite UnOptionSprite;
+	public Sprite UnActiveEpicSprite;
+	public Sprite ActiveEpicSprite;
 
-	public Sprite LockSprite;
-	public Sprite UnLockSprite;
+	public Sprite UnActiveBossSprite;
+
+	public Sprite UnActiveNormalSprite;
+
+	public Sprite UnActiveEpicLockSprite;
+	public Sprite ActiveEpicLockSprite;
+
+	public Sprite NoneResetSprite;
+	public Sprite ResetSprite;
 
 	public Text OptionText;
 
@@ -40,8 +47,8 @@ public class OptionItem : MonoBehaviour {
 
 		OptionText.text = null;
 
-		OptionImage.sprite = UnOptionSprite;
-		LockImage.sprite = UnLockSprite;
+		OptionImage.sprite = UnActiveNormalSprite;
+		LockImage.sprite = ResetSprite;
 	}
 
 	public void Setup(CGameMainWeaponOption _WeaponOption,MakingUI _makingUI)
@@ -49,21 +56,27 @@ public class OptionItem : MonoBehaviour {
 		makingUI = _makingUI;
 		WeaponOption = _WeaponOption;
 
-		if (_WeaponOption.nIndex != (int)E_CREATOR.E_EPIC)
-			OptionText.text = string.Format ("{0} : {1}", WeaponOption.strOptionName, WeaponOption.nValue);
-		
-		else
-			OptionText.text = WeaponOption.strOptionName;
 
-		if (WeaponOption.bIsLock) 
+		OptionText.text = WeaponOption.strOptionExplain;
+
+		if (_WeaponOption.nIndex == (int)E_CREATOR.E_EPIC) {
+			if (WeaponOption.bIsLock) {
+				OptionImage.sprite = ActiveEpicSprite;
+				LockImage.sprite = ActiveEpicLockSprite;
+			} else {
+				OptionImage.sprite = UnActiveEpicSprite;
+				LockImage.sprite = UnActiveEpicLockSprite;
+			}
+		} else if (_WeaponOption.nIndex >= (int)E_CREATOR.E_BOSS_ICE) 
 		{
-			OptionImage.sprite = OptionSprite;
-			LockImage.sprite = LockSprite;
+			OptionImage.sprite = UnActiveBossSprite;
+			LockImage.sprite = NoneResetSprite;
 		} 
 		else 
 		{
-			OptionImage.sprite = UnOptionSprite;
-			LockImage.sprite = UnLockSprite;
+			OptionImage.sprite = UnActiveNormalSprite;
+
+			LockImage.sprite = ResetSprite;
 		}
 	}
 
@@ -76,15 +89,15 @@ public class OptionItem : MonoBehaviour {
 			{
 				WeaponOption.bIsLock = true;
 				makingUI.createEpic.bIsLock = true;
-				OptionImage.sprite = OptionSprite;
-				LockImage.sprite = LockSprite;
+				OptionImage.sprite = ActiveEpicSprite;
+				LockImage.sprite = ActiveEpicLockSprite;
 			} 
 			else 
 			{
 				WeaponOption.bIsLock = false;
 				makingUI.createEpic.bIsLock = false;
-				OptionImage.sprite = UnOptionSprite;
-				LockImage.sprite = UnLockSprite;
+				OptionImage.sprite = UnActiveEpicSprite;
+				LockImage.sprite = UnActiveEpicLockSprite;
 			}
 
 		} 

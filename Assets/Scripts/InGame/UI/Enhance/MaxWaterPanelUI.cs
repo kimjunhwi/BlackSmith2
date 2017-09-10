@@ -4,54 +4,45 @@ using UnityEngine;
 using ReadOnlys;
 
 public class MaxWaterPanelUI : EnhanceUI {
+	
+	public float fBasic = 2000.0f;
 
-	SmithEnhance m_EnhanceData;
+	const int nMaxLevel = 5;
+
+	const int nBasicHonor = 100;
 
 	protected override void Awake ()
 	{
 		base.Awake ();
 
-		nLevel = cPlayer.GetWaterPlusLevel ();
+		nLevel = cPlayer.GetMaxWaterLevel ();
 
-		EnhanceText.text = strEnhanceName + nLevel;
+		EnhanceText.text = string.Format("{0} : {1}", strEnhanceName , nLevel);
 
-		m_EnhanceData = enhanceDatas[(int)E_SMITH_INDEX.E_MAX_WATER];
+		fCostHonor = nBasicHonor * nLevel;
+
+		CostGoldText.text = fCostHonor.ToString();
 	}
 
 	protected override void EnhanceButtonClick ()
 	{
+		fCostHonor = nBasicHonor * nLevel;
 
-		if (nLevel != 0 && (nLevel % 10 == 0)) 
-		{
-			if (ScoreManager.ScoreInstance.GetHonor() >= m_EnhanceData.fBasicHonor + (nLevel * m_EnhanceData.fPlusHonorValue))
-			{
-
-				ScoreManager.ScoreInstance.HonorPlus (-(m_EnhanceData.fBasicHonor + (nLevel * m_EnhanceData.fPlusHonorValue)));
-
-				nLevel++;
-
-				cPlayer.SetBasicMaxWaterPlus(cPlayer.GetBasicMaxWaterPlus() + 1 * m_EnhanceData.fPlusPercent);
-
-				cPlayer.SetMaxWaterLevel(nLevel);
-
-				EnhanceText.text = strEnhanceName + nLevel;
-			}
-
-			return;
-		}
-
-
-		if (ScoreManager.ScoreInstance.GetGold() >= m_EnhanceData.fBasicGold + (nLevel * m_EnhanceData.fPlusGoldValue)) {
-
-			ScoreManager.ScoreInstance.GoldPlus (-(m_EnhanceData.fBasicGold + (nLevel * m_EnhanceData.fPlusGoldValue)));
+		if (fCostHonor <= ScoreManager.ScoreInstance.GetHonor () && cPlayer.GetMaxWaterLevel() <  nMaxLevel) {
 
 			nLevel++;
 
-			cPlayer.SetBasicMaxWaterPlus(cPlayer.GetBasicMaxWaterPlus() + 1 * m_EnhanceData.fPlusPercent);
+			cPlayer.SetMaxWaterLevel (nLevel);
 
-			cPlayer.SetMaxWaterLevel(nLevel);
+			fEnhanceValue = cPlayer.GetBasicMaxWater() + (fBasic * 0.5f);
 
-			EnhanceText.text = strEnhanceName + nLevel;
+			cPlayer.SetBasicMaxWater(fEnhanceValue);
+
+			EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
+
+			ScoreManager.ScoreInstance.HonorPlus (-fCostHonor);
+
+			CostGoldText.text  = (nBasicHonor * nLevel).ToString();
 		}
 	}
 }

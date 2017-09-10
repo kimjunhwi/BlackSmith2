@@ -63,6 +63,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	public QusetManager questManager;
 
+	public RepairObject repairObject;
+
 	int m_nDay = 1;
 
     private void Awake()

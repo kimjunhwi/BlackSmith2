@@ -68,25 +68,24 @@ public class BossRegenTimer : MonoBehaviour
 			//남은시간을 계산해서 계속 해서 흐른다
 			bossRegenTimerText.enabled = false;
 			//지난 분에서 전체 분을 나머지 계산해서 구한다
-			int nPassedTime_Min = (int)timeCal.TotalMinutes % 20;	//전체 분
-			int nPassedTime_Sec = (int)timeCal.Seconds % 60; 		//전채 초에서 나머지
+			int nPassedTime_Min = (int)timeCal.TotalMinutes;		//전체 분
+			nPassedTime_Min -= nInitTime_Min;
+
+			int nPassedTime_Sec = (int)timeCal.TotalSeconds % 60; 	//전채 초에서 나머지
+			nPassedTime_Sec  = nInitTime_sec - nPassedTime_Sec;
 
 			//bossCreator.BossChanllengeCountToMax ();
-
-			StartCoroutine (Timer (nPassedTime_Min, nPassedTime_Sec));
+			//시간은 다 지나도 계속해서 흐른다
+			StartCoroutine (Timer ( nPassedTime_Min,  nPassedTime_Sec));
 
 		}
 		//
 		else 
 		{
-			//StartTimer;
-			//6000s
-			//100m
-			//1h + 40m
 			int nPassedTime_Min = (int)timeCal.TotalMinutes;	//전체 분s
-			int nPassedTime_Sec = (int)timeCal.Seconds % 60; 	//전채 초에서 나머지
+			int nPassedTime_Sec = (int)timeCal.TotalSeconds % 60; 	//전채 초에서 나머지
 
-			//20분이 지나지 않았다면 저장된 분에서 지나간 분 만큼 뺀 시간을 시작한다
+			//120분이 지나지 않았다면 저장된 분에서 지나간 분 만큼 뺀 시간을 시작한다
 			if (nPassedTime_Min < 119) 
 			{
 				int ResultTime_Min = GameManager.Instance.cBossPanelListInfo [0].nBossRegenCurMin - nPassedTime_Min;
@@ -98,46 +97,8 @@ public class BossRegenTimer : MonoBehaviour
 
 				StartCoroutine (Timer (ResultTime_Min, ResultTime_Sec));
 			} 
-			/*
-			else
-			{
-				int ResultTime_Min = (nPassedTime_Min - GameManager.Instance.cBossPanelListInfo [0].nBossRegenCurMin) % 20;
-				int ResultTime_Sec = (nPassedTime_Sec - GameManager.Instance.cBossPanelListInfo [0].nBossRegenCurMin);
-				if (ResultTime_Sec < 0)
-					ResultTime_Sec = -(ResultTime_Sec);
-
-				StartCoroutine (Timer (ResultTime_Min, ResultTime_Sec));
-			}
-			*/
-
-			/*
-			else if (nPassedTime_Min < 40)
-			{
-				nPassedTime_Min = (int)nPassedTime_Min - 20;
-				nPassedTime_Sec = (int)((nPassedTime_Sec - 1200) % 60);
-				StartCoroutine (Timer (nInitTime_Min - nPassedTime_Min, nInitTime_sec - nPassedTime_Sec));
-			} 
-			else if (nPassedTime_Min < 60)
-			{
-				nPassedTime_Min = (int)nPassedTime_Min - 40;
-				nPassedTime_Sec = (int)((nPassedTime_Sec - 2400) % 60);
-				StartCoroutine (Timer (nInitTime_Min - nPassedTime_Min, nInitTime_sec - nPassedTime_Sec));
-			}
-			else if (nPassedTime_Min < 80)
-			{
-				nPassedTime_Min = (int)nPassedTime_Min - 60;
-				nPassedTime_Sec = (int)((nPassedTime_Sec - 3600) % 60);
-				StartCoroutine (Timer (nInitTime_Min - nPassedTime_Min, nInitTime_sec -nPassedTime_Sec));
-			}
-			else if (nPassedTime_Min < 100)
-			{
-				nPassedTime_Min = (int)nPassedTime_Min - 80;
-				nPassedTime_Sec = (int)((nPassedTime_Sec - 4800) % 60);
-				StartCoroutine (Timer (nInitTime_Min - nPassedTime_Min, nInitTime_sec - nPassedTime_Sec));
-			}
-			*/
-
 			bossRegenTimerText.enabled = true;
+		
 		}
 	}
 

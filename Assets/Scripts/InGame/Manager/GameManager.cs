@@ -14,6 +14,7 @@ using GooglePlayGames.BasicApi.SavedGame;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.Advertisements;
 
+
 //모든 데이터 및 로드, 세이브를 관리하는 클래스 
 //어디서든 사용해야 하기 때문에 제네릭싱글톤을 통해 구현
 public class GameManager : GenericMonoSingleton<GameManager>
@@ -37,6 +38,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	public SmithEnhance[] cSmithEnhance = null;
 	public EquipmentEnhance[] cEquipmentEnhance = null;
 
+	public GameCashItemShop[] cCashItemShopInfo = null;		//캐쉬샵 정보들
 
 	public Boss[] bossInfo = null;
 
@@ -119,6 +121,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		Load_TableInfo_BossWeapon ();
 
+		Load_TableInfo_CashShopInfo ();
 
         ArbaitDataBase = ConstructString<ArbaitData>(strArbaitPath);
 
@@ -183,18 +186,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		Load_TableInfo_BossWeapon ();
 
-		////////////
-		/// 
-		/// 
-		/// //
-
-		//Load_TableInfo_ArbaitEnhance ();
-
-		//Load_TableInfo_SmithEnhance2 ();
-
-		//Load_TableInfo_EquipmentEnhance ();
-
-
+		Load_TableInfo_CashShopInfo ();
 
         string ArbaitFilePath = Path.Combine(Application.persistentDataPath, strArbaitPath);
 
@@ -871,6 +863,44 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		cSoundsData = kInfo;
 	}
 
+
+	void Load_TableInfo_CashShopInfo()
+	{
+		if (cCashItemShopInfo.Length != 0) return;
+
+		string txtFilePath = "CashShop";
+
+		TextAsset ta = LoadTextAsset(txtFilePath);
+
+		List<string> line = LineSplit(ta.text);
+
+		GameCashItemShop[] kInfo = new GameCashItemShop[line.Count - 1];
+
+		for (int i = 0; i < line.Count; i++)
+		{
+			//Console.WriteLine("line : " + line[i]);
+			if (line[i] == null) continue;
+			if (i == 0) continue; 	// Title skip
+
+			string[] Cells = line[i].Split("\t"[0]);	// cell split, tab
+			if (Cells[0] == "") continue;
+
+			kInfo[i - 1] = new GameCashItemShop();
+			kInfo [i - 1].sItemName = Cells [0];
+			kInfo[i - 1].nType = int.Parse(Cells[1]);
+			kInfo[i - 1].sImagePath_01 = Cells[2];
+			kInfo[i - 1].sImagePath_02 = Cells[3];
+			kInfo[i - 1].fContinueSec = float.Parse( Cells[4]);
+			kInfo[i - 1].fRuby = float.Parse(Cells[5]);
+			kInfo[i - 1].fHonor = float.Parse(Cells[6]);
+			kInfo[i - 1].fGold = float.Parse(Cells[7]);
+			kInfo[i - 1].fCash = float.Parse(Cells[8]);
+			kInfo[i - 1].sItemContents = Cells[9];
+		}
+
+		cCashItemShopInfo = kInfo;
+	}
+
 	#endregion
 
 	#region SplitText
@@ -1495,7 +1525,16 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		}
 	}
 
+           
 	#endregion
+
+	#region UnityInAppPurchase
+
+
+	#endregion
+
+
+
 }
 
 enum E_Equiment
@@ -1828,24 +1867,31 @@ public class CGameQuestSaveInfo
 	public bool bIsFirstActive;
 	//구글 클라우드 저장이 되어있는지
 	public bool bIsGoogleSave;
+	//구글 클라우드에서 로드 하는지 않하는지
+	public bool bIsGoogleLoad;
 	//해당 퀘스트의 인덱스와 진행도
 	public int nQuestIndex01;
-	public int nQeustIndex01_ProgressValue;
+	public int nQuestIndex01_ProgressValue;
 	public int nQuestIndex02;
 	public int nQuestIndex02_ProgressValue;
 	public int nQuestIndex03;
-	public int nQeustINdex03_ProgressValue;
+	public int nQuestIndex03_ProgressValue;
+	public int nCurLeftMin;
+	public float fCurLeftSec;
 
 	public CGameQuestSaveInfo()
 	{
 		bIsFirstActive = true;
 		bIsGoogleSave = false;
+		bIsGoogleLoad = false;
 		nQuestIndex01 = -1;
-		nQeustIndex01_ProgressValue = -1;
+		nQuestIndex01_ProgressValue = -1;
 		nQuestIndex02 = -1;
 		nQuestIndex02_ProgressValue = -1;
 		nQuestIndex03 = -1;
-		nQeustINdex03_ProgressValue = -1;
+		nQuestIndex03_ProgressValue = -1;
+		nCurLeftMin = -1;
+		fCurLeftSec = -1.0f;
 	}
 }
 
@@ -2107,5 +2153,21 @@ public class EquipmentEnhance
 	public float fPlusGoldValue;
 	public float fPlusHonorValue;
 }
+
+[System.Serializable]
+public class GameCashItemShop
+{
+	public string sItemName;
+	public int nType;
+	public string sImagePath_01;
+	public string sImagePath_02;
+	public float fContinueSec;
+	public float fRuby;
+	public float fHonor;
+	public float fGold;
+	public float fCash;
+	public string sItemContents;
+}
+
 
 #endregion

@@ -73,6 +73,8 @@ public class BossCreator : MonoBehaviour
 	private bool m_bIsFirstFightToFireBoss;
 	private bool m_bIsFirstFightToMusicBoss;
 
+	public QusetManager questManager;
+
 
 
 
@@ -273,6 +275,7 @@ public class BossCreator : MonoBehaviour
 			bossIce.bossPanel = bossPanel;
 			bossIce.nCurLevel = bossElementList [0].curLevel;
 			bossIce.GuestPanel = GuestPanel;
+			bossIce.qusetManager = questManager;
 
 			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_BEGIN] = "저... 무기좀... 고쳐주세요";
 			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE01] = "흐으음~~~";
@@ -312,6 +315,7 @@ public class BossCreator : MonoBehaviour
 			bossSasin.bossPanel = bossPanel;
 			bossSasin.nCurLevel = bossElementList [1].curLevel;
 			bossSasin.GuestPanel = GuestPanel;
+			bossSasin.qusetManager = questManager;
 
 			bossSasin.bossWord [(int)E_BOSSWORD.E_BOSSWORD_BEGIN] = "내가 사신이지롱";
 			bossSasin.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE01] = "나 화났어 ㅡ,ㅡ";
@@ -357,6 +361,7 @@ public class BossCreator : MonoBehaviour
 			bossFire.bossPanel = bossPanel;
 			bossFire.nCurLevel = bossElementList [2].curLevel;
 			bossFire.GuestPanel = GuestPanel;
+			bossFire.qusetManager = questManager;
 
 			bossFire.bossWord [(int)E_BOSSWORD.E_BOSSWORD_BEGIN] = "Fire~~~";
 			bossFire.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE01] = "흐으음~~~";
@@ -401,6 +406,7 @@ public class BossCreator : MonoBehaviour
 			bossMusic.bossPanel = bossPanel;
 			bossMusic.nCurLevel = bossElementList [3].curLevel;
 			bossMusic.GuestPanel = GuestPanel;
+			bossMusic.qusetManager = questManager;
 
 			bossMusic.bossWord [(int)E_BOSSWORD.E_BOSSWORD_BEGIN] = "소리 질러~!";
 			bossMusic.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE01] = "Whoh~";
@@ -503,7 +509,7 @@ public class BossCreator : MonoBehaviour
 		{
 			bossElementList [0].BossUnlock_Obj.SetActive (false);
 		}
-		if (GameManager.Instance.cBossPanelListInfo [0].isUnlockSasinBoss == true)
+		if (GameManager.Instance.cBossPanelListInfo [0].isUnlockSasinBoss == false)
 		{
 	
 			bossElementList [1].BossUnlock_Obj.SetActive (false);

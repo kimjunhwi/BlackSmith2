@@ -24,6 +24,7 @@ public enum QuestType
 	E_QUESTTYPE_BOSSFIRESUCCESS,				//불 보스 x회 성공
 	E_QUESTTYPE_BOSSMUSICSUCCESS,				//음악 보스 x회 성공
 	E_QUESTTYPE_CONSTANTACCESS,					//접속유지 x분
+	E_QUESTTYPE_NONE,
 }
 
 public class QusetManager : MonoBehaviour, IPointerClickHandler
@@ -35,6 +36,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	private int nQuestMileCount = 0;
 	private int nQeustMaxMileCount = 0;				
 	private int nQuestTotalCount = 0;						//전체 퀘스트 개수
+	private int nQuestTypeTotalCount = 18;
 
 	public GameObject questAdsPopUpWindow_YesNo;			//Yes or No
 	public Button questAdsPopUpWindow_AdsButton;			//Yes or No가 있는 창에서의 YesButton
@@ -73,6 +75,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	public QuestTimer questTimer;
 
 	private bool isLoginAndFirstActive = false;
+	private bool isInGameOnOff = false;
 
 	public void SetUp()
 	{
@@ -85,30 +88,50 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 		CheckColor = new Color (255.0f, 0, 0, 255.0f);
 
+	
+
 		//처음 실행시
 		if (GameManager.Instance.cQuestSaveListInfo[0].bIsGoogleSave == false &&
-			GameManager.Instance.cQuestSaveListInfo[0].bIsFirstActive == true) 
+			GameManager.Instance.cQuestSaveListInfo[0].bIsFirstActive == true && isInGameOnOff == false) 
 		{
+			isInGameOnOff = true;
 			Debug.Log ("Quest first Active");
 			QuestInitStart ();
+			GameManager.Instance.SaveQuestList ();
+			return;
 		}
-		//
-		else
+	
+		//저장된 데이터 로드시
+		if (GameManager.Instance.cQuestSaveListInfo[0].bIsGoogleSave == false &&
+			GameManager.Instance.cQuestSaveListInfo[0].bIsFirstActive == false && isInGameOnOff == false) 
 		{
-			//초기화 시간이 지나 있으면 추가하기 버튼이 활성화
-			if (questTimer.checkIsTimeGone() == true)
-			{
-				isInitConfirm = true;
-				questTimer.addQuestToEmptySpace.SetActive(true);
-				//QuestInitStart ();
-			} 
-			else 
-			{
-				//시간이 지나있지 않다면 시간만 로드 한다
-				isInitConfirm = false;
-				questTimer.LoadTime();
-			}
+			isInGameOnOff = true;
+			Debug.Log ("Quest Load Data");
+			QuestSaveInitStart ();
 		}
+		//인게임에서 키고 끌시
+		if (GameManager.Instance.cQuestSaveListInfo[0].bIsGoogleSave == false &&
+			GameManager.Instance.cQuestSaveListInfo[0].bIsFirstActive == false && isInGameOnOff == true) 
+		{
+			Debug.Log ("Just Check Time");
+		}
+
+
+		//초기화 시간이 지나 있으면 추가하기 버튼이 활성화
+		if (questTimer.checkIsTimeGone() == true)
+		{
+			isInitConfirm = true;
+			questTimer.addQuestToEmptySpace.SetActive(true);
+		} 
+		else 
+		{
+			//시간이 지나있지 않다면 시간만 로드 한다
+			isInitConfirm = false;
+			questTimer.LoadTimeAndCheckTimeEnd();
+		}
+
+		GameManager.Instance.SaveQuestList ();
+
 	}
 
 
@@ -128,16 +151,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 		if (getInfoGameObject.gameObject.name == "QuestPanel")
 		{
-			/*
-			GameManager.Instance.cQuestSaveListInfo.Clear ();
-			int curItemCount = questDay.transform.childCount;
-			for (int i = 0; i < curItemCount; i++) 
-			{
-				Transform child = questDay.transform.GetChild (i);
-				QuestPanel childQuestPanel = child.GetComponent<QuestPanel> ();
-				//GameManager.Instance.cQuestSaveListInfo.Add (childQuestPanel.questData);
-			}
-			*/
+			SaveQuestData ();
 			questTimer.SaveTime ();
 			getInfoGameObject.SetActive (false);
 		}
@@ -163,16 +177,6 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		} else
 			_gameObject.SetActive (false);
 	}
-
-	//퀘스트완료  
-	public void CompleteQuest()
-	{
-		questYesAndExitPopUpWindow_Yes.SetActive (false);
-		questTimer.addQuestToEmptySpace.SetActive (false);
-		//questTimer.StartQuestTimer ();
-	
-	}
-
 
 	public void CheckQuestDestroy()
 	{
@@ -200,6 +204,27 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			questTimer.StartQuestTimer ();
 	}
 		
+	public void CheckCompleteQuestDestroy()
+	{
+		QuestPanel deleteQuestPanel = null;
+
+		for (int i = 0; i < questDay.transform.childCount; i++)
+		{
+			GameObject go = questDay.transform.GetChild (i).gameObject;
+			deleteQuestPanel = go.GetComponent<QuestPanel> ();
+
+			if (deleteQuestPanel.bIsQuest == false)
+			{
+				deleteQuestPanel.bIsQuest = false;
+				deleteQuestPanel.completeButton.SetActive (false);
+				questObjectPool.ReturnObject (go);
+				questObjects.Remove (deleteQuestPanel);
+				questYesAndExitPopUpWindow_YesButton.onClick.RemoveListener (CheckQuestDestroy);
+
+				deleteQuestPanel = null;
+			}
+		}
+	}
 
 
 	public void AllDestroyQuest()
@@ -228,7 +253,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		}
 	}
 
-	//시간이 지나면 호출되는 초기화
+	//추가하기 버튼으로 초기화하는 퀘스트 호출
 	public void QuestInit()
 	{
 		isInitConfirm = true;
@@ -244,7 +269,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		AllDestroyQuest ();
 		questObjects.Clear ();
 		//Add
-		for (int i = 0; i < GameManager.Instance.cQuestSaveListInfo.Count; i++)
+		for (int i = 0; i < 3; i++)
 		{
 			nQuestCount++;
 			quest = questObjectPool.GetObject ();
@@ -384,7 +409,12 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		for(int i = 0 ; i< questObjects.Count; i++)
 		{
 			QuestPanel questPanel = questObjects[i].gameObject.GetComponent<QuestPanel> ();
-			//questPanel.GetQuest (GameManager.Instance.cQuestSaveListInfo[i] , this);
+			if(i==0)
+				questPanel.GetQuest (questDatas[GameManager.Instance.cQuestSaveListInfo[0].nQuestIndex01] , this , GameManager.Instance.cQuestSaveListInfo[0].nQuestIndex01_ProgressValue);
+			if(i ==1)
+				questPanel.GetQuest (questDatas[GameManager.Instance.cQuestSaveListInfo[0].nQuestIndex02] , this , GameManager.Instance.cQuestSaveListInfo[0].nQuestIndex02_ProgressValue);
+			if(i == 2)
+				questPanel.GetQuest (questDatas[GameManager.Instance.cQuestSaveListInfo[0].nQuestIndex03] , this , GameManager.Instance.cQuestSaveListInfo[0].nQuestIndex03_ProgressValue);
 		} 
 	}
 
@@ -400,6 +430,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 			questPanel.GetQuest (questDatas [random], this);
 			questPanel.InitQuestValue ();
+			questPanel.questTypeIndex = (QuestType)questDatas [random].nType;
 		} 
     }
 	//Saved Quest Data 할당
@@ -413,53 +444,140 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 		questPanel.GetQuest (questDatas [random], this);
 		questPanel.InitQuestValue ();
+		questPanel.questTypeIndex = (QuestType)questDatas [random].nType;
 
 	}
 
-
+	//퀘스트를 체크하는 곳에서 해당 퀘스트에 해당되는 enum 값을 넘겨서 퀘스트 목록중 해당되는 것을 찾아 값을 올린다
 	public void QuestSuccessCheck(QuestType _questTypeIndex, int _value)
 	{
-		//해당 타입의 value를 받아서 각각
-		switch (_questTypeIndex) 
+		if (questObjects[0] == null)
+			return;
+		
+		for (int i = 0; i < questObjects.Count; i++) 
 		{
-		case QuestType.E_QUESTTYPE_CUSTOMERSUCCESS:
-			break;
-		case QuestType.E_QUESTTYPE_DAYS:
-			break;
-		case QuestType.E_QUESTTYPE_WATERUSE:
-			break;
-		case QuestType.E_QUESTTYPE_MISS:
-			break;
-		case QuestType.E_QUESTTYPE_CRITICALSUCCESS:
-			break;
-		case QuestType.E_QUESTTYPE_ARBAITSUCCESS:
-			break;
-		case QuestType.E_QUESTTYPE_BIGSUCCESS:
-			break;
-		case QuestType.E_QUESTTYPE_BIGSUCCESSANDCUSTOMERSUCCESS:
-			break;
-		case QuestType.E_QUESTTYPE_CREATEHAMMER:
-			break;
-		case QuestType.E_QUESTTYPE_INTIMECUTOMERSUCCESS:
-			break;
-		case QuestType.E_QUESTTYPE_NOMISSCUTOMERSUCCESS:
-			break;
-		case QuestType.E_QUESTTYPE_NOWATERUSE:
-			break;
-		case QuestType.E_QUESTTYPE_ANYBOSSSUCCESS:
-			break;
-		case QuestType.E_QUESTTYPE_BOSSICESUCCESS:
-			break;
-		case QuestType.E_QUESTTYPE_BOSSSASINSUCCESS:
-			break;
-		case QuestType.E_QUESTTYPE_BOSSFIRESUCCESS:
-			break;
-		case QuestType.E_QUESTTYPE_BOSSMUSICSUCCESS:
-			break;
-		case QuestType.E_QUESTTYPE_CONSTANTACCESS:
-			break;
-		default :
-			break;
+			QuestPanel questPanel = questObjects[i].gameObject.GetComponent<QuestPanel> ();
+			if (questPanel.questTypeIndex == _questTypeIndex) 
+			{
+				questPanel.nCompareCondition += _value;
+				questPanel.ShowProgress ();
+			}
 		}
+	}
+
+
+
+	public void SaveQuestData()
+	{
+
+		if (GameManager.Instance.cQuestSaveListInfo [0].bIsFirstActive == false && questObjects.Count != 0)
+		{
+			Debug.Log ("Save Local Quest Data");
+
+			GameManager.Instance.cQuestSaveListInfo [0].bIsGoogleSave = false;
+
+			for (int i = 0; i < questObjects.Count; i++) 
+			{
+				if (questObjects.Count == 1) {
+					if (i == 0) {
+						QuestPanel questPanel = questObjects [i].gameObject.GetComponent<QuestPanel> ();
+						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex01 = questPanel.nQuestIndex;
+						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex01_ProgressValue = questPanel.nCompareCondition;
+					}
+					if (i == 1) {
+						QuestPanel questPanel = questObjects [i].gameObject.GetComponent<QuestPanel> ();
+						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02 = -1;
+						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02_ProgressValue = -1;
+					}
+					if (i == 2) {
+						QuestPanel questPanel = questObjects [i].gameObject.GetComponent<QuestPanel> ();
+						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03 = -1;
+						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03_ProgressValue = -1;
+					}
+				} else if (questObjects.Count == 2) {
+					if (i == 0) {
+						QuestPanel questPanel = questObjects [i].gameObject.GetComponent<QuestPanel> ();
+						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex01 = questPanel.nQuestIndex;
+						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex01_ProgressValue = questPanel.nCompareCondition;
+					}
+					if (i == 1) {
+						QuestPanel questPanel = questObjects [i].gameObject.GetComponent<QuestPanel> ();
+						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02 = questPanel.nQuestIndex;
+						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02_ProgressValue = questPanel.nCompareCondition;
+					}
+					if (i == 2) {
+						QuestPanel questPanel = questObjects [i].gameObject.GetComponent<QuestPanel> ();
+						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03 = -1;
+						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03_ProgressValue = -1;
+					}
+				} 
+				else
+				{
+					if (i == 0) {
+						QuestPanel questPanel = questObjects [i].gameObject.GetComponent<QuestPanel> ();
+						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex01 = questPanel.nQuestIndex;
+						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex01_ProgressValue = questPanel.nCompareCondition;
+					}
+					if (i == 1) {
+						QuestPanel questPanel = questObjects [i].gameObject.GetComponent<QuestPanel> ();
+						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02 = questPanel.nQuestIndex;
+						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02_ProgressValue = questPanel.nCompareCondition;
+					}
+					if (i == 2) {
+						QuestPanel questPanel = questObjects [i].gameObject.GetComponent<QuestPanel> ();
+						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03 = questPanel.nQuestIndex;
+						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03_ProgressValue = questPanel.nCompareCondition;
+					}
+				}
+			}
+			GameManager.Instance.SaveQuestList ();
+		} else {
+			Debug.Log ("Not Save Data");
+		}
+
+
+	}
+
+	public QuestType ReturnQuestType(int _index)
+	{
+		if (_index == (int)QuestType.E_QUESTTYPE_CUSTOMERSUCCESS)
+			return QuestType.E_QUESTTYPE_CUSTOMERSUCCESS;
+		else if (_index == (int)QuestType.E_QUESTTYPE_DAYS)
+			return QuestType.E_QUESTTYPE_DAYS;
+		else if (_index == (int)QuestType.E_QUESTTYPE_WATERUSE)
+			return QuestType.E_QUESTTYPE_WATERUSE;
+		else if (_index == (int)QuestType.E_QUESTTYPE_MISS)
+			return QuestType.E_QUESTTYPE_MISS;
+		else if (_index == (int)QuestType.E_QUESTTYPE_CRITICALSUCCESS)
+			return QuestType.E_QUESTTYPE_CRITICALSUCCESS;
+		else if (_index == (int)QuestType.E_QUESTTYPE_ARBAITSUCCESS)
+			return QuestType.E_QUESTTYPE_ARBAITSUCCESS;
+		else if (_index == (int)QuestType.E_QUESTTYPE_BIGSUCCESS)
+			return QuestType.E_QUESTTYPE_BIGSUCCESS;
+		else if (_index == (int)QuestType.E_QUESTTYPE_BIGSUCCESSANDCUSTOMERSUCCESS)
+			return QuestType.E_QUESTTYPE_BIGSUCCESSANDCUSTOMERSUCCESS;
+		else if (_index == (int)QuestType.E_QUESTTYPE_CREATEHAMMER)
+			return QuestType.E_QUESTTYPE_CREATEHAMMER;
+		else if (_index == (int)QuestType.E_QUESTTYPE_INTIMECUTOMERSUCCESS)
+			return QuestType.E_QUESTTYPE_INTIMECUTOMERSUCCESS;
+		else if (_index == (int)QuestType.E_QUESTTYPE_NOMISSCUTOMERSUCCESS)
+			return QuestType.E_QUESTTYPE_NOMISSCUTOMERSUCCESS;
+		else if (_index == (int)QuestType.E_QUESTTYPE_NOWATERUSE)
+			return QuestType.E_QUESTTYPE_NOWATERUSE;
+		else if (_index == (int)QuestType.E_QUESTTYPE_ANYBOSSSUCCESS)
+			return QuestType.E_QUESTTYPE_ANYBOSSSUCCESS;
+		else if (_index == (int)QuestType.E_QUESTTYPE_BOSSICESUCCESS)
+			return QuestType.E_QUESTTYPE_BOSSICESUCCESS;
+		else if (_index == (int)QuestType.E_QUESTTYPE_BOSSSASINSUCCESS)
+			return QuestType.E_QUESTTYPE_BOSSSASINSUCCESS;
+		else if (_index == (int)QuestType.E_QUESTTYPE_BOSSFIRESUCCESS)
+			return QuestType.E_QUESTTYPE_BOSSFIRESUCCESS;
+		else if (_index == (int)QuestType.E_QUESTTYPE_BOSSMUSICSUCCESS)
+			return QuestType.E_QUESTTYPE_BOSSMUSICSUCCESS;
+		else if (_index == (int)QuestType.E_QUESTTYPE_CONSTANTACCESS)
+			return QuestType.E_QUESTTYPE_CONSTANTACCESS;
+		else
+			return QuestType.E_QUESTTYPE_NONE;
+
 	}
 }

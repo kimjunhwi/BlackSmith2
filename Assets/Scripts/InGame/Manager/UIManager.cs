@@ -15,10 +15,13 @@ public class UIManager : MonoBehaviour
 	public Sprite [] uiSprite;	   //하이라이트 sprite 조정을 위한 sprite 배열
 	Button uiButton ;
 	public GameObject uiBossFirstFightMark;
-
+	public ShopCash shopCash;
+	public QusetManager questManager;
 
 	void Start()
 	{
+		//shopCash.StartSetUp ();
+
 		AllDisable ();
 
 		GameManager.Instance.Root_ui = gameObject;
@@ -41,6 +44,12 @@ public class UIManager : MonoBehaviour
 			}
 			uiPanels [nIndex].SetActive (false);
 
+			//퀘스트 패널 열고 닫을때 저장 정보
+			if(nIndex == 5)
+			{
+				questManager.SaveQuestData ();
+			}
+
 			if (nIndex != 5 && nIndex != 6) 
 			{
 				SpriteState tmpSpriteState = new SpriteState ();
@@ -57,10 +66,9 @@ public class UIManager : MonoBehaviour
 		{
 			AllDisable ();
 			uiPanels [nIndex].SetActive (true);
-			if (nIndex != 5 && nIndex != 6) {
+			if (nIndex != 5 && nIndex != 6)
+			{
 				
-
-
 				SpriteState tmpSpriteState = new SpriteState ();
 				tmpSpriteState.disabledSprite = uiButtons [nIndex].spriteState.disabledSprite;
 				tmpSpriteState.pressedSprite = uiButtons [nIndex].spriteState.pressedSprite;
@@ -71,9 +79,12 @@ public class UIManager : MonoBehaviour
 			}
 			yesNoButton.SetActive (false);
 
+
+
 			//보스 패널 열시 시간 로드 
 			if (nIndex == 3) 
 			{
+				questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSSASINSUCCESS, 1);
 				Debug.Log ("BossPanelOn!!");
 				bossCreator.CheckCurDaysAndBossUnlock ();
 				bossCreator.BossPanelSetUp ();

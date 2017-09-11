@@ -101,7 +101,7 @@ public class BossConsumeItemInfo : MonoBehaviour
 			//100m
 			//1h + 40m
 			int nPassedTime_Min = (int)timeCal.TotalMinutes;
-			int nPassedTime_Sec = (int)timeCal.Seconds % 60;
+			int nPassedTime_Sec = (int)timeCal.TotalSeconds % 60;
 
 			//15분이 지나지 않았다면 저장된 분에서 지나간 분 만큼 뺀 시간을 시작한다
 			if (nPassedTime_Min < 15) 
@@ -115,37 +115,7 @@ public class BossConsumeItemInfo : MonoBehaviour
 
 				StartCoroutine (Timer (ResultTime_Min, ResultTime_Sec));
 			}
-			/*
-			else if (nPassedTime_Min < 40)
-			{
-				nInviteMentCurCount += 1;
-				nPassedTime_Min = (int)nPassedTime_Min - 20;
-				nPassedTime_Sec = (int)((nPassedTime_Sec - 1200) % 60);
-				StartCoroutine (Timer (nInitTime_Min - nPassedTime_Min, nInitTime_sec - nPassedTime_Sec));
-			} 
-			else if (nPassedTime_Min < 60)
-			{
-				nInviteMentCurCount += 2;
-				nPassedTime_Min = (int)nPassedTime_Min - 40;
-				nPassedTime_Sec = (int)((nPassedTime_Sec - 2400) % 60);
-				StartCoroutine (Timer (nInitTime_Min - nPassedTime_Min, nInitTime_sec - nPassedTime_Sec));
-			}
-			else if (nPassedTime_Min < 80)
-			{
-				nInviteMentCurCount += 3;
-				nPassedTime_Min = (int)nPassedTime_Min - 60;
-				nPassedTime_Sec = (int)((nPassedTime_Sec - 3600) % 60);
-				StartCoroutine (Timer (nInitTime_Min - nPassedTime_Min, nInitTime_sec -nPassedTime_Sec));
-			}
-			else if (nPassedTime_Min < 100)
-			{
-				nInviteMentCurCount += 4;
-				nPassedTime_Min = (int)nPassedTime_Min - 80;
-				nPassedTime_Sec = (int)((nPassedTime_Sec - 4800) % 60);
-				StartCoroutine (Timer (nInitTime_Min - nPassedTime_Min, nInitTime_sec - nPassedTime_Sec));
-			}
-			*/
-
+		
 			inviteMentTimer_Text.enabled = true;
 		}
 	}

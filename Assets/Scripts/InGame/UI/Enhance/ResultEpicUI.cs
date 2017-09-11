@@ -53,7 +53,6 @@ public class ResultEpicUI : MonoBehaviour {
 	public SimpleObjectPool OptionPool;
 	public EpicOption createEpic = null;
 
-
 	void Awake()
 	{
 		playerData = GameManager.Instance.GetPlayer ();

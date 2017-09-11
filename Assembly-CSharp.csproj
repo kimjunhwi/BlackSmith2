@@ -267,6 +267,7 @@
      <Compile Include="Assets\Scripts\InGame\EpicOption\SledeHammer.cs" />
      <Compile Include="Assets\Scripts\InGame\Manager\BigInteger.cs" />
      <Compile Include="Assets\Scripts\InGame\Manager\CoroutineChain.cs" />
+     <Compile Include="Assets\Scripts\InGame\Manager\FadingManager.cs" />
      <Compile Include="Assets\Scripts\InGame\Manager\GameManager.cs" />
      <Compile Include="Assets\Scripts\InGame\Manager\GenericMonoSingleton.cs" />
      <Compile Include="Assets\Scripts\InGame\Manager\ItemGenerator.cs" />

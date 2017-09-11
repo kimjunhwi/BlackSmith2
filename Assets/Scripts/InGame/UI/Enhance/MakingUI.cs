@@ -61,6 +61,8 @@ public class MakingUI : MonoBehaviour {
 
 	public SimpleObjectPool optionPanelPool;
 
+	public FadingManager FadeManager = null;
+
 
 	void Awake()
 	{
@@ -267,6 +269,8 @@ public class MakingUI : MonoBehaviour {
 	{
 		if (playerData.GetDay() <= 10)
 			return;
+
+		FadeManager.FadeAction (3.0f, true);
 		
 		ResultUI.Init (playerData, BossSoulSlots);
 

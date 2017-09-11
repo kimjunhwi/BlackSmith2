@@ -61,8 +61,6 @@ public class ResultEpicUI : MonoBehaviour {
 		AdButton.onClick.AddListener (ShowAdButton );
 
 		gameObject.SetActive (false);
-
-
 	}
 
 	public void Init(Player _player, BossSoul[] _bossSoul)
@@ -229,27 +227,58 @@ public class ResultEpicUI : MonoBehaviour {
 		else 
 			createEpic.Init (playerData.GetDay (), playerData);
 
-		if (createEpic != null) 
+		if (createEpic != null) {
+			//에픽 옵션 추가 
+			CGameMainWeaponOption EpicOption = new CGameMainWeaponOption ();
+		
+			EpicOption.nIndex = (int)E_CREATOR.E_EPIC;
+			EpicOption.strOptionName = createEpic.strExplain;
+			EpicOption.nValue = nInsertValue;
+			EpicOption.strOptionExplain = createEpic.strExplain;
+			EpicOption.bIsLock = false;
+			createEpic.bIsLock = false;
+		
+			LIST_OPTION.Add (EpicOption);
+
+			createWeapon.WeaponSprite = Resources.Load<Sprite> ("Crafts/CreatorWeapon/" + createEpic.nIndex);
+
+			createWeapon.strName = GameManager.Instance.cHammerNames [createEpic.nIndex].strName;
+		} 
+		else 
 		{
-				//에픽 옵션 추가 
-				CGameMainWeaponOption EpicOption = new CGameMainWeaponOption ();
-		
-				EpicOption.nIndex = (int)E_CREATOR.E_EPIC;
-				EpicOption.strOptionName = createEpic.strExplain;
-				EpicOption.nValue = nInsertValue;
-				EpicOption.strOptionExplain = createEpic.strExplain;
-				EpicOption.bIsLock = false;
-				createEpic.bIsLock = false;
-		
-				LIST_OPTION.Add (EpicOption);
-		}
+			int nRandomWeaponIndex = Random.Range (9, 28);
+
+			createWeapon.WeaponSprite = Resources.Load<Sprite> ("Crafts/CreatorWeapon/" + nRandomWeaponIndex);
+
+			createWeapon.strName = GameManager.Instance.cHammerNames [nRandomWeaponIndex].strName;}
+
+		WeaponImage.sprite = createWeapon.WeaponSprite;
+		WeaponNameText.text = createWeapon.strName;
 	}
 
 	private bool CheckData(CreatorWeapon _equiment, int nIndex, int _nInsertValue)
 	{
 		switch(nIndex)
 		{
+		case (int)E_CREATOR.E_REPAIRPERCENT:
+			if (_equiment.fRepairPercent == 0)
+			{
+				CGameMainWeaponOption plusItem = new CGameMainWeaponOption ();
 
+				_equiment.fRepairPercent = _nInsertValue;
+
+				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
+				plusItem.strOptionName = "수리력";
+				plusItem.nValue = _nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
+				plusItem.bIsLock = false;
+
+				LIST_OPTION.Add (plusItem);
+
+				return true;
+			}
+
+			break;
 		case (int)E_CREATOR.E_ARBAIT:
 			if (_equiment.fArbaitRepair == 0)
 			{
@@ -442,14 +471,14 @@ public class ResultEpicUI : MonoBehaviour {
 
 	void Successed()
 	{
+		SpawnManager.Instance.SetDayInitInfo (playerData.GetDay ());
+
 		gameObject.SetActive (false);
 	}
 
 	void ShowAdButton()
 	{
 		GameManager.Instance.ShowRewardedAd_Creator (this);
-
-
 	}
 
 	public void ShowAd()

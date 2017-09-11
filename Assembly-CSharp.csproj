@@ -285,14 +285,17 @@
      <Compile Include="Assets\Scripts\InGame\Particle\BasicParticle.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\BreakBoomParticle.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\BreakBoomPool.cs" />
+     <Compile Include="Assets\Scripts\InGame\Particle\BuffPool.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\CriticalRepairParticle.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\CriticalRepairPool.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\CriticalTouchParticle.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\CriticalTouchPool.cs" />
+     <Compile Include="Assets\Scripts\InGame\Particle\DeBuffPool.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\NormalRepairParticle.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\NormalRepairPool.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\NormalTouchParticle.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\NormalTouchPool.cs" />
+     <Compile Include="Assets\Scripts\InGame\Particle\ParticlePlay.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\SuccessedParticle.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\SuccessedPool.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\TemperatureBoomParticle.cs" />
@@ -389,6 +392,7 @@
      <None Include="Assets\Resources\Data\BossWeapon.txt" />
      <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />
      <None Include="Assets\Resources\Data\Character.txt" />
+     <None Include="Assets\Resources\Data\HammerName.txt" />
      <None Include="Assets\Resources\Data\Weapon.txt" />
      <None Include="Assets\GooglePlayGames\Editor\template-AndroidManifest.txt" />
      <None Include="Assets\Boomlagoon\JSON\Readme.txt" />

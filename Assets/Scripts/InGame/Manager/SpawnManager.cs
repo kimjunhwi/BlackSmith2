@@ -65,6 +65,11 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	public RepairObject repairObject;
 
+	public Player playerData;
+
+	public BuffPool BuffParticlePool;
+	public DeBuffPool DeBuffParticlePool;
+
 	int m_nDay = 1;
 
     private void Awake()
@@ -81,7 +86,11 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		//SpawnManager를 미리 캐싱
 		GameManager.Instance.player.GetSpawnManager(this);
 
+		BuffParticlePool.Init ();
+		DeBuffParticlePool.Init ();
+
         //터치 오브젝트들을 초기화 밑 할당 해줌 (추후 텍스트 추가)
+
         BreakBoomPool.Instance.Init();
 
         NormalRepairPool.Instance.Init();
@@ -158,6 +167,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
             //미리 ArbaitBatch를 캐싱해준후 아르바이트 데이터를 넣어줌
             array_ArbaitData[nIndex] = m_BatchArbait[nIndex].GetComponent<ArbaitBatch>();
+			array_ArbaitData [nIndex].BuffEffectPool = BuffParticlePool;
+			array_ArbaitData [nIndex].DeBuffEffectPool = DeBuffParticlePool;
 
             array_ArbaitData[nIndex].spawnManager = this;
             array_ArbaitData[nIndex].m_CharacterChangeData = GameManager.Instance.GetArbaitData(nIndex);
@@ -526,6 +537,18 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 					m_BatchArbait[nIndex].SetActive(false);
 
 					m_nBatchArbaitCount--;
+
+					if (nIndex == (int)E_ARBAIT.E_ROY)
+						playerData.SetRepairPower ();
+					
+					else if (nIndex == (int)E_ARBAIT.E_MIA)
+						playerData.SetWaterPlus ();
+					
+					else if (nIndex == (int)E_ARBAIT.E_NURSE)
+						playerData.SetCriticalChance ();
+
+
+
 					break;
 				}
 			}

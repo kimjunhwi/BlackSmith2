@@ -71,6 +71,7 @@
      <None Include="Assets\Resources\Data\BossWeapon.txt" />
      <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />
      <None Include="Assets\Resources\Data\Character.txt" />
+     <None Include="Assets\Resources\Data\HammerName.txt" />
      <None Include="Assets\Resources\Data\Weapon.txt" />
      <None Include="Assets\GooglePlayGames\Editor\template-AndroidManifest.txt" />
      <None Include="Assets\Boomlagoon\JSON\Readme.txt" />

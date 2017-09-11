@@ -34,6 +34,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	public CGameSoundData[] cSoundsData = null;					//사운드 데이
 
+	public CGameHammer[] cHammerNames = null;
+
 	public ArbaitEnhance[] cArbaitEnhance = null;
 	public SmithEnhance[] cSmithEnhance = null;
 	public EquipmentEnhance[] cEquipmentEnhance = null;
@@ -112,6 +114,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		Load_TableInfo_Sound ();
 
 		Load_TableInfo_Weapon();
+
+		Load_TableInfo_Hammer();
 
 		Load_TableInfo_Quest();
 
@@ -417,9 +421,6 @@ public class GameManager : GenericMonoSingleton<GameManager>
         return null;
     }
 
-
-
-
     void OnApplicationQuit()
     {
 		DataSave ();
@@ -665,6 +666,33 @@ public class GameManager : GenericMonoSingleton<GameManager>
         }
         cWeaponInfo = kInfo;
     }
+
+	void Load_TableInfo_Hammer()
+	{
+		if (cHammerNames.Length != 0) return;
+
+		string txtFilePath = "HammerName";
+		TextAsset ta = LoadTextAsset(txtFilePath);
+		List<string> line = LineSplit(ta.text);
+
+		CGameHammer[] kInfo = new CGameHammer[line.Count - 1];
+
+		for (int i = 0; i < line.Count; i++)
+		{
+			//Console.WriteLine("line : " + line[i]);
+			if (line[i] == null) continue;
+			if (i == 0) continue; 	// Title skip
+
+			string[] Cells = line[i].Split("\t"[0]);	// cell split, tab
+			if (Cells[0] == "") continue;
+
+			kInfo[i - 1] = new CGameHammer();
+			kInfo[i - 1].nIndex = int.Parse(Cells[0]);
+			kInfo[i - 1].strName = Cells[1];
+
+		}
+		cHammerNames = kInfo;
+	}
 
     void Load_TableInfo_Quest()
     {
@@ -1554,7 +1582,8 @@ enum E_Equiment
 
 enum E_CREATOR
 {
-	E_ARBAIT = 0,
+	E_REPAIRPERCENT = 0,
+	E_ARBAIT,
 	E_HONOR,
 	E_GOLD,
 	E_WATERCHARGE,
@@ -1577,6 +1606,13 @@ enum E_CREATOR
 public class AllArbaitData
 {
 	public ArbaitData[] allArbaitData;
+}
+
+[System.Serializable]
+public class CGameHammer
+{
+	public int nIndex = 0;
+	public string strName = "";
 }
 
 [System.Serializable]
@@ -1633,18 +1669,19 @@ public class CGameEquiment
 public class CreatorWeapon
 {
 	public string strResource 		= "";
-	public int nGrade 				= 0;				//옵션 등급
-
+	public string strName 			= "";
+	public int nGrade 				= 0;		//옵션 등급
 	public float fRepair		 	= 0.0f;		//수리력
-	public float fArbaitRepair 		= 0.0f;	//아르바이트 수리력
-	public float fPlusHonorPercent 	= 0.0f ;//명예 추가 증가량
-	public float fPlusGoldPercent 	= 0.0f;	//골드 추가 증가량
+	public float fRepairPercent		= 0.0f;		//수리력 퍼센트
+	public float fArbaitRepair 		= 0.0f;		//아르바이트 수리력
+	public float fPlusHonorPercent 	= 0.0f ;	//명예 추가 증가량
+	public float fPlusGoldPercent 	= 0.0f;		//골드 추가 증가량
 	public float fWaterPlus 		= 0.0f;		//물 추가 수치
 	public float fActiveWater 		= 0.0f;		//물 사용시 추가 증가
-	public float fCriticalChance 	= 0.0f;	//크리티컬 찬스
-	public float fCriticalDamage 	= 0.0f;	//크리티컬 데미지
-	public float fBigSuccessed 		= 0.0f;	//대 성공 확률 
-	public float fAccuracyRate 		= 0.0f;	//명중률
+	public float fCriticalChance 	= 0.0f;		//크리티컬 찬스
+	public float fCriticalDamage 	= 0.0f;		//크리티컬 데미지
+	public float fBigSuccessed 		= 0.0f;		//대 성공 확률 
+	public float fAccuracyRate 		= 0.0f;		//명중률
 
 	public float fIceBossValue = 0.0f;
 	public float fRusiuBossValue = 0.0f;
@@ -1654,6 +1691,7 @@ public class CreatorWeapon
 	public int nEpicIndex = -1;
 	public int nCostDay = 0;
 	public bool bIsLock = false;
+	public Sprite WeaponSprite = null;
 
 	public CreatorWeapon()
 	{
@@ -1662,8 +1700,10 @@ public class CreatorWeapon
 	public CreatorWeapon(CreatorWeapon _creatorWeapon)
 	{
 		strResource = _creatorWeapon.strResource;
+		strName = _creatorWeapon.strName;
 		nGrade = _creatorWeapon.nGrade;
 		fRepair = _creatorWeapon.fRepair;
+		fRepairPercent = _creatorWeapon.fRepairPercent;
 		fArbaitRepair = _creatorWeapon.fArbaitRepair;
 		fPlusHonorPercent = _creatorWeapon.fPlusHonorPercent;
 		fPlusGoldPercent = _creatorWeapon.fPlusGoldPercent;

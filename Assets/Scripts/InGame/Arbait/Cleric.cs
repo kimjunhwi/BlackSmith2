@@ -66,6 +66,12 @@ public class Cleric : ArbaitBatch {
 
     public override void ApplySkill()
     {
+		GameObject obj = BuffEffectPool.GetObject();
+
+		obj.transform.position = BuffPosition.position;
+
+		obj.GetComponent<ParticlePlay>().Play(BuffEffectPool);
+
         if (m_bIsApplyBuff)
             m_fBuffTime = 0.0f;
 

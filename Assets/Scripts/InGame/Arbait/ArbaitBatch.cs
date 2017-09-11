@@ -88,7 +88,10 @@ public class ArbaitBatch : MonoBehaviour {
 	protected float fRepairDownPercent = 1;
 	protected float fAttackSpeedDownPercent = 1;
 
+	public Transform BuffPosition;
 
+	public BuffPool BuffEffectPool;
+	public DeBuffPool DeBuffEffectPool;
 
     //무기 등급을 어디까지 받아올지를 정하기 위해 사용
     public int nGrade { get; set; }
@@ -103,6 +106,7 @@ public class ArbaitBatch : MonoBehaviour {
 		RepairShowObject = GameObject.Find("TouchPad").GetComponent<RepairObject>();
 
 		animator = GetComponent<Animator> ();
+
 
 		playerData = GameManager.Instance.player;
     }

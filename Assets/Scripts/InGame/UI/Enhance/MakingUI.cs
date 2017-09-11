@@ -10,7 +10,7 @@ public class MakingUI : MonoBehaviour {
 	public Image BossSlotOne;
 	public Image BossSlotTwo;
 
-	public Text CostDayText;
+	public Text WeaponNameText;
 	public Text NowRepairPower;
 	public Text RandomRepairPower;
 
@@ -184,7 +184,21 @@ public class MakingUI : MonoBehaviour {
 				createEpic.bIsLock = false;
 
 				LIST_OPTION.Add (EpicOption);
+
+				createWeapon.WeaponSprite = Resources.Load<Sprite> ("Crafts/CreatorWeapon/" + createEpic.nIndex);
+
+				WeaponNameText.text = GameManager.Instance.cHammerNames [createEpic.nIndex].strName;
+			} 
+			else 
+			{
+				int nRandomWeaponIndex = Random.Range (9, 28);
+
+				createWeapon.WeaponSprite = Resources.Load<Sprite> ("Crafts/CreatorWeapon/" + nRandomWeaponIndex);
+
+				WeaponNameText.text = GameManager.Instance.cHammerNames [nRandomWeaponIndex].strName;
 			}
+
+			WeaponImage.sprite = createWeapon.WeaponSprite;
 
 			float fRepair = Mathf.RoundToInt (createWeapon.fRepair);
 
@@ -203,8 +217,6 @@ public class MakingUI : MonoBehaviour {
 
 
 			NowRepairPower.text = string.Format("{0}", fRepair);
-
-			CostDayText.text = string.Format("{0}",playerData.GetDay());
 
 			RandomRepairPower.text = string.Format("제작시 수리력 {0:F1} ~ {1:F1}",nCalcMinRepair,nCalcMaxRepair);
 
@@ -257,7 +269,6 @@ public class MakingUI : MonoBehaviour {
 
 	public void OnEnable()
 	{
-		CostDayText.text = string.Format("{0}",playerData.GetDay());
 
 		nCalcMinRepair = (int)Mathf.Round(m_nBasicMinRepair + (float)(m_nBasicMinRepair * (m_nPlusRepairMinPercent * playerData.GetDay() * 0.01f)));
 		nCalcMaxRepair = (int)Mathf.Round(m_nBasicMaxRepair + m_nBasicMaxRepair * (m_nPlusRepairMaxPercent * playerData.GetDay() * 0.01f));
@@ -269,8 +280,6 @@ public class MakingUI : MonoBehaviour {
 	{
 		if (playerData.GetDay() <= 10)
 			return;
-
-		FadeManager.FadeAction (3.0f, true);
 		
 		ResultUI.Init (playerData, BossSoulSlots);
 
@@ -302,6 +311,10 @@ public class MakingUI : MonoBehaviour {
 	public void CreateWeapon(CreatorWeapon _weapon,EpicOption _epicOption, List<CGameMainWeaponOption> _List_Option)
 	{
 		LIST_OPTION = _List_Option;
+
+		WeaponNameText.text = _weapon.strName;
+
+		WeaponImage.sprite = _weapon.WeaponSprite;
 	
 		float fRepair = Mathf.RoundToInt (_weapon.fRepair);
 	
@@ -320,8 +333,6 @@ public class MakingUI : MonoBehaviour {
 	
 		NowRepairPower.text = string.Format ("{0}", fRepair);
 	
-		CostDayText.text = string.Format ("{0}", playerData.GetDay ());
-	
 		RandomRepairPower.text = string.Format ("제작시 수리력 {0:F1} ~ {1:F1}", nCalcMinRepair, nCalcMaxRepair);
 	}
 
@@ -329,7 +340,25 @@ public class MakingUI : MonoBehaviour {
 	{
 		switch(nIndex)
 		{
+		case (int)E_CREATOR.E_REPAIRPERCENT:
+			if (_equiment.fRepairPercent == 0)
+			{
+				CGameMainWeaponOption plusItem = new CGameMainWeaponOption ();
 
+				_equiment.fRepairPercent = _nInsertValue;
+
+				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
+				plusItem.strOptionName = "수리력";
+				plusItem.nValue = _nInsertValue;
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
+				plusItem.bIsLock = false;
+
+				LIST_OPTION.Add (plusItem);
+
+				return true;
+			}
+
+			break;
 		case (int)E_CREATOR.E_ARBAIT:
 			if (_equiment.fArbaitRepair == 0)
 			{
@@ -432,7 +461,6 @@ public class MakingUI : MonoBehaviour {
 				plusItem.nIndex = (int)E_CREATOR.E_CRITICAL;
 				plusItem.strOptionName = "크리티컬 확률 증가";
 				plusItem.nValue = _nInsertValue;
-
 				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
 				plusItem.bIsLock = false;
 

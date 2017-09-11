@@ -72,14 +72,14 @@ public class ScoreManager : MonoBehaviour
 	//값을 수치로 표기하기 위한 함수 
 	string ChangeMoney(double _dValue)
 	{ 
-		if (_dValue == 0)
-			return "0";
-
 		int[] cVal = new int[10]; 
 
 		int index = 0; 
 
 		string strValue =  string.Format ("{0:####}", _dValue);
+
+		if (_dValue < 10000)
+			return strValue;
 
 		while (true) { 
 			string last4 = ""; 

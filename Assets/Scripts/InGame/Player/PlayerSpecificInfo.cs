@@ -39,7 +39,7 @@ public class PlayerSpecificInfo : MonoBehaviour {
 		CriticalChanceText.text = string.Format("크리 확률 : {0}%", player.GetCriticalChance().ToString ("N2"));
 		BigSuccessesChanceText.text = string.Format("대성공 확률 : {0}%", player.GetBigSuccessed().ToString ("N2"));
 		AccuracyRateText.text = string.Format("명중률 : {0}%", player.GetAccuracyRate().ToString ("N2"));
-		WaterMaxText.text = string.Format("최대 물 충전량 : {0}", player.GetBasicMaxWaterPlus().ToString ("N2"));
+		WaterMaxText.text = string.Format("최대 물 충전량 : {0}", player.GetBasicMaxWaterPlus().ToString ());
 		WaterRechargeAmountText.text = string.Format("물 충전량 : {0}", player.GetWaterPlus().ToString ("N2"));
 		FeverTimeText.text = string.Format("피버 시간  : {0}초", player.GetBasicFeverTime().ToString ("N2")); 
 

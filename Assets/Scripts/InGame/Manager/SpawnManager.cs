@@ -524,6 +524,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			{
 				if (array_ArbaitData [nIndex].ArbaitPanelObject == _obj) {
 					m_BatchArbait[nIndex].SetActive(false);
+
 					m_nBatchArbaitCount--;
 					break;
 				}

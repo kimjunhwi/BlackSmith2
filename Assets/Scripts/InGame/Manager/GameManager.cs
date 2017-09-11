@@ -422,7 +422,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
     void OnApplicationQuit()
     {
-		//DataSave ();
+		DataSave ();
     }
 
     //데이터 저장시 호출된다.
@@ -441,6 +441,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		playerData.dGold = ScoreManager.ScoreInstance.GetGold ();
 		playerData.dHonor = ScoreManager.ScoreInstance.GetHonor ();
+		playerData.nRuby = ScoreManager.ScoreInstance.GetRuby ();
 
 		creatorWeaponData = player.GetCreatorWeapon ();
 

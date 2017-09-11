@@ -46,6 +46,8 @@ public class ArbaitCharacter : MonoBehaviour {
 	public Text AccuracyText;
 	public Text GoldText;
 
+	public Player playerData;
+
     public virtual void Upgrade(){}
 
 	// Use this for initialization
@@ -83,6 +85,7 @@ public class ArbaitCharacter : MonoBehaviour {
 
 		m_EnhanceButtonEvent.onClick.AddListener (EnhanceEvent);
 
+		playerData = GameManager.Instance.GetPlayer ();
 	}
 
 	public void SetUp(int _nIndex,Sprite _sprite)
@@ -182,6 +185,7 @@ public class ArbaitCharacter : MonoBehaviour {
             m_CharacterData.batch = -1;
 
             m_bIsBatch = false;
+
         }
 
         Debug.Log(m_SettingToggle.isOn);

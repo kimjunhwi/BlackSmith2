@@ -33,13 +33,15 @@ public class ScoreManager : MonoBehaviour
 
     public Text goldText;
 	public Text honorText;
+	public Text rubyText;
+
 	public Text SuccessedGuestCount;
 
 	private double m_dGetGold = 0;
 	private double m_dGetHonor = 0;
+	private int m_nGetRuby = 0;
 
 	string[] unit = new string[]{ "G", "K", "M", "B", "T", "aa", "bb", "cc", "dd", "ee" }; 
-
 
     private void Awake()
     {
@@ -47,9 +49,11 @@ public class ScoreManager : MonoBehaviour
 
 		m_dGetGold = GameManager.Instance.player.GetGold ();
 		m_dGetHonor = GameManager.Instance.player.GetHonor ();
+		m_nGetRuby = GameManager.Instance.player.GetRuby ();
 
 		goldText.text = ChangeMoney (m_dGetGold);
 		honorText.text = ChangeMoney (m_dGetHonor);
+		rubyText.text = m_nGetRuby.ToString ();
 
 		SetCurrentDays (GameManager.Instance.player.GetDay ());
 		SetMaxDays (GameManager.Instance.player.GetMaxDay ());
@@ -57,6 +61,7 @@ public class ScoreManager : MonoBehaviour
 
 	public double GetGold() { return m_dGetGold; }
 	public double GetHonor() { return m_dGetHonor; }
+	public int GetRuby(){return m_nGetRuby; }
 
 	public void SetSuccessedGuestCount(int _nValue)
 	{
@@ -144,6 +149,12 @@ public class ScoreManager : MonoBehaviour
 		m_dGetHonor += _fValue;
 
 		honorText.text = ChangeMoney (m_dGetHonor);
+	}
+
+	public void RubyPlus(int _nValue)
+	{
+		m_nGetRuby += _nValue;
+		rubyText.text = m_nGetRuby.ToString ();
 	}
 
 	public void SetCurrentDays(int _Days)

@@ -41,19 +41,11 @@ public class BlueHair : ArbaitBatch {
 
 		playerData.SetRepairPower ();
 
-        //ApplySkill();
-
-		//playerData.SetBasicRepairPower(fGetRepairPower + fChangeRepair);
-
         SpawnManager.Instance.InsertWeaponArbait(m_CharacterChangeData.index, nBatchIndex);
     }
 
     protected override void OnDisable()
 	{
-        //ReliveSkill();
-
-		//playerData.SetBasicRepairPower(fMinusRepair);
-
         base.OnDisable();
 
         fChangeRepair = 0.0f;

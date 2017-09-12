@@ -271,10 +271,17 @@ public class BossFire : BossCharacter
 		{
 			if (animator.GetCurrentAnimatorStateInfo (0).IsName ("FireDisappear"))
 			{
-								yield return new WaitForSeconds (0.8f);
+				yield return new WaitForSeconds (0.8f);
+
+			
+
 				eCureentBossState = EBOSS_STATE.RESULT;
 				if (eCureentBossState == EBOSS_STATE.RESULT) 
 				{
+					//Quest Check
+					qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSFIRESUCCESS, 1);
+					qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ANYBOSSSUCCESS, 1);
+
 					//Effect Off
 					if(isStandardPhaseFailed == false)
 						bossEffect.ActiveEffect (BOSSEFFECT.BOSSEFFECT_FIREANGRY);

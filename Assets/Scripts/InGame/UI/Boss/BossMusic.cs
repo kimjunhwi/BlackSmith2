@@ -368,6 +368,10 @@ public class BossMusic : BossCharacter
 				eCureentBossState = EBOSS_STATE.RESULT;
 				if (eCureentBossState == EBOSS_STATE.RESULT)
 				{	
+					//Quest Check
+					qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSFIRESUCCESS, 1);
+					qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ANYBOSSSUCCESS, 1);
+
 					//BossFx off
 					if(isStandardPhaseFailed == false)
 						bossEffect.ActiveEffect (BOSSEFFECT.BOSSEFFECT_RUCIOVOLUMEUP);

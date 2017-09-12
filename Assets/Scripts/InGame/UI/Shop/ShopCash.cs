@@ -279,14 +279,16 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		if (getCashItemInfo [nIndex].sItemName == "프리패스") 
 		{
 			itemBuy_Text.text = "프리패스를 구입 하시겠습니까?";
+			itemBuy_YesButton.onClick.RemoveAllListeners ();
+			itemBuy_YesButton.onClick.AddListener (() => AddResource (0, getCashItemInfo [nIndex].fRuby ,  GameManager.Instance.player.GetDay() + 1, 10000.0));
 			GameObjectActive (YesNoPopUp_Obj);
 		}
 
 		if (getCashItemInfo [nIndex].sItemName == "100명예") 
 		{
 			itemBuy_Text.text = "100명예를 구입 하시겠습니까?";
-			itemBuy_YesButton.onClick.RemoveListener (() => AddResource (100, getCashItemInfo [nIndex].fRuby ));
-			itemBuy_YesButton.onClick.AddListener (() => AddResource (100, getCashItemInfo [nIndex].fRuby ));
+			itemBuy_YesButton.onClick.RemoveAllListeners ();
+			itemBuy_YesButton.onClick.AddListener (() => AddResource (100, getCashItemInfo [nIndex].fRuby , 0 , 0f));
 			GameObjectActive (YesNoPopUp_Obj);
 
 		}
@@ -294,26 +296,32 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		if (getCashItemInfo [nIndex].sItemName == "300명예") 
 		{
 			itemBuy_Text.text = "300명예를 구입 하시겠습니까?";
-			itemBuy_YesButton.onClick.RemoveListener (() => AddResource (300, getCashItemInfo [nIndex].fRuby ));
-			itemBuy_YesButton.onClick.AddListener (() => AddResource (300, getCashItemInfo [nIndex].fRuby ));
+			itemBuy_YesButton.onClick.RemoveAllListeners ();
+			itemBuy_YesButton.onClick.AddListener (() => AddResource (300, getCashItemInfo [nIndex].fRuby,0  , 0f));
 			GameObjectActive (YesNoPopUp_Obj);
 		}
 
 		if (getCashItemInfo [nIndex].sItemName == "500명예") 
 		{
 			itemBuy_Text.text = "500명예를 구입 하시겠습니까?";
-			itemBuy_YesButton.onClick.RemoveListener (() => AddResource (500, getCashItemInfo [nIndex].fRuby ));
-			itemBuy_YesButton.onClick.AddListener (() => AddResource (500, getCashItemInfo [nIndex].fRuby ));
+			itemBuy_YesButton.onClick.RemoveAllListeners ();
+			itemBuy_YesButton.onClick.AddListener (() => AddResource (500, getCashItemInfo [nIndex].fRuby, 0, 0f ));
 			GameObjectActive (YesNoPopUp_Obj);
 		}
 
 	}
 
-	public void AddResource(int _value , float _ruby)
+	public void AddResource(int _honor , float _ruby ,int _day , double _gold)
 	{
-		ScoreManager.ScoreInstance.HonorPlus (_value);
-		ScoreManager.ScoreInstance.RubyPlus( ((int)-_ruby));
+		if (_day >= 1) {
+			SpawnManager.Instance.SetDayInitInfo (_day);
 
+		}
+		
+		ScoreManager.ScoreInstance.GoldPlus (_gold);
+		ScoreManager.ScoreInstance.HonorPlus (_honor);
+		ScoreManager.ScoreInstance.RubyPlus( ((int)-_ruby));
+		ScoreManager.ScoreInstance.SetCurrentDays (_day);
 	}
 
 

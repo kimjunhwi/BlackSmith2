@@ -182,21 +182,66 @@ public class QuestPanel : MonoBehaviour
 			int randomRange = Random.Range (1, 5);
 			if (i == 0) 
 			{
-				GameManager.Instance.player.changeStats.dGold += questData.nRewardGold * randomRange;
-				Debug.Log ("Get Gold :" + questData.nRewardGold * randomRange);
+				if (randomRange <= 2) 
+				{
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardGold * randomRange);
+				}
+				else if (randomRange <= 4)
+				{
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardGold * randomRange);
+					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
+				} 
+				else
+				{
+					ScoreManager.ScoreInstance.RubyPlus (questData.nRewardGold * randomRange);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardGold * randomRange);
+					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
+
+				}
+
 			}
 			else if (i == 1) 
 			{
-				GameManager.Instance.player.changeStats.dHonor += questData.nRewardHonor * randomRange;
-				Debug.Log ("Get Honor :" + questData.nRewardHonor * randomRange);
+				if (randomRange <= 2) 
+				{
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardGold * randomRange);
+				}
+				else if (randomRange <= 4)
+				{
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardGold * randomRange);
+					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
+				} 
+				else
+				{
+					ScoreManager.ScoreInstance.RubyPlus (questData.nRewardGold * randomRange);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardGold * randomRange);
+					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
+
+				}
 			} 
 			else 
 			{
-				GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
-				Debug.Log ("Get Potion :" + questData.nRewardBossPotion);
+				if (randomRange <= 2) 
+				{
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardGold * randomRange);
+				}
+				else if (randomRange <= 4)
+				{
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardGold * randomRange);
+					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
+				} 
+				else
+				{
+					ScoreManager.ScoreInstance.RubyPlus (questData.nRewardGold * randomRange);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardGold * randomRange);
+					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
+
+				}
 			}
 		}
-
+		//Debug.Log ("Get Gold :" + questData.nRewardGold * randomRange);
+		//Debug.Log ("Get Honor :" + questData.nRewardHonor * randomRange);
+		//Debug.Log ("Get Potion :" + questData.nRewardBossPotion);
 		completeButton.SetActive (false);
 
 	}

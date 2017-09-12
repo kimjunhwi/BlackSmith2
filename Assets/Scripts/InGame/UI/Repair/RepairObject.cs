@@ -717,6 +717,7 @@ public class RepairObject : MonoBehaviour
 		if (Random.Range(0, 100) <= Mathf.Round(player.GetCriticalChance() + (player.GetCriticalChance() * weaponData.fMinusCriticalChance *0.01f)))
         {
             Debug.Log("Cri!!!");
+			SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Cri);
 
             GameObject obj = CriticalTouchPool.Instance.GetObject();
 

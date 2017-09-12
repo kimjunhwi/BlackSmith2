@@ -234,6 +234,10 @@ public class BossSasin : BossCharacter
 		eCureentBossState = EBOSS_STATE.RESULT;
 		if (eCureentBossState == EBOSS_STATE.RESULT) 
 		{
+			//Quest Check
+			qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSSASINSUCCESS, 1);
+			qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ANYBOSSSUCCESS, 1);
+
 			//효과 off
 			if (isStandardPhaseFailed == false)
 				bossEffect.ActiveEffect (BOSSEFFECT.BOSSEFFECT_SASINANGRY);

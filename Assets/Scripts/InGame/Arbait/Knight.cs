@@ -71,7 +71,7 @@ public class Knight : ArbaitBatch {
         base.RelivePauseSkill();
 
         if (m_bIsApplyBuff)
-			playerData.SetBasicAccuracyRate(playerData.GetBasicAccuracyRate() + m_fChangeAccuracy);
+			playerData.SetBasicAccuracyRate(playerData.GetBasicAccuracyRate() - m_fChangeAccuracy);
 
     }
 
@@ -80,20 +80,25 @@ public class Knight : ArbaitBatch {
         base.ApplyPauseSkill();
 
         if (m_bIsApplyBuff)
-			playerData.SetBasicAccuracyRate(playerData.GetBasicAccuracyRate() - m_fChangeAccuracy);
+			playerData.SetBasicAccuracyRate(playerData.GetBasicAccuracyRate() + m_fChangeAccuracy);
     }
 
     private IEnumerator ApplyDruidSkill()
 	{
 		yield return new WaitForSeconds(0.1f);
 
+		if (m_bIsApplyBuff == false) {
+			
+
+			m_fChangeAccuracy = playerData.GetBasicAccuracyRate () * (m_CharacterChangeData.fSkillPercent * 0.01f);
+
+			m_fChangeAccuracy = Mathf.Round (m_fChangeAccuracy);
+
+			playerData.SetBasicAccuracyRate (playerData.GetBasicAccuracyRate () + m_fChangeAccuracy);
+
+		}
+
 		m_bIsApplyBuff = true;
-
-		m_fChangeAccuracy = playerData.GetBasicAccuracyRate() * (m_CharacterChangeData.fSkillPercent * 0.01f);
-
-		m_fChangeAccuracy = Mathf.Round(m_fChangeAccuracy);
-
-		playerData.SetBasicAccuracyRate(playerData.GetBasicAccuracyRate() + m_fChangeAccuracy);
 
 		while (true)
 		{

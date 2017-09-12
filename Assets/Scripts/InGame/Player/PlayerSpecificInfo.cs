@@ -11,6 +11,8 @@ public class PlayerSpecificInfo : MonoBehaviour {
     public Text ArbaitRepairIncreaseText;
     public Text CriticalDamageText;
     public Text CriticalChanceText;
+	public Text GoldPlusText;
+	public Text HonorPlusText;
     public Text BigSuccessesChanceText;
     public Text AccuracyRateText;
     public Text WaterMaxText;
@@ -23,27 +25,92 @@ public class PlayerSpecificInfo : MonoBehaviour {
     {
         player = GameManager.Instance.player;
 
+		player.SetPlayerInfo (this);
     }
 
 	public void OnEnable()
     {
         if(player == null)
-            player = GameManager.Instance.player;
+			player = GameManager.Instance.GetPlayer();
 
-		if (player == null)
-			return;
-
-		RepairPowerText.text = string.Format("수리력 : {0}", ChangeValue(player.GetRepairPower()));
-		ArbaitRepairIncreaseText.text = string.Format("아르바이트 수리력 : {0}", player.GetArbaitRepairPower ().ToString ("N2"));
-		CriticalDamageText.text = string.Format("크리데미지 : {0}%", player.GetCriticalDamage().ToString ("N2"));
-		CriticalChanceText.text = string.Format("크리 확률 : {0}%", player.GetCriticalChance().ToString ("N2"));
-		BigSuccessesChanceText.text = string.Format("대성공 확률 : {0}%", player.GetBigSuccessed().ToString ("N2"));
-		AccuracyRateText.text = string.Format("명중률 : {0}%", player.GetAccuracyRate().ToString ("N2"));
-		WaterMaxText.text = string.Format("최대 물 충전량 : {0}", player.GetBasicMaxWaterPlus().ToString ());
-		WaterRechargeAmountText.text = string.Format("물 충전량 : {0}", player.GetWaterPlus().ToString ("N2"));
-		FeverTimeText.text = string.Format("피버 시간  : {0}초", player.GetBasicFeverTime().ToString ("N2")); 
-
+		ReSetting ();
     }
+
+	public void ReSetting()
+	{
+		SetRepairpowerText ();
+		SetArbaitRepairText ();
+
+		SetCriticalDamamgeText ();
+		SetCriticalChance ();
+
+		SetGoldPlusText ();
+		SetHonorPlusText ();
+
+		SetBigSuccessedText ();
+		SetAccuracyRateText ();
+
+		SetWaterMaxText ();
+		SetWaterCharginText ();
+
+		SetFeverTimeText ();
+	}
+
+	public void SetRepairpowerText()
+	{
+		RepairPowerText.text = string.Format("수리력 : {0}", ChangeValue(player.GetRepairPower()));
+	}
+
+	public void SetArbaitRepairText()
+	{
+		ArbaitRepairIncreaseText.text = string.Format("아르바이트 수리력 : {0}", player.GetArbaitRepairPower ().ToString ("N2"));
+	}
+
+	public void SetCriticalDamamgeText()
+	{
+		CriticalDamageText.text = string.Format("크리데미지 : {0}%", player.GetCriticalDamage().ToString ("N2"));
+	}
+
+	public void SetCriticalChance()
+	{
+		CriticalChanceText.text = string.Format("크리 확률 : {0}%", player.GetCriticalChance().ToString ("N2"));
+	}
+
+	public void SetGoldPlusText()
+	{
+		GoldPlusText.text = string.Format("골드 추가 증가량 : {0}%", player.GetGoldPlusPercent().ToString ("N2"));
+	}
+
+	public void SetHonorPlusText()
+	{
+		HonorPlusText.text = string.Format("명예 추가 증가량 : {0}%", player.GetHonorPlusPercent().ToString ("N2"));
+	}
+
+	public void SetBigSuccessedText()
+	{
+		BigSuccessesChanceText.text = string.Format("대성공 확률 : {0}%", player.GetBigSuccessed().ToString ("N2"));
+	}
+
+	public void SetAccuracyRateText()
+	{
+		AccuracyRateText.text = string.Format("명중률 : {0}%", player.GetAccuracyRate().ToString ("N2"));
+	}
+
+	public void SetWaterMaxText()
+	{
+		WaterMaxText.text = string.Format("최대 물 충전량 : {0}", player.GetBasicMaxWaterPlus().ToString ());
+	}
+
+	public void SetWaterCharginText()
+	{
+		WaterRechargeAmountText.text = string.Format("물 충전량 : {0}", player.GetWaterPlus().ToString ("N2"));
+	}
+
+	public void SetFeverTimeText()
+	{
+		FeverTimeText.text = string.Format("피버 시간  : {0}초", player.GetBasicFeverTime().ToString ("N2"));
+	}
+
 
 	//값을 수치로 표기하기 위한 함수 
 	public string ChangeValue(double _dValue)

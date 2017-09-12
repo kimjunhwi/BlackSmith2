@@ -48,7 +48,7 @@ public class Cleric : ArbaitBatch {
         {
             m_bIsApplyBuff = false;
 
-			playerData.SetBasicRepairPower(playerData.GetBasicRepairPower() - (double)dChangeRepair);
+			playerData.SetBasicRepairPower(playerData.GetBasicRepairPower() - dChangeRepair);
 
 			playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() - fChangeCritical);
         }

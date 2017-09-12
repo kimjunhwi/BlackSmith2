@@ -106,6 +106,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		//PlayerPrefs.DeleteKey ("BossRegenTime");
 		//PlayerPrefs.DeleteKey ("BossInvitementSaveTime");
 		//PlayerPrefs.DeleteKey("FirstLogin");
+
+		Load_TableInfo_Hammer();
        
 #if UNITY_EDITOR
 
@@ -115,7 +117,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		Load_TableInfo_Weapon();
 
-		Load_TableInfo_Hammer();
+
 
 		Load_TableInfo_Quest();
 
@@ -1044,10 +1046,9 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	public int GetSearchName(string strName)
 	{
 		for (int nIndex = 0; nIndex < cHammerNames.Length; nIndex++) 
-		{
 			if (cHammerNames [nIndex].strName == strName)
 				return cHammerNames [nIndex].nIndex;
-		}
+		
 		return -1;
 	}
 

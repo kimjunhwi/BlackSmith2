@@ -88,7 +88,9 @@ public class ArbaitBatch : MonoBehaviour {
 	protected float fRepairDownPercent = 1;
 	protected float fAttackSpeedDownPercent = 1;
 
+
 	public Transform BuffPosition;
+	public Transform DeBuffPosition;
 
 	public BuffPool BuffEffectPool;
 	public DeBuffPool DeBuffEffectPool;

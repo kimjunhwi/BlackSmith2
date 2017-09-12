@@ -9,18 +9,18 @@ public class PlayerController : MonoBehaviour {
     public Transform normalPosition;
 	public Transform criticalPosition;
 
-	public GameObject BigSuccesdObject;
-	public BasicParticle BigSuccessed;
 
 	public Transform GuestSuccessedPosition;
 	public SuccessedPool GuestSuccessedPool;
 
+	public Transform BigSuccessedPosition;
+	public BigSuccesedPool BigSuccessedPool;
+
     void Start()
     {
         m_Animator = GetComponent<Animator>();
-
-		BigSuccesdObject.SetActive (false);
 		GuestSuccessedPool.Init ();
+		BigSuccessedPool.Init ();
     }
 
 
@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void GuestSuccessed()
 	{
+
 		GameObject obj = GuestSuccessedPool.GetObject();
 
 		obj.transform.position = GuestSuccessedPosition.position;
@@ -94,11 +95,11 @@ public class PlayerController : MonoBehaviour {
 
 	public void CreateBigSuccessedEffect()
     {
-		BigSuccesdObject.SetActive (true);
+		GameObject obj = BigSuccessedPool.GetObject();
 
-		BigSuccessed.Play ();
+		obj.transform.position = BigSuccessedPosition.position;
 
-		m_Animator.SetTrigger ("bIsSuccessedRepair");
+		obj.GetComponent<ParticlePlay>().Play(BigSuccessedPool);
     }
 
 	public void ResetNormal()
@@ -111,4 +112,8 @@ public class PlayerController : MonoBehaviour {
 		m_Animator.SetTrigger("bIsCriticalRepair");
 	}
 
+	public void ResetBigSuccessed()
+	{
+		m_Animator.SetTrigger("bIsSuccessedRepair");
+	}
 }

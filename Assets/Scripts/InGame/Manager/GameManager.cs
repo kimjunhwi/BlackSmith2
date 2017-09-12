@@ -1041,6 +1041,16 @@ public class GameManager : GenericMonoSingleton<GameManager>
         return cEquimentInfo[nIndex];
     }
 
+	public int GetSearchName(string strName)
+	{
+		for (int nIndex = 0; nIndex < cHammerNames.Length; nIndex++) 
+		{
+			if (cHammerNames [nIndex].strName == strName)
+				return cHammerNames [nIndex].nIndex;
+		}
+		return -1;
+	}
+
     #region window popup
 
     // 윈도우 팝업 ---------------------------------------------------------------------------------------
@@ -1468,7 +1478,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			// YOUR CODE TO REWARD THE GAMER
 			// Give coins etc.
 
-			resultEpicUI.CreateWeapon ();
+			resultEpicUI.ShowAd ();
 
 			break;
 

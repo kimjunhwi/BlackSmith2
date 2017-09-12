@@ -145,6 +145,9 @@ public class RepairObject : MonoBehaviour
 	public BossWeaponShake bossWeaponShake;
 	public WeaponShakeIt normalWeaponShake;
 
+	public GameObject SucceessedObject;
+	public Animator SuccessedAnim;
+
 	string[] unit = new string[]{ "G", "K", "M", "B", "T", "aa", "bb", "cc", "dd", "ee" }; 
 
 	void Start()
@@ -506,6 +509,7 @@ public class RepairObject : MonoBehaviour
         yield return new WaitForSeconds(_fTime);
 
         m_bIsFever = false;
+		SucceessedObject.SetActive (false);
 
         //SpawnManager.Instance.SettingFever(m_fNormalCretaeTime, m_fNormalSpeed);
     }
@@ -663,9 +667,11 @@ public class RepairObject : MonoBehaviour
         //피버일경우 크리 데미지로 완성도를 증가시킴
         if (m_bIsFever)
         {
+			m_PlayerAnimationController.UserBigSuccessedRepair ();
+
 			dCalcValue = (player.GetRepairPower () +(player.GetRepairPower () * weaponData.dMinusRepair * 0.01));
 
-			dCalcValue *= 1.5;
+			dCalcValue *= player.GetCriticalDamage() * 0.01;
 
 			ShowDamage (dCalcValue,_position);
 
@@ -678,8 +684,6 @@ public class RepairObject : MonoBehaviour
 			obj.transform.position = _position;
 
             obj.GetComponent<CriticalTouchParticle>().Play();
-
-            m_PlayerAnimationController.UserCriticalRepair();
 
             //완성이 됐는지 확인 밑 오브젝트에 진행사항 전달
 			if (SpawnManager.Instance.CheckComplateWeapon (AfootObject, dCurrentComplate, fCurrentTemperature)) {
@@ -774,7 +778,7 @@ public class RepairObject : MonoBehaviour
 
 				SpawnManager.Instance.cameraShake.Shake (0.05f, 0.5f);
 
-				m_PlayerAnimationController.UserBigSuccessedRepair ();
+				SucceessedObject.SetActive (true);
 
                 //SpawnManager.Instance.SettingFever(m_fFeverCreateTime, m_fFeverSpeed);
 

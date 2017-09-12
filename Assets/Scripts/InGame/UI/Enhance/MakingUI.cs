@@ -61,8 +61,7 @@ public class MakingUI : MonoBehaviour {
 
 	public SimpleObjectPool optionPanelPool;
 
-	public FadingManager FadeManager = null;
-
+	public SpriteRenderer PlayerWeaponImage;
 
 	void Awake()
 	{
@@ -196,7 +195,11 @@ public class MakingUI : MonoBehaviour {
 				WeaponNameText.text = LoadCreateWeapon.strName;
 			}
 
+			createWeapon.strName = WeaponNameText.text;
+
 			WeaponImage.sprite = createWeapon.WeaponSprite;
+
+			PlayerWeaponImage.sprite = createWeapon.WeaponSprite;
 
 			float fRepair = Mathf.RoundToInt (createWeapon.fRepair);
 
@@ -220,6 +223,7 @@ public class MakingUI : MonoBehaviour {
 
 			#endregion
 		}
+
 	}
 
 	void Start()
@@ -313,6 +317,8 @@ public class MakingUI : MonoBehaviour {
 		WeaponNameText.text = _weapon.strName;
 
 		WeaponImage.sprite = _weapon.WeaponSprite;
+			
+		PlayerWeaponImage.sprite = _weapon.WeaponSprite;
 	
 		float fRepair = Mathf.RoundToInt (_weapon.fRepair);
 	

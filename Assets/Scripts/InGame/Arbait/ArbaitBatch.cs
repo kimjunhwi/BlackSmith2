@@ -95,6 +95,8 @@ public class ArbaitBatch : MonoBehaviour {
 	public BuffPool BuffEffectPool;
 	public DeBuffPool DeBuffEffectPool;
 
+	public PlayerSpecificInfo PlayerInfo;
+
     //무기 등급을 어디까지 받아올지를 정하기 위해 사용
     public int nGrade { get; set; }
 

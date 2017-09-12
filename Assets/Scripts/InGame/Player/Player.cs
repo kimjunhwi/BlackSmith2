@@ -23,6 +23,8 @@ public class Player
 
     public Inventory inventory;
 
+	public PlayerSpecificInfo PlayerInfo = null;
+
 	public int GetSmithLevel() { return changeStats.nBlackSmithLevel; }
 	public void SetSmithLevel(int _nValue) { changeStats.nBlackSmithLevel = _nValue; }
 
@@ -152,6 +154,11 @@ public class Player
 		PlayerStatsSetting ();
 	}
 
+	public void SetPlayerInfo(PlayerSpecificInfo _Info)
+	{
+		PlayerInfo = _Info;
+	}
+
 	public CreatorWeapon GetCreatorWeapon()
 	{
 		return creatorWeapon;
@@ -222,6 +229,9 @@ public class Player
 			dResultRepairPowerPercent += (double)spawnManager.array_ArbaitData[(int)E_ARBAIT.E_ROY].m_CharacterChangeData.fSkillPercent;
 
 		m_dRepairPower = changeStats.dRepairPower + (changeStats.dRepairPower * dResultRepairPowerPercent * 0.01);
+
+		if (PlayerInfo != null)
+			PlayerInfo.SetRepairpowerText ();
 	}
 
 	public void SetAccuracyRate()
@@ -237,6 +247,9 @@ public class Player
 		}
 
 		m_fAccuracyRate = changeStats.fAccuracyRate + (changeStats.fAccuracyRate * fResultAccuracyRatePercent * 0.01f);
+
+		if (PlayerInfo != null)
+			PlayerInfo.SetAccuracyRateText ();
 	}
 
 	public void SetArbaitRepairPower()
@@ -252,6 +265,9 @@ public class Player
 		}
 
 		m_fArbaitRepairPower = changeStats.fArbaitsPower + (changeStats.fArbaitsPower * fResultArbaitRepairPower * 0.01f);
+
+		if (PlayerInfo != null)
+			PlayerInfo.SetArbaitRepairText ();
 	}
 
 	public void SetGoldPlusPercent()
@@ -277,6 +293,9 @@ public class Player
 		}
 
 		m_dGoldPlusPercent = changeStats.dGoldPlusPercent + (changeStats.dGoldPlusPercent * dResultGoldPlusPercent * 0.01);
+
+		if (PlayerInfo != null)
+			PlayerInfo.SetGoldPlusText ();
 	}
 
 	public void SetHonorPlusPercent()
@@ -289,6 +308,9 @@ public class Player
 		if (creatorWeapon != null) 		dResultHonorPlusPercent += creatorWeapon.fPlusHonorPercent;
 
 		m_dHonorPlusPercent = changeStats.dHornorPlusPercent + (changeStats.dHornorPlusPercent * dResultHonorPlusPercent * 0.01);
+
+		if (PlayerInfo != null)
+			PlayerInfo.SetHonorPlusText ();
 	}
 
 	public void SetWaterPlus()
@@ -301,6 +323,9 @@ public class Player
 		if (creatorWeapon != null) 		fResultWaterPlusPercent += creatorWeapon.fWaterPlus;
 
 		m_fWaterPlus = changeStats.fWaterPlus + (changeStats.fWaterPlus * fResultWaterPlusPercent * 0.01f);
+
+		if (PlayerInfo != null)
+			PlayerInfo.SetWaterCharginText ();
 	}
 
 	public void SetCriticalChance()
@@ -327,6 +352,9 @@ public class Player
             
 
 		m_fCriticalChance = changeStats.fCriticalChance + (changeStats.fCriticalChance * fResultCriticalChancePercent * 0.01f);
+
+		if (PlayerInfo != null)
+			PlayerInfo.SetCriticalChance ();
 	}
 
 	public void SetCriticalDamage()
@@ -339,6 +367,9 @@ public class Player
 		if (creatorWeapon != null) 		dResultCriticalDamagePercent += creatorWeapon.fCriticalDamage;
 
 		m_dCriticalDamage = changeStats.dCriticalDamage + (changeStats.dCriticalDamage * dResultCriticalDamagePercent * 0.01);
+
+		if (PlayerInfo != null)
+			PlayerInfo.SetCriticalDamamgeText ();
 	}
 
 	public void SetBigSuccessed()
@@ -351,6 +382,9 @@ public class Player
 		if (creatorWeapon != null) 		fResultBigSuccessedPercent += creatorWeapon.fBigSuccessed;
 
 		m_fBigSuccessed = changeStats.fBigSuccessed + (changeStats.fBigSuccessed * fResultBigSuccessedPercent * 0.01f);
+
+		if (PlayerInfo != null)
+			PlayerInfo.SetBigSuccessedText ();
 	}
 
 

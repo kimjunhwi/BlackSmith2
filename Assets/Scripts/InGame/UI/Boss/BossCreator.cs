@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 public enum E_BOSSAPPEARDAYS
 {
-	E_BOSSAPPEARDAYS_ICE = 10,
-	E_BOSSAPPEARDAYS_SASIN = 20,
-	E_BOSSAPPEARDAYS_FIRE = 30,
-	E_BOSSAPPEARDAYS_MUSIC = 40
+	E_BOSSAPPEARDAYS_ICE = 3,
+	E_BOSSAPPEARDAYS_SASIN = 5,
+	E_BOSSAPPEARDAYS_FIRE = 7,
+	E_BOSSAPPEARDAYS_MUSIC = 9
 }
 
 public enum E_BOSSWORD
@@ -509,7 +509,7 @@ public class BossCreator : MonoBehaviour
 		{
 			bossElementList [0].BossUnlock_Obj.SetActive (false);
 		}
-		if (GameManager.Instance.cBossPanelListInfo [0].isUnlockSasinBoss == false)
+		if (GameManager.Instance.cBossPanelListInfo [0].isUnlockSasinBoss == true)
 		{
 	
 			bossElementList [1].BossUnlock_Obj.SetActive (false);

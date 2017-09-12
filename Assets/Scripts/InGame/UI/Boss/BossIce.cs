@@ -278,6 +278,10 @@ public class BossIce : BossCharacter
 			eCureentBossState = EBOSS_STATE.RESULT;
 			if (eCureentBossState == EBOSS_STATE.RESULT)
 			{
+				//Quest Check
+				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSICESUCCESS, 1);
+				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ANYBOSSSUCCESS, 1);
+
 				//Effect Off
 				bossEffect.ActiveEffect (BOSSEFFECT.BOSSEFFECT_ICEBLLIZARD);
 
@@ -369,7 +373,8 @@ public class BossIce : BossCharacter
 		isFailed = false;
 		isStandardPhaseFailed = false;
 
-		if (bossBackGround.isBossBackGround == true) {
+		if (bossBackGround.isBossBackGround == true)
+		{
 			SpawnManager.Instance.bIsBossCreate = false;
 			bossBackGround.isBossBackGround = false;
 			bossBackGround.isOriginBackGround = true;

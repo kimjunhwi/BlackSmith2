@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 public enum E_BOSSAPPEARDAYS
 {
-	E_BOSSAPPEARDAYS_ICE = 3,
-	E_BOSSAPPEARDAYS_SASIN = 5,
-	E_BOSSAPPEARDAYS_FIRE = 7,
-	E_BOSSAPPEARDAYS_MUSIC = 9
+	E_BOSSAPPEARDAYS_ICE = 30,
+	E_BOSSAPPEARDAYS_SASIN = 50,
+	E_BOSSAPPEARDAYS_FIRE = 70,
+	E_BOSSAPPEARDAYS_MUSIC = 90
 }
 
 public enum E_BOSSWORD
@@ -283,13 +283,18 @@ public class BossCreator : MonoBehaviour
 			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "그럼 이만!";
 
 			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss == false &&
-				GameManager.Instance.player.GetDay() == (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_ICE)
+			    GameManager.Instance.player.GetDay () >= (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_ICE)
 			{
 				m_bIsFirstFightToIceBoss = true;
 				StartCoroutine (StartShowBossHint (0));
 				uiManager.uiBossFirstFightMark.SetActive (false);
-			}
+			} 
 
+			else 
+			{
+				bossBackGround.StartChangeBackGroundToBossBackGround ();
+				bossList [_index].SetActive (true);
+			}
 		
 			nBossIceLeftCount--;
 			//사
@@ -323,14 +328,17 @@ public class BossCreator : MonoBehaviour
 			bossSasin.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "꾸앙 ㅇㅁㅇ...";
 
 			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToSasinBoss == false && 
-				GameManager.Instance.player.GetDay() == (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_SASIN)
+				GameManager.Instance.player.GetDay() >= (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_SASIN)
 			{
 				m_bIsFirstFightToSasinBoss = true; 
 				StartCoroutine (StartShowBossHint (1));
 				uiManager.uiBossFirstFightMark.SetActive (false);
 			}
-
-
+			else 
+			{
+				bossBackGround.StartChangeBackGroundToBossBackGround ();
+				bossList [_index].SetActive (true);
+			}
 			//bossList [1].SetActive (true);
 
 			nBossSasinLeftCount--;
@@ -369,13 +377,17 @@ public class BossCreator : MonoBehaviour
 			bossFire.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "Bye~~~!";
 
 			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToFireBoss == false && 
-				GameManager.Instance.player.GetDay() == (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_FIRE)
+				GameManager.Instance.player.GetDay() >= (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_FIRE)
 			{
 				m_bIsFirstFightToFireBoss = true;
 				StartCoroutine (StartShowBossHint (2));
 				uiManager.uiBossFirstFightMark.SetActive (false);
 			}
-
+			else 
+			{
+				bossBackGround.StartChangeBackGroundToBossBackGround ();
+				bossList [_index].SetActive (true);
+			}
 
 			//bossList [2].SetActive (true);
 
@@ -414,15 +426,18 @@ public class BossCreator : MonoBehaviour
 			bossMusic.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "SeeYa!";
 
 			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToMusicBoss == false &&
-				GameManager.Instance.player.GetDay() == (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_MUSIC)
+				GameManager.Instance.player.GetDay() >= (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_MUSIC)
 			{
 				m_bIsFirstFightToMusicBoss = true;
 				StartCoroutine (StartShowBossHint (3));
 				uiManager.uiBossFirstFightMark.SetActive (false);
 			}
+			else 
+			{
+				bossBackGround.StartChangeBackGroundToBossBackGround ();
+				bossList [_index].SetActive (true);
+			}
 
-
-			//bossList [3].SetActive (true);
 			nBossMusicLeftCount--;
 
 
@@ -494,7 +509,7 @@ public class BossCreator : MonoBehaviour
 				bossBackGround.StartChangeBackGroundToBossBackGround ();
 
 				bossList [_index].SetActive (true);
-				bossHint.m_isCheckBossHint = false;
+				//bossHint.m_isCheckBossHint = false;
 
 			}
 

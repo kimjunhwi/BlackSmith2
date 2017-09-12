@@ -132,7 +132,9 @@ public class Player
     public void SetFireMaterial(int _nValue) { changeStats.nFireMaterial = _nValue; }
 
     public int GetDay() { return changeStats.nDay; }
-    public void SetDay(int _nValue) { changeStats.nDay = _nValue; }
+    public void SetDay(int _nValue) { 
+		changeStats.nDay = _nValue; 
+	}
 
 	public int GetMaxDay() { return changeStats.nMaxDay; }
 	public void SetMaxDay(int _nValue) { changeStats.nMaxDay = _nValue; }

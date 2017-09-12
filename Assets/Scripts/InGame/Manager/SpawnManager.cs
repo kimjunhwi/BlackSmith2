@@ -219,23 +219,25 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 				ScoreManager.ScoreInstance.SetMaxDays (m_nDay);
 			}
 
-			if (m_nDay == (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_ICE && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss == false)
+		
+
+			if (m_nDay >= (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_ICE && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss == false)
 			{
 				GameManager.Instance.cBossPanelListInfo [0].isUnlockIceBoss = true;
 				uiManager.uiBossFirstFightMark.SetActive (true);
 			}
-			if (m_nDay == (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_SASIN && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToSasinBoss == false) 
+			if (m_nDay >= (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_SASIN && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToSasinBoss == false) 
 			{
 				GameManager.Instance.cBossPanelListInfo [0].isUnlockSasinBoss = true;
 				uiManager.uiBossFirstFightMark.SetActive (true);
 			}
-			if (m_nDay == (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_FIRE && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToFireBoss == false) 
+			if (m_nDay >= (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_FIRE && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToFireBoss == false) 
 			{
 				GameManager.Instance.cBossPanelListInfo [0].isUnlockFireBoss = true;
 				uiManager.uiBossFirstFightMark.SetActive (true);
 			}
 
-			if (m_nDay == (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_MUSIC && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToMusicBoss == false) 
+			if (m_nDay >= (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_MUSIC && GameManager.Instance.cBossPanelListInfo [0].isFirstFightToMusicBoss == false) 
 			{
 				GameManager.Instance.cBossPanelListInfo [0].isUnlockMusicBoss = true;
 				uiManager.uiBossFirstFightMark.SetActive (true);
@@ -816,8 +818,13 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 	}
 
 
-	public void ShowAdsSkipInGameManager()
+	public void ShowAdsSkipInGameManager(bool _isRuby)
 	{
+		questManager.questAdsPopUpWindow_YesNo.SetActive (false);
+
+		if (_isRuby == true)
+			ScoreManager.ScoreInstance.RubyPlus (-50);
+		
 		GameManager.Instance.ShowSkipAd_Quest (questManager);
 	}
 

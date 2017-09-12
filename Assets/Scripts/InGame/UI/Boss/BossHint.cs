@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class BossHint : MonoBehaviour ,IPointerDownHandler 
 {
-	public bool m_isCheckBossHint;
+	public bool m_isCheckBossHint = false;
 
 	public void OnPointerDown (PointerEventData eventData)
 	{

@@ -244,8 +244,11 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			//추후 루비 추가 해야됨 ,광고 추가 
 			questAdsPopUpWindow_YesNo.SetActive (true);
 			//questAdsPopUpWindowYesNo_Text.text = "퀘스트를 초기화 하기위해 광고나 루비 무엇을 쓰시겠습니까?";
-			questAdsPopUpWindow_AdsButton.onClick.AddListener (SpawnManager.Instance.ShowAdsSkipInGameManager); 	//QuestInit에서 다시 지움
-			questAdsPopUpWindow_RubyButton.onClick.AddListener(SpawnManager.Instance.ShowAdsSkipInGameManager);		
+			questAdsPopUpWindow_AdsButton.onClick.RemoveAllListeners(); 
+			questAdsPopUpWindow_RubyButton.onClick.RemoveAllListeners ();
+
+			questAdsPopUpWindow_AdsButton.onClick.AddListener (() => SpawnManager.Instance.ShowAdsSkipInGameManager(false)); 	//QuestInit에서 다시 지움
+			questAdsPopUpWindow_RubyButton.onClick.AddListener(() => SpawnManager.Instance.ShowAdsSkipInGameManager(true));		
 		}
 		else
 		{
@@ -292,8 +295,8 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	{
 		GameObject quest;
 		questAdsPopUpWindow_YesNo.SetActive (false);
-		questAdsPopUpWindow_AdsButton.onClick.RemoveListener (SpawnManager.Instance.ShowAdsSkipInGameManager);
-		questAdsPopUpWindow_RubyButton.onClick.RemoveListener (SpawnManager.Instance.ShowAdsSkipInGameManager);		
+		//questAdsPopUpWindow_AdsButton.onClick.RemoveListener (SpawnManager.Instance.ShowAdsSkipInGameManager);
+		//questAdsPopUpWindow_RubyButton.onClick.RemoveListener (SpawnManager.Instance.ShowAdsSkipInGameManager);		
 
 		//처음 퀘스트 켜질시
 		if (GameManager.Instance.cQuestSaveListInfo [0].bIsFirstActive == true)

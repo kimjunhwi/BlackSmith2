@@ -37,8 +37,6 @@ public class UIManager : MonoBehaviour
 			//보스 패널 닫을시 시간 저장 
 			if (nIndex == 3)
 			{
-				//bossCreator.bossConsumeItemInfo.BossInviteMentSaveTime ();
-				//bossCreator.bossConsumeItemInfo.bossRegenTimer.BossRegenTimeSave ();
 				bossCreator.BossPanelInfoSave ();
 				yesNoButton.SetActive (false);
 			}
@@ -84,7 +82,7 @@ public class UIManager : MonoBehaviour
 			//보스 패널 열시 시간 로드 
 			if (nIndex == 3) 
 			{
-				questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSSASINSUCCESS, 1);
+
 				Debug.Log ("BossPanelOn!!");
 				bossCreator.CheckCurDaysAndBossUnlock ();
 				bossCreator.BossPanelSetUp ();

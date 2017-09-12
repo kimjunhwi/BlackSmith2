@@ -191,11 +191,9 @@ public class MakingUI : MonoBehaviour {
 			} 
 			else 
 			{
-				int nRandomWeaponIndex = Random.Range (9, 28);
+				createWeapon.WeaponSprite = Resources.Load<Sprite> ("Crafts/CreatorWeapon/" + GameManager.Instance.GetSearchName(LoadCreateWeapon.strName));
 
-				createWeapon.WeaponSprite = Resources.Load<Sprite> ("Crafts/CreatorWeapon/" + nRandomWeaponIndex);
-
-				WeaponNameText.text = GameManager.Instance.cHammerNames [nRandomWeaponIndex].strName;
+				WeaponNameText.text = LoadCreateWeapon.strName;
 			}
 
 			WeaponImage.sprite = createWeapon.WeaponSprite;

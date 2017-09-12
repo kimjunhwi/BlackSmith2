@@ -202,23 +202,19 @@ public class ResultEpicUI : MonoBehaviour {
 		//락이 아닐 경우 다시 에픽 확률을 계산 해서 넣어 줌 
 		if (createWeapon.bIsLock == false) {
 			//특수 옵션 미정
-			if (Random.Range (0, 100) <= 100) {
-				if (createEpic != null) {
+			if (Random.Range (0, 100) <= 5) {
+				int nRandomIndex = Random.Range (0, (int)E_EPIC_INDEX.E_EPIC_MAX);
 
-				} else {
-					int nRandomIndex = (int)E_EPIC_INDEX.E_EPIC_MAGIC; //Random.Range (0, (int)E_EPIC_INDEX.E_EPIC_MAX);
+				createEpic = EpicFactory (nRandomIndex);
 
-					createEpic = EpicFactory (nRandomIndex);
+				createWeapon.nEpicIndex = nRandomIndex;
 
-					createWeapon.nEpicIndex = nRandomIndex;
+				createWeapon.nCostDay = playerData.GetDay ();
 
-					createWeapon.nCostDay = playerData.GetDay ();
-
-					if (createEpic != null) {
-						createEpic.Init (playerData.GetDay (), playerData);
-					}
-				}
-			} else 
+				if (createEpic != null)
+					createEpic.Init (playerData.GetDay (), playerData);	
+			}
+			else 
 			{
 				createEpic = null;
 			}
@@ -246,11 +242,12 @@ public class ResultEpicUI : MonoBehaviour {
 		} 
 		else 
 		{
-			int nRandomWeaponIndex = Random.Range (9, 28);
+			int nRandomWeaponIndex = (int)Random.Range (9, 28);
 
 			createWeapon.WeaponSprite = Resources.Load<Sprite> ("Crafts/CreatorWeapon/" + nRandomWeaponIndex);
 
-			createWeapon.strName = GameManager.Instance.cHammerNames [nRandomWeaponIndex].strName;}
+			createWeapon.strName = GameManager.Instance.cHammerNames [nRandomWeaponIndex].strName;
+		}
 
 		WeaponImage.sprite = createWeapon.WeaponSprite;
 		WeaponNameText.text = createWeapon.strName;
@@ -491,6 +488,8 @@ public class ResultEpicUI : MonoBehaviour {
 
 		//결과를 넣어줌
 		makingUI.CreateWeapon (createWeapon, createEpic, LIST_OPTION);
+
+		playerData.SetDay (playerData.GetDay () - 10);
 
 		//옵션 재설
 		RefreshDisplay ();

@@ -83,9 +83,9 @@ public class Druid : ArbaitBatch
 
         if (m_bIsApplyBuff)
         {
-			playerData.SetBasicRepairPower(playerData.GetBasicRepairPower() - dChangeRepair);
+			playerData.SetBasicRepairPower(playerData.GetBasicRepairPower() + dChangeRepair);
 
-			playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() - fChangeCritical);
+			playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() + fChangeCritical);
         }
 
     }
@@ -96,9 +96,9 @@ public class Druid : ArbaitBatch
 
         if (m_bIsApplyBuff)
         {
-			playerData.SetBasicRepairPower(playerData.GetBasicRepairPower() + dChangeRepair);
+			playerData.SetBasicRepairPower(playerData.GetBasicRepairPower() - dChangeRepair);
 
-			playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() + fChangeCritical);
+			playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() - fChangeCritical);
         }
     }
 
@@ -127,6 +127,11 @@ public class Druid : ArbaitBatch
 			if (m_fBuffTime > 3.0f)
                 break;
         }
+
+		if (m_bIsApplyBuff == false)
+			yield break;
+
+		m_fBuffTime = 0.0f;
 
         m_bIsApplyBuff = false;
 

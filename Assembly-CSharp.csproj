@@ -240,7 +240,6 @@
      <Compile Include="Assets\GooglePlayGames\Platforms\PlayGamesClientFactory.cs" />
      <Compile Include="Assets\GooglePlayGames\Platforms\TokenClient.cs" />
      <Compile Include="Assets\GooglePlayGames\PluginVersion.cs" />
-     <Compile Include="Assets\ResultOption.cs" />
      <Compile Include="Assets\Scripts\BackGround.cs" />
      <Compile Include="Assets\Scripts\InGame\Arbait\ArbaitBatch.cs" />
      <Compile Include="Assets\Scripts\InGame\Arbait\ArbaitCharacter.cs" />
@@ -283,6 +282,7 @@
      <Compile Include="Assets\Scripts\InGame\Manager\UIManager.cs" />
      <Compile Include="Assets\Scripts\InGame\Option\OptionController.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\BasicParticle.cs" />
+     <Compile Include="Assets\Scripts\InGame\Particle\BigSuccesedPool.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\BreakBoomParticle.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\BreakBoomPool.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\BuffPool.cs" />
@@ -356,6 +356,7 @@
      <Compile Include="Assets\Scripts\InGame\UI\Enhance\OptionScroll.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Enhance\RepairPanelUI.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Enhance\ResultEpicUI.cs" />
+     <Compile Include="Assets\Scripts\InGame\UI\Enhance\ResultOption.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Enhance\SmithPanelUI.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Enhance\WaterPlusPanelUI.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Enhance\WeaponButton.cs" />

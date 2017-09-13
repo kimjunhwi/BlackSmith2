@@ -20,6 +20,8 @@ public class BossIce : BossCharacter
 
 	public int nCurLevel = 0;
 
+	public double dBossComplete = 0;
+
 	private void Start()
 	{
 		animator = gameObject.GetComponent<Animator> ();
@@ -75,16 +77,16 @@ public class BossIce : BossCharacter
 
 				if (eCureentBossState == EBOSS_STATE.PHASE_00) 
 				{
+
+					float fOriValue = (24 + (nCurLevel * 5));
+					float fMinusValue = (Mathf.Floor( (24f + (float)nCurLevel * 5f) * 0.1f ) ) * 10;
+					float result = fOriValue - fMinusValue;
+
+					double dCurComplete = (bossInfo.dComplate * Mathf.Pow (2, (Mathf.Floor( Mathf.Max (((24 + (nCurLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 8;
+					repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache (sBossWeaponSprite), dCurComplete, 0, 0, this);
 					
-					if (nCurLevel >= 2)
-					{
-						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache (sBossWeaponSprite), bossInfo.dComplate +
-							(bossInfo.dComplate  * 0.05f) * nCurLevel - 1, 0, 0, this);
-					} 
-					else 
-					{
-						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache(sBossWeaponSprite), bossInfo.dComplate, 0, 0, this);
-					}
+
+					dBossComplete = dCurComplete;
 
 					ActiveTimer ();
 					uiDisable.isBossSummon = false;
@@ -110,7 +112,7 @@ public class BossIce : BossCharacter
 		while (true)
 		{
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete =  bossInfo.dComplate;
+			double dMaxComplete =  dBossComplete;
 
 			//수리패널 얼음
 			if (fIceWallGenerateTimer >= fBossIceWallGenerateTime)
@@ -151,7 +153,7 @@ public class BossIce : BossCharacter
 		{
 			//BossWeapon info
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete = bossInfo.dComplate;
+			double dMaxComplete = dBossComplete;
 
 
 			//수리패널 얼음
@@ -207,7 +209,7 @@ public class BossIce : BossCharacter
 		{
 			//GetCompletion
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete =  bossInfo.dComplate;
+			double dMaxComplete =  dBossComplete;
 	
 
 

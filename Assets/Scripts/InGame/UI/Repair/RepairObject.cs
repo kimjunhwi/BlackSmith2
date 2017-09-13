@@ -617,7 +617,7 @@ public class RepairObject : MonoBehaviour
 		TemperatureSlider.maxValue = fMaxTemperature;
 
 		dCurrentComplate = _dComplate;
-		dBossMaxComplete = bossCharacter.bossInfo.dComplate ;
+		dBossMaxComplete = _dMaxBossComplete ;
 
 		strMaxComplate = ChangeValue (dBossMaxComplete);
 

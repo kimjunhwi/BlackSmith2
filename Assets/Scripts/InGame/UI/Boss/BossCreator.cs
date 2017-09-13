@@ -348,9 +348,6 @@ public class BossCreator : MonoBehaviour
 
 			BossFire bossFire = bossList[2].GetComponent<BossFire> ();
 
-
-			
-
 			bossFire.nIndex = _index;
 			bossFire.bossInfo = GameManager.Instance.bossInfo [_index];
 			bossFire.bossEffect = bossEffect;

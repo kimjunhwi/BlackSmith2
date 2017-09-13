@@ -370,6 +370,8 @@
      <Compile Include="Assets\Scripts\InGame\UI\Shop\Shop.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Shop\ShopButton.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Shop\ShopCash.cs" />
+     <Compile Include="Assets\Scripts\InGame\UI\Shop\ShopCashBuffPanel.cs" />
+     <Compile Include="Assets\Scripts\InGame\UI\Shop\ShopCashBuffSlot.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Shop\ShopCashSlot.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Shop\ShopShowPanel.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\UIDisable.cs" />

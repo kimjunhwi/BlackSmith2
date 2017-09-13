@@ -56,12 +56,26 @@ public class ShopCash : MonoBehaviour , IStoreListener
 
 	public Text itemBuyNo_Text;
 
+	//캐시버프 슬롯 풀
+	public SimpleObjectPool CashBuffSlotPool;
+	public RectTransform addCashBuff_transform;
 
+	private const string sCashBuffGoldPath = "Store/CashItemImage/CashBuffIcon/buff_gold";
+	private const string sCashBuffHonorPath = "Store/CashItemImage/CashBuffIcon/buff_honor";
+	private const string sCashBuffStaffPath = "Store/CashItemImage/CashBuffIcon/buff_staff";
+	private const string sCashBuffAttackPath = "Store/CashItemImage/CashBuffIcon/buff_gold";
 
+	private string[] iconPaths = new string[4];
 
 	//캐시 상점 실행에 호출
 	public void StartSetUp()
 	{
+		iconPaths [0] = sCashBuffGoldPath;
+		iconPaths [1] = sCashBuffHonorPath;
+		iconPaths [2] = sCashBuffStaffPath;
+		iconPaths [3] = sCashBuffAttackPath;
+
+
 		InitializePurchasing();
 
 		if (getCashItemInfo == null || getCashItemInfo.Length == 0 )
@@ -138,6 +152,12 @@ public class ShopCash : MonoBehaviour , IStoreListener
 						{
 							Debug.Log ("Add 직원부스터 Index : " + i);
 							shopCashSlot.itemBuy_Button.onClick.AddListener (() => buyProductByRuby("직원부스터"));
+						}
+
+						if (getCashItemInfo [i].sItemName == "터치부스터") 
+						{
+							Debug.Log ("Add 직원부스터 Index : " + i);
+							shopCashSlot.itemBuy_Button.onClick.AddListener (() => buyProductByRuby("터치부스터"));
 						}
 
 						if (getCashItemInfo [i].sItemName == "프리패스") 
@@ -293,6 +313,17 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			GameObjectActive (YesNoPopUp_Obj);
 		}
 
+		if (getCashItemInfo [nIndex].sItemName == "터치부스터") 
+		{
+			itemBuy_Text.text = "직원부스터를 구입 하시겠습니까?";
+			itemBuy_YesButton.onClick.RemoveAllListeners ();
+			itemBuy_YesButton.onClick.AddListener (() => AddResource (nIndex, 0, getCashItemInfo [nIndex].fRuby ,  GameManager.Instance.player.GetDay(), 0));
+
+			GameObjectActive (YesNoPopUp_Obj);
+		}
+
+
+
 		if (getCashItemInfo [nIndex].sItemName == "프리패스") 
 		{
 			itemBuy_Text.text = "프리패스를 구입 하시겠습니까?";
@@ -333,7 +364,21 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		if (getCashItemInfo[_index].sItemName == "프리패스") {
 			SpawnManager.Instance.SetDayInitInfo (_day);
 		}
-		
+		if (getCashItemInfo [_index].sItemName == "골드부스터" || getCashItemInfo [_index].sItemName == "명예부스터" || getCashItemInfo [_index].sItemName == "직원부스터"
+			|| getCashItemInfo [_index].sItemName == "터치부스터") 
+		{
+			GameObject consumeSlot = CashBuffSlotPool.GetObject ();
+			consumeSlot.transform.SetParent (addCashBuff_transform.transform, false);
+			consumeSlot.transform.localScale = Vector3.one;
+
+			ShopCashBuffSlot shopCashBuffSlot = consumeSlot.GetComponent<ShopCashBuffSlot> ();
+			shopCashBuffSlot.icon_Image.sprite =  ObjectCashing.Instance.LoadSpriteFromCache (iconPaths[_index]);
+			shopCashBuffSlot.StartTimer ();
+			shopCashBuffSlot.pool_Obj = CashBuffSlotPool;
+		}
+
+
+
 		ScoreManager.ScoreInstance.GoldPlus (_gold);
 		ScoreManager.ScoreInstance.HonorPlus (_honor);
 		ScoreManager.ScoreInstance.RubyPlus( ((int)-_ruby));

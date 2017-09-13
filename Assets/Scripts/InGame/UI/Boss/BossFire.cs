@@ -31,6 +31,7 @@ public class BossFire : BossCharacter
 
 	public float fplayerOriginWaterValue = 0f;
 
+	public double dBossComplete = 0;
 
 
 	private void Start()
@@ -91,14 +92,15 @@ public class BossFire : BossCharacter
 
 				if (eCureentBossState == EBOSS_STATE.PHASE_00) 
 				{
-					if (nCurLevel >= 2)
-					{
-						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache (sBossWeaponSprite), bossInfo.dComplate +
-							(bossInfo.dComplate  * 0.05) * nCurLevel - 1, 0, 0, this);
-					} 
-					else 
-						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache(sBossWeaponSprite), bossInfo.dComplate, 0, 0, this);
-					
+					float fOriValue = (24 + (nCurLevel * 5));
+					float fMinusValue = (Mathf.Floor( (24f + (float)nCurLevel * 5f) * 0.1f ) ) * 10;
+					float result = fOriValue - fMinusValue;
+
+					double dCurComplete = (bossInfo.dComplate * Mathf.Pow (2, (Mathf.Floor( Mathf.Max (((44 + (nCurLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 8;
+					repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache (sBossWeaponSprite), dCurComplete, 0, 0, this);
+
+
+					dBossComplete = dCurComplete;
 					ActiveTimer ();
 					uiDisable.isBossSummon = false;
 					break;
@@ -129,7 +131,7 @@ public class BossFire : BossCharacter
 			fTime += Time.deltaTime;
 
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete =  bossInfo.dComplate;
+			double dMaxComplete = dCurComplete;
 
 			if (fTime >= 2.0f && nCurFireCount < nSmallFireMaxCount && isSmallFireActive == true)
 				CreateSmallFire ();
@@ -172,7 +174,7 @@ public class BossFire : BossCharacter
 
 			//BossWeapon info
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete = bossInfo.dComplate;
+			double dMaxComplete = dCurComplete;
 
 			if (fTime >= 1.5f  && nCurFireCount < nSmallFireMaxCount && isSmallFireActive == true )
 				CreateSmallFire ();
@@ -209,7 +211,7 @@ public class BossFire : BossCharacter
 
 			//GetCompletion
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete =  bossInfo.dComplate;
+			double dMaxComplete = dCurComplete;
 
 			if (fTime >= 1.0f  && nCurFireCount < 20 && isSmallFireActive == true)
 				CreateSmallFire ();

@@ -5,9 +5,10 @@ using ReadOnlys;
 
 public class MaxWaterPanelUI : EnhanceUI {
 	
+
 	public float fBasic = 2000.0f;
 
-	const int nMaxLevel = 5;
+	const int nMaxLevel = 6;
 
 	const int nBasicHonor = 100;
 
@@ -43,6 +44,8 @@ public class MaxWaterPanelUI : EnhanceUI {
 			ScoreManager.ScoreInstance.HonorPlus (-fCostHonor);
 
 			CostGoldText.text  = (nBasicHonor * nLevel).ToString();
+
+			repairObject.WaterSlider.maxValue = cPlayer.GetBasicMaxWater ();
 		}
 	}
 }

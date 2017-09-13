@@ -22,6 +22,8 @@ public class BossSasin : BossCharacter
 
 	public int nCurLevel = 0;
 
+	public double dBossComplete = 0;
+
 
 
 	private void Start()
@@ -76,16 +78,15 @@ public class BossSasin : BossCharacter
 
 				if (eCureentBossState == EBOSS_STATE.PHASE_00) 
 				{
-					//무기 이미지 추가
-					if (nCurLevel >= 2)
-					{
-						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache (sBossWeaponSprite), bossInfo.dComplate +
-							(bossInfo.dComplate  * 0.05) * nCurLevel - 1, 0, 0, this);
-					} 
-					else 
-					{
-						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache(sBossWeaponSprite), bossInfo.dComplate, 0, 0, this);
-					}
+					float fOriValue = (24 + (nCurLevel * 5));
+					float fMinusValue = (Mathf.Floor( (24f + (float)nCurLevel * 5f) * 0.1f ) ) * 10;
+					float result = fOriValue - fMinusValue;
+
+					double dCurComplete = (bossInfo.dComplate * Mathf.Pow (2, (Mathf.Floor( Mathf.Max (((44 + (nCurLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 8;
+					repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache (sBossWeaponSprite), dCurComplete, 0, 0, this);
+
+
+					dBossComplete = dCurComplete;
 					//타이머 시작
 					ActiveTimer ();
 					//보스가 소환되는 도중에 무기 패널을 터치하면 보스 creator가 꺼지므로 소환중일때는 막아놓는다. 
@@ -118,7 +119,7 @@ public class BossSasin : BossCharacter
 			fTime += Time.deltaTime;
 
 			double fCurComplete = repairObj.GetCurCompletion ();
-			double fMaxComplete = bossInfo.dComplate;
+			double fMaxComplete = dBossComplete;
 
 			//Fail Condition
 			if (fCurComplete < 0) {
@@ -165,7 +166,7 @@ public class BossSasin : BossCharacter
 				CreateSkull ();
 			
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete = GameManager.Instance.bossInfo[1].dComplate;
+			double dMaxComplete = dCurComplete;
 
 			if (dCurComplete < 0) {
 				FailState ();
@@ -199,7 +200,7 @@ public class BossSasin : BossCharacter
 				CreateSkull ();
 			
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete = bossInfo.dComplate;
+			double dMaxComplete = dCurComplete;
 
 			if (dCurComplete < 0) {
 				FailState ();

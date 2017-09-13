@@ -609,7 +609,7 @@ public class RepairObject : MonoBehaviour
 			return;
 
 		dCurrentComplate = _dComplate;
-		dBossMaxComplete = bossCharacter.bossInfo.dComplate ;
+		dBossMaxComplete = _dMaxBossComplete ;
 
 		strMaxComplate = ChangeValue (dBossMaxComplete);
 

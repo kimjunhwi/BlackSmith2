@@ -32,7 +32,7 @@ public class BossMusic : BossCharacter
 
 	public int nCurLevel = 0;
 
-
+	public double dBossComplete = 0;
 
 	private void Start()
 	{
@@ -87,15 +87,15 @@ public class BossMusic : BossCharacter
 
 				if (eCureentBossState == EBOSS_STATE.PHASE_00)
 				{
-					if (nCurLevel >= 2)
-					{
-						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache (sBossWeaponSprite), bossInfo.dComplate +
-							(bossInfo.dComplate  * 0.05) * nCurLevel - 1, 0, 0, this);
-					} 
-					else 
-					{
-						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache(sBossWeaponSprite), bossInfo.dComplate, 0, 0, this);
-					}
+					float fOriValue = (24 + (nCurLevel * 5));
+					float fMinusValue = (Mathf.Floor( (24f + (float)nCurLevel * 5f) * 0.1f ) ) * 10;
+					float result = fOriValue - fMinusValue;
+
+					double dCurComplete = (bossInfo.dComplate * Mathf.Pow (2, (Mathf.Floor( Mathf.Max (((44 + (nCurLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 8;
+					repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache (sBossWeaponSprite), dCurComplete, 0, 0, this);
+
+
+					dBossComplete = dCurComplete;
 					repairObj.bossWeaponAnimator.SetBool ("isBackGroundChanged", true);
 					ActiveTimer ();
 					uiDisable.isBossSummon = false;
@@ -123,7 +123,7 @@ public class BossMusic : BossCharacter
 			fRandomYPos = bossWeapon.transform.position.y;
 
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete =  bossInfo.dComplate;
+			double dMaxComplete = dCurComplete;
 
 			if (fReflectRoutineTime <= 1.0f)
 				fReflectRoutineTime = 1.0f;
@@ -206,7 +206,7 @@ public class BossMusic : BossCharacter
 			fRandomYPos = bossWeapon.transform.position.y;
 		
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete = bossInfo.dComplate;
+			double dMaxComplete = dCurComplete;
 
 			fTime += Time.deltaTime;
 			//Note 생성 
@@ -280,7 +280,7 @@ public class BossMusic : BossCharacter
 
 
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete =  bossInfo.dComplate;
+			double dMaxComplete = dCurComplete;
 
 			fTime += Time.deltaTime;
 			//Note 생성 

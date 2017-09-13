@@ -25,7 +25,7 @@ public class RepairObject : MonoBehaviour
 	private double dCurrentComplate = 0;				//현재완성도
 	private string strMaxComplate = "";				//맥스 완성도 
     private float fWeaponDownTemperature = 0;		//무기 수리시 올라가는 온도
-    private float fMaxTemperature;					//최대 온도
+    private float fMaxTemperature = 100;					//최대 온도
     private float fCurrentTemperature= 0;			//현재 온도
     private float fDownTemperature = 0;				//떨어지는 온도3
 
@@ -167,7 +167,6 @@ public class RepairObject : MonoBehaviour
 
 		WaterSlider.maxValue = 0;
 		ComplateSlider.maxValue = 0;
-		TemperatureSlider.maxValue = 0;
 
 		//Add GameObject(button)
 		WeaponObject = transform.Find("WeaponButton").gameObject;
@@ -539,9 +538,6 @@ public class RepairObject : MonoBehaviour
             weaponData = data;
         }
 
-		fMaxTemperature = (float)(weaponData.dMaxComplate * 0.3f);
-		TemperatureSlider.maxValue = (float)fMaxTemperature;
-
 		dCurrentComplate = _dComplate;
 
 		ComplateSlider.maxValue = (float)weaponData.dMaxComplate;
@@ -611,10 +607,6 @@ public class RepairObject : MonoBehaviour
 		}
 		else
 			return;
-		
-
-		fMaxTemperature = (float)(bossCharacter.bossInfo.dComplate * 0.03);
-		TemperatureSlider.maxValue = fMaxTemperature;
 
 		dCurrentComplate = _dComplate;
 		dBossMaxComplete = bossCharacter.bossInfo.dComplate ;
@@ -1505,8 +1497,7 @@ public class RepairObject : MonoBehaviour
 				string strSecondValue = nResult.ToString ().Substring (3, 1);
 
 				return string.Format ("{0}.{1:##}{2}", strFirstValue, strSecondValue, unit [index]); 
-			} 
-			else 
+			} else if (_dValue >= 10) 
 			{
 				int nResult = cVal [index] * 1000 + cVal [index - 1]; 
 
@@ -1515,7 +1506,15 @@ public class RepairObject : MonoBehaviour
 				string strSecondValue = nResult.ToString ().Substring (2, 2);
 
 				return string.Format ("{0}.{1:##}{2}", strFirstValue, strSecondValue, unit [index]); 
+			} else 
+			{
+				int nResult = cVal [index] * 1000 + cVal [index - 1]; 
 
+				string strFirstValue = nResult.ToString ().Substring (0, 1);
+
+				string strSecondValue = nResult.ToString ().Substring (1, 2);
+
+				return string.Format ("{0}.{1:##}{2}", strFirstValue, strSecondValue, unit [index]); 
 			}
 		} 
 

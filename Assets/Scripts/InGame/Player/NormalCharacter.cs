@@ -469,7 +469,7 @@ public class NormalCharacter : Character {
 
 			playerController.GuestSuccessed ();
 
-			fGold = 500 * Mathf.Pow (1.1f,Mathf.Min(nDay - 1,55)) * Mathf.Pow(nDay - 56,0) +( Mathf.Min(nDay -1, 55) * 50);
+			fGold = 250 * Mathf.Pow (1.09f, nDay - 1);
 
 			ScoreManager.ScoreInstance.GoldPlus (fGold);
 

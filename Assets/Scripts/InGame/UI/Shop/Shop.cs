@@ -96,6 +96,20 @@ public class Shop : MonoBehaviour {
         {
 			if (EquimentList != null)
             {
+				if (EquimentList.Count != playerData.changeStats.nShopMaxCount) 
+				{
+					int nCount = playerData.changeStats.nShopMaxCount - EquimentList.Count;
+
+					for (int nIndex = 0; nIndex < nCount; nIndex++)
+					{
+						CGameEquiment cGameEquiment = GetEquiment();
+
+						ShopList[nIndex].GetEquiment(inventory, showPanel, cGameEquiment);
+
+						EquimentList.Add(cGameEquiment);
+					}
+				}
+
                 foreach(CGameEquiment equit in EquimentList )
                 {
                     ShopList[nShopCount++].GetEquiment(inventory, showPanel,equit);
@@ -134,7 +148,7 @@ public class Shop : MonoBehaviour {
         resultEquiment.nSlotIndex = getEquiment.nSlotIndex;
         resultEquiment.strResource = getEquiment.strResource;
 
-		int nLength = GetGradeAmount( resultEquiment.sGrade);
+		int nLength = int.Parse( resultEquiment.sGrade);
 
         int nInsertIndex = 0;
 

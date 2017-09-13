@@ -72,43 +72,50 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	int m_nDay = 1;
 
+	private bool bIsFirst = false;
+
     private void Awake()
     {
-        //게임매니저에서 아르바이트 수치를 받아옴
-        m_nMaxArbaitAmount = GameManager.Instance.ArbaitLength(); 
+		if (bIsFirst == false) {
 
-        //받아온 수치만큼 할당
-		array_ArbaitData = new ArbaitBatch[m_nMaxArbaitAmount];
+			//게임매니저에서 아르바이트 수치를 받아옴
+			m_nMaxArbaitAmount = GameManager.Instance.ArbaitLength (); 
 
-        //몬스터 풀을 만듬
-        CreateMonsterPool();
+			//받아온 수치만큼 할당
+			array_ArbaitData = new ArbaitBatch[m_nMaxArbaitAmount];
 
-		//SpawnManager를 미리 캐싱
-		GameManager.Instance.player.GetSpawnManager(this);
+			//몬스터 풀을 만듬
+			CreateMonsterPool ();
 
-		BuffParticlePool.Init ();
-		DeBuffParticlePool.Init ();
+			//SpawnManager를 미리 캐싱
+			GameManager.Instance.player.GetSpawnManager (this);
 
-        //터치 오브젝트들을 초기화 밑 할당 해줌 (추후 텍스트 추가)
+			BuffParticlePool.Init ();
+			DeBuffParticlePool.Init ();
 
-        BreakBoomPool.Instance.Init();
+			//터치 오브젝트들을 초기화 밑 할당 해줌 (추후 텍스트 추가)
 
-        NormalRepairPool.Instance.Init();
+			BreakBoomPool.Instance.Init ();
 
-        CriticalRepairPool.Instance.Init();
+			NormalRepairPool.Instance.Init ();
 
-        TemperatureBoomPool.Instance.Init();
+			CriticalRepairPool.Instance.Init ();
 
-        NormalTouchPool.Instance.Init();
+			TemperatureBoomPool.Instance.Init ();
 
-        CriticalTouchPool.Instance.Init();
+			NormalTouchPool.Instance.Init ();
 
-		Input.multiTouchEnabled = true;
+			CriticalTouchPool.Instance.Init ();
 
-		//SoundInit
-		SoundManager.instance.SetSoundObjPool (simpleSoundObjPool);
-		SoundManager.instance.LoadSource ();
-		SoundManager.instance.PlaySound (eSoundArray.BGM_Main);
+			Input.multiTouchEnabled = true;
+
+			//SoundInit
+			SoundManager.instance.SetSoundObjPool (simpleSoundObjPool);
+			SoundManager.instance.LoadSource ();
+			SoundManager.instance.PlaySound (eSoundArray.BGM_Main);
+
+			bIsFirst = true;
+		}
 	}
 
     public SpawnManager GetSpawnManager() { return this; }

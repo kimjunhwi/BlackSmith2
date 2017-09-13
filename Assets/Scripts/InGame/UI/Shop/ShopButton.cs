@@ -18,6 +18,7 @@ public class ShopButton : MonoBehaviour {
     public SpriteRenderer CantBuyImage;
 
     public Button buttonCheck;
+	public Button BuyButtonCheck;
     public Text EquitName;
     public Text EquitGold;
     public Image EquitImage;
@@ -30,8 +31,13 @@ public class ShopButton : MonoBehaviour {
     {
         BuyButton = transform.Find("BuyButton").gameObject;
 		ItemButton = transform.Find ("ShopButton").gameObject;
-        buttonCheck = transform.Find("ShopButton").GetComponent<Button>();
+
+		buttonCheck = ItemButton.GetComponent<Button>();
         buttonCheck.onClick.AddListener(ClickButton);
+
+		BuyButtonCheck = BuyButton.GetComponent<Button> ();
+		BuyButtonCheck.onClick.AddListener (ClickBuyButton);
+
 
 		BuyButton.SetActive (true);
 		ItemButton.SetActive (false);
@@ -67,4 +73,9 @@ public class ShopButton : MonoBehaviour {
         showPanel.Setting(equitMent);
         
     }
+
+	public void ClickBuyButton()
+	{
+
+	}
 }

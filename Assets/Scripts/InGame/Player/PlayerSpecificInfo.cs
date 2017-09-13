@@ -163,8 +163,7 @@ public class PlayerSpecificInfo : MonoBehaviour {
 				string strSecondValue = nResult.ToString ().Substring (3, 1);
 
 				return string.Format ("{0}.{1:##}{2}", strFirstValue, strSecondValue, unit [index]); 
-			} 
-			else 
+			} else if (_dValue >= 10) 
 			{
 				int nResult = cVal [index] * 1000 + cVal [index - 1]; 
 
@@ -173,7 +172,15 @@ public class PlayerSpecificInfo : MonoBehaviour {
 				string strSecondValue = nResult.ToString ().Substring (2, 2);
 
 				return string.Format ("{0}.{1:##}{2}", strFirstValue, strSecondValue, unit [index]); 
+			} else 
+			{
+				int nResult = cVal [index] * 1000 + cVal [index - 1]; 
 
+				string strFirstValue = nResult.ToString ().Substring (0, 1);
+
+				string strSecondValue = nResult.ToString ().Substring (1, 2);
+
+				return string.Format ("{0}.{1:##}{2}", strFirstValue, strSecondValue, unit [index]); 
 			}
 		} 
 

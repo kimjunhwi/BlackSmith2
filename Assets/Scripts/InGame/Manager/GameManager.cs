@@ -769,6 +769,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			kInfo[i - 1].fBigCritical = float.Parse(Cells[13]);
 			kInfo[i - 1].fAccuracyRate = float.Parse(Cells[14]);
 			kInfo [i - 1].nStrenthCount = int.Parse (Cells [15]);
+			kInfo [i - 1].fOptionPlus = float.Parse (Cells [16]);
+			kInfo [i - 1].nBasicGold = int.Parse (Cells [17]);
         }
 
         cEquimentInfo = kInfo;
@@ -1647,6 +1649,8 @@ public class CGameEquiment
 	public float fAccuracyRate 		= 0;
 	public int nStrenthCount 		= 0;
     public bool bIsEquip 			= false;
+	public float fOptionPlus = 1.0f;
+	public int nBasicGold = 1000;
 
 	public CGameEquiment(){}
 
@@ -1668,7 +1672,8 @@ public class CGameEquiment
 		fAccuracyRate = _equimentData.fAccuracyRate;
 		nStrenthCount = _equimentData.nStrenthCount;
 		bIsEquip = _equimentData.bIsEquip;
-
+		fOptionPlus = _equimentData.fOptionPlus;
+		nBasicGold = _equimentData.nBasicGold;
 	}
 
 	public virtual string GetExplain(){

@@ -14,12 +14,12 @@ public class RepairPanelUI : EnhanceUI {
 
 		EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
 
-		CostGoldText.text = ChangeValue(3000 * Mathf.Pow (1.1f, Mathf.Min (nLevel -1, 100)) * Mathf.Pow (1.06f, Mathf.Max (nLevel - 101, 0)));
+		CostGoldText.text = ChangeValue(1000 * Mathf.Pow (1.095f, nLevel - 1));
 	}
 
 	protected override void EnhanceButtonClick ()
 	{
-		fCostGold = 3000 * Mathf.Pow (1.1f, Mathf.Min (nLevel - 1, 100)) * Mathf.Pow (1.06f, Mathf.Max (nLevel - 101, 0));
+		fCostGold = 1000 * Mathf.Pow (1.095f, nLevel - 1);
 
 		if (fCostGold <= ScoreManager.ScoreInstance.GetGold ()) {
 
@@ -35,7 +35,7 @@ public class RepairPanelUI : EnhanceUI {
 
 			ScoreManager.ScoreInstance.GoldPlus (-fCostGold	);
 
-			CostGoldText.text  = ChangeValue(3000 * Mathf.Pow (1.1f, Mathf.Min (nLevel - 1, 100)) * Mathf.Pow (1.06f, Mathf.Max (nLevel - 101, 0)));
+			CostGoldText.text  = ChangeValue(1000 * Mathf.Pow (1.095f, nLevel - 1));
 		}
 	}
 }

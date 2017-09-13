@@ -27,10 +27,9 @@ public class InventoryShowPanel : MonoBehaviour {
 
 	CGameEquiment ItemData;
 
-
-	EquipmentEnhance equipEnhanceData;
-
     Player player;
+
+	string[] unit = new string[]{ "G", "K", "M", "B", "T", "aa", "bb", "cc", "dd", "ee" }; 
 
 	void Awake()
 	{
@@ -49,25 +48,25 @@ public class InventoryShowPanel : MonoBehaviour {
 		Debug.Log ("강화 시작!!");
 
 
-		if (equipEnhanceData.fBasicGold + ItemData.nStrenthCount * equipEnhanceData.fPlusGoldValue <= ScoreManager.ScoreInstance.GetGold ()) {
+		if (ItemData.nBasicGold * Mathf.Pow(1.1f, ItemData.nStrenthCount - 1) <= ScoreManager.ScoreInstance.GetGold ()) {
 				
-			ScoreManager.ScoreInstance.GoldPlus (-(equipEnhanceData.fBasicGold + ItemData.nStrenthCount * equipEnhanceData.fPlusGoldValue));
+			ScoreManager.ScoreInstance.GoldPlus (-ItemData.nBasicGold * Mathf.Pow(1.1f, ItemData.nStrenthCount - 1));
 
 			Debug.Log ("강화 성공!!");
 
-			if (ItemData.fReapirPower 		!= 0) ItemData.fReapirPower 	+= equipEnhanceData.fPlusPercent;
-			if (ItemData.fArbaitRepair      != 0) ItemData.fArbaitRepair 	+= equipEnhanceData.fPlusPercent;
-			if (ItemData.fHonorPlus         != 0) ItemData.fHonorPlus 		+= equipEnhanceData.fPlusPercent;
-			if (ItemData.fGoldPlus          != 0) ItemData.fGoldPlus 		+= equipEnhanceData.fPlusPercent;
-			if (ItemData.fWaterChargePlus   != 0) ItemData.fWaterChargePlus += equipEnhanceData.fPlusPercent;
-			if (ItemData.fCritical          != 0) ItemData.fCritical 		+= equipEnhanceData.fPlusPercent;
-			if (ItemData.fCriticalDamage    != 0) ItemData.fCriticalDamage 	+= equipEnhanceData.fPlusPercent;
-			if (ItemData.fBigCritical       != 0) ItemData.fBigCritical 	+= equipEnhanceData.fPlusPercent;
-			if (ItemData.fAccuracyRate      != 0) ItemData.fAccuracyRate 	+= equipEnhanceData.fPlusPercent;
+			if (ItemData.fReapirPower 		!= 0) ItemData.fReapirPower 	+= ItemData.fOptionPlus;
+			if (ItemData.fArbaitRepair      != 0) ItemData.fArbaitRepair 	+= ItemData.fOptionPlus;
+			if (ItemData.fHonorPlus         != 0) ItemData.fHonorPlus 		+= ItemData.fOptionPlus;
+			if (ItemData.fGoldPlus          != 0) ItemData.fGoldPlus 		+= ItemData.fOptionPlus;
+			if (ItemData.fWaterChargePlus   != 0) ItemData.fWaterChargePlus += ItemData.fOptionPlus;
+			if (ItemData.fCritical          != 0) ItemData.fCritical 		+= ItemData.fOptionPlus;
+			if (ItemData.fCriticalDamage    != 0) ItemData.fCriticalDamage 	+= ItemData.fOptionPlus;
+			if (ItemData.fBigCritical       != 0) ItemData.fBigCritical 	+= ItemData.fOptionPlus;
+			if (ItemData.fAccuracyRate      != 0) ItemData.fAccuracyRate 	+= ItemData.fOptionPlus;
 
 			ItemData.nStrenthCount++;
 
-			EnhanceCostText.text = (equipEnhanceData.fBasicGold + ItemData.nStrenthCount * equipEnhanceData.fPlusGoldValue).ToString();
+			EnhanceCostText.text = ChangeValue(ItemData.nBasicGold * Mathf.Pow(1.1f, ItemData.nStrenthCount - 1));
 
 			ResetItemText ();
 
@@ -112,13 +111,11 @@ public class InventoryShowPanel : MonoBehaviour {
 
 		GradeText.text = ItemData.sGrade;
 
-		equipEnhanceData = GameManager.Instance.GetEnhanceArbaitData (ItemData.sGrade);
-
 		WeaponImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache(ItemData.strResource);
 	
 		ResetItemText ();
 
-		EnhanceCostText.text = (equipEnhanceData.fBasicGold + ItemData.nStrenthCount * equipEnhanceData.fPlusGoldValue).ToString();
+		EnhanceCostText.text = ChangeValue(ItemData.nBasicGold * Mathf.Pow(1.1f, ItemData.nStrenthCount - 1));
 
 		if (strExplain != null)
 			CreateText (strExplain, 0f);
@@ -157,4 +154,80 @@ public class InventoryShowPanel : MonoBehaviour {
 		if (ItemData.fBigCritical       != 0) CreateText("대성공 : ", ItemData.fBigCritical);
 		if (ItemData.fAccuracyRate      != 0) CreateText("명중률 : ", ItemData.fAccuracyRate);
 	}
+
+	//값을 수치로 표기하기 위한 함수 
+	string ChangeValue(double _dValue)
+	{ 
+		int[] cVal = new int[10]; 
+
+		int index = 0; 
+
+		string strValue =  string.Format ("{0:####}", _dValue);
+
+		if (_dValue < 10000)
+			return strValue;
+
+		while (true) { 
+			string last4 = ""; 
+			if (strValue.Length >= 4) { 
+
+				last4 = strValue.Substring (strValue.Length - 4); 
+
+				int intLast4 = int.Parse (last4); 
+
+				cVal [index] = intLast4 % 1000; 
+
+				strValue = strValue.Remove (strValue.Length - 3); 
+			} else { 
+				cVal [index] = int.Parse (strValue); 
+				break; 
+			} 
+
+			index++; 
+		} 
+
+		//1000,00
+		//1000,000,00
+		//1000,000,000,00
+
+		while (_dValue >= 1000) 
+		{
+			_dValue *= 0.001f;
+		}
+
+		if (index > 0) { 
+
+			if (_dValue >= 100) 
+			{
+				int nResult = cVal [index] * 1000 + cVal [index - 1]; 
+
+				string strFirstValue = nResult.ToString ().Substring (0, 3);
+
+				string strSecondValue = nResult.ToString ().Substring (3, 1);
+
+				return string.Format ("{0}.{1:##}{2}", strFirstValue, strSecondValue, unit [index]); 
+			} else if (_dValue >= 10) 
+			{
+				int nResult = cVal [index] * 1000 + cVal [index - 1]; 
+
+				string strFirstValue = nResult.ToString ().Substring (0, 2);
+
+				string strSecondValue = nResult.ToString ().Substring (2, 2);
+
+				return string.Format ("{0}.{1:##}{2}", strFirstValue, strSecondValue, unit [index]); 
+			} else 
+			{
+				int nResult = cVal [index] * 1000 + cVal [index - 1]; 
+
+				string strFirstValue = nResult.ToString ().Substring (0, 1);
+
+				string strSecondValue = nResult.ToString ().Substring (1, 2);
+
+				return string.Format ("{0}.{1:##}{2}", strFirstValue, strSecondValue, unit [index]); 
+			}
+		} 
+
+		return strValue; 
+	}
+
 }

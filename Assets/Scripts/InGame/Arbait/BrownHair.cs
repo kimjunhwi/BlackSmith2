@@ -50,7 +50,7 @@ public class BrownHair : ArbaitBatch {
 
 	protected override void ReliveSkill()
 	{
-		playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() - fChangeCritical);
+		
 	}
 
 	public override void CheckCharacterState(E_ArbaitState _E_STATE)

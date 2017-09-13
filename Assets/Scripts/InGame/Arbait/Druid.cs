@@ -83,9 +83,9 @@ public class Druid : ArbaitBatch
 
         if (m_bIsApplyBuff)
         {
-			playerData.SetBasicRepairPower(playerData.GetBasicRepairPower() + dChangeRepair);
+			playerData.SetBasicRepairPower(playerData.GetBasicRepairPower() - dChangeRepair);
 
-			playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() + fChangeCritical);
+			playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() - fChangeCritical);
         }
 
     }
@@ -96,9 +96,9 @@ public class Druid : ArbaitBatch
 
         if (m_bIsApplyBuff)
         {
-			playerData.SetBasicRepairPower(playerData.GetBasicRepairPower() - dChangeRepair);
+			playerData.SetBasicRepairPower(playerData.GetBasicRepairPower() + dChangeRepair);
 
-			playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() - fChangeCritical);
+			playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() + fChangeCritical);
         }
     }
 
@@ -106,17 +106,21 @@ public class Druid : ArbaitBatch
     {
         yield return new WaitForSeconds(0.1f);
 
-        m_bIsApplyBuff = true;
+		if (m_bIsApplyBuff == false) {
 
-		dChangeRepair = playerData.GetBasicRepairPower() * (m_CharacterChangeData.fSkillPercent * 0.01f);
+			dChangeRepair = playerData.GetBasicRepairPower () * (m_CharacterChangeData.fSkillPercent * 0.01f);
 
-		fChangeCritical = playerData.GetBasicCriticalChance() * (m_CharacterChangeData.fSkillPercent * 0.01f);
+			fChangeCritical = playerData.GetBasicCriticalChance () * (m_CharacterChangeData.fSkillPercent * 0.01f);
 
-        fChangeCritical = Mathf.Round(fChangeCritical);
+			fChangeCritical = Mathf.Round (fChangeCritical);
 
-		playerData.SetBasicRepairPower(playerData.GetBasicRepairPower() + dChangeRepair);
+			playerData.SetBasicRepairPower (playerData.GetBasicRepairPower () + dChangeRepair);
 
-		playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() + fChangeCritical);
+			playerData.SetBasicCriticalChance (playerData.GetBasicCriticalChance () + fChangeCritical);
+
+		}
+
+		m_bIsApplyBuff = true;
 
         while (true)
         {

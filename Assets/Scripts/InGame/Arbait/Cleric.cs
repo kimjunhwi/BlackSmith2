@@ -40,6 +40,14 @@ public class Cleric : ArbaitBatch {
         CheckCharacterState(E_STATE);
 
         SpawnManager.Instance.InsertWeaponArbait(m_CharacterChangeData.index, nBatchIndex);
+
+		m_bIsApplyBuff = false;
+
+		m_fBuffTime = 0.0f;
+
+		dChangeRepair = 0.0f;
+
+		fChangeCritical = 0.0f;
     }
 
     protected override void OnDisable()
@@ -87,9 +95,9 @@ public class Cleric : ArbaitBatch {
 
         if (m_bIsApplyBuff)
         {
-			playerData.SetBasicRepairPower(playerData.GetBasicRepairPower() + dChangeRepair);
+			playerData.SetBasicRepairPower(playerData.GetBasicRepairPower() - dChangeRepair);
 
-			playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() + fChangeCritical);
+			playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() - fChangeCritical);
         }
 
     }
@@ -100,9 +108,9 @@ public class Cleric : ArbaitBatch {
 
         if (m_bIsApplyBuff)
         {
-			playerData.SetBasicRepairPower(playerData.GetBasicRepairPower() - dChangeRepair);
+			playerData.SetBasicRepairPower(playerData.GetBasicRepairPower() + dChangeRepair);
 
-			playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() - fChangeCritical);
+			playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() + fChangeCritical);
         }
     }
 
@@ -110,17 +118,21 @@ public class Cleric : ArbaitBatch {
 	{
 		yield return new WaitForSeconds(0.1f);
 
+
+		if (m_bIsApplyBuff == false) {
+
+			dChangeRepair = playerData.GetBasicRepairPower () * (m_CharacterChangeData.fSkillPercent * 0.01f);
+
+			fChangeCritical = playerData.GetBasicCriticalChance () * (m_CharacterChangeData.fSkillPercent * 0.01f);
+
+			fChangeCritical = Mathf.Round (fChangeCritical);
+
+			playerData.SetBasicRepairPower (playerData.GetBasicRepairPower () + dChangeRepair);
+
+			playerData.SetBasicCriticalChance (playerData.GetBasicCriticalChance () + fChangeCritical);
+		}
+
 		m_bIsApplyBuff = true;
-
-		dChangeRepair = playerData.GetBasicRepairPower() * (m_CharacterChangeData.fSkillPercent * 0.01f);
-
-		fChangeCritical = playerData.GetBasicCriticalChance() * (m_CharacterChangeData.fSkillPercent * 0.01f);
-
-		fChangeCritical = Mathf.Round(fChangeCritical);
-
-		playerData.SetBasicRepairPower(playerData.GetBasicRepairPower() + dChangeRepair);
-
-		playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() + fChangeCritical);
 
 		while (true)
 		{
@@ -142,6 +154,10 @@ public class Cleric : ArbaitBatch {
 		playerData.SetBasicRepairPower(playerData.GetBasicRepairPower() - dChangeRepair);
 
 		playerData.SetBasicCriticalChance(playerData.GetBasicCriticalChance() - fChangeCritical);
+
+		dChangeRepair = 0;
+
+		fChangeCritical = 0f;
 	}
 
 	public override void CheckCharacterState(E_ArbaitState _E_STATE)
@@ -207,8 +223,6 @@ public class Cleric : ArbaitBatch {
 			if (fTime >= m_CharacterChangeData.fAttackSpeed)
 			{
 				fTime = 0.0f;
-
-				Debug.Log(m_CharacterChangeData.fAttackSpeed);
 
 				animator.SetTrigger("bIsRepair");
 

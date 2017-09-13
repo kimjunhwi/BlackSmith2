@@ -1446,7 +1446,7 @@ public class RepairObject : MonoBehaviour
 	}
 
 	//값을 수치로 표기하기 위한 함수 
-	string ChangeValue(double _dValue)
+	public string ChangeValue(double _dValue)
 	{ 
 		//
 		int[] cVal = new int[10]; 

@@ -119,7 +119,7 @@ public class BossSasin : BossCharacter
 			fTime += Time.deltaTime;
 
 			double fCurComplete = repairObj.GetCurCompletion ();
-			double fMaxComplete = dBossComplete;
+			double fMaxComplete = fCurComplete;
 
 			//Fail Condition
 			if (fCurComplete < 0) {
@@ -279,9 +279,12 @@ public class BossSasin : BossCharacter
 			if (isFailed == false && bossPopUpWindow.isRewardPanelOn_Success == false) 
 			{
 				Debug.Log ("BossResult : Success");
+				bossPopUpWindow.GetBossInfo (this);
+				bossPopUpWindow.GetBossLevel (nCurLevel);
+				bossPopUpWindow.GetBossIndex (nIndex);
 				bossPopUpWindow.SetBossRewardBackGroundImage (isFailed);
 				bossPopUpWindow.PopUpWindowReward_Switch_isSuccess ();
-				bossPopUpWindow.GetBossInfo (this);
+
 				bossPopUpWindow.PopUpWindow_Reward_YesButton.onClick.AddListener (bossPopUpWindow.PopUpWindowReward_Switch_isSuccess);
 			} 
 			//실패시

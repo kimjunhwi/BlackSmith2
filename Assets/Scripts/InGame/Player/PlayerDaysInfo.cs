@@ -38,7 +38,14 @@ public class PlayerDaysInfo : MonoBehaviour , IPointerDownHandler
 			getInfoGameObject.gameObject.name == "DayText") 
 		{
 			Debug.Log ("Touched : " + getInfoGameObject.name);
-		
+
+			if (player.GetMaxDay () < 100)
+				MaxDaysText.fontSize = 30;
+			else if(player.GetMaxDay () < 1000)
+				MaxDaysText.fontSize = 25;
+			else
+				MaxDaysText.fontSize = 20;
+			
 
 			CurrentDaysText.text = "";
 			MaxDaysText.text = player.GetMaxDay ().ToString ();
@@ -55,6 +62,14 @@ public class PlayerDaysInfo : MonoBehaviour , IPointerDownHandler
 			getInfoGameObject.gameObject.name == "DayText") 
 		{
 			Debug.Log ("Touched : " + getInfoGameObject.name);
+
+			if (player.GetDay () < 100)
+				CurrentDaysText.fontSize = 30;
+			else if(player.GetDay () < 1000)
+				CurrentDaysText.fontSize = 25;
+			else
+				CurrentDaysText.fontSize = 20;
+			
 
 			CurrentDaysText.text = player.GetDay ().ToString ();
 			MaxDaysText.text = "";

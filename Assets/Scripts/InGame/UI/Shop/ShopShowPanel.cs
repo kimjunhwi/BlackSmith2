@@ -28,8 +28,6 @@ public class ShopShowPanel : MonoBehaviour {
 
     void OnEnable()
     {
-		NoneActiveImage.SetAsLastSibling ();
-
         RemoveText();
     }
 

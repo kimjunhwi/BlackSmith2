@@ -8,7 +8,7 @@ public class Shop : MonoBehaviour {
     public int nEquimentLength;
 
     private int nShopCount = 0;
-    private int nShopMaxLength = 10;
+    private int nShopMaxLength = 6;
 
     public Transform parentPanel;
     public GameObject shopButton;
@@ -28,6 +28,8 @@ public class Shop : MonoBehaviour {
 
     private string strTime ="";
 
+	Player playerData;
+
     void Awake()
     {
         ShopList = new ShopButton[nShopMaxLength];
@@ -46,6 +48,8 @@ public class Shop : MonoBehaviour {
         }
 
         nEquimentLength = GameManager.Instance.GetEquimentLength();
+
+		playerData = GameManager.Instance.GetPlayer ();
     }
 
     void OnEnable()
@@ -78,7 +82,7 @@ public class Shop : MonoBehaviour {
 
             EquimentList.Clear();
 
-            for (int nIndex = 0; nIndex < 3; nIndex++)
+			for (int nIndex = 0; nIndex < playerData.GetShopMaxCount(); nIndex++)
             {
                 CGameEquiment cGameEquiment = GetEquiment();
 
@@ -100,7 +104,7 @@ public class Shop : MonoBehaviour {
             //완전 처음 일 경우 
             else
             {
-                for(int nIndex = 0; nIndex < 3; nIndex++)
+				for(int nIndex = 0; nIndex < playerData.GetShopMaxCount(); nIndex++)
                 {
                     CGameEquiment cGameEquiment = GetEquiment();
 

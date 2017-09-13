@@ -1983,15 +1983,25 @@ public class CGamePlayerData
 	public int nEnhanceCriticalLevel;		//크리티컬 확률 레벨
 	public int nEnhanceArbaitLevel;			//아르바이트 강화 레벨
 	public int nFeverTimeLevel;				//피버 타임 강화 레벨 
-    public int nSasinMaterial;
-    public int nRusiuMaterial;
-    public int nIceMaterial;
-    public int nFireMaterial;
-    public int nDay;
-	public int nMaxDay;
-	public int nFaieldGuest;
-	public int nSuccessedGuest;
-    public int nGuestCount;
+    public int nSasinMaterial;				//보스 소울 
+	public int nRusiuMaterial;				//보스 소울 
+	public int nIceMaterial;				//보스 소울 
+	public int nFireMaterial;				//보스 소울 
+    public int nDay;						//현재 일차
+	public int nMaxDay;						//맥스 일차
+	public int nFaieldGuest;				//실패 손님
+	public int nSuccessedGuest;				//성공 손님
+    public int nGuestCount;					//손님 수
+	public int nShopMaxCount;				//상점 리젠 맥스 수치
+	public int nGuestBuffMinutes;
+	public float fGuestBuffSecond;
+	public int nGoldPlusBuffMinutes;
+	public float fGoldPlusBuffSecond;
+	public int nHonorPlusBuffMinutes;
+	public float fHonorPlusBuffSecond;
+	public bool bIsShopChange;
+	public int nShopMinutes;
+	public float fShopSecond;
 
 	public CGamePlayerData(CGamePlayerData playerData)
 	{
@@ -2027,6 +2037,16 @@ public class CGamePlayerData
 		nFaieldGuest = playerData.nFaieldGuest;
 		nSuccessedGuest = playerData.nSuccessedGuest;
         nGuestCount = playerData.nGuestCount;
+		nShopMaxCount = playerData.nShopMaxCount;
+		nGuestBuffMinutes = playerData.nGuestBuffMinutes;
+		fGuestBuffSecond = playerData.fGuestBuffSecond;
+		nGoldPlusBuffMinutes = playerData.nGoldPlusBuffMinutes;
+		fGoldPlusBuffSecond = playerData.fGoldPlusBuffSecond;
+		nHonorPlusBuffMinutes = playerData.nHonorPlusBuffMinutes;
+		fHonorPlusBuffSecond = playerData.fHonorPlusBuffSecond;
+		bIsShopChange = playerData.bIsShopChange;
+		nShopMinutes = playerData.nShopMinutes;
+		fShopSecond = playerData.fShopSecond;
 	}
 }
 

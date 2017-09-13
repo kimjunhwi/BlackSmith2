@@ -415,6 +415,16 @@ public class Player
 		return List_items.Count;
 	}
 
+	public int GetShopMaxCount()
+	{
+		return changeStats.nShopMaxCount;
+	}
+
+	public void SetShopMaxCount(int _nValue)
+	{
+		changeStats.nShopMaxCount = _nValue;
+	}
+
     /*
 	public E_BOSS_WEAPON Check_Equipment()
 	{

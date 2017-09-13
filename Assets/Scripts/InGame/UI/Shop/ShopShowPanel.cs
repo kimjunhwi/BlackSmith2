@@ -13,8 +13,6 @@ public class ShopShowPanel : MonoBehaviour {
 
 	public Button buyButton;
 
-	public Transform NoneActiveImage;
-
     public Transform parentObject;
 
     public CGameEquiment ItemData;
@@ -27,8 +25,7 @@ public class ShopShowPanel : MonoBehaviour {
 	}
 
     void OnEnable()
-    {
-		NoneActiveImage.SetAsLastSibling ();
+	{
 
         RemoveText();
     }
@@ -53,8 +50,6 @@ public class ShopShowPanel : MonoBehaviour {
         ItemData = _ItemData;
 
 		nameText.text = string.Format("{0} +{1}", ItemData.strName , ItemData.nStrenthCount);
-
-		NoneActiveImage.SetAsFirstSibling ();
 
         itemImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache(ItemData.strResource);
 

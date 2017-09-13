@@ -497,7 +497,7 @@ public class RepairObject : MonoBehaviour
 			}
 
 			//WaterAvailable Arrow 
-			int waterLevel = player.GetWaterPlusLevel();
+			int waterLevel = player.GetMaxWaterLevel();
 			waterAvailableArrow.anchoredPosition = new Vector2(waterAvailableArrow.anchoredPosition.x, waterBottle.sizeDelta.y /( waterLevel + 1));
 
 		}
@@ -686,7 +686,8 @@ public class RepairObject : MonoBehaviour
             obj.GetComponent<CriticalTouchParticle>().Play();
 
             //완성이 됐는지 확인 밑 오브젝트에 진행사항 전달
-			if (SpawnManager.Instance.CheckComplateWeapon (AfootObject, dCurrentComplate, fCurrentTemperature)) {
+			if (SpawnManager.Instance.CheckComplateWeapon (AfootObject, dCurrentComplate, fCurrentTemperature)) 
+			{
 				ComplateSlider.value = 0;
 				TemperatureSlider.value = 0;
 
@@ -1305,20 +1306,23 @@ public class RepairObject : MonoBehaviour
 			// 수리력 = 수리력 * ( 현재온도 * 11 * 0.00556) * ( 1 - 물수치(플레이어의 무기 + 장비의 물수치))
 			dCurrentComplate += GameManager.Instance.player.GetRepairPower() * (fCurrentTemperature  * 11f * 0.00556f) * 
 				(1f + (weaponData.fMinusUseWater * 0.05f));
-			
 
+			//Debug.Log ("물 수치 Plus 수치 : " + GameManager.Instance.player.GetWaterPlus() + "물 최대 수치 : " + GameManager.Instance.player.GetBasicMaxWater() ); 
+			
+			//온도 감소량
 			fCurrentTemperature -= fMaxTemperature * 0.5f;
 
 			if (fCurrentTemperature < 0)
 				fCurrentTemperature = 0;
-
-			fCurrentWater -= 1000f;
+			
+			//물 감소량
+			fCurrentWater -=  1000f ;
 
 			if (fCurrentWater < 0) {
 				fCurrentWater = 0;
 			}
 
-			float	 resultWaterValue =  (weaponData.fMinusUseWater * 0.01f);
+			float resultWaterValue =  (weaponData.fMinusUseWater * 0.01f);
 			Debug.Log ("Before fCurrent : " + dCurrentComplate);          
 
 			Debug.Log ("After fCurrent : " + dCurrentComplate);     
@@ -1412,12 +1416,13 @@ public class RepairObject : MonoBehaviour
 				Debug.Log ("OtherBossWaterValue : " + completeValueResult);
 			}
 
-
+			//온도 감소 수치
 			fCurrentTemperature -= fMaxTemperature * 0.3f;
 
 			if (fCurrentTemperature < 0)
 				fCurrentTemperature = 0;
 
+			//물 감소 수치
 			fCurrentWater -= 1000f;
 
 			if (fCurrentWater < 0)

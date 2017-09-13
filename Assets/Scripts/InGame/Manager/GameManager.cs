@@ -921,12 +921,13 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			kInfo[i - 1].nType = int.Parse(Cells[1]);
 			kInfo[i - 1].sImagePath_01 = Cells[2];
 			kInfo[i - 1].sImagePath_02 = Cells[3];
-			kInfo[i - 1].fContinueSec = float.Parse( Cells[4]);
-			kInfo[i - 1].fRuby = float.Parse(Cells[5]);
-			kInfo[i - 1].fHonor = float.Parse(Cells[6]);
-			kInfo[i - 1].fGold = float.Parse(Cells[7]);
-			kInfo[i - 1].fCash = float.Parse(Cells[8]);
-			kInfo[i - 1].sItemContents = Cells[9];
+			kInfo [i - 1].sImagePath_03 = Cells [4];
+			kInfo[i - 1].fContinueSec = float.Parse( Cells[5]);
+			kInfo[i - 1].fRuby = float.Parse(Cells[6]);
+			kInfo[i - 1].fHonor = float.Parse(Cells[7]);
+			kInfo[i - 1].fGold = float.Parse(Cells[8]);
+			kInfo[i - 1].fCash = float.Parse(Cells[9]);
+			kInfo[i - 1].sItemContents = Cells[10];
 		}
 
 		cCashItemShopInfo = kInfo;
@@ -2213,6 +2214,7 @@ public class GameCashItemShop
 	public int nType;
 	public string sImagePath_01;
 	public string sImagePath_02;
+	public string sImagePath_03;
 	public float fContinueSec;
 	public float fRuby;
 	public float fHonor;

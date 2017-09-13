@@ -119,6 +119,6 @@ public class UIManager : MonoBehaviour
 			obj.SetActive (false);	
 		}
 	}
-		
+
 
 }

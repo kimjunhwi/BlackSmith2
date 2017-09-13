@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 public enum E_BOSSAPPEARDAYS
 {
-	E_BOSSAPPEARDAYS_ICE = 30,
-	E_BOSSAPPEARDAYS_SASIN = 50,
-	E_BOSSAPPEARDAYS_FIRE = 70,
-	E_BOSSAPPEARDAYS_MUSIC = 90
+	E_BOSSAPPEARDAYS_ICE = 3,
+	E_BOSSAPPEARDAYS_SASIN = 5,
+	E_BOSSAPPEARDAYS_FIRE = 7,
+	E_BOSSAPPEARDAYS_MUSIC = 9
 }
 
 public enum E_BOSSWORD
@@ -282,8 +282,7 @@ public class BossCreator : MonoBehaviour
 			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE02] = "눈보라 ~~~!";
 			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "그럼 이만!";
 
-			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss == false &&
-			    GameManager.Instance.player.GetDay () >= (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_ICE)
+			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss == false )
 			{
 				m_bIsFirstFightToIceBoss = true;
 				StartCoroutine (StartShowBossHint (0));
@@ -327,8 +326,7 @@ public class BossCreator : MonoBehaviour
 			bossSasin.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE02] = "뿌우우우우우!!!";
 			bossSasin.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "꾸앙 ㅇㅁㅇ...";
 
-			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToSasinBoss == false && 
-				GameManager.Instance.player.GetDay() >= (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_SASIN)
+			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToSasinBoss == false)
 			{
 				m_bIsFirstFightToSasinBoss = true; 
 				StartCoroutine (StartShowBossHint (1));
@@ -376,8 +374,7 @@ public class BossCreator : MonoBehaviour
 			bossFire.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE02] = "파이어 ~~~!";
 			bossFire.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "Bye~~~!";
 
-			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToFireBoss == false && 
-				GameManager.Instance.player.GetDay() >= (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_FIRE)
+			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToFireBoss == false)
 			{
 				m_bIsFirstFightToFireBoss = true;
 				StartCoroutine (StartShowBossHint (2));
@@ -425,8 +422,7 @@ public class BossCreator : MonoBehaviour
 			bossMusic.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE02] = "Drop the beat~!";
 			bossMusic.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "SeeYa!";
 
-			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToMusicBoss == false &&
-				GameManager.Instance.player.GetDay() >= (int)E_BOSSAPPEARDAYS.E_BOSSAPPEARDAYS_MUSIC)
+			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToMusicBoss == false)
 			{
 				m_bIsFirstFightToMusicBoss = true;
 				StartCoroutine (StartShowBossHint (3));

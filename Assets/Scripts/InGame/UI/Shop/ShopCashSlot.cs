@@ -11,5 +11,6 @@ public class ShopCashSlot : MonoBehaviour
 	public Text itemBuyValue_Text;
 	public Image itemTag_Image;
 	public Button itemBuy_Button;
+	public Image itemBuy_Image;
 
 }

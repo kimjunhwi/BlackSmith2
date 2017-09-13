@@ -106,16 +106,22 @@ public class ShopCash : MonoBehaviour , IStoreListener
 					consumeSlot.transform.SetParent (addSlotObjs [_index].transform, false);
 					consumeSlot.transform.localScale = Vector3.one;
 
+
+
 					ShopCashSlot shopCashSlot = consumeSlot.GetComponent<ShopCashSlot> ();
 					shopCashSlot.itemName_Text.text = getCashItemInfo [i].sItemName;
 					shopCashSlot.itemConstents_Text.text = getCashItemInfo [i].sItemContents;
 					shopCashSlot.item_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_01);
 					shopCashSlot.itemTag_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_02);
+					shopCashSlot.itemBuy_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_03);
 
 					//명예와 소모성 아이템은 루비로 나머지는 현금으로
 					if (getCashItemInfo [i].nType == (int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_CONSUME || getCashItemInfo [i].nType == (int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_HONOR)
 					{
+						//값 표현
 						shopCashSlot.itemBuyValue_Text.text = string.Format ("{0}", getCashItemInfo [i].fRuby);
+						shopCashSlot.itemBuyValue_Text.alignment = TextAnchor.MiddleCenter;
+
 						if (getCashItemInfo [i].sItemName == "골드부스터")
 						{
 							Debug.Log ("Add 골드부스터 Index : " + i);
@@ -162,7 +168,9 @@ public class ShopCash : MonoBehaviour , IStoreListener
 					
 					else
 					{
-						shopCashSlot.itemBuyValue_Text.text = string.Format ("{0}", getCashItemInfo [i].fCash);
+						//값 표현
+						shopCashSlot.itemBuyValue_Text.text = string.Format ("{0:#,###}", getCashItemInfo [i].fCash);
+
 						if (getCashItemInfo [i].sItemName == "100보석")
 						{
 							shopCashSlot.itemBuy_Button.onClick.RemoveListener (() => BuyProductID (productId_ruby100));
@@ -260,6 +268,9 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		if (getCashItemInfo [nIndex].sItemName == "골드부스터") 
 		{
 			itemBuy_Text.text = "골드부스터를 구입 하시겠습니까?";
+			itemBuy_YesButton.onClick.RemoveAllListeners ();
+			itemBuy_YesButton.onClick.AddListener (() => AddResource (nIndex, 0, getCashItemInfo [nIndex].fRuby ,  GameManager.Instance.player.GetDay(), 0));
+
 			GameObjectActive (YesNoPopUp_Obj);
 
 		}
@@ -267,12 +278,18 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		if (getCashItemInfo [nIndex].sItemName == "명예부스터") 
 		{
 			itemBuy_Text.text = "명예부스터를 구입 하시겠습니까?";
+			itemBuy_YesButton.onClick.RemoveAllListeners ();
+			itemBuy_YesButton.onClick.AddListener (() => AddResource (nIndex, 0, getCashItemInfo [nIndex].fRuby ,  GameManager.Instance.player.GetDay(), 0));
+
 			GameObjectActive (YesNoPopUp_Obj);
 		}
 
 		if (getCashItemInfo [nIndex].sItemName == "직원부스터") 
 		{
 			itemBuy_Text.text = "직원부스터를 구입 하시겠습니까?";
+			itemBuy_YesButton.onClick.RemoveAllListeners ();
+			itemBuy_YesButton.onClick.AddListener (() => AddResource (nIndex, 0, getCashItemInfo [nIndex].fRuby ,  GameManager.Instance.player.GetDay(), 0));
+
 			GameObjectActive (YesNoPopUp_Obj);
 		}
 
@@ -280,7 +297,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		{
 			itemBuy_Text.text = "프리패스를 구입 하시겠습니까?";
 			itemBuy_YesButton.onClick.RemoveAllListeners ();
-			itemBuy_YesButton.onClick.AddListener (() => AddResource (0, getCashItemInfo [nIndex].fRuby ,  GameManager.Instance.player.GetDay() + 1, 10000.0));
+			itemBuy_YesButton.onClick.AddListener (() => AddResource (nIndex, 0, getCashItemInfo [nIndex].fRuby ,  GameManager.Instance.player.GetDay() + 1, 10000.0));
 			GameObjectActive (YesNoPopUp_Obj);
 		}
 
@@ -288,7 +305,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		{
 			itemBuy_Text.text = "100명예를 구입 하시겠습니까?";
 			itemBuy_YesButton.onClick.RemoveAllListeners ();
-			itemBuy_YesButton.onClick.AddListener (() => AddResource (100, getCashItemInfo [nIndex].fRuby , 0 , 0f));
+			itemBuy_YesButton.onClick.AddListener (() => AddResource (nIndex, 100, getCashItemInfo [nIndex].fRuby , GameManager.Instance.player.GetDay() , 0f));
 			GameObjectActive (YesNoPopUp_Obj);
 
 		}
@@ -297,7 +314,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		{
 			itemBuy_Text.text = "300명예를 구입 하시겠습니까?";
 			itemBuy_YesButton.onClick.RemoveAllListeners ();
-			itemBuy_YesButton.onClick.AddListener (() => AddResource (300, getCashItemInfo [nIndex].fRuby,0  , 0f));
+			itemBuy_YesButton.onClick.AddListener (() => AddResource (nIndex, 300, getCashItemInfo [nIndex].fRuby, GameManager.Instance.player.GetDay()  , 0f));
 			GameObjectActive (YesNoPopUp_Obj);
 		}
 
@@ -305,23 +322,22 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		{
 			itemBuy_Text.text = "500명예를 구입 하시겠습니까?";
 			itemBuy_YesButton.onClick.RemoveAllListeners ();
-			itemBuy_YesButton.onClick.AddListener (() => AddResource (500, getCashItemInfo [nIndex].fRuby, 0, 0f ));
+			itemBuy_YesButton.onClick.AddListener (() => AddResource (nIndex, 500, getCashItemInfo [nIndex].fRuby, GameManager.Instance.player.GetDay(), 0f ));
 			GameObjectActive (YesNoPopUp_Obj);
 		}
 
 	}
 
-	public void AddResource(int _honor , float _ruby ,int _day , double _gold)
+	public void AddResource(int _index, int _honor , float _ruby ,int _day , double _gold)
 	{
-		if (_day >= 1) {
+		if (getCashItemInfo[_index].sItemName == "프리패스") {
 			SpawnManager.Instance.SetDayInitInfo (_day);
-
 		}
 		
 		ScoreManager.ScoreInstance.GoldPlus (_gold);
 		ScoreManager.ScoreInstance.HonorPlus (_honor);
 		ScoreManager.ScoreInstance.RubyPlus( ((int)-_ruby));
-		ScoreManager.ScoreInstance.SetCurrentDays (_day);
+
 	}
 
 

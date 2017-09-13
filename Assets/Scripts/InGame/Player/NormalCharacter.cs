@@ -125,7 +125,13 @@ public class NormalCharacter : Character {
 		{
 			nDay = cPlayerData.GetDay ();
 
-			weaponData.dMaxComplate = (nDay <= 185)  ? 3 * Mathf.Pow(1.25f,nDay) * 60  : 3 * Mathf.Pow(125,185) * Mathf.Pow(125,nDay- 185) *60; 
+			float fOriValue = nDay - 1;
+			float fMinusValue = Mathf.Floor( (nDay - 1) * 0.1f ) * 10;
+			float result = fOriValue - fMinusValue;
+
+			double dCurComplete = 500 * Mathf.Max( Mathf.Pow (2, (Mathf.Floor((nDay - 1) * 0.1f))),1) * (0.5 + (result) * 0.08f);
+
+			weaponData.dMaxComplate = dCurComplete; 
 			weaponData.dMinusRepair = weaponData.dMinusRepair + (weaponData.dMinusRepair * nDay * 0.03f);
 			weaponData.fMinusChargingWater = weaponData.fMinusChargingWater + (weaponData.fMinusChargingWater * nDay * 0.03f);
 			weaponData.dMinusCriticalDamage = weaponData.dMinusCriticalDamage + (weaponData.dMinusCriticalDamage * nDay * 0.03f);

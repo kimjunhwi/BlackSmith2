@@ -200,7 +200,7 @@ public class RepairObject : MonoBehaviour
 		fUseWater  = 10.0f;
 
 		fPlusWater = player.GetWaterPlus ();
-		fMaxWater = GameManager.Instance.player.GetBasicMaxWaterPlus() +( (GameManager.Instance.player.GetWaterPlusLevel() -1 ) * 1000f);
+		fMaxWater = GameManager.Instance.GetPlayer().GetBasicMaxWater();
 
 		TemperatureSlider.maxValue = fMaxTemperature;
 		TemperatureSlider.value = 0;

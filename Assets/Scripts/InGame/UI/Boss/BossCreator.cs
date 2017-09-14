@@ -486,6 +486,7 @@ public class BossCreator : MonoBehaviour
 	{
 		BossHint bossHint = bossHint_Obj.GetComponent<BossHint> ();
 		bossElementList [_index].ShowBossInfo (_index);
+		bossHint.m_isCheckBossHint = false;
 		while (bossHint.m_isCheckBossHint == false)
 		{
 			yield return  new WaitForSeconds(0.5f);
@@ -498,7 +499,7 @@ public class BossCreator : MonoBehaviour
 			if (bossHint.m_isCheckBossHint == true) 
 			{
 				//배경화면 전환
-			
+				Debug.Log("보스 소환!!");
 				bossBackGround.StartChangeBackGroundToBossBackGround ();
 
 				bossList [_index].SetActive (true);

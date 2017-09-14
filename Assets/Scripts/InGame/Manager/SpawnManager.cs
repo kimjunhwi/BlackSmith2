@@ -608,6 +608,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			fTime = array_ArbaitData [(int)E_ARBAIT.E_CLEA].m_CharacterChangeData.fCurrentFloat;
 			fValue = array_ArbaitData [(int)E_ARBAIT.E_CLEA].m_CharacterChangeData.fSkillPercent;
 
+			array_ArbaitData [(int)E_ARBAIT.E_CLEA].StartAura (fTime);
+
             for (int nIndex = 0; nIndex < m_BatchArbait.Length; nIndex++)
             {
                 if (m_BatchArbait[nIndex].activeSelf)
@@ -623,6 +625,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			fTime = array_ArbaitData [(int)E_ARBAIT.E_ROSA].m_CharacterChangeData.fCurrentFloat;
 			fValue = array_ArbaitData [(int)E_ARBAIT.E_ROSA].m_CharacterChangeData.fSkillPercent;
 
+			array_ArbaitData [(int)E_ARBAIT.E_ROSA].StartAura (fTime);
+
             for (int nIndex = 0; nIndex < array_ArbaitData.Length; nIndex++)
             {
                 if (m_BatchArbait[nIndex].activeSelf)
@@ -637,6 +641,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
         {
 			fTime = array_ArbaitData [(int)E_ARBAIT.E_LUNA].m_CharacterChangeData.fCurrentFloat;
 			fValue = array_ArbaitData [(int)E_ARBAIT.E_LUNA].m_CharacterChangeData.fSkillPercent;
+
+			array_ArbaitData [(int)E_ARBAIT.E_LUNA].StartAura (fTime);
 
             for (int nIndex = 0; nIndex < array_ArbaitData.Length; nIndex++) 
 				if(m_BatchArbait[nIndex].activeSelf)
@@ -657,6 +663,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			fTime = array_ArbaitData [(int)E_ARBAIT.E_GLAUS].m_CharacterChangeData.fCurrentFloat;
 			fValue = array_ArbaitData [(int)E_ARBAIT.E_GLAUS].m_CharacterChangeData.fSkillPercent;
 
+			array_ArbaitData [(int)E_ARBAIT.E_GLAUS].StartAura (fTime);
+
 			for (int nIndex = 0; nIndex < array_ArbaitData.Length; nIndex++) 
 				if(m_BatchArbait[nIndex].activeSelf)
 					StartCoroutine(array_ArbaitData[nIndex].ApplySmithCriticalBuffAccuracy(fValue,fTime));
@@ -669,14 +677,19 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			fTime = array_ArbaitData [(int)E_ARBAIT.E_ELLIE].m_CharacterChangeData.fCurrentFloat;
 			fValue = array_ArbaitData [(int)E_ARBAIT.E_ELLIE].m_CharacterChangeData.fSkillPercent;
 
+			array_ArbaitData [(int)E_ARBAIT.E_ELLIE].StartAura (fTime);
+
 			for (int nIndex = 0; nIndex < array_ArbaitData.Length; nIndex++) 
 				if(m_BatchArbait[nIndex].activeSelf)
 					array_ArbaitData[nIndex].ApplyCriticalArbaitBuffAttackSpeed(fValue,fTime);
         }
 
-		if (m_BatchArbait[(int)E_ARBAIT.E_MICHEAL].activeSelf)
-			array_ArbaitData[(int)E_ARBAIT.E_MICHEAL].ApplySkill();
-		
+		if (m_BatchArbait [(int)E_ARBAIT.E_MICHEAL].activeSelf) {
+
+			array_ArbaitData [(int)E_ARBAIT.E_MICHEAL].StartAura (3);
+
+			array_ArbaitData [(int)E_ARBAIT.E_MICHEAL].ApplySkill ();
+		}
     }
 
 	public void ApplyArbaitBossRepair()
@@ -824,6 +837,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 		if (m_BatchArbait [(int)E_ARBAIT.E_BELL].activeSelf) 
 		{
+			array_ArbaitData [(int)E_ARBAIT.E_BELL].StartAura (0);
+
 			fValue = array_ArbaitData [(int)E_ARBAIT.E_ELLIE].m_CharacterChangeData.fSkillPercent;
 
 			for (int nIndex = 0; nIndex < array_ArbaitData.Length; nIndex++) 
@@ -837,6 +852,9 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 	public void UnWaterCheck()
 	{
 		if (m_BatchArbait [(int)E_ARBAIT.E_BELL].activeSelf) {
+
+			array_ArbaitData [(int)E_ARBAIT.E_BELL].AuraObject.SetActive (false);
+
 			for (int nIndex = 0; nIndex < array_ArbaitData.Length; nIndex++)
 				if (m_BatchArbait [nIndex].activeSelf)
 					array_ArbaitData [nIndex].ReliveWaterUp ();

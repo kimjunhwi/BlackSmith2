@@ -1691,7 +1691,7 @@ public class CreatorWeapon
 	public string strResource 		= "";
 	public string strName 			= "";
 	public int nGrade 				= 0;		//옵션 등급
-	public float fRepair		 	= 0.0f;		//수리력
+	public double dRepair		 	= 0.0f;		//수리력
 	public float fRepairPercent		= 0.0f;		//수리력 퍼센트
 	public float fArbaitRepair 		= 0.0f;		//아르바이트 수리력
 	public float fPlusHonorPercent 	= 0.0f ;	//명예 추가 증가량
@@ -1722,7 +1722,7 @@ public class CreatorWeapon
 		strResource = _creatorWeapon.strResource;
 		strName = _creatorWeapon.strName;
 		nGrade = _creatorWeapon.nGrade;
-		fRepair = _creatorWeapon.fRepair;
+		dRepair = _creatorWeapon.dRepair;
 		fRepairPercent = _creatorWeapon.fRepairPercent;
 		fArbaitRepair = _creatorWeapon.fArbaitRepair;
 		fPlusHonorPercent = _creatorWeapon.fPlusHonorPercent;

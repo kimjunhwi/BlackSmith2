@@ -645,7 +645,7 @@ public class RepairObject : MonoBehaviour
 
 		damageText.transform.SetParent (textParent.transform,false);
 		damageText.transform.localScale = Vector3.one;
-		damageText.transform.position = _position;
+		damageText.transform.position = new Vector3(_position.x,_position.y + 20,_position.z);
 		damageText.name = "Damage";
 
 		DamageTextPool damagePool = damageText.GetComponent<DamageTextPool> ();
@@ -700,28 +700,27 @@ public class RepairObject : MonoBehaviour
             return;
         }
 
-		//if (Random.Range (0, 100) >= Mathf.Round (player.GetAccuracyRate () - player.GetAccuracyRate () * weaponData.fMinusAccuracy * 0.01f)) {
+		if (Random.Range (0, 100) >= Mathf.Round (player.GetAccuracyRate () - player.GetAccuracyRate () * weaponData.fMinusAccuracy * 0.01f)) {
 
-		//	textObj = textObjectPool.GetObject ();
-		//	textObj.transform.SetParent (textRectTrasnform.transform, false);
-		//	textObj.transform.localScale = Vector3.one;
-		//	textObj.transform.position = new Vector3 (fRandomXPos, fRandomYPos, textObj.transform.position.z);
-		//	textObj.name = "Miss";
+			GameObject damageText = damageTextPool.GetObject ();
 
-		//	bossMissText = textObj.GetComponent<BossMissText> ();
-		//	bossMissText.textObjPool = textObjectPool;
-		//	bossMissText.leftSecond = 2.0f;
-		//	bossMissText.parentTransform = textRectTrasnform;
+			damageText.transform.SetParent (textParent.transform,false);
+			damageText.transform.localScale = Vector3.one;
+			damageText.transform.position = _position;
+			damageText.name = "Damage";
 
-		//	return;
-		//}
+			DamageTextPool damagePool = damageText.GetComponent<DamageTextPool> ();
+			damagePool.Damage ("Miss");
+			damagePool.textObjPool = damageTextPool;
+			damagePool.leftSecond = nEnableTime;
+
+			return;
+		}
 
 
         //크리티컬 확률 
 		if (Random.Range(0, 100) <= Mathf.Round(player.GetCriticalChance() + (player.GetCriticalChance() * weaponData.fMinusCriticalChance *0.01f)))
         {
-            Debug.Log("Cri!!!");
-			SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Cri);
 
             GameObject obj = CriticalTouchPool.Instance.GetObject();
 

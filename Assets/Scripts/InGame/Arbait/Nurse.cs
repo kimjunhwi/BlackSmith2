@@ -49,6 +49,9 @@ public class Nurse : ArbaitBatch {
 		GameManager.Instance.player.SetCriticalChance ();
 
         SpawnManager.Instance.InsertWeaponArbait(m_CharacterChangeData.index, nBatchIndex);
+
+		AuraObject.SetActive (false);
+
     }
 
     protected override void OnDisable()
@@ -56,6 +59,7 @@ public class Nurse : ArbaitBatch {
 
         base.OnDisable();
     }
+		
 
     public override void ApplySkill()
     {

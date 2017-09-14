@@ -218,7 +218,7 @@ public class Player
 		if (GearEquipmnet != null) 		dResultRepairPowerPercent += GearEquipmnet.fReapirPower;
 		if (AccessoryEquipmnet != null) dResultRepairPowerPercent += AccessoryEquipmnet.fReapirPower;
 		if (creatorWeapon != null) {
-			dResultRepairPowerPercent += creatorWeapon.fRepair;
+			dResultRepairPowerPercent += (double)creatorWeapon.fRepairPercent;
 			dResultRepairPowerPercent += (double)creatorWeapon.fSasinBossValue;
 		}
 

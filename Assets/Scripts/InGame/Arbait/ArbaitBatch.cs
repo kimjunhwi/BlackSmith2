@@ -11,13 +11,16 @@ public class ArbaitBatch : MonoBehaviour {
 
     string[] strBuffsIndex;
 
+	public string strPath;
+
     //수리중인지
     public bool bIsRepair = false;
 
     //완료 됐는가
     public bool bIsComplate = false;
 
-	public string strPath;
+	//아우라가 활성중인가 
+	public bool bIsAura = false;
 
 	public int nIndex = -1;
 
@@ -26,6 +29,8 @@ public class ArbaitBatch : MonoBehaviour {
     protected float fTime = 0.0f;
 
 	protected float fBuffTime = 0.0f;
+
+	protected float fAuraTime = 0.0f;
     
     //무기 완성도
 	protected double m_dComplate;
@@ -97,6 +102,8 @@ public class ArbaitBatch : MonoBehaviour {
 
 	public PlayerSpecificInfo PlayerInfo;
 
+	public GameObject AuraObject;
+
     //무기 등급을 어디까지 받아올지를 정하기 위해 사용
     public int nGrade { get; set; }
 
@@ -110,7 +117,6 @@ public class ArbaitBatch : MonoBehaviour {
 		RepairShowObject = GameObject.Find("TouchPad").GetComponent<RepairObject>();
 
 		animator = GetComponent<Animator> ();
-
 
 		playerData = GameManager.Instance.player;
     }
@@ -129,6 +135,12 @@ public class ArbaitBatch : MonoBehaviour {
 
         //만약 각 버프들이 활성화 중이라면 false로 바꾼후 수치를 원래대로 바꾼다.
         #region Disable Check Active Buff
+
+		if(bIsAura)
+		{
+			bIsAura = false;
+			fAuraTime = 0;
+		}
 
         //물 사용시 공격속도 증가 버프
         if (m_bIsWaterAttackSpeed)
@@ -165,6 +177,8 @@ public class ArbaitBatch : MonoBehaviour {
             m_CharacterChangeData.fAttackSpeed += m_fSmithCriticalAttackSpeedValue;
         }
         #endregion
+
+		AuraObject.SetActive (false);
 
         Init();
 
@@ -206,6 +220,11 @@ public class ArbaitBatch : MonoBehaviour {
 
         E_STATE = E_ArbaitState.E_REPAIR;
     }
+
+
+	public virtual void StartAura(float _fTime){ }
+
+	public virtual IEnumerator AuraParticle(){ yield return null; }
 
     //캐릭터 스테이트가 바뀌었을때 초기화를 위함
     public virtual void CheckCharacterState(E_ArbaitState _E_STATE) { }

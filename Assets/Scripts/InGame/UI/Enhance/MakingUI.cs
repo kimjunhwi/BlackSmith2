@@ -42,8 +42,8 @@ public class MakingUI : MonoBehaviour {
 	//Calc Data
 	int nCalcGoldCost = 0;
 	int nCalcHonorCost = 0;
-	int nCalcMinRepair = 0;
-	int nCalcMaxRepair = 0;
+	double dCalcMinRepair = 0;
+	double dCalcMaxRepair = 0;
 	int nCalcAddMinOption = 0;
 	int nCalcAddMaxOption = 0;
 
@@ -73,7 +73,7 @@ public class MakingUI : MonoBehaviour {
 			BossSoulSlots [nIndex].SetUp (this, playerData, nIndex);
 		}
 
-		if (playerData.GetCreatorWeapon ().fRepair == 0) {
+		if (playerData.GetCreatorWeapon ().dRepair == 0) {
 			playerData.SetDay (11);
 
 			MakeWeapon ();
@@ -87,7 +87,7 @@ public class MakingUI : MonoBehaviour {
 
 			#region SetCreateWeaponSetting
 
-			createWeapon.fRepair = LoadCreateWeapon.fRepair;
+			createWeapon.dRepair = LoadCreateWeapon.dRepair;
 
 			if ( LoadCreateWeapon.fArbaitRepair != 0)
 				CheckData (createWeapon, (int)E_CREATOR.E_ARBAIT, (int)LoadCreateWeapon.fArbaitRepair);
@@ -201,25 +201,14 @@ public class MakingUI : MonoBehaviour {
 
 			PlayerWeaponImage.sprite = createWeapon.WeaponSprite;
 
-			float fRepair = Mathf.RoundToInt (createWeapon.fRepair);
-
 			playerData.SetCreatorWeapon (createWeapon,createEpic);
-
-			float fEnhanceValue = playerData.GetCreatorWeapon().fRepair * Mathf.Pow (1.125f, playerData.GetRepairLevel());
-
-			playerData.SetBasicRepairPower (fEnhanceValue);
 
 			SpawnManager.Instance.SetDayInitInfo (playerData.GetDay ());
 
 			RefreshDisplay ();
 
-			nCalcMinRepair = (int)Mathf.Round(m_nBasicMinRepair + (float)(m_nBasicMinRepair * (m_nPlusRepairMinPercent * playerData.GetDay() * 0.01f)));
-			nCalcMaxRepair = (int)Mathf.Round(m_nBasicMaxRepair + m_nBasicMaxRepair * (m_nPlusRepairMaxPercent * playerData.GetDay() * 0.01f));
+			SetShowText();
 
-
-			NowRepairPower.text = string.Format("{0}", fRepair);
-
-			RandomRepairPower.text = string.Format("제작시 수리력 {0:F1} ~ {1:F1}",nCalcMinRepair,nCalcMaxRepair);
 
 			#endregion
 		}
@@ -271,11 +260,7 @@ public class MakingUI : MonoBehaviour {
 
 	public void OnEnable()
 	{
-
-		nCalcMinRepair = (int)Mathf.Round(m_nBasicMinRepair + (float)(m_nBasicMinRepair * (m_nPlusRepairMinPercent * playerData.GetDay() * 0.01f)));
-		nCalcMaxRepair = (int)Mathf.Round(m_nBasicMaxRepair + m_nBasicMaxRepair * (m_nPlusRepairMaxPercent * playerData.GetDay() * 0.01f));
-
-		RandomRepairPower.text = string.Format("제작시 수리력 {0:F1} ~ {1:F1}",nCalcMinRepair,nCalcMaxRepair);
+		SetShowText ();
 	}
 
 	void MakeWeapon()
@@ -320,24 +305,13 @@ public class MakingUI : MonoBehaviour {
 			
 		PlayerWeaponImage.sprite = _weapon.WeaponSprite;
 	
-		float fRepair = Mathf.RoundToInt (_weapon.fRepair);
-	
 		playerData.SetCreatorWeapon (_weapon, _epicOption);
-	
-		float fEnhanceValue = playerData.GetCreatorWeapon ().fRepair * Mathf.Pow (1.125f, playerData.GetRepairLevel ());
-	
-		playerData.SetBasicRepairPower (fEnhanceValue);
 	
 		SpawnManager.Instance.SetDayInitInfo (playerData.GetDay ());
 	
 		RefreshDisplay ();
 	
-		nCalcMinRepair = (int)Mathf.Round (m_nBasicMinRepair + (float)(m_nBasicMinRepair * (m_nPlusRepairMinPercent * playerData.GetDay () * 0.01f)));
-		nCalcMaxRepair = (int)Mathf.Round (m_nBasicMaxRepair + m_nBasicMaxRepair * (m_nPlusRepairMaxPercent * playerData.GetDay () * 0.01f));
-	
-		NowRepairPower.text = string.Format ("{0}", fRepair);
-	
-		RandomRepairPower.text = string.Format ("제작시 수리력 {0:F1} ~ {1:F1}", nCalcMinRepair, nCalcMaxRepair);
+		SetShowText ();
 	}
 
 	private bool CheckData(CreatorWeapon _equiment, int nIndex, int _nInsertValue)
@@ -566,6 +540,35 @@ public class MakingUI : MonoBehaviour {
 		}
 
 		return resultOption;
+	}
+
+	private void SetShowText()
+	{
+		int nDay = playerData.GetDay ();
+		float fOriValue = nDay - 1;
+		float fMinusValue = Mathf.Floor( (nDay - 1) * 0.1f ) * 10;
+		float result = fOriValue - fMinusValue;
+
+		double dCurComplete = 3 * Mathf.Max( Mathf.Pow (1.85f, (Mathf.Floor((nDay + 9) * 0.1f))),1) * (1 + (result) * 0.05f);
+
+		dCalcMinRepair = dCurComplete - dCurComplete * 0.1f;
+
+		int nPlusCount = 0;
+
+		while (dCalcMinRepair >= 400000000) 
+		{
+			dCalcMinRepair *= 0.1;
+			dCurComplete *= 0.1;
+
+			nPlusCount++;
+		}
+
+		dCalcMinRepair = dCalcMinRepair * Mathf.Pow(10,nPlusCount);
+		dCurComplete = dCurComplete * Mathf.Pow(10,nPlusCount);
+
+		NowRepairPower.text = string.Format("{0:N}", GameManager.Instance.GetPlayer().GetCreatorWeapon().dRepair);
+
+		RandomRepairPower.text = string.Format("제작시 수리력 {0:F1} ~ {1:F1}",dCalcMinRepair,dCurComplete);
 	}
 }
 

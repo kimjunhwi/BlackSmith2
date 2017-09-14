@@ -5,6 +5,7 @@ using ReadOnlys;
 
 public class RepairPanelUI : EnhanceUI {
 
+	double dValue = 0;
 
 	protected override void Awake ()
 	{
@@ -27,9 +28,15 @@ public class RepairPanelUI : EnhanceUI {
 
 			cPlayer.SetRepairLevel (nLevel);
 
-			fEnhanceValue = cPlayer.GetCreatorWeapon().fRepair * Mathf.Pow (1.125f, nLevel - 1);
+			//제작무기공격*(1+(강화레벨*0.03))* 1.022^(QUOTIENT(강화레벨-1,10))
 
-			cPlayer.SetBasicRepairPower(fEnhanceValue);
+			float fOriValue = nLevel - 1;
+			float fMinusValue = Mathf.Floor( (nLevel - 1) * 0.1f ) * 10;
+			float result = fOriValue - fMinusValue;
+
+			double dCurComplete = cPlayer.GetCreatorWeapon().dRepair *  Mathf.Pow (1.022f, (Mathf.Floor((nLevel - 1) * 0.1f))) * (1 + (nLevel * 0.03f));
+
+			cPlayer.SetBasicRepairPower (dCurComplete);
 
 			EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
 

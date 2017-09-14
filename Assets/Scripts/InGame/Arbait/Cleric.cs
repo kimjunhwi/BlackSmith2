@@ -48,6 +48,9 @@ public class Cleric : ArbaitBatch {
 		dChangeRepair = 0.0f;
 
 		fChangeCritical = 0.0f;
+
+		AuraObject.SetActive (false);
+
     }
 
     protected override void OnDisable()
@@ -72,14 +75,45 @@ public class Cleric : ArbaitBatch {
         fChangeCritical = 0.0f;
     }
 
+	public override void StartAura (float _fTime)
+	{
+		if (bIsAura)
+			fAuraTime = 0;
+
+		else
+			StartCoroutine (AuraParticle ());
+	}
+
+	public override IEnumerator AuraParticle ()
+	{
+		yield return new WaitForSeconds(0.1f);
+
+		AuraObject.SetActive (true);
+
+		bIsAura = true;
+
+		while (true)
+		{
+			yield return null;
+
+			fAuraTime += Time.deltaTime;
+
+			if (fAuraTime > 3.0f)
+				break;
+		}
+
+		if (bIsAura == false)
+			yield break;
+
+		fAuraTime = 0.0f;
+
+		AuraObject.SetActive (false);
+
+		bIsAura = false;
+	}
+
     public override void ApplySkill()
     {
-		GameObject obj = BuffEffectPool.GetObject();
-
-		obj.transform.position = BuffPosition.position;
-
-		obj.GetComponent<ParticlePlay>().Play(BuffEffectPool);
-
         if (m_bIsApplyBuff)
             m_fBuffTime = 0.0f;
 

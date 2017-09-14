@@ -33,8 +33,8 @@ public class ResultEpicUI : MonoBehaviour {
 	//Calc Data
 	int nCalcGoldCost = 0;
 	int nCalcHonorCost = 0;
-	int nCalcMinRepair = 0;
-	int nCalcMaxRepair = 0;
+	double dCalcMinRepair = 0;
+	double dCalcMaxRepair = 0;
 	int nCalcAddMinOption = 0;
 	int nCalcAddMaxOption = 0;
 
@@ -133,11 +133,31 @@ public class ResultEpicUI : MonoBehaviour {
 
 		createWeapon = new CreatorWeapon ();
 
-		nCalcMinRepair = Mathf.RoundToInt(m_nBasicMinRepair + (float)(m_nBasicMinRepair * (m_nPlusRepairMinPercent * playerData.GetDay() * 0.01f)));
-		nCalcMaxRepair = Mathf.RoundToInt(m_nBasicMaxRepair + (float)(m_nBasicMaxRepair * (m_nPlusRepairMaxPercent * playerData.GetDay() * 0.01f)));
+		int nDay = playerData.GetDay ();
+		float fOriValue = nDay - 1;
+		float fMinusValue = Mathf.Floor( (nDay - 1) * 0.1f ) * 10;
+		float result = fOriValue - fMinusValue;
+
+		double dCurComplete = 3 * Mathf.Max( Mathf.Pow (1.85f, (Mathf.Floor((nDay + 9) * 0.1f))),1) * (1 + (result) * 0.05f);
+
+		dCalcMinRepair = dCurComplete - dCurComplete * 0.1f;
+
+		int nPlusCount = 0;
+
+		while (dCalcMinRepair >= 400000000) 
+		{
+			dCalcMinRepair *= 0.1;
+			dCurComplete *= 0.1;
+
+			nPlusCount++;
+		}
+
+		float fResult = Random.Range ((float)dCalcMinRepair, (float)dCurComplete);
+
+		dCurComplete = fResult * Mathf.Pow(10,nPlusCount);
 
 		//수리력 설정
-		createWeapon.fRepair = Mathf.RoundToInt (Random.Range (nCalcMinRepair, nCalcMaxRepair + 1));
+		createWeapon.dRepair = dCurComplete;
 
 		int nOptionLength = 3;
 

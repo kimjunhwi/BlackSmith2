@@ -42,6 +42,8 @@ public class BlueHair : ArbaitBatch {
 		playerData.SetRepairPower ();
 
         SpawnManager.Instance.InsertWeaponArbait(m_CharacterChangeData.index, nBatchIndex);
+
+		AuraObject.SetActive (false);
     }
 
     protected override void OnDisable()
@@ -54,6 +56,12 @@ public class BlueHair : ArbaitBatch {
 
         fMinusRepair = 0.0f;
     }
+
+	public override void StartAura (float _fTime)
+	{
+
+
+	}
 
     public override void ApplySkill()
     {

@@ -37,7 +37,7 @@ public class DamageTextPool : MonoBehaviour {
 			rectTransformX = textRectTransform.anchoredPosition.x;
 			rectTransformY = textRectTransform.anchoredPosition.y;
 
-			rectTransformY += 1.5f;
+			rectTransformY += 3f;
 			textRectTransform.anchoredPosition = new Vector2(rectTransformX, rectTransformY);
 		}
 	}

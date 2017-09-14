@@ -36,6 +36,8 @@ public class Elsa : ArbaitBatch {
         CheckCharacterState(E_STATE);
 
         SpawnManager.Instance.InsertWeaponArbait(m_CharacterChangeData.index, nBatchIndex);
+		AuraObject.SetActive (false);
+
     }
 
     protected override void OnDisable()
@@ -46,6 +48,43 @@ public class Elsa : ArbaitBatch {
 
         fChangeCritical = 0.0f;
     }
+
+	public override void StartAura (float _fTime)
+	{
+		if (bIsAura)
+			fAuraTime = 0;
+
+		else
+			StartCoroutine (AuraParticle ());
+	}
+
+	public override IEnumerator AuraParticle ()
+	{
+		yield return new WaitForSeconds(0.1f);
+
+		AuraObject.SetActive (true);
+
+		bIsAura = true;
+
+		while (true)
+		{
+			yield return null;
+
+			fAuraTime += Time.deltaTime;
+
+			if (fAuraTime > 3.0f)
+				break;
+		}
+
+		if (bIsAura == false)
+			yield break;
+
+		fAuraTime = 0.0f;
+
+		AuraObject.SetActive (false);
+
+		bIsAura = false;
+	}
 
     protected override void ReliveSkill()
     {

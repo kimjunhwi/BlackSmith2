@@ -42,8 +42,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
     public void CreateNormalEffect()
-    {
-        //Debug.Log("NormalHit");
+	{
 
         GameObject obj = NormalRepairPool.Instance.GetObject();
 
@@ -54,7 +53,7 @@ public class PlayerController : MonoBehaviour {
 
     public void CreateCriticalEffect()
     {
-        Debug.Log("CriticalHit");
+		
 
         GameObject obj = CriticalRepairPool.Instance.GetObject();
 
@@ -70,6 +69,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void GuestSuccessed()
 	{
+		SoundManager.instance.PlaySound (eSoundArray.ES_FixedSound_Success);
 
 		GameObject obj = GuestSuccessedPool.GetObject();
 
@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void CriticalTouchSound()
 	{
-
+		SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Cri);
 	}
 
 	public void BigSuccessedTouchSound()

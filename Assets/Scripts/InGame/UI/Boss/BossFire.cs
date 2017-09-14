@@ -96,7 +96,7 @@ public class BossFire : BossCharacter
 					float fMinusValue = (Mathf.Floor( (24f + (float)nCurLevel * 5f) * 0.1f ) ) * 10;
 					float result = fOriValue - fMinusValue;
 
-					double dCurComplete = (bossInfo.dComplate * Mathf.Pow (2, (Mathf.Floor( Mathf.Max (((44 + (nCurLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 8;
+					double dCurComplete = (bossInfo.dComplate * Mathf.Pow (2, (Mathf.Floor( Mathf.Max (((64 + (nCurLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 8;
 					repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache (sBossWeaponSprite), dCurComplete, 0, 0, this);
 
 
@@ -138,7 +138,8 @@ public class BossFire : BossCharacter
 		
 		
 
-			if (dCurComplete < 0) {
+			if (dCurComplete < 0) 
+			{
 				FailState ();
 				yield break;
 			}
@@ -333,9 +334,12 @@ public class BossFire : BossCharacter
 			}
 
 			if (isFailed == false && bossPopUpWindow.isRewardPanelOn_Success == false) {
+				bossPopUpWindow.GetBossInfo (this);
+				bossPopUpWindow.GetBossLevel (nCurLevel);
+				bossPopUpWindow.GetBossIndex (nIndex);
 				bossPopUpWindow.SetBossRewardBackGroundImage (isFailed);
 				bossPopUpWindow.PopUpWindowReward_Switch_isSuccess ();
-				bossPopUpWindow.GetBossInfo (this);
+
 				bossPopUpWindow.PopUpWindow_Reward_YesButton.onClick.AddListener (bossPopUpWindow.PopUpWindowReward_Switch_isSuccess);
 			} 
 			//실패시

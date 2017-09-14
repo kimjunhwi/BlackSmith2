@@ -77,7 +77,6 @@ public class BossIce : BossCharacter
 
 				if (eCureentBossState == EBOSS_STATE.PHASE_00) 
 				{
-
 					float fOriValue = (24 + (nCurLevel * 5));
 					float fMinusValue = (Mathf.Floor( (24f + (float)nCurLevel * 5f) * 0.1f ) ) * 10;
 					float result = fOriValue - fMinusValue;
@@ -112,7 +111,7 @@ public class BossIce : BossCharacter
 		while (true)
 		{
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete =  dBossComplete;
+			double dMaxComplete =  dCurComplete;
 
 			//수리패널 얼음
 			if (fIceWallGenerateTimer >= fBossIceWallGenerateTime)
@@ -340,9 +339,13 @@ public class BossIce : BossCharacter
 			//실패가 아닐시
 			if (isFailed == false && bossPopUpWindow.isRewardPanelOn_Success == false) 
 			{
+				bossPopUpWindow.GetBossInfo (this);
+				bossPopUpWindow.GetBossLevel (nCurLevel);
+				bossPopUpWindow.GetBossIndex (nIndex);
+
 				bossPopUpWindow.SetBossRewardBackGroundImage (isFailed);
 				bossPopUpWindow.PopUpWindowReward_Switch_isSuccess ();
-				bossPopUpWindow.GetBossInfo (this);
+
 				bossPopUpWindow.PopUpWindow_Reward_YesButton.onClick.AddListener (bossPopUpWindow.PopUpWindowReward_Switch_isSuccess);
 			} 
 			//실패시
@@ -374,6 +377,7 @@ public class BossIce : BossCharacter
 
 		isFailed = false;
 		isStandardPhaseFailed = false;
+
 
 		if (bossBackGround.isBossBackGround == true)
 		{

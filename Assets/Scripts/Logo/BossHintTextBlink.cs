@@ -27,8 +27,6 @@ public class BossHintTextBlink : MonoBehaviour {
 			else
 				text.enabled = true;
 
-
-
 		}
 	}
 

@@ -65,6 +65,9 @@ public class BossPopUpWindow : MonoBehaviour
 
 	Camera cam;
 
+	public RepairObject repairObj;
+	public int nCurBossLevel =0;
+
 	//Image strPath
 	private const string strGoldImagePath = "DungeonUI/dungeon_reward_gold";
 	private const string strHonorImagePath = "DungeonUI/dungeon_reward_honor";
@@ -307,6 +310,11 @@ public class BossPopUpWindow : MonoBehaviour
 		bossInfo = _bossCharacter;
 	}
 
+	public void GetBossLevel(int _Value)
+	{
+		nCurBossLevel = _Value;
+	}
+
 	public void SetBossRewardBackGroundImage(bool _isFailed)
 	{
 		if (_isFailed == false) {
@@ -370,8 +378,21 @@ public class BossPopUpWindow : MonoBehaviour
 		Image GoldRewardImage = Gold.transform.GetChild(1).GetComponent<Image> ();
 		GoldRewardImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache (strGoldImagePath);
 
-		float goldValue =   Mathf.Pow (1.2f, GameManager.Instance.player.GetDay () - 1);
-		GoldText.text = string.Format("{0}", goldValue);
+		double goldValue =0f;
+		if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_ICE)
+			goldValue = 250 * Mathf.Pow (1.09f, 24 + nCurBossLevel * 5) * 8;
+		else if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_SASIN)
+			goldValue = 250 * Mathf.Pow (1.09f, 44 + nCurBossLevel * 5) * 8;
+		else if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_FIRE)
+			goldValue = 250 * Mathf.Pow (1.09f, 64 + nCurBossLevel * 5) * 8;
+		else if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_MUSIC)
+			goldValue = 250 * Mathf.Pow (1.09f, 84 + nCurBossLevel * 5) * 8;
+		else
+			goldValue = 0;
+		
+		string strGold =  repairObj.ChangeValue (goldValue);
+
+		GoldText.text = string.Format("{0}", strGold);
 
 		ScoreManager.ScoreInstance.GoldPlus (goldValue);
 
@@ -387,7 +408,18 @@ public class BossPopUpWindow : MonoBehaviour
 		HonorRewardImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache (strHonorImagePath);
 		ScoreManager.ScoreInstance.HonorPlus (bossCharacter.bossInfo.nHonor);
 		HonorText.text = string.Format("{0}", bossCharacter.bossInfo.nHonor);
+
+
+		if (nCurBossLevel <= 1) {
+			ScoreManager.ScoreInstance.HonorPlus (GameManager.Instance.bossInfo [nBossIndex].nHonor);
+		} else {
+			ScoreManager.ScoreInstance.HonorPlus (GameManager.Instance.bossInfo [nBossIndex].nHonor * ((nCurBossLevel -1) * 2));
+		}
+	
+
+
 		//Dia
+		/*
 		GameObject Dia = rewardObjPool.GetObject ();
 		Dia.transform.SetParent (PopUpWindow_RewardPanel.transform, false);
 		Dia.transform.localScale = Vector3.one;
@@ -396,7 +428,7 @@ public class BossPopUpWindow : MonoBehaviour
 		Image DiaRewardImage = Dia.transform.GetChild(1).GetComponent<Image> ();
 		DiaRewardImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache (strRubyImagePath);
 		DiaText.text = string.Format("{0}", bossCharacter.bossInfo.nDia);
-		//ScoreManager.ScoreInstance.HonorPlus (bossCharacter.bossInfo.nDia);
+		*/
 
 	}
 

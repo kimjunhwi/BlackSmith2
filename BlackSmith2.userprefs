@@ -1,18 +1,21 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/InGame/Manager/SpawnManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Data/Boss.txt">
     <Files>
       <File FileName="Assets/Scripts/InGame/Manager/GameManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/Manager/SpawnManager.cs" Line="87" Column="1" />
-      <File FileName="Assets/Scripts/InGame/UI/Boss/BossCreator.cs" Line="382" Column="57" />
-      <File FileName="Assets/Scripts/InGame/UI/Shop/ShopCashBuffSlot.cs" Line="69" Column="3" />
-      <File FileName="Assets/Scripts/InGame/UI/Repair/RepairObject.cs" Line="623" Column="3" />
+      <File FileName="Assets/Scripts/InGame/Manager/SpawnManager.cs" Line="93" Column="1" />
+      <File FileName="Assets/Scripts/InGame/UI/Boss/BossCreator.cs" Line="25" Column="2" />
+      <File FileName="Assets/Scripts/InGame/UI/Shop/ShopCashBuffSlot.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/InGame/UI/Repair/RepairObject.cs" Line="1449" Column="27" />
       <File FileName="Assets/Scripts/InGame/UI/Boss/BossBackGround.cs" Line="18" Column="2" />
-      <File FileName="Assets/Scripts/InGame/UI/Boss/BossIce.cs" Line="94" Column="6" />
-      <File FileName="Assets/Scripts/InGame/UI/Boss/BossSasin.cs" Line="89" Column="35" />
-      <File FileName="Assets/Scripts/InGame/UI/Boss/BossFire.cs" Line="97" Column="45" />
-      <File FileName="Assets/Scripts/InGame/UI/Boss/BossMusic.cs" Line="283" Column="39" />
-      <File FileName="Assets/Scripts/Logo/BossHintTextBlink.cs" Line="23" Column="1" />
+      <File FileName="Assets/Scripts/InGame/UI/Boss/BossIce.cs" Line="345" Column="5" />
+      <File FileName="Assets/Scripts/InGame/UI/Boss/BossSasin.cs" Line="284" Column="43" />
+      <File FileName="Assets/Scripts/InGame/UI/Boss/BossFire.cs" Line="141" Column="1" />
+      <File FileName="Assets/Scripts/InGame/UI/Boss/BossMusic.cs" Line="283" Column="38" />
+      <File FileName="Assets/Scripts/Logo/BossHintTextBlink.cs" Line="29" Column="1" />
+      <File FileName="Assets/Scripts/InGame/UI/Boss/BossPopUpWindow.cs" Line="414" Column="79" />
+      <File FileName="Assets/Resources/Data/Boss.txt" Line="4" Column="49" />
+      <File FileName="Assets/Scripts/InGame/Manager/ScoreManager.cs" Line="149" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -25,7 +28,8 @@
       <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/UI/Shop/ShopCash.cs" line="918" column="1" />
       <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/Player/PlayerDaysInfo.cs" line="42" column="3" />
       <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/UI/Shop/ShopCash.cs" line="370" column="1" />
-      <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/UI/Boss/BossIce.cs" line="81" column="1" />
+      <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/UI/Boss/BossPopUpWindow.cs" line="381" column="1" />
+      <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/UI/Boss/BossPopUpWindow.cs" line="414" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

@@ -378,6 +378,7 @@ public class BossIce : BossCharacter
 		isFailed = false;
 		isStandardPhaseFailed = false;
 
+
 		if (bossBackGround.isBossBackGround == true)
 		{
 			SpawnManager.Instance.bIsBossCreate = false;

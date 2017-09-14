@@ -87,11 +87,13 @@ public class RepairObject : MonoBehaviour
 	private float canvasWidth = 655f;							//체크 할 
 	private float canvasHeight = 1100f;
 	private float fMoveSpeed;
+
 	private RectTransform bossWeaponRectTransform;
 	public RectTransform bossNoteRectTransform;
 	private NoteObject noteObj;
 	private Note2Object note2Obj;
 	private Note3Object note3Obj;
+
 	//private Transform noteGameObject;							//물 사용시 없어질 노트 obj
 	private Vector3 bossWeaponObjOriginPosition;				//원래 수리 패널에 있을때의 무기 위치
 	private Vector2 bossWeaponObjOriginSize;					//원래 수리 패널에 터치 인식 범위의 크기
@@ -114,6 +116,9 @@ public class RepairObject : MonoBehaviour
     
 	public bool isTouchWaterAvailable;							//물이 사용가능한가??
 	public bool isTouchWater;									//물을 터치 했는가?
+	private bool isBossIcePassive01Active = false;				//얼음보스 패시브가 발동 되었는가?
+	private bool isBossMusicPassive01Active = false;			//음악보스 패시브01가 발동 되었는가?
+	private bool isBossMusicPassive02Active = false;			//음악보스 패시브02가 발동 되었는가?
 
 	public RectTransform waterBottle;							//물 비커의 크기
 	public RectTransform waterAvailableArrow;					//물 사용가능 최저 화살표 표시
@@ -498,7 +503,7 @@ public class RepairObject : MonoBehaviour
 			//WaterAvailable Arrow 
 			int waterLevel = player.GetMaxWaterLevel();
 			waterAvailableArrow.anchoredPosition = new Vector2(waterAvailableArrow.anchoredPosition.x, waterBottle.sizeDelta.y /( waterLevel + 1));
-
+		
 		}
 	}
 
@@ -790,7 +795,6 @@ public class RepairObject : MonoBehaviour
 
 	public void TouchBossWeapon(Vector3 _position)
 	{
-		
 		if (bossCharacter == null)
 			return;
 
@@ -858,6 +862,15 @@ public class RepairObject : MonoBehaviour
 			{
 				//Debug.Log ("IcePhase02");
 				//아르바이트 공속 감소 들어가야함
+				if (isBossIcePassive01Active == false)
+				{
+					for(int i = 0; i < SpawnManager.Instance.array_ArbaitData.Length ; i++)
+					{
+						SpawnManager.Instance.array_ArbaitData [i].SetAttackSpeed (0.5f);
+					}
+					isBossIcePassive01Active = true;
+				}
+
 				//크리티컬 확률 감소o
 				if (Random.Range (1, 100) <= Mathf.Round (player.GetCriticalChance () - 30.0f)) {
 					//Debug.Log ("Cri!!!");
@@ -1013,21 +1026,19 @@ public class RepairObject : MonoBehaviour
 		//Fire
 		if (bossCharacter.nIndex == 2) 
 		{
+			//Phase00
 			if (bossCharacter.eCureentBossState < Character.EBOSS_STATE.PHASE_01) 
 			{
-				Debug.Log ("FirePhase00");
-
 				fCurrentTemperature += (fMaxTemperature * 0.08f) + ((fMaxTemperature * 0.08f) * fSmallFirePlusTemperatrue);
 			}
-			
+			//Phase01
 			else if (bossCharacter.eCureentBossState >= Character.EBOSS_STATE.PHASE_01 && bossCharacter.eCureentBossState < Character.EBOSS_STATE.PHASE_02) 
 			{
-				//물 충전량 50% 감소
+				//크리데미지 50% 감소
 				//Player의 기본 능력치에 따른 크리 and 노말 평타
-				if (Random.Range (1, 100) <= Mathf.Round (player.GetCriticalChance ())) {
+				if (Random.Range (1, 100) <= Mathf.Round (player.GetCriticalChance ())) 
+				{
 					//Debug.Log ("Cri!!!");
-
-
 					GameObject obj = CriticalTouchPool.Instance.GetObject ();
 
 					obj.transform.SetParent (CanvasTransform, false);
@@ -1036,12 +1047,9 @@ public class RepairObject : MonoBehaviour
 
 					obj.GetComponent<CriticalTouchParticle> ().Play ();
 
-
 					SpawnManager.Instance.PlayerCritical ();
 
-
-
-					dCurrentComplate = dCurrentComplate + (player.GetRepairPower () * 1.5f);
+					dCurrentComplate = dCurrentComplate + ((player.GetRepairPower () * 0.75f) * 0.5f  );
 
 					ShowDamage ((player.GetRepairPower () * 1.5f),_position);
 
@@ -1068,56 +1076,19 @@ public class RepairObject : MonoBehaviour
 					m_PlayerAnimationController.UserNormalRepair ();
 				}
 
-
+				//불씨에 따른 온도 상승량
 				fCurrentTemperature += (fMaxTemperature * 0.08f) + ((fMaxTemperature * 0.08f) * fSmallFirePlusTemperatrue);
 				return;
 			} 
-			else if (bossCharacter.eCureentBossState >= Character.EBOSS_STATE.PHASE_02) 
+			//Phase02
+			else
 			{
-				//물 수치 50% 감소
-				//Player의 기본 능력치에 따른 크리 and 노말 평타
-				if (Random.Range (1, 100) <= Mathf.Round (player.GetCriticalChance ())) {
-					//Debug.Log ("Cri!!!");
-					GameObject obj = CriticalTouchPool.Instance.GetObject ();
-
-					obj.transform.SetParent (CanvasTransform, false);
-
-					obj.transform.position = _position;
-
-					obj.GetComponent<CriticalTouchParticle> ().Play ();
-
-					SpawnManager.Instance.PlayerCritical ();
-
-					dCurrentComplate = dCurrentComplate + (player.GetRepairPower () * 1.5f);
-
-					ShowDamage ((player.GetRepairPower () * 1.5f),_position);
-
-
-					m_PlayerAnimationController.UserCriticalRepair ();
-
-				} else {
-					//Debug.Log ("Nor!!!!");
-					GameObject obj = NormalTouchPool.Instance.GetObject();
-
-					obj.transform.SetParent(CanvasTransform, false);
-
-					obj.transform.position = _position;
-
-					obj.GetComponent<NormalTouchParticle>().Play();
-
-					m_PlayerAnimationController.UserNormalRepair();
-
-					dCurrentComplate =  dCurrentComplate + player.GetRepairPower ();
-
-					ShowDamage (player.GetRepairPower (),_position);
-
-
-					m_PlayerAnimationController.UserNormalRepair ();
-				}
-
+				//물 충전량 50% 감소
+				GameManager.Instance.player.SetBasicWaterPlus(	GameManager.Instance.player.GetBasicWaterPlus() * 0.5f);
+				//불씨에 따른 온도 상승량
 				fCurrentTemperature += (fMaxTemperature * 0.08f) + ((fMaxTemperature * 0.08f) * fSmallFirePlusTemperatrue);
-				return;
 			}
+
 		}
 
 		//MusicMan
@@ -1128,18 +1099,34 @@ public class RepairObject : MonoBehaviour
 				Debug.Log ("MusicPhase00");
 				//Player의 기본 능력치에 따른 크리 and 노말 평타
 
+
+
 			}
 			else if (bossCharacter.eCureentBossState >= Character.EBOSS_STATE.PHASE_01 && bossCharacter.eCureentBossState < Character.EBOSS_STATE.PHASE_02)
 			{
 				Debug.Log ("MusicPhase01");
 				//아르바이트의 수리력이 50% 감소, 무기 움직임 시작
+				if (isBossMusicPassive01Active == false) {
+					
+					for (int i = 0; i < SpawnManager.Instance.array_ArbaitData.Length; i++) {
+						SpawnManager.Instance.array_ArbaitData [i].SetArbaitRepair (0.5f);
+					}
+					isBossMusicPassive01Active = true;
+				}
+
 
 
 			}
 			else if (bossCharacter.eCureentBossState >= Character.EBOSS_STATE.PHASE_02)
 			{
 				Debug.Log ("MusicPhase02");
-				//물충전량 50% 감소 
+				if (isBossMusicPassive02Active == false) {
+
+					for (int i = 0; i < SpawnManager.Instance.array_ArbaitData.Length; i++) {
+						SpawnManager.Instance.array_ArbaitData [i].SetArbaitRepair (0);
+					}
+					isBossMusicPassive02Active = true;
+				}
 			}
 
 			//반사 상태
@@ -1344,11 +1331,30 @@ public class RepairObject : MonoBehaviour
 	
 		if (isTouchWaterAvailable == true ) 
 		{
+			//useWater
+			Debug.Log ("TouchBossWater!!");
+			isTouchWaterAvailable = false;
+			isTouchWater = true;
+
 			//waterPaching.SetActive (true);
 			//물 터치시 노트 한단계씩 떨어진다.
 			SoundManager.instance.PlaySound (eSoundArray.ES_WaterActiveSound);
 
-			if (bossCharacter.nIndex == (int)E_BOSSNAME.E_BOSSNAME_MUSIC) {
+			//온도 감소 수치
+			fCurrentTemperature -= fMaxTemperature * 0.3f;
+
+			if (fCurrentTemperature < 0)
+				fCurrentTemperature = 0;
+
+			//물 감소 수치
+			fCurrentWater -= 1000f;
+
+			if (fCurrentWater < 0)
+				fCurrentWater = 0;
+			
+
+			if (bossCharacter.nIndex == (int)E_BOSSNAME.E_BOSSNAME_MUSIC) 
+			{
 				
 				int nChildCount = bossNoteRectTransform.childCount;
 				Debug.Log ("CurCount = " + nChildCount);
@@ -1382,51 +1388,26 @@ public class RepairObject : MonoBehaviour
 				bossIce.ActiveIceWall ();
 			}
 				
-			//useWater
-			Debug.Log ("TouchBossWater!!");
-			isTouchWaterAvailable = false;
-			isTouchWater = true;
+		
 
 			fWeaponDownTemperature = fMaxTemperature * 0.3f;
 
 			//플레이어가 장비하고 있는 무기 물수치의 1%
 			// 수리력 = 수리력 * ( 현재온도 * 11 * 0.00556) * ( 1 - 물수치(플레이어의 무기 + 장비의 물수치))
 			// 플레이어 수리력 추가 해야됨
-			double completeValueResult;
+			double completeValueResult = 0;
+
+			completeValueResult = (GameManager.Instance.player.GetRepairPower () * (fCurrentTemperature * 11f * 0.00556));
+			dCurrentComplate += completeValueResult;
+			Debug.Log ("FireBossWaterValue : " + completeValueResult);
 
 			//불 보스 일 경우에만  물수치가 50%감소
-			if (bossCharacter.bossInfo.nIndex == (int)E_BOSSNAME.E_BOSSNAME_FIRE) 
-			{
-				completeValueResult = (GameManager.Instance.player.GetRepairPower () * (fCurrentTemperature * 11f * 0.00556));
-				dCurrentComplate += completeValueResult;
-				Debug.Log ("FireBossWaterValue : " + completeValueResult);
-			}
-			else 
-			{
-				completeValueResult = (GameManager.Instance.player.GetRepairPower () * (fCurrentTemperature * 11f * 0.00556));
-				dCurrentComplate += completeValueResult;
-				Debug.Log ("OtherBossWaterValue : " + completeValueResult);
-			}
-
-			//온도 감소 수치
-			fCurrentTemperature -= fMaxTemperature * 0.3f;
-
-			if (fCurrentTemperature < 0)
-				fCurrentTemperature = 0;
-
-			//물 감소 수치
-			fCurrentWater -= 1000f;
-
-			if (fCurrentWater < 0)
-				fCurrentWater = 0;
-
-
 			SpawnManager.Instance.UseWater ();
 
 			WaterSlider.value = fCurrentWater;
 
-			if (dCurrentComplate > bossCharacter.bossInfo.dComplate)
-				dCurrentComplate = bossCharacter.bossInfo.dComplate;
+			if (dCurrentComplate > dBossMaxComplete)
+				dCurrentComplate = dBossMaxComplete;
 
 			if (fCurrentWater < 0)
 				fCurrentWater = 0;
@@ -1437,7 +1418,8 @@ public class RepairObject : MonoBehaviour
 			TemperatureSlider.value = fCurrentTemperature;
 
 
-			if (dCurrentComplate >= bossCharacter.bossInfo.dComplate) {
+			if (dCurrentComplate >= dBossMaxComplete) 
+			{
 				SpawnManager.Instance.bIsBossCreate = false;
 				//bossCharacter.
 			}
@@ -1614,6 +1596,22 @@ public class RepairObject : MonoBehaviour
 
 		ComplateText.text = string.Format ("{0} / {1}", dCurrentComplate, ComplateSlider.maxValue);
 
+		//얼음 보스시 초기화 (아르바이트 어택 스피드, bool)
+		for(int i = 0; i < SpawnManager.Instance.array_ArbaitData.Length ; i++)
+			SpawnManager.Instance.array_ArbaitData [i].SetAttackSpeed (1.0f);
+		
+		isBossIcePassive01Active = false;
+
+		//불 보스시 패시브 
+		//물 충전량 50% 감소
+		GameManager.Instance.player.SetBasicWaterPlus(	GameManager.Instance.player.GetBasicWaterPlus() * 2f);
+
+		//음악 보스 패시브 
+		for (int i = 0; i < SpawnManager.Instance.array_ArbaitData.Length; i++)
+			SpawnManager.Instance.array_ArbaitData [i].SetArbaitRepair (1f);
+		
+		isBossMusicPassive01Active = false;
+		isBossMusicPassive02Active = false;
 
 		//음악 노트 모두 제거 
 		if (bossCharacter.nIndex == (int)E_BOSSNAME.E_BOSSNAME_MUSIC) 

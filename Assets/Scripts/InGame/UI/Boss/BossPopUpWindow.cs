@@ -379,6 +379,7 @@ public class BossPopUpWindow : MonoBehaviour
 		GoldRewardImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache (strGoldImagePath);
 
 		double goldValue =0f;
+
 		if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_ICE)
 			goldValue = 250 * Mathf.Pow (1.09f, 24 + nCurBossLevel * 5) * 8;
 		else if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_SASIN)

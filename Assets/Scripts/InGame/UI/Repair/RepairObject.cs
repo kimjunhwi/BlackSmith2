@@ -106,6 +106,7 @@ public class RepairObject : MonoBehaviour
 	//BossFire
 	public float fSmallFireMinusWater = 0f;
 	public float fSmallFirePlusTemperatrue = 0f;
+	public float fOriWaterPlus = 0f;
 
 	//WaterFx
 	public GameObject waterFxObj;
@@ -206,7 +207,7 @@ public class RepairObject : MonoBehaviour
 		player.PlayerStatsSetting ();
 
 		fCurrentWater = 0f;
-		fUseWater  = 10.0f;
+		//fUseWater  = 10.0f;
 
 		fPlusWater = player.GetWaterPlus ();
 		fMaxWater = GameManager.Instance.GetPlayer().GetBasicMaxWater();
@@ -601,7 +602,7 @@ public class RepairObject : MonoBehaviour
 
 			//input Image
 			BossWeaponSprite.sprite = _sprite;
-
+			fOriWaterPlus = GameManager.Instance.GetPlayer ().changeStats.fWaterPlus;
 			//Change AnimController 
 			bossWeaponAnimator.runtimeAnimatorController = bossWeaponController [2];
 		}
@@ -1168,7 +1169,7 @@ public class RepairObject : MonoBehaviour
 
 					m_PlayerAnimationController.UserNormalRepair();
 
-					dCurrentComplate =  dCurrentComplate + player.GetRepairPower ();
+					dCurrentComplate =  dCurrentComplate - player.GetRepairPower ();
 
 					ShowDamage (player.GetRepairPower (),_position);
 
@@ -1193,7 +1194,7 @@ public class RepairObject : MonoBehaviour
 
 					SpawnManager.Instance.PlayerCritical ();
 
-					dCurrentComplate = dCurrentComplate + player.GetRepairPower ();
+					dCurrentComplate = dCurrentComplate + (player.GetRepairPower ()  * 1.5f);
 
 					ShowDamage (player.GetRepairPower (),_position);
 
@@ -1360,7 +1361,16 @@ public class RepairObject : MonoBehaviour
 
 			if (fCurrentWater < 0)
 				fCurrentWater = 0;
-			
+
+			fWeaponDownTemperature = fMaxTemperature * 0.3f;
+
+			//플레이어가 장비하고 있는 무기 물수치의 1%
+			// 수리력 = 수리력 * ( 현재온도 * 11 * 0.00556) * ( 1 - 물수치(플레이어의 무기 + 장비의 물수치))
+			// 플레이어 수리력 추가 해야됨
+			double completeValueResult = 0;
+
+			completeValueResult = (GameManager.Instance.player.GetRepairPower () * (fCurrentTemperature * 11f * 0.00556));
+			dCurrentComplate += completeValueResult;
 
 			if (bossCharacter.nIndex == (int)E_BOSSNAME.E_BOSSNAME_MUSIC) 
 			{
@@ -1399,18 +1409,13 @@ public class RepairObject : MonoBehaviour
 				
 		
 
-			fWeaponDownTemperature = fMaxTemperature * 0.3f;
 
-			//플레이어가 장비하고 있는 무기 물수치의 1%
-			// 수리력 = 수리력 * ( 현재온도 * 11 * 0.00556) * ( 1 - 물수치(플레이어의 무기 + 장비의 물수치))
-			// 플레이어 수리력 추가 해야됨
-			double completeValueResult = 0;
 
-			completeValueResult = (GameManager.Instance.player.GetRepairPower () * (fCurrentTemperature * 11f * 0.00556));
-			dCurrentComplate += completeValueResult;
 			Debug.Log ("FireBossWaterValue : " + completeValueResult);
 
 			//불 보스 일 경우에만  물수치가 50%감소
+
+
 			SpawnManager.Instance.UseWater ();
 
 			WaterSlider.value = fCurrentWater;
@@ -1587,13 +1592,14 @@ public class RepairObject : MonoBehaviour
 
 		fCurrentWater = 0f;
 		fCurrentTemperature = 0f;
-		fUseWater = 10.0f;
-		fPlusWater = player.GetWaterPlus ();
+
+		GameManager.Instance.GetPlayer ().changeStats.fWaterPlus = fOriWaterPlus;
 		fMaxWater = player.GetBasicMaxWaterPlus ();
 
 		//FireBoss
 		fSmallFireMinusWater = 0f;				
 		fSmallFirePlusTemperatrue = 0f;
+
 
 		TemperatureSlider.maxValue = fMaxTemperature;
 		TemperatureSlider.value = 0;

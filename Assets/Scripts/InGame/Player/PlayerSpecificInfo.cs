@@ -19,6 +19,12 @@ public class PlayerSpecificInfo : MonoBehaviour {
     public Text WaterRechargeAmountText;
 	public Text FeverTimeText;
 
+	string strMinusRepair = "0";
+	string strCriticalDamage = "0"; 
+	string strCriticalChance = "0";
+	string strWaterCharge = "0";
+	string strAccuracyRatePercent = "0";
+
 	string[] unit = new string[]{ "G", "K", "M", "B", "T", "aa", "bb", "cc", "dd", "ee" }; 
 
     void Awake()
@@ -56,24 +62,43 @@ public class PlayerSpecificInfo : MonoBehaviour {
 		SetFeverTimeText ();
 	}
 
+	public void SetGuestWeapon(CGameWeaponInfo _weapon)
+	{
+		if (_weapon != null) {
+			strMinusRepair = _weapon.dMinusRepair.ToString("N2");
+			strCriticalDamage = _weapon.dMinusCriticalDamage.ToString("N2"); 
+			strCriticalChance = _weapon.fMinusCriticalChance.ToString("N2");
+			strAccuracyRatePercent = _weapon.fMinusAccuracy.ToString("N2");
+			strWaterCharge = _weapon.fMinusChargingWater.ToString("N2");
+		}
+		else
+		{
+			strMinusRepair = "0";
+			strCriticalDamage = "0"; 
+			strCriticalChance = "0";
+			strAccuracyRatePercent = "0";
+			strWaterCharge = "0";
+		}
+	}
+
 	public void SetRepairpowerText()
 	{
-		RepairPowerText.text = string.Format("수리력 : {0}", ChangeValue(player.GetRepairPower()));
+		RepairPowerText.text = string.Format("수리력 : {0} -{1}%", ChangeValue(player.GetRepairPower()),strMinusRepair);
 	}
 
 	public void SetArbaitRepairText()
 	{
-		ArbaitRepairIncreaseText.text = string.Format("아르바이트 수리력 : {0}", player.GetArbaitRepairPower ().ToString ("N2"));
+		ArbaitRepairIncreaseText.text = string.Format("아르바이트 수리력 : {0} ", player.GetArbaitRepairPower ().ToString ("N2"));
 	}
 
 	public void SetCriticalDamamgeText()
 	{
-		CriticalDamageText.text = string.Format("크리데미지 : {0}%", player.GetCriticalDamage().ToString ("N2"));
+		CriticalDamageText.text = string.Format("크리데미지 : {0}% -{1}%", player.GetCriticalDamage().ToString ("N2"),strCriticalDamage);
 	}
 
 	public void SetCriticalChance()
 	{
-		CriticalChanceText.text = string.Format("크리 확률 : {0}%", player.GetCriticalChance().ToString ("N2"));
+		CriticalChanceText.text = string.Format("크리 확률 : {0}% -{1}%", player.GetCriticalChance().ToString ("N2"),strCriticalChance);
 	}
 
 	public void SetGoldPlusText()
@@ -93,7 +118,7 @@ public class PlayerSpecificInfo : MonoBehaviour {
 
 	public void SetAccuracyRateText()
 	{
-		AccuracyRateText.text = string.Format("명중률 : {0}%", player.GetAccuracyRate().ToString ("N2"));
+		AccuracyRateText.text = string.Format("명중률 : {0} -{1}%", player.GetAccuracyRate().ToString ("N2"),strAccuracyRatePercent);
 	}
 
 	public void SetWaterMaxText()
@@ -103,7 +128,7 @@ public class PlayerSpecificInfo : MonoBehaviour {
 
 	public void SetWaterCharginText()
 	{
-		WaterRechargeAmountText.text = string.Format("물 충전량 : {0}", player.GetWaterPlus().ToString ("N2"));
+		WaterRechargeAmountText.text = string.Format("물 충전량 : {0} -{1}%", player.GetWaterPlus().ToString ("N2"),strWaterCharge);
 	}
 
 	public void SetFeverTimeText()

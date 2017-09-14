@@ -148,6 +148,10 @@ public class RepairObject : MonoBehaviour
 	public GameObject SucceessedObject;
 	public Animator SuccessedAnim;
 
+	public PlayerSpecificInfo PlayerInfo;
+
+
+
 	string[] unit = new string[]{ "G", "K", "M", "B", "T", "aa", "bb", "cc", "dd", "ee" }; 
 
 	void Start()
@@ -537,6 +541,8 @@ public class RepairObject : MonoBehaviour
 
             weaponData = data;
         }
+
+		PlayerInfo.SetGuestWeapon (weaponData);
 
 		dCurrentComplate = _dComplate;
 
@@ -1331,8 +1337,10 @@ public class RepairObject : MonoBehaviour
 
 			TemperatureSlider.value = fCurrentTemperature;
 
-			if (dCurrentComplate >= weaponData.dMaxComplate)
+			if (dCurrentComplate >= weaponData.dMaxComplate) {
+				PlayerInfo.SetGuestWeapon (null);
 				SpawnManager.Instance.ComplateCharacter (AfootObject, weaponData.dMaxComplate);
+			}
 		}
 	}
 

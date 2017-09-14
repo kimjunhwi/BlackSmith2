@@ -103,8 +103,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	public IEnumerator DataLoad()
     {
-		//PlayerPrefs.DeleteKey ("BossRegenTime");
-		//PlayerPrefs.DeleteKey ("BossInvitementSaveTime");
+		PlayerPrefs.DeleteKey ("BossRegenTime");
+		PlayerPrefs.DeleteKey ("BossInvitementSaveTime");
 		//PlayerPrefs.DeleteKey("FirstLogin");
 
 		Load_TableInfo_Hammer();
@@ -437,6 +437,9 @@ public class GameManager : GenericMonoSingleton<GameManager>
         if (player == null)
             return;
 
+		//부스터 아이템 시간 저장
+		SpawnManager.Instance.shopCash.SaveCashActiveBoosterTime();
+
 		//아르바이트 버프 해제
         SpawnManager.Instance.ReleliveArbait();
 
@@ -474,8 +477,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
         {
 			if (player != null && SceneManager.GetActiveScene().buildIndex == 1)
             {
- 
-				//DataSave();
+				DataSave();
             }
         }
     }
@@ -723,9 +725,10 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			kInfo[i - 1].strExplain = Cells[2];
 			kInfo[i - 1].strMultipleCondition = Cells [3];
 			kInfo[i - 1].nCompleteCondition = int.Parse(Cells[4]);
-			kInfo[i - 1].nRewardGold = int.Parse(Cells[5]);
-			kInfo[i - 1].nRewardHonor = int.Parse(Cells[6]);
-			kInfo[i - 1].nRewardBossPotion = int.Parse(Cells[7]);
+		
+			kInfo[i - 1].nRewardHonor = int.Parse(Cells[5]);
+			kInfo[i - 1].nRewardBossPotion = int.Parse(Cells[6]);
+			kInfo[i - 1].nRewardRuby = int.Parse(Cells[7]);
         }
 
         cQusetInfo = kInfo;
@@ -1912,9 +1915,10 @@ public class CGameQuestInfo
 	public string strMultipleCondition = "";
 	public int nCompleteCondition = 0;
     
-	public int nRewardGold = 0;
+
 	public int nRewardHonor=0;
 	public int nRewardBossPotion =0;
+	public int nRewardRuby = 0;
 
 }
 //퀘스트 저장 클래스
@@ -2005,9 +2009,17 @@ public class CGamePlayerData
 	public float fGoldPlusBuffSecond;
 	public int nHonorPlusBuffMinutes;
 	public float fHonorPlusBuffSecond;
+	public int nAttackBuffMinutes;
+	public float fAttackBuffSecond;
 	public bool bIsShopChange;
 	public int nShopMinutes;
 	public float fShopSecond;
+	public bool bIsBeginnerPackageBuy;
+	public bool bIsBossIcePackageBuy;
+	public bool bIsBossSasinPackageBuy;
+	public bool bIsBossFirePackageBuy;
+	public bool bIsBossMusicPackageBuy;
+
 
 	public CGamePlayerData(CGamePlayerData playerData)
 	{
@@ -2050,9 +2062,16 @@ public class CGamePlayerData
 		fGoldPlusBuffSecond = playerData.fGoldPlusBuffSecond;
 		nHonorPlusBuffMinutes = playerData.nHonorPlusBuffMinutes;
 		fHonorPlusBuffSecond = playerData.fHonorPlusBuffSecond;
+		nAttackBuffMinutes = playerData.nAttackBuffMinutes;
+		fAttackBuffSecond = playerData.fAttackBuffSecond;
 		bIsShopChange = playerData.bIsShopChange;
 		nShopMinutes = playerData.nShopMinutes;
 		fShopSecond = playerData.fShopSecond;
+		bIsBeginnerPackageBuy = playerData.bIsBeginnerPackageBuy;
+		bIsBossIcePackageBuy = playerData.bIsBossIcePackageBuy;
+		bIsBossSasinPackageBuy = playerData.bIsBossSasinPackageBuy;
+		bIsBossFirePackageBuy = playerData.bIsBossFirePackageBuy;
+		bIsBossMusicPackageBuy = playerData.bIsBossMusicPackageBuy;
 	}
 }
 

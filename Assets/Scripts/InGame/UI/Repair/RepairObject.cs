@@ -1135,6 +1135,7 @@ public class RepairObject : MonoBehaviour
 				}
 			}
 
+
 			//반사 상태
 			if (bossMusic.isReflect == true && bossMusic.isSwitch == true)
 			{
@@ -1324,7 +1325,8 @@ public class RepairObject : MonoBehaviour
 
 			TemperatureSlider.value = fCurrentTemperature;
 
-			if (dCurrentComplate >= weaponData.dMaxComplate) {
+			if (dCurrentComplate >= weaponData.dMaxComplate) 
+			{
 				PlayerInfo.SetGuestWeapon (null);
 				SpawnManager.Instance.ComplateCharacter (AfootObject, weaponData.dMaxComplate);
 			}

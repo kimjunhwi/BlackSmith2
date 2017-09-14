@@ -477,6 +477,8 @@ public class NormalCharacter : Character {
 
 			fGold = 250 * Mathf.Pow (1.09f, nDay - 1);
 
+
+
 			ScoreManager.ScoreInstance.GoldPlus (fGold);
 
 			cPlayerData.SetSuccessedGuestCount (cPlayerData.GetSuccessedGuestCount () + 1);

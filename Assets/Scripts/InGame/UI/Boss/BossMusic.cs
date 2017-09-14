@@ -123,7 +123,7 @@ public class BossMusic : BossCharacter
 			fRandomYPos = bossWeapon.transform.position.y;
 
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete = dCurComplete;
+			double dMaxComplete = dBossComplete;
 
 			if (fReflectRoutineTime <= 1.0f)
 				fReflectRoutineTime = 1.0f;
@@ -206,7 +206,7 @@ public class BossMusic : BossCharacter
 			fRandomYPos = bossWeapon.transform.position.y;
 		
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete = dCurComplete;
+			double dMaxComplete = dBossComplete;
 
 			fTime += Time.deltaTime;
 			//Note 생성 
@@ -280,7 +280,7 @@ public class BossMusic : BossCharacter
 
 
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete = dCurComplete;
+			double dMaxComplete = dBossComplete;
 
 			fTime += Time.deltaTime;
 			//Note 생성 
@@ -368,9 +368,7 @@ public class BossMusic : BossCharacter
 				eCureentBossState = EBOSS_STATE.RESULT;
 				if (eCureentBossState == EBOSS_STATE.RESULT)
 				{	
-					//Quest Check
-					qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSFIRESUCCESS, 1);
-					qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ANYBOSSSUCCESS, 1);
+					
 
 					//BossFx off
 					if(isStandardPhaseFailed == false)
@@ -424,6 +422,10 @@ public class BossMusic : BossCharacter
 				bossPopUpWindow.PopUpWindowReward_Switch_isSuccess ();
 			
 				bossPopUpWindow.PopUpWindow_Reward_YesButton.onClick.AddListener (bossPopUpWindow.PopUpWindowReward_Switch_isSuccess);
+
+				//Quest Check
+				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSFIRESUCCESS, 1);
+				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ANYBOSSSUCCESS, 1);
 			} 
 			//실패시
 			if(isFailed == true && bossPopUpWindow.isRewardPanelOn_Fail == false)

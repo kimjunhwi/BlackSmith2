@@ -12,5 +12,6 @@ public class ShopCashSlot : MonoBehaviour
 	public Image itemTag_Image;
 	public Button itemBuy_Button;
 	public Image itemBuy_Image;
-
+	public GameObject BlockImage_Obj;
+	public bool isBlockedSlot = false;
 }

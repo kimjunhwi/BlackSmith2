@@ -28,8 +28,8 @@ public class QuestPanel : MonoBehaviour
 	public int getGold =0;
 	public int nCompareCondition;			//현재 퀘스트의 변하는 값
 
-	public Text textReward_Gold;
 	public Text textReward_Honor;
+	public Text textReward_Ruby;
 	public Text textProgressValue;
 	public Text textQuestContents;
 
@@ -107,16 +107,16 @@ public class QuestPanel : MonoBehaviour
 		//1~5배 만큼 곱해준다
 		int randomRange = Random.Range (1, 5);
 
-		if (questData.nRewardGold != 0)
+		if (questData.nRewardHonor != 0)
 		{
-			int getGold = questData.nRewardGold * randomRange;
-			textReward_Gold.text = string.Format ("{0}", getGold);
+			int getHonor = questData.nRewardHonor * randomRange;
+			textReward_Honor.text = string.Format ("{0}", getHonor);
 		}
 
-		if (questData.nRewardHonor != 0) 
+		if (questData.nRewardRuby != 0) 
 		{
-			int getHonor = questData.nRewardGold * randomRange;
-			textReward_Honor.text = string.Format ("{0}", getHonor);
+			int getRuby = questData.nRewardRuby * randomRange;
+			textReward_Ruby.text = string.Format ("{0}", getRuby);
 		}
 
 		if (questData.nRewardBossPotion != 0) 
@@ -142,16 +142,16 @@ public class QuestPanel : MonoBehaviour
 		//1~5배 만큼 곱해준다
 		int randomRange = Random.Range (1, 5);
 
-		if (questData.nRewardGold != 0)
+		if (questData.nRewardHonor != 0)
 		{
-			int getGold = questData.nRewardGold * randomRange;
-			textReward_Gold.text = string.Format ("{0}", getGold);
+			int getHonor = questData.nRewardHonor * randomRange;
+			textReward_Honor.text = string.Format ("{0}", getHonor);
 		}
 
-		if (questData.nRewardHonor != 0) 
+		if (questData.nRewardRuby != 0) 
 		{
-			int getHonor = questData.nRewardGold * randomRange;
-			textReward_Honor.text = string.Format ("{0}", getHonor);
+			int getRuby = questData.nRewardRuby * randomRange;
+			textReward_Ruby.text = string.Format ("{0}", getRuby);
 		}
 
 		if (questData.nRewardBossPotion != 0) 
@@ -174,27 +174,29 @@ public class QuestPanel : MonoBehaviour
 		sButton.onClick.RemoveListener (questManager.CheckCompleteQuestDestroy);
 		sButton.onClick.AddListener (questManager.CheckCompleteQuestDestroy);
 
+
 	}
 	public void GetQuestCompleteReward()
 	{
+		int randomRange = 0;
 		for (int i = 0; i < 3; i++)
 		{
-			int randomRange = Random.Range (1, 5);
+			randomRange = Random.Range (1, 5);
 			if (i == 0) 
 			{
 				if (randomRange <= 2) 
 				{
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardGold * randomRange);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * randomRange);
 				}
 				else if (randomRange <= 4)
 				{
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardGold * randomRange);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * randomRange);
 					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
 				} 
 				else
 				{
-					ScoreManager.ScoreInstance.RubyPlus (questData.nRewardGold * randomRange);
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardGold * randomRange);
+					ScoreManager.ScoreInstance.RubyPlus (questData.nRewardRuby * randomRange);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * randomRange);
 					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
 
 				}
@@ -204,17 +206,17 @@ public class QuestPanel : MonoBehaviour
 			{
 				if (randomRange <= 2) 
 				{
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardGold * randomRange);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * randomRange);
 				}
 				else if (randomRange <= 4)
 				{
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardGold * randomRange);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * randomRange);
 					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
 				} 
 				else
 				{
-					ScoreManager.ScoreInstance.RubyPlus (questData.nRewardGold * randomRange);
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardGold * randomRange);
+					ScoreManager.ScoreInstance.RubyPlus (questData.nRewardRuby * randomRange);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * randomRange);
 					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
 
 				}
@@ -223,25 +225,45 @@ public class QuestPanel : MonoBehaviour
 			{
 				if (randomRange <= 2) 
 				{
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardGold * randomRange);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * randomRange);
 				}
 				else if (randomRange <= 4)
 				{
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardGold * randomRange);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * randomRange);
 					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
 				} 
 				else
 				{
-					ScoreManager.ScoreInstance.RubyPlus (questData.nRewardGold * randomRange);
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardGold * randomRange);
+					ScoreManager.ScoreInstance.RubyPlus (questData.nRewardRuby * randomRange);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * randomRange);
 					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
 
 				}
 			}
 		}
-		//Debug.Log ("Get Gold :" + questData.nRewardGold * randomRange);
-		//Debug.Log ("Get Honor :" + questData.nRewardHonor * randomRange);
-		//Debug.Log ("Get Potion :" + questData.nRewardBossPotion);
+
+		//마일리지 체크
+		questManager.nQuestMileCount += randomRange;
+
+
+		//꽉차면 마일리지
+		if (questManager.silder.value >= (float)questManager.nQeustMaxMileCount)
+		{
+			questManager.silder.value = 0f;
+			questManager.rewardCheckImage01.SetActive(false);
+			questManager.rewardCheckImage01.SetActive(false);
+			questManager.rewardCheckImage01.SetActive(false);
+		}
+		//마일리지 카운트에따라 이미지 온
+		if (questManager.nQuestMileCount >= questManager.nFirstReward)
+			questManager.rewardCheckImage01.SetActive(true);
+
+		if (questManager.nQuestMileCount >= questManager.nSecondReward)
+			questManager.rewardCheckImage02.SetActive(true);
+
+		if (questManager.nQuestMileCount >= questManager.nThirdReward)
+			questManager.rewardCheckImage03.SetActive(true);
+	
 		completeButton.SetActive (false);
 
 	}

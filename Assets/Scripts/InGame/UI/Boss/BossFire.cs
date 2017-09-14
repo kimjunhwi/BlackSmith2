@@ -131,7 +131,7 @@ public class BossFire : BossCharacter
 			fTime += Time.deltaTime;
 
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete = dCurComplete;
+			double dMaxComplete = dBossComplete;
 
 			if (fTime >= 2.0f && nCurFireCount < nSmallFireMaxCount && isSmallFireActive == true)
 				CreateSmallFire ();
@@ -175,7 +175,7 @@ public class BossFire : BossCharacter
 
 			//BossWeapon info
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete = dCurComplete;
+			double dMaxComplete = dBossComplete;
 
 			if (fTime >= 1.5f  && nCurFireCount < nSmallFireMaxCount && isSmallFireActive == true )
 				CreateSmallFire ();
@@ -212,7 +212,7 @@ public class BossFire : BossCharacter
 
 			//GetCompletion
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete = dCurComplete;
+			double dMaxComplete = dBossComplete;
 
 			if (fTime >= 1.0f  && nCurFireCount < 20 && isSmallFireActive == true)
 				CreateSmallFire ();
@@ -281,9 +281,7 @@ public class BossFire : BossCharacter
 				eCureentBossState = EBOSS_STATE.RESULT;
 				if (eCureentBossState == EBOSS_STATE.RESULT) 
 				{
-					//Quest Check
-					qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSFIRESUCCESS, 1);
-					qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ANYBOSSSUCCESS, 1);
+					
 
 					//Effect Off
 					if(isStandardPhaseFailed == false)
@@ -341,6 +339,10 @@ public class BossFire : BossCharacter
 				bossPopUpWindow.PopUpWindowReward_Switch_isSuccess ();
 
 				bossPopUpWindow.PopUpWindow_Reward_YesButton.onClick.AddListener (bossPopUpWindow.PopUpWindowReward_Switch_isSuccess);
+
+				//Quest Check
+				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSFIRESUCCESS, 1);
+				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ANYBOSSSUCCESS, 1);
 			} 
 			//실패시
 			if (isFailed == true && bossPopUpWindow.isRewardPanelOn_Fail == false) {

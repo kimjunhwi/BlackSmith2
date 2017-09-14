@@ -111,7 +111,7 @@ public class BossIce : BossCharacter
 		while (true)
 		{
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete =  dCurComplete;
+			double dMaxComplete =  dBossComplete;
 
 			//수리패널 얼음
 			if (fIceWallGenerateTimer >= fBossIceWallGenerateTime)
@@ -279,9 +279,7 @@ public class BossIce : BossCharacter
 			eCureentBossState = EBOSS_STATE.RESULT;
 			if (eCureentBossState == EBOSS_STATE.RESULT)
 			{
-				//Quest Check
-				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSICESUCCESS, 1);
-				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ANYBOSSSUCCESS, 1);
+				
 
 				//Effect Off
 				bossEffect.ActiveEffect (BOSSEFFECT.BOSSEFFECT_ICEBLLIZARD);
@@ -347,6 +345,10 @@ public class BossIce : BossCharacter
 				bossPopUpWindow.PopUpWindowReward_Switch_isSuccess ();
 
 				bossPopUpWindow.PopUpWindow_Reward_YesButton.onClick.AddListener (bossPopUpWindow.PopUpWindowReward_Switch_isSuccess);
+
+				//Quest Check
+				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSICESUCCESS, 1);
+				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ANYBOSSSUCCESS, 1);
 			} 
 			//실패시
 			if(isFailed == true && bossPopUpWindow.isRewardPanelOn_Fail == false)

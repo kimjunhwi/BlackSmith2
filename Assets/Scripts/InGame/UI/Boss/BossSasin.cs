@@ -119,7 +119,7 @@ public class BossSasin : BossCharacter
 			fTime += Time.deltaTime;
 
 			double fCurComplete = repairObj.GetCurCompletion ();
-			double fMaxComplete = fCurComplete;
+			double fMaxComplete = dBossComplete;
 
 			//Fail Condition
 			if (fCurComplete < 0) {
@@ -166,7 +166,7 @@ public class BossSasin : BossCharacter
 				CreateSkull ();
 			
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete = dCurComplete;
+			double dMaxComplete = dBossComplete;
 
 			if (dCurComplete < 0) {
 				FailState ();
@@ -200,7 +200,7 @@ public class BossSasin : BossCharacter
 				CreateSkull ();
 			
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete = dCurComplete;
+			double dMaxComplete = dBossComplete;
 
 			if (dCurComplete < 0) {
 				FailState ();
@@ -235,9 +235,7 @@ public class BossSasin : BossCharacter
 		eCureentBossState = EBOSS_STATE.RESULT;
 		if (eCureentBossState == EBOSS_STATE.RESULT) 
 		{
-			//Quest Check
-			qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSSASINSUCCESS, 1);
-			qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ANYBOSSSUCCESS, 1);
+
 
 			//효과 off
 			if (isStandardPhaseFailed == false)
@@ -286,6 +284,10 @@ public class BossSasin : BossCharacter
 				bossPopUpWindow.PopUpWindowReward_Switch_isSuccess ();
 
 				bossPopUpWindow.PopUpWindow_Reward_YesButton.onClick.AddListener (bossPopUpWindow.PopUpWindowReward_Switch_isSuccess);
+
+				//Quest Check
+				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSSASINSUCCESS, 1);
+				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ANYBOSSSUCCESS, 1);
 			} 
 			//실패시
 			if(isFailed == true && bossPopUpWindow.isRewardPanelOn_Fail == false)

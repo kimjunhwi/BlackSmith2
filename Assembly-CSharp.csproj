@@ -264,6 +264,10 @@
      <Compile Include="Assets\Scripts\InGame\EpicOption\MagicStick.cs" />
      <Compile Include="Assets\Scripts\InGame\EpicOption\RubberChicken.cs" />
      <Compile Include="Assets\Scripts\InGame\EpicOption\SledeHammer.cs" />
+     <Compile Include="Assets\Scripts\InGame\Logo\BossHintTextBlink.cs" />
+     <Compile Include="Assets\Scripts\InGame\Logo\GooglePlayManager.cs" />
+     <Compile Include="Assets\Scripts\InGame\Logo\LogoManager.cs" />
+     <Compile Include="Assets\Scripts\InGame\Logo\LogoTextBlink.cs" />
      <Compile Include="Assets\Scripts\InGame\Manager\BigInteger.cs" />
      <Compile Include="Assets\Scripts\InGame\Manager\CoroutineChain.cs" />
      <Compile Include="Assets\Scripts\InGame\Manager\FadingManager.cs" />
@@ -379,10 +383,6 @@
      <Compile Include="Assets\Scripts\InGame\UI\Window\CWindowNotice.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Window\CWindowOk.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Window\CWindowYesNo.cs" />
-     <Compile Include="Assets\Scripts\Logo\BossHintTextBlink.cs" />
-     <Compile Include="Assets\Scripts\Logo\GooglePlayManager.cs" />
-     <Compile Include="Assets\Scripts\Logo\LogoManager.cs" />
-     <Compile Include="Assets\Scripts\Logo\LogoTextBlink.cs" />
      <Compile Include="Assets\Scripts\UITest.cs" />
      <Compile Include="Assets\Unity-Logs-Viewer\Reporter\MultiKeyDictionary.cs" />
      <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Reporter.cs" />
@@ -398,9 +398,9 @@
      <None Include="Assets\Resources\Data\HammerName.txt" />
      <None Include="Assets\Resources\Data\Weapon.txt" />
      <None Include="Assets\GooglePlayGames\Editor\template-AndroidManifest.txt" />
+     <None Include="Assets\Resources\Data\Quest.txt" />
      <None Include="Assets\Boomlagoon\JSON\Readme.txt" />
      <None Include="Assets\Resources\Data\Arbait.txt" />
-     <None Include="Assets\Resources\Data\Quest.txt" />
      <None Include="Assets\PlayServicesResolver\proguard-unity.txt" />
      <None Include="Assets\Plugins\UnityPurchasing\script\link.xml" />
      <None Include="Assets\Resources\Data\ArbaitEnhance2.txt" />

@@ -314,12 +314,16 @@
      <Compile Include="Assets\Scripts\InGame\Quest\QuestPanel.cs" />
      <Compile Include="Assets\Scripts\InGame\Quest\QuestTimer.cs" />
      <Compile Include="Assets\Scripts\InGame\Quest\QusetManager.cs" />
+     <Compile Include="Assets\Scripts\InGame\Tutorial\TutorialImage.cs" />
+     <Compile Include="Assets\Scripts\InGame\Tutorial\TutorialPanel.cs" />
+     <Compile Include="Assets\Scripts\InGame\Tutorial\TutorialTouch.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Boss\BossAnimation.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Boss\BossArbaitDeFreeze.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Boss\BossBackGround.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Boss\BossCharacter.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Boss\BossConsumeItemInfo.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Boss\BossCreator.cs" />
+     <Compile Include="Assets\Scripts\InGame\UI\Boss\BossDragon.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Boss\BossEffect.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Boss\BossElement.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Boss\BossFire.cs" />

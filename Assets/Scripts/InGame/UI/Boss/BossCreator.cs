@@ -26,6 +26,7 @@ public enum E_BOSSNAME
 	E_BOSSNAME_SASIN = 1,
 	E_BOSSNAME_FIRE = 2,
 	E_BOSSNAME_MUSIC = 3,
+	E_BOSSNAME_DARAGON = 4,
 }
 
 public class BossCreator : MonoBehaviour
@@ -44,6 +45,7 @@ public class BossCreator : MonoBehaviour
 	public GameObject bossWeapon_Obj;				//보스 무기 Obj
 	public UIDisable uiDisable;
 	public GameObject GuestPanel; 					//손님정보 
+	public GameObject bossInivteReFillButton_Obj;	//보스 초대장 리필 버튼
 
 	private BossTimer bossTimer;
 
@@ -75,9 +77,6 @@ public class BossCreator : MonoBehaviour
 
 	public QusetManager questManager;
 
-
-
-
 	private int nBossIndex =0; 
 
 	void Awake()
@@ -89,6 +88,10 @@ public class BossCreator : MonoBehaviour
 
 	public void BossPanelSetUp()
 	{
+		if (GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCount < 5)
+			bossInivteReFillButton_Obj.SetActive (true);
+		else
+			bossInivteReFillButton_Obj.SetActive (false);
 		
 		if (bossConsumeItemInfo.bossCreator == null)
 			bossConsumeItemInfo.bossCreator = this;
@@ -111,9 +114,7 @@ public class BossCreator : MonoBehaviour
 		if (bossPopUpWindow.bossMusic == null)
 			bossPopUpWindow.bossMusic = bossList[3].GetComponent<BossMusic>();
 
-		for (int i = 0; i < 4; i++) {
-			bossElementList[i].ReloadButton.onClick.AddListener(() => bossPopUpWindow.Active_YesNoWindow_BossReChargeCount("도전 횟수를 충전하시겠습니까?", i));
-		}
+	
 
 		bossPopUpWindow.PopUpWindow_YesNo_NoButton.onClick.RemoveListener (bossPopUpWindow.PopUpWindowYesNo_Switch);
 		bossPopUpWindow.PopUpWindow_YesNo_YesButton.onClick.RemoveListener (bossPopUpWindow.PopUpWindowYesNo_Switch);
@@ -147,16 +148,28 @@ public class BossCreator : MonoBehaviour
 
 
 			bossConsumeItemInfo.positionCount_Text.text = string.Format ("{0}",GameManager.Instance.cBossPanelListInfo[0].nBossPotionCount );
+			bossConsumeItemInfo.nPotionCount = GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount;
 
 			//보스 도전 횟수(개개인) 이 다 됬을시 충전 버튼 활성화
 			if (GameManager.Instance.cBossPanelListInfo [0].nBossIceLeftCount <= 0)
 				bossElementList [0].ReloadButton_Obj.SetActive (true);
+			else
+				bossElementList [0].ReloadButton_Obj.SetActive (false);
+			
 			if (GameManager.Instance.cBossPanelListInfo [0].nBossSasinLeftCount <= 0)
 				bossElementList [1].ReloadButton_Obj.SetActive (true);
+			else
+				bossElementList [1].ReloadButton_Obj.SetActive (false);
+			
 			if (GameManager.Instance.cBossPanelListInfo [0].nBossFireLeftCount <= 0)
 				bossElementList [2].ReloadButton_Obj.SetActive (true);
+			else
+				bossElementList [2].ReloadButton_Obj.SetActive (false);
+
 			if (GameManager.Instance.cBossPanelListInfo [0].nBossMusicLeftCount <= 0)
 				bossElementList [3].ReloadButton_Obj.SetActive (true);
+			else
+				bossElementList [3].ReloadButton_Obj.SetActive (false);
 			
 			nBossSasinLeftCount = GameManager.Instance.cBossPanelListInfo [0].nBossSasinLeftCount;
 			nBossIceLeftCount = GameManager.Instance.cBossPanelListInfo [0].nBossIceLeftCount;
@@ -193,9 +206,9 @@ public class BossCreator : MonoBehaviour
 
 
 			bossConsumeItemInfo.nInviteMentCurCount = bossConsumeItemInfo.nInviteMentMaxCount;
-			//bossConsumeItemInfo.nPotionCount = 0;
+
 			bossConsumeItemInfo.positionCount_Text.text = string.Format ("{0}",GameManager.Instance.cBossPanelListInfo[0].nBossPotionCount);
-		
+			bossConsumeItemInfo.nPotionCount = GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount;
 
 			nBossSasinLeftCount = GameManager.Instance.cBossPanelListInfo [0].nBossSasinLeftCount;
 			nBossIceLeftCount = GameManager.Instance.cBossPanelListInfo [0].nBossIceLeftCount;
@@ -435,6 +448,45 @@ public class BossCreator : MonoBehaviour
 
 
 		}
+
+
+		else if (_index == (int)E_BOSSNAME.E_BOSSNAME_DARAGON) 
+		{
+			BossDragon bossDragon = bossList[4].GetComponent<BossDragon> ();
+
+
+
+			bossDragon.nIndex = _index;
+			bossDragon.bossInfo = GameManager.Instance.bossInfo [0];
+			bossDragon.bossEffect = bossEffect;
+			bossDragon.bossBackGround = bossBackGround;
+			bossDragon.bossPopUpWindow = bossPopUpWindow;
+			bossDragon.sBossWeaponSprite = "Weapons/Boss/deathnote";
+			bossDragon.bossTimer_Obj = bossTimer_Obj;
+			bossDragon.bossUIDisable = bossUIDisable;
+			bossDragon.bossTalkPanel = bossTalkPanel;
+			bossDragon.bossWeapon = bossWeapon_Obj;
+			bossDragon.uiDisable = uiDisable;
+			bossDragon.uiManager = uiManager;
+			bossDragon.bossPanel = bossPanel;
+			bossDragon.nCurLevel = bossElementList [3].curLevel;
+			bossDragon.GuestPanel = GuestPanel;
+			bossDragon.qusetManager = questManager;
+
+			bossDragon.bossWord [(int)E_BOSSWORD.E_BOSSWORD_BEGIN] = "소리 질러~!";
+			bossDragon.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE01] = "Whoh~";
+			bossDragon.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE02] = "Drop the beat~!";
+			bossDragon.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "SeeYa!";
+
+			bossBackGround.StartChangeBackGroundToBossBackGround ();
+			bossList [_index].SetActive (true);
+
+
+
+		//	nBossMusicLeftCount--;
+
+
+		}
 		BossPanelInfoSave ();
 	}
 
@@ -534,5 +586,45 @@ public class BossCreator : MonoBehaviour
 
 			bossElementList [3].BossUnlock_Obj.SetActive (false);
 		}
+	}
+
+	public void ReloadBossChallengeCountToFull(int _index)
+	{
+		if (GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount == 0)
+		{
+			bossPopUpWindow.PopUpWindow_Yes.SetActive (true);
+			bossPopUpWindow.PopUpWindow_Yes.transform.GetChild (0).GetComponent<Text> ().text = "물약이 부족합니다.";
+			return;
+		}
+
+		if (_index == (int)E_BOSSNAME.E_BOSSNAME_ICE) 
+		{
+			nBossIceLeftCount = 3;
+			bossElementList [_index].BossLeftCount_Text.text =
+				string.Format ("{0} / {0}", nBossIceLeftCount, nBossMaxLeftCount);
+			bossElementList [_index].ReloadButton_Obj.SetActive (false);
+		} 
+		else if (_index == (int)E_BOSSNAME.E_BOSSNAME_SASIN) {
+			
+			nBossSasinLeftCount = 3;
+			bossElementList [_index].BossLeftCount_Text.text =
+				string.Format ("{0} / {0}", nBossIceLeftCount, nBossMaxLeftCount);
+			bossElementList [_index].ReloadButton_Obj.SetActive (false);
+		} 
+		else if (_index == (int)E_BOSSNAME.E_BOSSNAME_FIRE)
+		{
+			nBossFireLeftCount = 3;
+			bossElementList [_index].BossLeftCount_Text.text =
+				string.Format ("{0} / {0}", nBossIceLeftCount, nBossMaxLeftCount);
+			bossElementList [_index].ReloadButton_Obj.SetActive (false);
+		}
+		else 
+		{
+			nBossMusicLeftCount = 3;
+			bossElementList [_index].BossLeftCount_Text.text =
+				string.Format ("{0} / {0}", nBossIceLeftCount, nBossMaxLeftCount);
+			bossElementList [_index].ReloadButton_Obj.SetActive (false);
+		}
+		BossPanelInfoSave ();
 	}
 }

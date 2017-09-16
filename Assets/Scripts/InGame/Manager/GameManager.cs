@@ -100,6 +100,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	private ResultEpicUI resultEpicUI = null;
 
+	private BossCreator bossCreator = null;
 
 	public IEnumerator DataLoad()
     {
@@ -1530,6 +1531,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		}
 	}
 
+
+
 	private void HandleShowResult(ShowResult result)
 	{
 		switch (result)
@@ -1570,6 +1573,43 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			break;
 		}
 	}
+
+
+	public void ShowRewardAdd_Boss(BossCreator _bossCreator)
+	{
+		if (bossCreator == null)
+			bossCreator = _bossCreator;
+
+		if (Advertisement.IsReady("rewardedVideo"))
+		{
+			var options = new ShowOptions { resultCallback = HandleShowResult_Boss };
+			Advertisement.Show("rewardedVideo", options);
+		}
+	}
+
+	private void HandleShowResult_Boss(ShowResult result)
+	{
+		switch (result)
+		{
+		case ShowResult.Finished:
+			Debug.Log ("The ad was successfully shown.");
+			Debug.Log ("보스 초대장 풀 충전!!");
+			//
+			// YOUR CODE TO REWARD THE GAMER
+			// Give coins etc.
+
+			cBossPanelListInfo [0].nBossInviteMentCount = 5;
+
+			break;
+
+		case ShowResult.Failed:
+			Debug.LogError("The ad failed to be shown. (BossAds)");
+			break;
+		}
+	}
+
+
+
 
            
 	#endregion

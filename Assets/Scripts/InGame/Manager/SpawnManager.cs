@@ -73,13 +73,23 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 	int m_nDay = 1;
 
 	private bool bIsFirst = false;
+	public bool bIsTutorial = true;
+	private bool bIsTutorial_StartText = false;
+	public bool bIsTutorial_ShowTempAndWater = false;
+	public bool bIsTutorial_DragonShow = true;
 
 	public ShopCash shopCash;
 
+	public TutorialPanel tutorialPanel;
+
+	public BossCreator bossCreator;
+
+
     private void Awake()
     {
-		if (bIsFirst == false) {
-
+		if (bIsFirst == false) 
+		{
+			
 			//게임매니저에서 아르바이트 수치를 받아옴
 			m_nMaxArbaitAmount = GameManager.Instance.ArbaitLength (); 
 
@@ -143,9 +153,13 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 				shopCash.LoadBooster (E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK, GameManager.Instance.GetPlayer ().changeStats.nAttackBuffMinutes,
 					GameManager.Instance.GetPlayer ().changeStats.fAttackBuffSecond);
 			}
-
-
+			//
+			bIsTutorial_StartText = true;
+			bIsTutorial = false;
 			bIsFirst = true;
+			bIsTutorial_DragonShow = true;
+	
+			
 		}
 	}
 
@@ -153,16 +167,45 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
     private void Update()
     {
-        m_fCreatePlusTime += Time.deltaTime;
-        m_fLevelTime += Time.deltaTime;
+		//튜토 아닐때
+		if (bIsTutorial == false)
+		{
+			m_fCreatePlusTime += Time.deltaTime;
+			m_fLevelTime += Time.deltaTime;
 
-        //만들 수 있는 시간이 지났거나, 현재 손님이 없을경우,
-        //캐릭터 카운트가 최대미만일 경우, 보스가 활성화 중이지 않을경우 캐릭터를 생성한다.
-        if ((m_fCreatePlusTime >= m_fCreateTime || list_Character.Count ==0) && 
-			list_Character.Count < m_nMaxPollAmount && bIsBossCreate == false && bIsCharacterBack == false)
-        {
-            CreateCharacter();
-        }
+			//만들 수 있는 시간이 지났거나, 현재 손님이 없을경우,
+			//캐릭터 카운트가 최대미만일 경우, 보스가 활성화 중이지 않을경우 캐릭터를 생성한다.
+
+			if ((m_fCreatePlusTime >= m_fCreateTime || list_Character.Count == 0) &&
+			    list_Character.Count < m_nMaxPollAmount && bIsBossCreate == false && bIsCharacterBack == false) {
+				CreateCharacter ();
+			}
+		} 
+		//튜토 일떄
+		else
+		{
+			Debug.Log ("Call Tuto");
+			if (bIsTutorial_StartText == false) 
+			{
+				tutorialPanel.StartContent ();
+				bIsTutorial_StartText = true;
+			}
+
+			if (bIsTutorial_ShowTempAndWater == true && list_Character.Count == 0) {
+				SpawnManager.Instance.bIsTutorial_DragonShow = false;
+			}
+
+			if (bIsTutorial_DragonShow == false) 
+			{
+				Debug.Log ("Show Dragon");
+				bIsTutorial_DragonShow = true;
+				StartCoroutine (bossCreator.BossCreate (4));
+
+				//SpawnManager.Instance.tutorialPanel.ShowTutorialImage (1);
+			}
+
+
+		}
     }
 
 
@@ -416,7 +459,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
         _obj.GetComponent<NormalCharacter>().fSpeed = fSpeed;
     }
 
-    private void CreateCharacter()
+	public void CreateCharacter()
     {
         int nSelectCharacter;
 
@@ -878,16 +921,28 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 	{
 		questManager.questAdsPopUpWindow_YesNo.SetActive (false);
 
-		if (_isRuby == true)
+		if (_isRuby == true) 
+		{
 			ScoreManager.ScoreInstance.RubyPlus (-50);
+			questManager.QuestInit ();
+			return;
+		}
+
 		
 		GameManager.Instance.ShowSkipAd_Quest (questManager);
 	}
 
-	public void ShowRewardInGameManager()
+	public void ShowRewardInGameManager(BossCreator bossCreator , bool _isRuby)
 	{
-		GameManager.Instance.ShowRewardedAd_Quest (questManager);
+		if (_isRuby == true) {
+			ScoreManager.ScoreInstance.RubyPlus (-50);
+			GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCount = 5;
+			return;
+		}
+		GameManager.Instance.ShowRewardAdd_Boss (bossCreator);
 	}
+
+
 }
 
 

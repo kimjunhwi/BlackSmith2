@@ -43,7 +43,7 @@ public class RepairObject : MonoBehaviour
 
 	public Sprite main_Touch_Sprite;
 
-    CGameWeaponInfo weaponData;
+	private CGameWeaponInfo weaponData;
 
 	Player player;
 
@@ -156,6 +156,8 @@ public class RepairObject : MonoBehaviour
 
 	public PlayerSpecificInfo PlayerInfo;
 
+	//Tutorial
+	private int nTouchCount = 0;
 
 
 	string[] unit = new string[]{ "G", "K", "M", "B", "T", "aa", "bb", "cc", "dd", "ee" }; 
@@ -662,7 +664,21 @@ public class RepairObject : MonoBehaviour
         if (weaponData == null)
 			return;
 
+		//Tutorial
+		if (SpawnManager.Instance.bIsTutorial == true)
+		{
+			if (SpawnManager.Instance.bIsTutorial_ShowTempAndWater == false) {
+				nTouchCount++;
 
+				if (nTouchCount >= 10) {
+					WaterSlider.value = WaterSlider.maxValue;
+					SpawnManager.Instance.bIsTutorial_ShowTempAndWater = true;
+			
+					SpawnManager.Instance.tutorialPanel.ShowTutorialImage (1);
+				}
+
+			}
+		}
 
         Debug.Log("Touch");
 		normalWeaponShake.Shake (12.0f, 0.12f);

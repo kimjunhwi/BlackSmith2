@@ -457,7 +457,7 @@ public class BossCreator : MonoBehaviour
 
 
 			bossDragon.nIndex = _index;
-			bossDragon.bossInfo = GameManager.Instance.bossInfo [0];
+			bossDragon.bossInfo = GameManager.Instance.bossInfo [4];
 			bossDragon.bossEffect = bossEffect;
 			bossDragon.bossBackGround = bossBackGround;
 			bossDragon.bossPopUpWindow = bossPopUpWindow;

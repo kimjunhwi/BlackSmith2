@@ -294,7 +294,7 @@ public class BossDragon :  BossCharacter
 	protected override IEnumerator BossResult ()
 	{
 		yield return null;
-
+		Debug.Log ("BossResult");
 		ActiveTimer ();
 		eCureentBossState = EBOSS_STATE.FINISH;
 		if (eCureentBossState == EBOSS_STATE.FINISH) 
@@ -337,6 +337,16 @@ public class BossDragon :  BossCharacter
 	protected override IEnumerator BossFinish ()
 	{
 		yield return null;
+		Debug.Log ("BossFinish");
+
+		if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_DRAGONSHOW) {
+			SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_DAYS;
+
+			SpawnManager.Instance.tutorialPanel.DeActiveObj.SetActive (true);
+			SpawnManager.Instance.tutorialPanel.StartContent ();
+		}
+
+
 
 		StopCoroutine (BossSkillStandard ());
 		StopCoroutine (BossSkill_01 ());
@@ -389,7 +399,7 @@ public class BossDragon :  BossCharacter
 			bossTimer_Obj.SetActive (true);
 			bossTimer = bossTimer_Obj.GetComponent<BossTimer> ();
 			bossTimer.StartTimer (0f, 30f , (int)E_BOSSNAME.E_BOSSNAME_DARAGON);
-			//bossTimer.bossFire = this;
+			bossTimer.bossDragon = this;
 		}
 
 	}

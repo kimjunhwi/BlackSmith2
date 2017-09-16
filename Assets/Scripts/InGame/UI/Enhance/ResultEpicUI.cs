@@ -491,6 +491,8 @@ public class ResultEpicUI : MonoBehaviour {
 		SpawnManager.Instance.SetDayInitInfo (playerData.GetDay ());
 
 		gameObject.SetActive (false);
+
+		SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
 	}
 
 	void ShowAdButton()

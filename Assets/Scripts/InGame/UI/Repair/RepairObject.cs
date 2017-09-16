@@ -108,6 +108,9 @@ public class RepairObject : MonoBehaviour
 	public float fSmallFirePlusTemperatrue = 0f;
 	public float fOriWaterPlus = 0f;
 
+	//BossDragon
+	private BossDragon bossDragon;
+
 	//WaterFx
 	public GameObject waterFxObj;
 	public Animator bossWaterCat_animator;						//보스무기일때의 고양이
@@ -158,6 +161,7 @@ public class RepairObject : MonoBehaviour
 
 	//Tutorial
 	private int nTouchCount = 0;
+	private TutorialPanel tutorialPanel;
 
 
 	string[] unit = new string[]{ "G", "K", "M", "B", "T", "aa", "bb", "cc", "dd", "ee" }; 
@@ -619,6 +623,17 @@ public class RepairObject : MonoBehaviour
 			//Change AnimController 
 			bossWeaponAnimator.runtimeAnimatorController = bossWeaponController [3];
 		}
+		else if (_bossData.nIndex == 4)
+		{
+			bossDragon = (BossDragon)_bossData;
+			bossCharacter = _bossData;
+
+			//input Image
+			BossWeaponSprite.sprite = _sprite;
+
+			//Change AnimController 
+			bossWeaponAnimator.runtimeAnimatorController = bossWeaponController [4];
+		}
 		else
 			return;
 
@@ -663,22 +678,33 @@ public class RepairObject : MonoBehaviour
 	{
         if (weaponData == null)
 			return;
+		if (tutorialPanel == null)
+			tutorialPanel = SpawnManager.Instance.tutorialPanel;
 
-		//Tutorial
-		if (SpawnManager.Instance.bIsTutorial == true)
+		//일정 수의 터치시 2번째 튜토리얼 이미지보여주기
+		if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE02)
 		{
-			if (SpawnManager.Instance.bIsTutorial_ShowTempAndWater == false) {
-				nTouchCount++;
+			nTouchCount++;
 
-				if (nTouchCount >= 10) {
-					WaterSlider.value = WaterSlider.maxValue;
-					SpawnManager.Instance.bIsTutorial_ShowTempAndWater = true;
-			
-					SpawnManager.Instance.tutorialPanel.ShowTutorialImage (1);
+			if (nTouchCount >= 10) 
+			{
+				Debug.Log ("StartTuto2");
+				WaterSlider.value = WaterSlider.maxValue;
+
+				SpawnManager.Instance.tutorialPanel.ShowTutorialImage (1);
+
+
+				if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE02) 
+				{
+					Debug.Log ("Change State : " + tutorialPanel.eTutorialState);
+					tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_WAIT_DRAGONSHOW;
 				}
-
+				
 			}
+
 		}
+
+	
 
         Debug.Log("Touch");
 		normalWeaponShake.Shake (12.0f, 0.12f);

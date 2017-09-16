@@ -73,10 +73,10 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 	int m_nDay = 1;
 
 	private bool bIsFirst = false;
-	public bool bIsTutorial = true;
-	private bool bIsTutorial_StartText = false;
-	public bool bIsTutorial_ShowTempAndWater = false;
-	public bool bIsTutorial_DragonShow = true;
+
+
+
+	public int nTutorialCurGuestCount = 0;
 
 	public ShopCash shopCash;
 
@@ -153,13 +153,10 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 				shopCash.LoadBooster (E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK, GameManager.Instance.GetPlayer ().changeStats.nAttackBuffMinutes,
 					GameManager.Instance.GetPlayer ().changeStats.fAttackBuffSecond);
 			}
-			//
-			bIsTutorial_StartText = true;
-			bIsTutorial = false;
 			bIsFirst = true;
-			bIsTutorial_DragonShow = true;
-	
-			
+			//2개를 주석하면 튜토리얼 off
+			tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
+			tutorialPanel.gameObject.SetActive (false);
 		}
 	}
 
@@ -168,7 +165,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
     private void Update()
     {
 		//튜토 아닐때
-		if (bIsTutorial == false)
+		if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_FINISH  && bIsFirst == true)
 		{
 			m_fCreatePlusTime += Time.deltaTime;
 			m_fLevelTime += Time.deltaTime;
@@ -184,27 +181,23 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		//튜토 일떄
 		else
 		{
-			Debug.Log ("Call Tuto");
-			if (bIsTutorial_StartText == false) 
+			//처음 시작 설명 텍스트 
+			if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_NONE) 
 			{
+				Debug.Log ("Tuto1 Start");
 				tutorialPanel.StartContent ();
-				bIsTutorial_StartText = true;
 			}
 
-			if (bIsTutorial_ShowTempAndWater == true && list_Character.Count == 0) {
-				SpawnManager.Instance.bIsTutorial_DragonShow = false;
-			}
-
-			if (bIsTutorial_DragonShow == false) 
+			if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_WAIT_DRAGONSHOW)
 			{
-				Debug.Log ("Show Dragon");
-				bIsTutorial_DragonShow = true;
-				StartCoroutine (bossCreator.BossCreate (4));
-
-				//SpawnManager.Instance.tutorialPanel.ShowTutorialImage (1);
+				if (SpawnManager.Instance.list_Character.Count <= 0)
+				{
+					tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_DRAGONSHOW;
+					StartCoroutine (SpawnManager.Instance.bossCreator.BossCreate (4));
+				}
 			}
 
-
+		
 		}
     }
 

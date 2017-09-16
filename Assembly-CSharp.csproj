@@ -314,7 +314,6 @@
      <Compile Include="Assets\Scripts\InGame\Quest\QuestPanel.cs" />
      <Compile Include="Assets\Scripts\InGame\Quest\QuestTimer.cs" />
      <Compile Include="Assets\Scripts\InGame\Quest\QusetManager.cs" />
-     <Compile Include="Assets\Scripts\InGame\Tutorial\TutorialImage.cs" />
      <Compile Include="Assets\Scripts\InGame\Tutorial\TutorialPanel.cs" />
      <Compile Include="Assets\Scripts\InGame\Tutorial\TutorialTouch.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Boss\BossAnimation.cs" />

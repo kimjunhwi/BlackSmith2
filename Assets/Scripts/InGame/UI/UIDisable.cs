@@ -17,10 +17,13 @@ public class UIDisable : MonoBehaviour, IPointerDownHandler
 
 		if (getInfoGameObject.gameObject == null)
 			return;
+		if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE04)
+			return;
 
 		if (getInfoGameObject.gameObject.name == "BackGroundPanel")
 			getInfoGameObject.transform.parent.gameObject.SetActive (false);
-		
+
+
 		if (getInfoGameObject.gameObject.name == "BossBackGround" && isBossSummon == false)
 		{
 			//보스 창이 닫히면 시간 저장

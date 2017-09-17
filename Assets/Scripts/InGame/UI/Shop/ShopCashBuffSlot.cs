@@ -103,6 +103,12 @@ public class ShopCashBuffSlot : MonoBehaviour {
 		StartCoroutine (Timer (_curMin, _curMin));
 	}
 
+	public void AddTimer(int _Min, float _Sec)
+	{
+		curMin += _Min;
+		fCurSec += _Sec;
+	}
+
 	public IEnumerator Timer(int _curMin, int _curSec)
 	{
 		int second = 0;

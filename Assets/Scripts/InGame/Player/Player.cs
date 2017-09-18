@@ -15,15 +15,25 @@ public class Player
 
     public List<CGameEquiment> List_items;
 
+	//플레이어가 장비한 무기
     CGameEquiment WeaponEquipment = null;
     CGameEquiment GearEquipmnet = null;
     CGameEquiment AccessoryEquipmnet = null;
 
 	private SpawnManager spawnManager = null;
 
+	//플레이어가 가질 인벤토리
     public Inventory inventory;
 
+	//플레이어 정보 표시 스크 
 	public PlayerSpecificInfo PlayerInfo = null;
+
+	//몫과 나머지를 구하기 위함
+	float m_fOriValue;
+	float m_fMinusValue;
+	float m_fResult;
+
+
 
 	public int GetSmithLevel() { return changeStats.nBlackSmithLevel; }
 	public void SetSmithLevel(int _nValue) { changeStats.nBlackSmithLevel = _nValue; }
@@ -151,6 +161,12 @@ public class Player
 
 		epicOpion = _EpicOption;
 
+		m_fOriValue = changeStats.nEnhanceRepaireLevel - 1;
+		m_fMinusValue = Mathf.Floor( (changeStats.nEnhanceRepaireLevel - 1) * 0.1f ) * 10;
+		m_fResult = m_fOriValue - m_fMinusValue;
+
+		double dCurComplete = _weapon.dRepair *  Mathf.Pow (1.022f, (Mathf.Floor((changeStats.nEnhanceRepaireLevel - 1) * 0.1f))) * (1 + (changeStats.nEnhanceRepaireLevel * 0.03f));
+
 		PlayerStatsSetting ();
 	}
 
@@ -222,12 +238,20 @@ public class Player
 			dResultRepairPowerPercent += (double)creatorWeapon.fSasinBossValue;
 		}
 
-        //로이 아르바이트가 배치중이라면 스킬을 적용
-		if (spawnManager != null)
-			if (spawnManager.list_ArbaitUI.Count != 0)
+       
+		if (spawnManager != null) 
+		{
+			//로이 아르바이트가 배치중이라면 스킬을 적용
+			if (spawnManager.list_ArbaitUI.Count != 0) {
 				if (spawnManager.m_BatchArbait [(int)E_ARBAIT.E_ROY].activeSelf == true)
-			dResultRepairPowerPercent += (double)spawnManager.array_ArbaitData[(int)E_ARBAIT.E_ROY].m_CharacterChangeData.fSkillPercent;
+					dResultRepairPowerPercent += (double)spawnManager.array_ArbaitData [(int)E_ARBAIT.E_ROY].m_CharacterChangeData.fSkillPercent;
 
+				//사신이 배치 됐고 버프가 활성화 됐을경우 
+				if (spawnManager.m_BatchArbait [(int)E_ARBAIT.E_SASIN].activeSelf == true) 
+					if (spawnManager.array_ArbaitData [(int)E_ARBAIT.E_SASIN].bIsSasinCheck) 
+						dResultRepairPowerPercent += (double)spawnManager.array_ArbaitData [(int)E_ARBAIT.E_SASIN].m_CharacterChangeData.fSkillPercent;
+			}
+		}
 		m_dRepairPower = changeStats.dRepairPower + (changeStats.dRepairPower * dResultRepairPowerPercent * 0.01);
 
 		if (PlayerInfo != null)
@@ -321,6 +345,12 @@ public class Player
 		if (GearEquipmnet != null) 		fResultWaterPlusPercent += GearEquipmnet.fWaterChargePlus;
 		if (AccessoryEquipmnet != null) fResultWaterPlusPercent += AccessoryEquipmnet.fWaterChargePlus;
 		if (creatorWeapon != null) 		fResultWaterPlusPercent += creatorWeapon.fWaterPlus;
+
+		//Ice골렘이 배치 됐다면
+		if (spawnManager != null)
+			if (spawnManager.list_ArbaitUI.Count != 0)
+				if (spawnManager.m_BatchArbait [(int)E_ARBAIT.E_ICE].activeSelf == true)
+					fResultWaterPlusPercent += spawnManager.array_ArbaitData[(int)E_ARBAIT.E_ICE].m_CharacterChangeData.fSkillPercent;
 
 		m_fWaterPlus = changeStats.fWaterPlus + (changeStats.fWaterPlus * fResultWaterPlusPercent * 0.01f);
 

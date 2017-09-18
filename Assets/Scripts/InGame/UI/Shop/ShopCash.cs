@@ -547,30 +547,65 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			SpawnManager.Instance.SetDayInitInfo (_day);
 		}
 
-
-		if (getCashItemInfo [_index].sItemName == "골드부스터" || getCashItemInfo [_index].sItemName == "명예부스터" || getCashItemInfo [_index].sItemName == "직원부스터"
-			|| getCashItemInfo [_index].sItemName == "터치부스터") 
-		{
-			GameObject consumeSlot = CashBuffSlotPool.GetObject ();
-			consumeSlot.transform.SetParent (addCashBuff_transform.transform, false);
-			consumeSlot.transform.localScale = Vector3.one;
-
-			ShopCashBuffSlot shopCashBuffSlot = consumeSlot.GetComponent<ShopCashBuffSlot> ();
-			shopCashBuffSlot.icon_Image.sprite =  ObjectCashing.Instance.LoadSpriteFromCache (iconPaths[_index]);
-			shopCashBuffSlot.StartTimer ();
-			shopCashBuffSlot.shopCash = this;
-
-			shopCashBuffSlot.sSlotName = getCashItemInfo [_index].sItemName;
-			shopCashBuffSlot.pool_Obj = CashBuffSlotPool;
-			shopCashBuffSlots [_index] = shopCashBuffSlot;
-		}
-
-
-
 		ScoreManager.ScoreInstance.GoldPlus (_gold);
 		ScoreManager.ScoreInstance.HonorPlus (_honor);
 		ScoreManager.ScoreInstance.RubyPlus( ((int)-_ruby));
 
+		//부스터가 이미 있다면 시간만 추가
+		if (getCashItemInfo [_index].sItemName == "골드부스터")
+		{
+			if (shopCashBuffSlots [_index] != null) {
+				shopCashBuffSlots [_index].AddTimer (30, 00f);
+				return;
+			}
+			AddCashBuffSlot (_index);
+			return;
+		} 
+
+
+		if (getCashItemInfo [_index].sItemName == "명예부스터") {
+			if (shopCashBuffSlots [_index] != null) {
+				shopCashBuffSlots [_index].AddTimer (30, 00f);
+				return;
+			}
+			AddCashBuffSlot (_index);
+			return;
+		}
+	
+		if (getCashItemInfo [_index].sItemName == "직원부스터") {
+			if (shopCashBuffSlots [_index] != null) {
+				shopCashBuffSlots [_index].AddTimer (30, 00f);
+				return;
+			}
+			AddCashBuffSlot (_index);
+			return;
+		}
+	
+		if (getCashItemInfo [_index].sItemName == "터치부스터") {
+			if (shopCashBuffSlots [_index] != null) {
+				shopCashBuffSlots [_index].AddTimer (30, 00f);
+				return;
+			}
+			AddCashBuffSlot (_index);
+			return;
+		}
+	}
+
+	public void AddCashBuffSlot(int _index)
+	{
+
+		GameObject consumeSlot = CashBuffSlotPool.GetObject ();
+		consumeSlot.transform.SetParent (addCashBuff_transform.transform, false);
+		consumeSlot.transform.localScale = Vector3.one;
+
+		ShopCashBuffSlot shopCashBuffSlot = consumeSlot.GetComponent<ShopCashBuffSlot> ();
+		shopCashBuffSlot.icon_Image.sprite =  ObjectCashing.Instance.LoadSpriteFromCache (iconPaths[_index]);
+		shopCashBuffSlot.StartTimer ();
+		shopCashBuffSlot.shopCash = this;
+
+		shopCashBuffSlot.sSlotName = getCashItemInfo [_index].sItemName;
+		shopCashBuffSlot.pool_Obj = CashBuffSlotPool;
+		shopCashBuffSlots [_index] = shopCashBuffSlot;
 	}
 
 	public void LoadBooster(E_BOOSTERTYPE _index, int _CurMin, float _CurSec)
@@ -588,6 +623,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			shopCashBuffSlot.LoadTimer (_CurMin, (int)_CurSec);
 		
 			shopCashBuffSlot.pool_Obj = CashBuffSlotPool;
+			shopCashBuffSlots [(int)_index] = shopCashBuffSlot;
 
 		}
 		if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR)
@@ -603,6 +639,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			shopCashBuffSlot.LoadTimer (_CurMin, (int)_CurSec);
 	
 			shopCashBuffSlot.pool_Obj = CashBuffSlotPool;
+			shopCashBuffSlots [(int)_index] = shopCashBuffSlot;
 		}
 		if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF) 
 		{
@@ -617,6 +654,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			shopCashBuffSlot.LoadTimer (_CurMin, (int)_CurSec);
 
 			shopCashBuffSlot.pool_Obj = CashBuffSlotPool;
+			shopCashBuffSlots [(int)_index] = shopCashBuffSlot;
 		}
 		if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK) 
 		{
@@ -631,6 +669,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			shopCashBuffSlot.LoadTimer (_CurMin, (int)_CurSec);
 		
 			shopCashBuffSlot.pool_Obj = CashBuffSlotPool;
+			shopCashBuffSlots [(int)_index] = shopCashBuffSlot;
 		}
 	}
 

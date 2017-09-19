@@ -652,7 +652,7 @@ public class RepairObject : MonoBehaviour
 		ComplateSlider.maxValue = (float)_dMaxBossComplete;
 		ComplateSlider.value = (float)dCurrentComplate;
 
-		spawnManager.ComplateCheckArbait (dCurrentComplate, weaponData.dMaxComplate);
+		//spawnManager.ComplateCheckArbait (dCurrentComplate, weaponData.dMaxComplate);
 
 		fCurrentTemperature = _fTemperator;
 		ComplateText.text = string.Format("{0} / {1}", _dComplate, strMaxComplate);
@@ -694,10 +694,15 @@ public class RepairObject : MonoBehaviour
 		{
 			nTouchCount++;
 
-			if (nTouchCount >= 10) 
+			if (nTouchCount >= 5) 
 			{
 				Debug.Log ("StartTuto2");
 				WaterSlider.value = WaterSlider.maxValue;
+				SpawnManager.Instance.tutorialPanel.tutorialImage_Obj.SetActive (true);
+				SpawnManager.Instance.tutorialPanel.tutorial_Image.gameObject.SetActive(true);
+				SpawnManager.Instance.tutorialPanel.tutorial_Image.enabled = true;
+				SpawnManager.Instance.tutorialPanel.ShowTutorialImage (1);
+
 
 				SpawnManager.Instance.tutorialPanel.ShowTutorialImage (1);
 

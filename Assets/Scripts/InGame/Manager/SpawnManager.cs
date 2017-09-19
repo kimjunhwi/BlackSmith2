@@ -155,7 +155,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 					GameManager.Instance.GetPlayer ().changeStats.fAttackBuffSecond);
 			}
 			bIsFirst = true;
-			//2개를 주석하면 튜토리얼 Off
+			//2개를 주석하면 튜토리얼 On
 			tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
 			tutorialPanel.gameObject.SetActive (false);
 		}
@@ -288,8 +288,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			
 			m_nDay = _nDay;
 
-			ScoreManager.ScoreInstance.SetSuccessedGuestCount (0);
-			ScoreManager.ScoreInstance.SetCurrentDays (m_nDay);
+
 
 			if (m_nDay > GameManager.Instance.player.GetMaxDay ()) {
 				ScoreManager.ScoreInstance.SetMaxDays (m_nDay);
@@ -320,6 +319,9 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			}
 		
 		}
+
+		ScoreManager.ScoreInstance.SetSuccessedGuestCount (0);
+		ScoreManager.ScoreInstance.SetCurrentDays (m_nDay);
 	}
 
     //WeaponData

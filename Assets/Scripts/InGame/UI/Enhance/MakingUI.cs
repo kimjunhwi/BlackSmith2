@@ -63,6 +63,8 @@ public class MakingUI : MonoBehaviour {
 
 	public SpriteRenderer PlayerWeaponImage;
 
+	public GameObject ShowObject;
+
 	void Awake()
 	{
 		playerData = GameManager.Instance.GetPlayer ();
@@ -263,10 +265,12 @@ public class MakingUI : MonoBehaviour {
 		SetShowText ();
 	}
 
-	void MakeWeapon()
+	public void MakeWeapon()
 	{
 		if (playerData.GetDay() <= 10)
 			return;
+
+
 		
 		ResultUI.Init (playerData, BossSoulSlots);
 

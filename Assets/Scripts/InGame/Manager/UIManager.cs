@@ -31,13 +31,19 @@ public class UIManager : MonoBehaviour
 
 	public void ActiveMenu(int nIndex)
 	{
+		SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
 		//Tutorial
-		if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE03) {
-			SpawnManager.Instance.tutorialPanel.ShowTutorialImage (3);
+		if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE03)
+		{
+			SpawnManager.Instance.tutorialPanel.tutorialImage_Obj.SetActive (true);
+			SpawnManager.Instance.tutorialPanel.tutorial_Image.gameObject.SetActive (true);
+			SpawnManager.Instance.tutorialPanel.tutorial_Image.enabled = true;
 
+			SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_IMAGE04;
+			SpawnManager.Instance.tutorialPanel.ShowTutorialImage (3);
 		}
 
-		SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
+
 		if (uiPanels [nIndex].activeSelf) 
 		{
 			//보스 패널 닫을시 시간 저장 

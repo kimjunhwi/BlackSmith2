@@ -84,6 +84,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	public BossCreator bossCreator;
 
+	public MakingUI makingUI;
 
     private void Awake()
     {
@@ -154,12 +155,11 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 					GameManager.Instance.GetPlayer ().changeStats.fAttackBuffSecond);
 			}
 			bIsFirst = true;
-			//2개를 주석하면 튜토리얼 off
+			//2개를 주석하면 튜토리얼 Off
 			tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
 			tutorialPanel.gameObject.SetActive (false);
 		}
 	}
-
     public SpawnManager GetSpawnManager() { return this; }
 
     private void Update()
@@ -197,6 +197,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 				}
 			}
 
+			if(tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE04 && uiManager.uiPanels[0].activeSelf == true)
+				SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_SHOWCONSTRUCT;
 		
 		}
     }

@@ -17,8 +17,13 @@ public class TutorialTouch : MonoBehaviour ,IPointerDownHandler
 		GameObject getInfoObj = eventData.pointerEnter;
 		if (bIsTouchActive == true)
 		{
+			//터치 영어 이미지
 			tutorialImage_Obj.SetActive (false);
 			getInfoObj.SetActive (false);
+
+			tutorialPanel.tutorial_Image.enabled = false;
+			tutorialPanel.tutorialImage_Obj.SetActive (false);
+		
 
 			if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE01) 
 			{
@@ -26,13 +31,25 @@ public class TutorialTouch : MonoBehaviour ,IPointerDownHandler
 				tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_IMAGE02;
 			}
 
+			//3번째 이미지 터치시
+			if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE03) 
+			{
+				Debug.Log ("Cur State :" + tutorialPanel.eTutorialState);
+				SpawnManager.Instance.uiManager.ActiveMenu (0);
+
+			}
+
+
+
 		
 
 			//제작 하는 버튼 쪽으로 옮겨야 함
-			if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE04)
+			if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_SHOWCONSTRUCT)
 			{
 				Debug.Log ("Cur State :" + tutorialPanel.eTutorialState);
-				tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
+				SpawnManager.Instance.makingUI.MakeWeapon ();
+				//tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
+				//tutorialPanel.TutorialBlock_Obj.SetActive (false);
 			}
 
 				

@@ -82,7 +82,11 @@ public class Player
 	}
 
 	public float GetBasicWaterPlus() { return changeStats.fWaterPlus; }
-	public void SetBasicWaterPlus(float _fValue) { changeStats.fWaterPlus = _fValue; }
+	public void SetBasicWaterPlus(float _fValue) { 
+		changeStats.fWaterPlus = _fValue; 
+
+		SetWaterPlus ();
+	}
 
 	public double GetBasicGoldPlusPercent() {return changeStats.dGoldPlusPercent;}
 	public void SetBasicGoldPlusPercent(double _dValue){ 

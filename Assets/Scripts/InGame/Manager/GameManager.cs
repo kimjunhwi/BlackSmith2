@@ -98,6 +98,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	private QusetManager questManager = null;
 	private bool isQuestAdsOn = false;
 
+	public Shop shop = null;
+
 	private ResultEpicUI resultEpicUI = null;
 
 	private BossCreator bossCreator = null;
@@ -117,8 +119,6 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		Load_TableInfo_Sound ();
 
 		Load_TableInfo_Weapon();
-
-
 
 		Load_TableInfo_Quest();
 
@@ -443,6 +443,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		//아르바이트 버프 해제
         SpawnManager.Instance.ReleliveArbait();
+
+		shop.SaveTime ();
 
         playerData = player.changeStats;
 
@@ -1076,17 +1078,17 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		w.Show(_msg, _callback);
 	}
 
-	public void Window_yesno(string _title, string _msg, System.Action<string> _callback)
+	public void Window_yesno(string strValue, System.Action<string> _callback)
 	{
 		//GameObject Root_ui = GameObject.Find("root_window)"); //ui attach
-		GameObject go = GameObject.Instantiate(Resources.Load("prefabs/Window_yesno"), Vector3.zero, Quaternion.identity) as GameObject;
+		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_yesno"), Vector3.zero, Quaternion.identity) as GameObject;
 		go.transform.parent = Root_ui.transform;
 		go.transform.localPosition = Vector3.zero;
 		go.transform.localRotation = Quaternion.identity;
 		go.transform.localScale = Vector3.one;
 
 		CWindowYesNo w = go.GetComponent<CWindowYesNo>();
-		w.Show(_title, _msg, _callback);
+		w.Show(strValue, _callback);
 	}
     #endregion
 
@@ -1460,6 +1462,11 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		return null;
 	}
 
+	public void SetShopClass(Shop _Shop)
+	{
+		shop = _Shop;
+	}
+
 	#region UnityAds
 
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -1487,6 +1494,38 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			// Give coins etc.
 
 			resultEpicUI.ShowAd ();
+
+			break;
+
+		case ShowResult.Failed:
+			Debug.LogError("The ad failed to be shown.");
+			break;
+		}
+	}
+
+	public void ShowRewardedAd_Shop(Shop _shop)
+	{
+		if (shop == null)
+			shop = _shop;
+
+		if (Advertisement.IsReady("rewardedVideo"))
+		{
+			var options = new ShowOptions { resultCallback = HandleShowResult_Shop };
+			Advertisement.Show("rewardedVideo", options);
+		}
+	}
+
+	private void HandleShowResult_Shop(ShowResult result)
+	{
+		switch (result)
+		{
+		case ShowResult.Finished:
+			Debug.Log ("The ad was successfully shown.");
+			//
+			// YOUR CODE TO REWARD THE GAMER
+			// Give coins etc.
+
+			shop.FinishedAds ();
 
 			break;
 

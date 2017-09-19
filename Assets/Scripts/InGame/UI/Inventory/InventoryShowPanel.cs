@@ -13,8 +13,8 @@ public class InventoryShowPanel : MonoBehaviour {
 	public Button SellButton;
 	public Button EquipButton;
 	public Button EnhanceButton;
-
 	public Button CloseButton;
+	public Button NoneEquipButton;
 
 	public Image EquiImage;
 
@@ -24,6 +24,9 @@ public class InventoryShowPanel : MonoBehaviour {
 	public Transform contentsPanel;
 
 	public SimpleObjectPool simpleTextPool;
+
+	public GameObject EquipObject;
+	public GameObject NoneEquipObject;
 
 	CGameEquiment ItemData;
 
@@ -37,16 +40,16 @@ public class InventoryShowPanel : MonoBehaviour {
         EquipButton.onClick.AddListener(EquipItem);
 		EnhanceButton.onClick.AddListener (EnhanceItem);
 		CloseButton.onClick.AddListener (ClosePanel);
+		NoneEquipButton.onClick.AddListener (NoneEquipItem);
 
         player = GameManager.Instance.player;
 
 		gameObject.SetActive (false);
+		NoneEquipObject.SetActive (false);
 	}
 
 	private void EnhanceItem()
 	{
-		Debug.Log ("강화 시작!!");
-
 
 		if (ItemData.nBasicGold * Mathf.Pow(1.1f, ItemData.nStrenthCount - 1) <= ScoreManager.ScoreInstance.GetGold ()) {
 				
@@ -82,6 +85,19 @@ public class InventoryShowPanel : MonoBehaviour {
 	private void EquipItem()
 	{
         player.EquipItem(ItemData);
+
+		EquipObject.SetActive (false);
+		NoneEquipObject.SetActive (true);
+	}
+
+	private void NoneEquipItem()
+	{
+		ItemData.bIsEquip = false;
+
+		player.NoneEquipItem (ItemData);
+
+		EquipObject.SetActive (true);
+		NoneEquipObject.SetActive (false);
 	}
 
 	private void ClosePanel()
@@ -120,6 +136,16 @@ public class InventoryShowPanel : MonoBehaviour {
 		if (strExplain != null)
 			CreateText (strExplain, 0f);
 
+		if (_equiment.bIsEquip == true) 
+		{
+			EquipObject.SetActive (false);
+			NoneEquipObject.SetActive (true);
+		}
+		else 
+		{
+			EquipObject.SetActive (true);
+			NoneEquipObject.SetActive (false);
+		}
 
 		gameObject.SetActive (true);
 	}

@@ -1,14 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using ReadOnlys;
 
 public class Shop : MonoBehaviour {
 
     public int nEquimentLength;
 
+	public int nCurMin;
+	public float fCurSec;
+
     private int nShopCount = 0;
     private int nShopMaxLength = 6;
+
+	private const int nInitTime_Min = 59;
+	private const int nInitTime_Sec = 59;
 
     public Transform parentPanel;
     public GameObject shopButton;
@@ -30,6 +37,10 @@ public class Shop : MonoBehaviour {
 
 	Player playerData;
 
+	public Text TimerText;
+
+	public System.Action rt;
+
     void Awake()
     {
         ShopList = new ShopButton[nShopMaxLength];
@@ -50,7 +61,23 @@ public class Shop : MonoBehaviour {
         nEquimentLength = GameManager.Instance.GetEquimentLength();
 
 		playerData = GameManager.Instance.GetPlayer ();
+
+		GameManager.Instance.shop = this;
+
+		StartCoroutine (Timer (playerData.changeStats.nShopMinutes, (int)playerData.changeStats.fShopSecond));
     }
+
+	public void SaveTime()
+	{
+		System.DateTime EndData = System.DateTime.Now;
+		PlayerPrefs.SetString ("NowTime", EndData.ToString ());
+		PlayerPrefs.Save ();
+
+		playerData.changeStats.nShopMinutes = nCurMin;
+		playerData.changeStats.fShopSecond = fCurSec;
+
+		Debug.Log ("EndTime :" + EndData.ToString ());
+	}
 
     void OnEnable()
     {
@@ -59,25 +86,8 @@ public class Shop : MonoBehaviour {
         if (EquimentList == null)
             EquimentList = new List<CGameEquiment>();
 
-        if (PlayerPrefs.HasKey("NowTime"))
-        {
-            strTime = PlayerPrefs.GetString("NowTime");
-
-            StartDate = System.Convert.ToDateTime(strTime);
-        }
-
-        EndData = System.DateTime.Now;
-
-        timeCal = EndData - StartDate;
-
-        int nStartTime = StartDate.Hour * 360 + StartDate.Minute * 60 + StartDate.Second;
-        int nEndTime = EndData.Hour * 360 + EndData.Minute * 60 + EndData.Second;
-
-		int nCheck = Mathf.Abs(nEndTime - nStartTime);
-
-        //1시간이 지났거나 하루차이가 있을 경우
-		if(timeCal.Days != 0 || nCheck >= 1)
-        {
+		if(CheckIsTimer())
+		{
             PlayerPrefs.SetString("NowTime", EndData.ToString());
 
             EquimentList.Clear();
@@ -86,35 +96,28 @@ public class Shop : MonoBehaviour {
             {
                 CGameEquiment cGameEquiment = GetEquiment();
 
-                ShopList[nIndex].GetEquiment(inventory, showPanel, cGameEquiment);
+				ShopList[nIndex].GetEquiment(this, inventory, showPanel, cGameEquiment);
 
                 EquimentList.Add(cGameEquiment);
             }
 
+			FirstCheck ();
+
+			StartCoroutine (Timer (nInitTime_Min, nInitTime_Sec));
         }
         else
         {
-			if (EquimentList != null)
-            {
-				if (EquimentList.Count != playerData.changeStats.nShopMaxCount) 
-				{
-					int nCount = playerData.changeStats.nShopMaxCount - EquimentList.Count;
+			if (EquimentList.Count != 0) {
+				
+				for (int nIndex = 0; nIndex < EquimentList.Count; nIndex++) {
+					CGameEquiment cGameEquiment = EquimentList [nIndex];
 
-					for (int nIndex = 0; nIndex < nCount; nIndex++)
-					{
-						CGameEquiment cGameEquiment = GetEquiment();
-
-						ShopList[nIndex].GetEquiment(inventory, showPanel, cGameEquiment);
-
-						EquimentList.Add(cGameEquiment);
-					}
+					ShopList [nIndex].GetEquiment (this, inventory, showPanel, cGameEquiment);
 				}
 
-                foreach(CGameEquiment equit in EquimentList )
-                {
-                    ShopList[nShopCount++].GetEquiment(inventory, showPanel,equit);
-                }
-            }
+				FirstCheck ();
+
+			}
             //완전 처음 일 경우 
             else
             {
@@ -122,11 +125,15 @@ public class Shop : MonoBehaviour {
                 {
                     CGameEquiment cGameEquiment = GetEquiment();
 
-                    ShopList[nIndex].GetEquiment(inventory, showPanel,cGameEquiment);
+					ShopList[nIndex].GetEquiment(this,inventory, showPanel,cGameEquiment);
 
                     EquimentList.Add(cGameEquiment);
                 }
-            }
+
+				FirstCheck ();
+
+				StartCoroutine (Timer (nInitTime_Min, nInitTime_Sec));
+			}
         }
 
         GameManager.Instance.SaveShopList(EquimentList);
@@ -154,7 +161,7 @@ public class Shop : MonoBehaviour {
 
         while(nLength > 0)
         {
-            nInsertIndex = Random.Range((int)E_Equiment.E_REPAIR, (int)E_Equiment.E_MAX);
+			nInsertIndex = Random.Range((int)E_Equiment.E_REPAIR, (int)E_Equiment.E_MAX);
 
             if (CheckData(resultEquiment, nInsertIndex))
                 nLength--;
@@ -162,6 +169,171 @@ public class Shop : MonoBehaviour {
 
         return resultEquiment;
     }
+
+	public bool CheckIsTimer()
+	{
+		if (PlayerPrefs.HasKey("NowTime"))
+		{
+			strTime = PlayerPrefs.GetString("NowTime");
+
+			StartDate = System.Convert.ToDateTime(strTime);
+		}
+
+		EndData = System.DateTime.Now;
+
+		timeCal = EndData - StartDate;
+
+		int nStartTime = StartDate.Hour * 3600 + StartDate.Minute * 60 + StartDate.Second;
+		int nEndTime = EndData.Hour * 3600 + EndData.Minute * 60 + EndData.Second;
+
+		int nCheck = Mathf.Abs(nEndTime - nStartTime);
+
+		//1시간이 지났거나 하루차이가 있을 경우
+		if (timeCal.Days != 0 || nCheck >= 3600)
+			return true;
+		
+		else
+			return false;
+
+		
+
+	}
+
+	public IEnumerator Timer(int _curMin, int _curSec)
+	{
+		int second = 0;
+
+		fCurSec = (float)_curSec;
+		nCurMin = _curMin;
+
+
+		while (nCurMin >= 0f) 
+		{
+			fCurSec -= Time.deltaTime;
+			second = (int)fCurSec;
+
+			if(second < 10)
+				TimerText.text = nCurMin.ToString () + ":" +"0"+second.ToString ();
+			else
+				TimerText.text = nCurMin.ToString () + ":" + second.ToString ();
+
+			if (nCurMin == 0 && second <= 0f)
+				break;	
+
+			if (nCurMin != 0 && second == 0f) 
+			{
+				fCurSec = 59f;
+				nCurMin--;
+			}
+				
+			yield return null;
+		}
+
+		PlayerPrefs.SetString("NowTime", EndData.ToString());
+
+		EquimentList.Clear();
+
+		for (int nIndex = 0; nIndex < playerData.GetShopMaxCount(); nIndex++)
+		{
+			CGameEquiment cGameEquiment = GetEquiment();
+
+			ShopList[nIndex].GetEquiment(this,inventory, showPanel, cGameEquiment);
+
+			EquimentList.Add(cGameEquiment);
+		}
+
+		FirstCheck ();
+
+		StartCoroutine (Timer (nInitTime_Min, nInitTime_Sec));
+
+		yield  break;
+	}
+
+	public void ShopInit()
+	{
+		GameManager.Instance.Window_yesno ("50", rt => 
+		{ 
+			if (rt == "0") 
+			{
+				GameManager.Instance.ShowRewardedAd_Shop(this);
+			} 
+			else if (rt == "1") 
+			{
+					if(50 <= ScoreManager.ScoreInstance.GetRuby())
+					{
+						PlayerPrefs.SetString("NowTime", EndData.ToString());
+
+						EquimentList.Clear();
+
+						for (int nIndex = 0; nIndex < playerData.GetShopMaxCount(); nIndex++)
+						{
+							CGameEquiment cGameEquiment = GetEquiment();
+
+							ShopList[nIndex].GetEquiment(this,inventory, showPanel, cGameEquiment);
+
+							EquimentList.Add(cGameEquiment);
+						}
+
+						nCurMin = nInitTime_Min;
+						fCurSec = (float)nInitTime_Sec;
+					}
+					else
+					{
+						GameManager.Instance.Window_notice("루비가 부족합니다",null);
+					}
+			}
+		}
+		);
+
+		GameManager.Instance.SaveShopList(EquimentList);
+	}
+
+	public void FinishedAds()
+	{
+		PlayerPrefs.SetString("NowTime", EndData.ToString());
+
+		EquimentList.Clear();
+
+		for (int nIndex = 0; nIndex < playerData.GetShopMaxCount(); nIndex++)
+		{
+			CGameEquiment cGameEquiment = GetEquiment();
+
+			ShopList[nIndex].GetEquiment(this,inventory, showPanel, cGameEquiment);
+
+			EquimentList.Add(cGameEquiment);
+		}
+
+		FirstCheck ();
+
+		StartCoroutine (Timer (nInitTime_Min, nInitTime_Sec));
+	}
+
+	public void SaveShopList()
+	{
+		GameManager.Instance.SaveShopList(EquimentList);
+	}
+
+	public void FirstCheck()
+	{
+		for (int nIndex = 0; nIndex < EquimentList.Count; nIndex++) 
+		{
+			if (ShopList [nIndex].bIsBuy == false) 
+			{
+				ShopList [nIndex].ClickButton ();
+				break;
+			}
+		}
+	}
+
+	public void AllNoneDisable()
+	{
+		for (int nIndex = 0; nIndex < EquimentList.Count; nIndex++) 
+		{
+			if (ShopList [nIndex].bIsBuy == false) {
+				ShopList [nIndex].WeaponPanelImage.sprite = ShopList [nIndex].NoneSelectSprite;
+			}
+		}
+	}
 
     private bool CheckData(CGameEquiment _equiment, int nIndex)
     {

@@ -36,6 +36,9 @@ public class ArbaitBatch : MonoBehaviour {
 
 	public float fSkullCritical = 0;
     
+	public double dDodomchitRepair = 0.0f; 
+	public float fDodomchitRepairPercent = 0.0f;
+
     //무기 완성도
 	protected double m_dComplate;
 
@@ -652,6 +655,21 @@ public class ArbaitBatch : MonoBehaviour {
 		
 		else if (bIsSasinCheck == false && AuraObject.activeSelf == true)
 			AuraObject.SetActive (false);
+	}
+
+	#endregion
+
+
+	//Dodomchit 함수
+	#region ApplySasin
+	public void ApplyDodomchit()
+	{
+		fDodomchitRepairPercent += 1.0f;
+
+		if (fDodomchitRepairPercent >= m_CharacterChangeData.fSkillPercent) 
+		{
+			fDodomchitRepairPercent = m_CharacterChangeData.fSkillPercent;
+		}
 	}
 
 	#endregion

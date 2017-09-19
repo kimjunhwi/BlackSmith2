@@ -270,7 +270,7 @@ public class MakingUI : MonoBehaviour {
 		
 		ResultUI.Init (playerData, BossSoulSlots);
 
-		playerData.SetDay (playerData.GetDay () - 10);
+		SpawnManager.Instance.SetDayInitInfo (playerData.GetDay () - 10);
 //		
 //
 //		float fRepair = Mathf.RoundToInt (createWeapon.fRepair);

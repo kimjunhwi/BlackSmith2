@@ -182,6 +182,8 @@ public class ArbaitCharacter : MonoBehaviour {
             //배치된 아르바이트를 지움
             spawnManager.DeleteArbait(gameObject);
 
+			playerData.PlayerStatsSetting ();
+
             m_CharacterData.batch = -1;
 
             m_bIsBatch = false;

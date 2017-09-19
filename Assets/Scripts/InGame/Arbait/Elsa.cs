@@ -154,15 +154,15 @@ public class Elsa : ArbaitBatch {
 			{
 				fTime = 0.0f;
 
-				Debug.Log(m_CharacterChangeData.fAttackSpeed);
-
 				animator.SetTrigger("bIsRepair");
 
+				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
+
 				//크리티컬 확률 
-				if (Random.Range (1, 100) <= Mathf.Round (m_CharacterChangeData.fAccuracyRate)) 
-					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f * fRepairDownPercent;
+				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fAccuracyRate)) 
+					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
 				else 
-					m_dComplate += m_CharacterChangeData.dRepairPower *fRepairDownPercent;
+					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
 
 				//완성 됐을 경우
 				if (m_dComplate >= weaponData.dMaxComplate)

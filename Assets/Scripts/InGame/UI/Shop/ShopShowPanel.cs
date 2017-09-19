@@ -15,9 +15,11 @@ public class ShopShowPanel : MonoBehaviour {
 
     public Transform parentObject;
 
+	public ShopButton shopButton;
+
     public CGameEquiment ItemData;
 
-    public SimpleObjectPool simpleTextPool;
+    public SimpleObjectPool simpleTextPool;	
 
 	void Awake()
 	{
@@ -26,14 +28,14 @@ public class ShopShowPanel : MonoBehaviour {
 
     void OnEnable()
 	{
-
-        RemoveText();
     }
 
 	private void BuyClick()
 	{
 		if (ItemData != null)
 			GameManager.Instance.player.inventory.GetEquimnet (ItemData);
+
+		shopButton.ItemBuy ();
 	}
 
     private void RemoveText()
@@ -45,8 +47,10 @@ public class ShopShowPanel : MonoBehaviour {
         }
     }
 
-	public void Setting(CGameEquiment _ItemData)
+	public void Setting(ShopButton _shopButton, CGameEquiment _ItemData)
     {
+		shopButton = _shopButton;
+
         ItemData = _ItemData;
 
 		nameText.text = string.Format("{0} +{1}", ItemData.strName , ItemData.nStrenthCount);

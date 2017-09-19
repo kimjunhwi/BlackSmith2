@@ -718,6 +718,9 @@ public class RepairObject : MonoBehaviour
 		normalWeaponShake.Shake (12.0f, 0.12f);
         fComplateSlideTime = 0.0f;
 
+		//터치시 체크
+		spawnManager.DodomchitArbaitCheck ();
+
         //피버일경우 크리 데미지로 완성도를 증가시킴
         if (m_bIsFever)
         {

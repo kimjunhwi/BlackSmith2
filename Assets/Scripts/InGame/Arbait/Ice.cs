@@ -155,12 +155,14 @@ public class Ice : ArbaitBatch {
 			{
 				fTime = 0.0f;
 
+				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
+
 				//크리티컬 확률 
 				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fAccuracyRate)) 
-					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f;
+					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
 				else 
-					m_dComplate += m_CharacterChangeData.dRepairPower;
-
+					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
+				
 				//완성 됐을 경우
 				if (m_dComplate >= weaponData.dMaxComplate)
 				{

@@ -11,42 +11,48 @@ public class ShopButton : MonoBehaviour {
 
     ShopShowPanel showPanel;
 
-    public GameObject BuyButton;
 	public GameObject ItemButton;
+	public GameObject NoneItemObject;
 
-    public SpriteRenderer CanBuyImage;
-    public SpriteRenderer CantBuyImage;
+
+	public Image NoneItemImage;
+	public Image WeaponPanelImage;
+
+	public Sprite BuySprite;
+	public Sprite LockSprite;
+	public Sprite SelectSprite; 
+	public Sprite NoneSelectSprite;
+
 
     public Button buttonCheck;
-	public Button BuyButtonCheck;
     public Text EquitName;
     public Text EquitGold;
     public Image EquitImage;
 
     public Inventory inventory;
 
+	public Shop shop;
 
     
     private void Awake()
     {
-        BuyButton = transform.Find("BuyButton").gameObject;
 		ItemButton = transform.Find ("ShopButton").gameObject;
 
 		buttonCheck = ItemButton.GetComponent<Button>();
         buttonCheck.onClick.AddListener(ClickButton);
 
-		BuyButtonCheck = BuyButton.GetComponent<Button> ();
-		BuyButtonCheck.onClick.AddListener (ClickBuyButton);
-
-
-		BuyButton.SetActive (true);
 		ItemButton.SetActive (false);
+		NoneItemObject.SetActive (true);
+
+		NoneItemImage.sprite = LockSprite;
     }
 
 
-    public void GetEquiment(Inventory _inventory,ShopShowPanel _showPanel, CGameEquiment _equimnet)
+	public void GetEquiment(Shop _shop, Inventory _inventory,ShopShowPanel _showPanel, CGameEquiment _equimnet)
     {
-        bIsBuy = true;
+		shop = _shop;
+
+		bIsBuy = _equimnet.bIsBuy;
 
         equitMent = _equimnet;
 
@@ -54,8 +60,18 @@ public class ShopButton : MonoBehaviour {
 
         showPanel = _showPanel;
 
-        BuyButton.SetActive(false);
-		ItemButton.SetActive (true);
+		if (equitMent.bIsBuy) 
+		{
+			ItemButton.SetActive (false);
+			NoneItemObject.SetActive (true);
+
+			NoneItemImage.sprite = BuySprite;
+		} 
+		else 
+		{
+			ItemButton.SetActive (true);
+			NoneItemObject.SetActive (false);
+		}
 
         EquitName.text = equitMent.strName;
 
@@ -70,12 +86,30 @@ public class ShopButton : MonoBehaviour {
 		if (showPanel == null)
 			return;
 
-        showPanel.Setting(equitMent);
-        
+		if (equitMent.bIsBuy)
+			return;
+
+		shop.AllNoneDisable ();
+
+		WeaponPanelImage.sprite = SelectSprite;
+
+        showPanel.Setting(this,equitMent);
     }
 
-	public void ClickBuyButton()
+	public void ItemBuy()
 	{
+		bIsBuy = true;
 
+		equitMent.bIsBuy = true;
+
+		NoneItemImage.sprite = BuySprite;
+
+		NoneItemObject.SetActive (true);
+
+		shop.SaveShopList ();
+
+		shop.AllNoneDisable ();
+
+		shop.FirstCheck ();
 	}
 }

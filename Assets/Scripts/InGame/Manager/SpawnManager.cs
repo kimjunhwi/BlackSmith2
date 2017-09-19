@@ -614,17 +614,6 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 					m_nBatchArbaitCount--;
 
-					if (nIndex == (int)E_ARBAIT.E_ROY)
-						playerData.SetRepairPower ();
-					
-					else if (nIndex == (int)E_ARBAIT.E_MIA)
-						playerData.SetWaterPlus ();
-					
-					else if (nIndex == (int)E_ARBAIT.E_NURSE)
-						playerData.SetCriticalChance ();
-
-
-
 					break;
 				}
 			}
@@ -638,6 +627,14 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		float fTime = 0.0f;
 		float fValue = 0.0f;
 
+		if (m_BatchArbait [(int)E_ARBAIT.E_DODOMCHIT].activeSelf) 
+		{
+			for (int nIndex = 0; nIndex < m_BatchArbait.Length; nIndex++) 
+			{
+				array_ArbaitData [nIndex].fDodomchitRepairPercent = 0;
+			}
+
+		}
 
 		if (m_BatchArbait [(int)E_ARBAIT.E_CLEA].activeSelf) 
 		{
@@ -921,7 +918,20 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		if (m_BatchArbait [(int)E_ARBAIT.E_SKULL].activeSelf) 
 			array_ArbaitData [(int)E_ARBAIT.E_SKULL].fSkullCritical = nValue;
 		
+	}
 
+	public void DodomchitArbaitCheck()
+	{
+
+		if (m_BatchArbait [(int)E_ARBAIT.E_DODOMCHIT].activeSelf) 
+		{
+			float fValue = array_ArbaitData [(int)E_ARBAIT.E_DODOMCHIT].fDodomchitRepairPercent;
+
+			for (int nIndex = 0; nIndex < m_BatchArbait.Length; nIndex++) 
+			{
+				array_ArbaitData [nIndex].fDodomchitRepairPercent = fValue;
+			}
+		}
 	}
 
     #endregion

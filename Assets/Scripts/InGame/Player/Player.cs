@@ -497,7 +497,6 @@ public class Player
 
                 if (GearEquipmnet == _item)
                 {
-
                     GearEquipmnet.bIsEquip = false;
 
                     GearEquipmnet = null;
@@ -544,6 +543,29 @@ public class Player
         //아이템을 장착했기에 다시 정렬
         inventory.inventorySlots[_item.nSlotIndex].RefreshDisplay();
     }
+
+	//아이템을 해제 할 경우 
+	public void NoneEquipItem(CGameEquiment _item)
+	{
+		//아이템이 어디 부위인지 확인한다.
+		switch (_item.nSlotIndex)
+		{
+		case (int)E_EQUIMNET_INDEX.E_WEAPON:
+			WeaponEquipment = null;
+			break;
+		case (int)E_EQUIMNET_INDEX.E_WEAR:
+			GearEquipmnet = null;
+			break;
+		case (int)E_EQUIMNET_INDEX.E_ACCESSORY:
+			AccessoryEquipmnet = null;
+			break;
+		}
+		PlayerStatsSetting();
+
+		//아이템을 장착했기에 다시 정렬
+		inventory.inventorySlots[_item.nSlotIndex].RefreshDisplay();
+	}
+
 
     //계속해서 받아올 수 없기에 미리 캐싱해둠
     public void GetSpawnManager(SpawnManager _spawnManager)

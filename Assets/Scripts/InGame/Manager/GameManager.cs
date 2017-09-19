@@ -1823,6 +1823,10 @@ public class ArbaitData
 	//영입 카운트 
 	public int nScoutCount;
 
+	public int nMaxScoutCount;
+
+	public string strPurchasing;
+
 	//영입 골드 
 	public int nScoutGold;
 

@@ -22,8 +22,7 @@ public class RepairObject : MonoBehaviour
 	float fComplateSlideTime = 0.0f;
 	float fTemperatureSlideTime = 0.0f;
 
-	private double dCurrentComplate = 0;			//현재완성도
-	private double dCurrentComplateMirror = 0;
+	private double dCurrentComplate = 0;				//현재완성도
 	private string strMaxComplate = "";				//맥스 완성도 
     private float fWeaponDownTemperature = 0;		//무기 수리시 올라가는 온도
     private float fMaxTemperature = 100;					//최대 온도
@@ -164,8 +163,8 @@ public class RepairObject : MonoBehaviour
 	private int nTouchCount = 0;
 	private TutorialPanel tutorialPanel;
 
-	//Slider
-	public CompleteSlider completeSlider;
+	public SpawnManager spawnManager;
+
 
 	string[] unit = new string[]{ "G", "K", "M", "B", "T", "aa", "bb", "cc", "dd", "ee" }; 
 
@@ -377,7 +376,8 @@ public class RepairObject : MonoBehaviour
 					//얼음 보스시 온도가 터지면 모든 아르바이트 빙결 해제 
 					if(bossIce != null)
 						bossIce.DefreezeAllArbait ();
-					
+
+
 					if (dBossMaxComplete == 0.0f)
 						dCurrentComplate = (dCurrentComplate) - weaponData.dMaxComplate * 0.3f;
 
@@ -453,8 +453,7 @@ public class RepairObject : MonoBehaviour
 			else
 				fCurrentWater = fMaxWater;
 
-
-			if (completeSlider.nLeftLineCount > 0) 
+			if (ComplateSlider.value != dCurrentComplate) 
 			{
 				fComplateSlideTime += Time.deltaTime;
 
@@ -512,12 +511,13 @@ public class RepairObject : MonoBehaviour
 
 				if (fCurrentTemperature < 0)
 					fCurrentTemperature = 0;
+
+				spawnManager.SkullArbaitCheck (fCurrentTemperature);
 			}
 
 			//WaterAvailable Arrow 
 			int waterLevel = player.GetMaxWaterLevel();
-			//Vector3 waterWorldPos = gameObject.transform.TransformDirection (waterBottle.anchoredPosition3D);
-			waterAvailableArrow.anchoredPosition = new Vector2(waterAvailableArrow.anchoredPosition.x,  (waterBottle.sizeDelta.y + 20f) /( waterLevel + 1));
+			waterAvailableArrow.anchoredPosition = new Vector2(waterAvailableArrow.anchoredPosition.x, waterBottle.sizeDelta.y /( waterLevel + 1));
 		
 		}
 	}
@@ -562,16 +562,15 @@ public class RepairObject : MonoBehaviour
 
 		dCurrentComplate = _dComplate;
 
-
-		completeSlider.SetSliderGuest ((float)weaponData.dMaxComplate);
-	
-		//ComplateSlider.maxValue = (float)weaponData.dMaxComplate;
-		//ComplateSlider.value = (float)dCurrentComplate;
+		ComplateSlider.maxValue = (float)weaponData.dMaxComplate;
+		ComplateSlider.value = (float)dCurrentComplate;
 
 		strMaxComplate = ChangeValue (weaponData.dMaxComplate);
 
         fCurrentTemperature = _fTemperator;
 		WeaponSprite.sprite = weaponData.WeaponSprite;
+
+		spawnManager.ComplateCheckArbait (dCurrentComplate, weaponData.dMaxComplate);
 
 		if(_dComplate != 0)
 			ComplateText.text = string.Format("{0} / {1}", ChangeValue(_dComplate), strMaxComplate);
@@ -653,6 +652,8 @@ public class RepairObject : MonoBehaviour
 		ComplateSlider.maxValue = (float)_dMaxBossComplete;
 		ComplateSlider.value = (float)dCurrentComplate;
 
+		spawnManager.ComplateCheckArbait (dCurrentComplate, weaponData.dMaxComplate);
+
 		fCurrentTemperature = _fTemperator;
 		ComplateText.text = string.Format("{0} / {1}", _dComplate, strMaxComplate);
 	}
@@ -697,9 +698,7 @@ public class RepairObject : MonoBehaviour
 			{
 				Debug.Log ("StartTuto2");
 				WaterSlider.value = WaterSlider.maxValue;
-				SpawnManager.Instance.tutorialPanel.tutorialImage_Obj.SetActive (true);
-				SpawnManager.Instance.tutorialPanel.tutorial_Image.gameObject.SetActive(true);
-				SpawnManager.Instance.tutorialPanel.tutorial_Image.enabled = true;
+
 				SpawnManager.Instance.tutorialPanel.ShowTutorialImage (1);
 
 
@@ -713,7 +712,7 @@ public class RepairObject : MonoBehaviour
 
 		}
 
-		//completeSlider.StartBlinkFlashBack ();
+	
 
         Debug.Log("Touch");
 		normalWeaponShake.Shake (12.0f, 0.12f);
@@ -731,16 +730,7 @@ public class RepairObject : MonoBehaviour
 			ShowDamage (dCalcValue,_position);
 
 			dCurrentComplate += dCalcValue;
-			dCurrentComplateMirror += dCalcValue;
-			Debug.Log("CurComplete : " + dCurrentComplate);
-			/*
-			if (dCurrentComplateMirror >= completeSlider.GetSliderMaxValue ()) 
-			{
-				completeSlider.ChangeEachSliderColorAndInitValue (dCalcValue);
-				dCurrentComplateMirror = 0;
-		
-			}
-*/
+
             GameObject obj = CriticalTouchPool.Instance.GetObject();
 
 			obj.transform.SetParent(CanvasTransform,false);
@@ -749,11 +739,15 @@ public class RepairObject : MonoBehaviour
 
             obj.GetComponent<CriticalTouchParticle>().Play();
 
+			spawnManager.ComplateCheckArbait (dCurrentComplate, weaponData.dMaxComplate);
+
             //완성이 됐는지 확인 밑 오브젝트에 진행사항 전달
 			if (SpawnManager.Instance.CheckComplateWeapon (AfootObject, dCurrentComplate, fCurrentTemperature)) 
 			{
 				ComplateSlider.value = 0;
 				TemperatureSlider.value = 0;
+
+				spawnManager.ComplateCheckArbait (0, 0);
 
 				ComplateText.text = string.Format ("{0:#### / {1}", (int)ComplateSlider.value, 0);
 				return;
@@ -802,16 +796,8 @@ public class RepairObject : MonoBehaviour
 			ShowDamage (dCalcValue,_position);
 
 			dCurrentComplate += dCalcValue;
-			dCurrentComplateMirror += dCalcValue;
 
-			/*
-			Debug.Log("CurComplete : " + dCurrentComplate);
-			if (dCurrentComplateMirror >= completeSlider.GetSliderMaxValue ()) {
-				completeSlider.ChangeEachSliderColorAndInitValue (dCalcValue);
-				dCurrentComplateMirror = 0;
-
-			}
-			*/
+			spawnManager.ComplateCheckArbait (dCurrentComplate, weaponData.dMaxComplate);
         }
         else
         {
@@ -832,18 +818,8 @@ public class RepairObject : MonoBehaviour
 			ShowDamage (dCalcValue,_position);
 
 			dCurrentComplate += dCalcValue;
-			dCurrentComplateMirror += dCalcValue;
-			Debug.Log("CurComplete : " + dCurrentComplate);
 
-			/*
-			if (dCurrentComplateMirror >= completeSlider.GetSliderMaxValue ()) 
-			{
-				completeSlider.ChangeEachSliderColorAndInitValue (dCalcValue);
-				dCurrentComplateMirror = 0;
-
-			}
-*/
-
+			spawnManager.ComplateCheckArbait (dCurrentComplate, weaponData.dMaxComplate);
         }
         //공식에 따른 온도 증가
 
@@ -853,8 +829,7 @@ public class RepairObject : MonoBehaviour
 
 
         //완성이 됐는지 확인 밑 오브젝트에 진행사항 전달
-		if (SpawnManager.Instance.CheckComplateWeapon (AfootObject, dCurrentComplate,fCurrentTemperature))
-		{
+		if (SpawnManager.Instance.CheckComplateWeapon (AfootObject, dCurrentComplate,fCurrentTemperature)) {
 
 
             //만약 완성됐을때 빅 성공인지를 체크
@@ -877,6 +852,8 @@ public class RepairObject : MonoBehaviour
 			TemperatureSlider.value = 0;
 
 			ComplateText.text = string.Format("{0:#### / {1}", (int)ComplateSlider.value, 0);
+
+			spawnManager.ComplateCheckArbait (0, 0);
 
 			return;
 		}

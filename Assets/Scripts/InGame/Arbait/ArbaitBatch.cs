@@ -22,6 +22,8 @@ public class ArbaitBatch : MonoBehaviour {
 	//아우라가 활성중인가 
 	public bool bIsAura = false;
 
+	public bool bIsSasinCheck = false;
+
 	public int nIndex = -1;
 
 	public int nBatchIndex = -1;
@@ -31,6 +33,8 @@ public class ArbaitBatch : MonoBehaviour {
 	protected float fBuffTime = 0.0f;
 
 	protected float fAuraTime = 0.0f;
+
+	public float fSkullCritical = 0;
     
     //무기 완성도
 	protected double m_dComplate;
@@ -636,6 +640,21 @@ public class ArbaitBatch : MonoBehaviour {
 
 	#endregion
 
+	//사신 관련 함수
+	#region ApplySasin
+
+	public virtual void ApplySasin(bool _bIsCheck)
+	{
+		bIsSasinCheck = _bIsCheck;
+
+		if (bIsSasinCheck && AuraObject.activeSelf == false)
+			AuraObject.SetActive (true);
+		
+		else if (bIsSasinCheck == false && AuraObject.activeSelf == true)
+			AuraObject.SetActive (false);
+	}
+
+	#endregion
 
     //무기 수리 완료시 호출
 	protected void ComplateWeapon()

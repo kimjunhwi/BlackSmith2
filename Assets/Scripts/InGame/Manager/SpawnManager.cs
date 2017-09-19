@@ -869,15 +869,16 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
         }
     }
 
+	//Bell
 	public void WaterCheck()
 	{
 		float fValue = 0.0f;
 
 		if (m_BatchArbait [(int)E_ARBAIT.E_BELL].activeSelf) 
 		{
-			array_ArbaitData [(int)E_ARBAIT.E_BELL].StartAura (0);
+			array_ArbaitData [(int)E_ARBAIT.E_BELL].AuraObject.SetActive (true);
 
-			fValue = array_ArbaitData [(int)E_ARBAIT.E_ELLIE].m_CharacterChangeData.fSkillPercent;
+			fValue = array_ArbaitData [(int)E_ARBAIT.E_BELL].m_CharacterChangeData.fSkillPercent;
 
 			for (int nIndex = 0; nIndex < array_ArbaitData.Length; nIndex++) 
 				if(m_BatchArbait[nIndex].activeSelf)
@@ -897,6 +898,32 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 				if (m_BatchArbait [nIndex].activeSelf)
 					array_ArbaitData [nIndex].ReliveWaterUp ();
 		}
+	}
+
+	public void ComplateCheckArbait(double _dComplateValue,double _dMaxComplateValue)
+	{
+
+		if (m_BatchArbait [(int)E_ARBAIT.E_SASIN].activeSelf) 
+		{
+			double dPercent = _dComplateValue / _dMaxComplateValue;
+
+			if(dPercent < 0.5)
+				array_ArbaitData [(int)E_ARBAIT.E_SASIN].ApplySasin (true);
+			
+			else
+				array_ArbaitData [(int)E_ARBAIT.E_SASIN].ApplySasin (false);
+				
+		}
+	}
+
+	public void SkullArbaitCheck(float _fValue)
+	{
+		int nValue = (int)_fValue;
+
+		if (m_BatchArbait [(int)E_ARBAIT.E_SKULL].activeSelf) 
+			array_ArbaitData [(int)E_ARBAIT.E_SKULL].fSkullCritical = nValue;
+		
+
 	}
 
     #endregion

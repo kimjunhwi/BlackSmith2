@@ -421,7 +421,8 @@ public class NormalCharacter : Character {
 
 	void OnMouseDown()
 	{
-		if(Input.GetMouseButtonDown(0) && (E_STATE == ENORMAL_STATE.WAIT || WeaponBackground.activeSelf))
+		if (Input.GetMouseButtonDown (0) && (E_STATE == ENORMAL_STATE.WAIT || WeaponBackground.activeSelf) && SpawnManager.Instance.tutorialPanel.eTutorialState ==
+		   TutorialOrder.E_TUTORIAL_START_IMAGE01 && SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE02)
 		{
 			//onPointerDown 보다 먼저 호출
 			//if (!EventSystem.current.IsPointerOverGameObject ()) {

@@ -13,6 +13,7 @@ public enum TutorialOrder
 	E_TUTORIAL_START_DAYS,
 	E_TUTORIAL_START_IMAGE03,
 	E_TUTORIAL_START_IMAGE04,
+	E_TUTORIAL_START_SHOWCONSTRUCT,
 	E_TUTORIAL_FINISH,
 	E_TUTORIAL_NONE = 9999,
 }
@@ -34,7 +35,7 @@ public class TutorialPanel : MonoBehaviour
 
 	private string strText01 = "크흠...";
 	private string strText02 = "오늘도 영업을 시작해 볼까?";
-	private string strText03 = "10일후";
+	private string strText03 = "10일후...";
 
 	private bool bTextEnd = false;
 
@@ -130,7 +131,10 @@ public class TutorialPanel : MonoBehaviour
 	{
 		DeActiveObj.SetActive (false);
 		ScoreManager.ScoreInstance.SetCurrentDays (11);
-	
+
+		SpawnManager.Instance.tutorialPanel.tutorialImage_Obj.SetActive (true);
+		SpawnManager.Instance.tutorialPanel.tutorial_Image.gameObject.SetActive (true);
+		SpawnManager.Instance.tutorialPanel.tutorial_Image.enabled = true;
 		ShowTutorialImage (2);
 
 		if (eTutorialState == TutorialOrder.E_TUTORIAL_START_DAYS) {
@@ -161,7 +165,7 @@ public class TutorialPanel : MonoBehaviour
 	{
 		
 		tutorial_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (strTutorialImage_path[_index]);
-		tutorialImage_Obj.SetActive (true);
+		tutorial_Image.enabled = true;
 		tutorialTouches [_index].gameObject.SetActive (true);
 		tutorialTouches [_index].StartBlinkTouchImage ();
 

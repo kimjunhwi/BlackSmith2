@@ -145,10 +145,10 @@ public class BossCreator : MonoBehaviour
 			bossElementList [3].curLevel = GameManager.Instance.cBossPanelListInfo [0].nBossMusicCurLevel;
 
 			bossConsumeItemInfo.nInviteMentCurCount = GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCount;
+			bossConsumeItemInfo.inviteMentCount_Text.text = string.Format ("{0}/{1}" ,bossConsumeItemInfo.nInviteMentCurCount, bossConsumeItemInfo.nInviteMentMaxCount);
 
-
-			bossConsumeItemInfo.positionCount_Text.text = string.Format ("{0}",GameManager.Instance.cBossPanelListInfo[0].nBossPotionCount );
 			bossConsumeItemInfo.nPotionCount = GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount;
+			bossConsumeItemInfo.positionCount_Text.text = string.Format ("{0}",GameManager.Instance.cBossPanelListInfo[0].nBossPotionCount );
 
 			//보스 도전 횟수(개개인) 이 다 됬을시 충전 버튼 활성화
 			if (GameManager.Instance.cBossPanelListInfo [0].nBossIceLeftCount <= 0)
@@ -206,6 +206,8 @@ public class BossCreator : MonoBehaviour
 
 
 			bossConsumeItemInfo.nInviteMentCurCount = bossConsumeItemInfo.nInviteMentMaxCount;
+			bossConsumeItemInfo.inviteMentCount_Text.text = string.Format ("{0}/{1}" ,bossConsumeItemInfo.nInviteMentCurCount, bossConsumeItemInfo.nInviteMentMaxCount);
+
 
 			bossConsumeItemInfo.positionCount_Text.text = string.Format ("{0}",GameManager.Instance.cBossPanelListInfo[0].nBossPotionCount);
 			bossConsumeItemInfo.nPotionCount = GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount;
@@ -290,9 +292,9 @@ public class BossCreator : MonoBehaviour
 			bossIce.GuestPanel = GuestPanel;
 			bossIce.qusetManager = questManager;
 
-			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_BEGIN] = "저... 무기좀... 고쳐주세요";
-			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE01] = "흐으음~~~";
-			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE02] = "눈보라 ~~~!";
+			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_BEGIN] = "여자친구를 조각해줘...";
+			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE01] = "날이 좀 추워진 거 같지 않아?";
+			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE02] = "나도 이젠 솔로 탈출인거임?";
 			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "그럼 이만!";
 
 			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss == false )

@@ -270,11 +270,13 @@ public class MakingUI : MonoBehaviour {
 		if (playerData.GetDay() <= 10)
 			return;
 
-
+		SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_CREATEHAMMER, 1);
 		
 		ResultUI.Init (playerData, BossSoulSlots);
 
 		SpawnManager.Instance.SetDayInitInfo (playerData.GetDay () - 10);
+
+
 //		
 //
 //		float fRepair = Mathf.RoundToInt (createWeapon.fRepair);

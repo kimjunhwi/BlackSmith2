@@ -12,6 +12,7 @@ public class SkullObject : MonoBehaviour ,IPointerDownHandler
 	public RectTransform parentTransform;		
 	private RectTransform myRectTransform;		
 
+	public double dCurComplete = 0;
 	public RepairObject repairObj;
 
 	//private;
@@ -86,9 +87,9 @@ public class SkullObject : MonoBehaviour ,IPointerDownHandler
 		if (getInfoGameObject.gameObject.name == "Skull") 
 		{
 			double dCurComplete = repairObj.GetCurCompletion ();
-			double dMaxComplete = GameManager.Instance.bossInfo[1].dComplate;
+			double dMaxComplete = dCurComplete;
 
-			repairObj.SetCurCompletion (-dMaxComplete * 0.06);
+			repairObj.SetCurCompletion (-dMaxComplete * 0.05);
 			skullObjPull.ReturnObject (gameObject);
 		}
 			

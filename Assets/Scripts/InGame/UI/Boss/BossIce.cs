@@ -306,7 +306,6 @@ public class BossIce : BossCharacter
 				repairObj.bossWeaponAnimator.SetBool ("isPhase02", false);
 				repairObj.bossWeaponAnimator.Play ("IceWeapon");
 
-				bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
 				//Weapon 터지는 효과
 				repairObj.ShowBreakWeapon ();
 				repairObj.SetFinishBoss ();		//수리 패널 초기화
@@ -380,6 +379,8 @@ public class BossIce : BossCharacter
 		isFailed = false;
 		isStandardPhaseFailed = false;
 
+
+		bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
 
 		if (bossBackGround.isBossBackGround == true)
 		{

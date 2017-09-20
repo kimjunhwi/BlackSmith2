@@ -106,8 +106,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	public IEnumerator DataLoad()
     {
-		//PlayerPrefs.DeleteKey ("BossRegenTime");
-		//PlayerPrefs.DeleteKey ("BossInvitementSaveTime");
+		PlayerPrefs.DeleteKey ("BossRegenTime");
+		PlayerPrefs.DeleteKey ("BossInvitementSaveTime");
 		//PlayerPrefs.DeleteKey("FirstLogin");
 
 		Load_TableInfo_Hammer();

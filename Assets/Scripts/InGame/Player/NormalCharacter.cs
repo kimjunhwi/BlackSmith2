@@ -454,7 +454,23 @@ public class NormalCharacter : Character {
 
         //만약 완성도가100% 라면
         //뒤로 이동 후 true 반환
-		if (fCurCompletY >= 1.0f) {
+		if (fCurCompletY >= 1.0f)
+		{
+			//Quest
+			if(	SpawnManager.Instance.repairObject.GetIsFever () == true)
+				SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_BIGSUCCESSANDCUSTOMERSUCCESS, 1);
+
+			if (SpawnManager.Instance.repairObject.bIsMissShowUp == false)
+				SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_NOMISSCUTOMERSUCCESS, 1);
+			else
+				SpawnManager.Instance.repairObject.bIsMissShowUp = false;
+
+			if (SpawnManager.Instance.repairObject.bIsWaterUse == false)
+				SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_NOWATERUSE, 1);
+			else
+				SpawnManager.Instance.repairObject.bIsWaterUse = false;
+
+
 			m_bIsBack = true;
 
 			ComplateScale.localScale = new Vector3 (ComplateScale.localScale.x, 1.0f, ComplateScale.localScale.z);
@@ -469,6 +485,9 @@ public class NormalCharacter : Character {
 
 	public override void Complate(double _dComplate = 0.0f)
 	{
+		//Quest
+		SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_CUSTOMERSUCCESS, 1);
+
 		//70%이상
 		if ((weaponData.dMaxComplate * 0.7) < _dComplate) {
 

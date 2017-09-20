@@ -322,6 +322,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 		ScoreManager.ScoreInstance.SetSuccessedGuestCount (0);
 		ScoreManager.ScoreInstance.SetCurrentDays (m_nDay);
+		SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_DAYS, m_nDay);
 	}
 
     //WeaponData
@@ -971,6 +972,9 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		if (_isRuby == true) {
 			ScoreManager.ScoreInstance.RubyPlus (-50);
 			GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCount = 5;
+			SpawnManager.Instance.bossCreator.bossConsumeItemInfo.nInviteMentCurCount = GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCount;
+			bossCreator.bossConsumeItemInfo.inviteMentCount_Text.text = string.Format ("{0}/{1}",SpawnManager.Instance.bossCreator.bossConsumeItemInfo.nInviteMentCurCount, 
+				SpawnManager.Instance.bossCreator.bossConsumeItemInfo .nInviteMentMaxCount);
 			return;
 		}
 		GameManager.Instance.ShowRewardAdd_Boss (bossCreator);

@@ -156,6 +156,8 @@ public class ResultEpicUI : MonoBehaviour {
 
 		dCurComplete = fResult * Mathf.Pow(10,nPlusCount);
 
+		RepairText.text = ScoreManager.ScoreInstance.ChangeMoney (dCurComplete);
+
 		//수리력 설정
 		createWeapon.dRepair = dCurComplete;
 

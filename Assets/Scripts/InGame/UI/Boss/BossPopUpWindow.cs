@@ -303,7 +303,7 @@ public class BossPopUpWindow : MonoBehaviour
 
 
 		float nRandom_Weapon01 = Random.Range (0f, 1f);	
-		if (nRandom_Weapon01 <= bossCharacter.bossInfo.fDropPercent) 
+		if (nRandom_Weapon01 <= 1) 
 		{
 			GameObject Reward = rewardObjPool.GetObject ();
 			Reward.transform.SetParent (PopUpWindow_RewardPanel.transform, false);
@@ -312,8 +312,7 @@ public class BossPopUpWindow : MonoBehaviour
 			RewardText.text = "장비";
 			Image RewardImage = Reward.transform.GetChild(1).GetComponent<Image> ();
 			RewardImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache (GameManager.Instance.bossWeaponInfo [_bossWeaponIndex01].strResource);
-			GameManager.Instance.player.inventory.inventorySlots [GameManager.Instance.bossWeaponInfo [_bossWeaponIndex01].nSlotIndex].AddItem
-			(GameManager.Instance.bossWeaponInfo [_bossWeaponIndex01]);
+			GameManager.Instance.player.inventory.GetEquimnet (GetEquiment(_bossWeaponIndex01));
 		}
 
 		float nRandom_Weapon02 = Random.Range (0f, 1f);	
@@ -326,8 +325,7 @@ public class BossPopUpWindow : MonoBehaviour
 			RewardText.text = "장비";
 			Image RewardImage = Reward.transform.GetChild(1).GetComponent<Image> ();
 			RewardImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache (GameManager.Instance.bossWeaponInfo [_bossWeaponIndex02].strResource);
-			GameManager.Instance.player.inventory.inventorySlots [GameManager.Instance.bossWeaponInfo [_bossWeaponIndex02].nSlotIndex].AddItem
-			(GameManager.Instance.bossWeaponInfo [_bossWeaponIndex02]);
+			GameManager.Instance.player.inventory.GetEquimnet (GetEquiment(_bossWeaponIndex01));
 		}
 		//Gold
 		GameObject Gold = rewardObjPool.GetObject ();
@@ -418,5 +416,105 @@ public class BossPopUpWindow : MonoBehaviour
 
 	}
 
+	private CGameEquiment GetEquiment(int nIndex)
+	{
+		CGameEquiment resultEquiment = new CGameEquiment();
+	
+		CGameEquiment getEquiment = GameManager.Instance.bossWeaponInfo [nIndex];
+
+		resultEquiment.nIndex = getEquiment.nIndex;
+		resultEquiment.sGrade = getEquiment.sGrade;
+		resultEquiment.strName = getEquiment.strName;
+		resultEquiment.nSlotIndex = getEquiment.nSlotIndex;
+		resultEquiment.strResource = getEquiment.strResource;
+		resultEquiment.strWeaponExplain = getEquiment.strResource;
+		resultEquiment.bIsBoss = getEquiment.bIsBoss;
+
+		int nLength = int.Parse( resultEquiment.sGrade);
+
+		int nInsertIndex = 0;
+
+		while(nLength > 0)
+		{
+			nInsertIndex = Random.Range((int)E_Equiment.E_REPAIR, (int)E_Equiment.E_MAX);
+
+			if (CheckData(resultEquiment, nInsertIndex))
+				nLength--;
+		}
+
+		return resultEquiment;
+	}
+
+	private bool CheckData(CGameEquiment _equiment, int nIndex)
+	{
+		switch(nIndex)
+		{
+		case (int)E_Equiment.E_REPAIR:
+			if (_equiment.fReapirPower == 0)
+			{
+				_equiment.fReapirPower = 5;
+				return true;
+			}
+			break;
+		case (int)E_Equiment.E_ARBAIT:
+			if (_equiment.fArbaitRepair == 0)
+			{
+				_equiment.fArbaitRepair = 5;
+				return true;
+			}
+			break;
+		case (int)E_Equiment.E_HONOR:
+			if (_equiment.fHonorPlus == 0)
+			{
+				_equiment.fHonorPlus = 5;
+				return true;
+			}
+			break;
+		case (int)E_Equiment.E_GOLD:
+			if (_equiment.fGoldPlus == 0)
+			{
+				_equiment.fGoldPlus = 5;
+				return true;
+			}
+			break;
+		case (int)E_Equiment.E_WATERCHARGE:
+			if (_equiment.fWaterChargePlus == 0)
+			{
+				_equiment.fWaterChargePlus = 5;
+				return true;
+			}
+			break;
+		case (int)E_Equiment.E_CRITICAL:
+			if (_equiment.fCritical == 0)
+			{
+				_equiment.fCritical = 5;
+				return true;
+			}
+			break;
+		case (int)E_Equiment.E_CRITICALD:
+			if (_equiment.fCriticalDamage == 0)
+			{
+				_equiment.fCriticalDamage = 5;
+				return true;
+			}
+			break;
+		case (int)E_Equiment.E_BIGCRITICAL:
+			if (_equiment.fBigCritical == 0)
+			{
+				_equiment.fBigCritical = 5;
+				return true;
+			}
+			break;
+		case (int)E_Equiment.E_ACCURACY:
+			if (_equiment.fAccuracyRate == 0)
+			{
+				_equiment.fAccuracyRate = 5;
+				return true;
+			}
+			break;
+		}
+
+		return false;
+	}
 
 }

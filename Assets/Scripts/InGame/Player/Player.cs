@@ -16,9 +16,9 @@ public class Player
     public List<CGameEquiment> List_items;
 
 	//플레이어가 장비한 무기
-    CGameEquiment WeaponEquipment = null;
-    CGameEquiment GearEquipmnet = null;
-    CGameEquiment AccessoryEquipmnet = null;
+	public CGameEquiment WeaponEquipment = null;
+	public CGameEquiment GearEquipmnet = null;
+    public CGameEquiment AccessoryEquipmnet = null;
 
 	private SpawnManager spawnManager = null;
 
@@ -134,6 +134,8 @@ public class Player
 	public void SetBasicFeverTime(float _fValue) { 
 
 		changeStats.fFeverTime = _fValue; 
+
+		SetFeverTime ();
 	}
 
     public int GetSasinMaterial() { return changeStats.nSasinMaterial; }
@@ -171,6 +173,8 @@ public class Player
 
 		double dCurComplete = _weapon.dRepair *  Mathf.Pow (1.022f, (Mathf.Floor((changeStats.nEnhanceRepaireLevel - 1) * 0.1f))) * (1 + (changeStats.nEnhanceRepaireLevel * 0.03f));
 
+		SetBasicRepairPower (dCurComplete);
+
 		PlayerStatsSetting ();
 	}
 
@@ -182,6 +186,11 @@ public class Player
 	public CreatorWeapon GetCreatorWeapon()
 	{
 		return creatorWeapon;
+	}
+
+	public EpicOption GetEpicOption()
+	{
+		return epicOpion;
 	}
 
 	public double GetGold(){ return changeStats.dGold; }
@@ -197,6 +206,7 @@ public class Player
 	private double m_dCriticalDamage;
 	private float m_fBigSuccessed;
 	private float m_fAccuracyRate;
+	private float m_fFeverTime;
 
 	public double GetRepairPower(){ return m_dRepairPower; }
 
@@ -216,6 +226,8 @@ public class Player
 
 	public float GetBigSuccessed(){ return m_fBigSuccessed;}
 
+	public float GetFeverTime(){return m_fFeverTime;}
+
 	//아이템 이나 캐릭터의 스텟이 바뀌었을때 호출해서 다시 세팅해준다.
 	public void PlayerStatsSetting()
 	{
@@ -228,6 +240,7 @@ public class Player
 		SetCriticalChance ();
 		SetCriticalDamage ();
 		SetBigSuccessed ();
+		SetFeverTime ();
 	}
 
 	public void SetRepairPower () {
@@ -240,6 +253,18 @@ public class Player
 		if (creatorWeapon != null) {
 			dResultRepairPowerPercent += (double)creatorWeapon.fRepairPercent;
 			dResultRepairPowerPercent += (double)creatorWeapon.fSasinBossValue;
+
+			if (epicOpion != null) {
+
+				if (epicOpion.nIndex == (int)E_EPIC_INDEX.E_EPIC_FREEZING_TUNA) {
+					if (epicOpion.CheckOption ())
+						dResultRepairPowerPercent += epicOpion.fResultValue;
+				}
+
+				if (epicOpion.nIndex == (int)E_EPIC_INDEX.E_EPIC_ENGINE_ICEPUNCH)
+					dResultRepairPowerPercent += epicOpion.fMinusRepiar;
+
+			}
 		}
 
        
@@ -272,6 +297,13 @@ public class Player
 		if (creatorWeapon != null) {
 			fResultAccuracyRatePercent += creatorWeapon.fAccuracyRate;
 			fResultAccuracyRatePercent += creatorWeapon.fIceBossValue;
+
+			if (epicOpion != null) {
+				
+				if (epicOpion.nIndex == (int)E_EPIC_INDEX.E_EPIC_SLEDE_HAMMER)
+					fResultAccuracyRatePercent += epicOpion.fSledeAccuracyRate;
+
+			}
 		}
 
 		m_fAccuracyRate = changeStats.fAccuracyRate + (changeStats.fAccuracyRate * fResultAccuracyRatePercent * 0.01f);
@@ -348,7 +380,15 @@ public class Player
 		if (WeaponEquipment != null)	fResultWaterPlusPercent += WeaponEquipment.fWaterChargePlus;
 		if (GearEquipmnet != null) 		fResultWaterPlusPercent += GearEquipmnet.fWaterChargePlus;
 		if (AccessoryEquipmnet != null) fResultWaterPlusPercent += AccessoryEquipmnet.fWaterChargePlus;
-		if (creatorWeapon != null) 		fResultWaterPlusPercent += creatorWeapon.fWaterPlus;
+		if (creatorWeapon != null) {
+			fResultWaterPlusPercent += creatorWeapon.fWaterPlus;
+
+			if (epicOpion != null) {
+				
+				if (epicOpion.nIndex == (int)E_EPIC_INDEX.E_EPIC_ENGINE_ICEPUNCH)
+					fResultWaterPlusPercent += epicOpion.fWaterPlus;
+			}
+		}
 
 		//Ice골렘이 배치 됐다면
 		if (spawnManager != null)
@@ -398,7 +438,22 @@ public class Player
 		if (WeaponEquipment != null)	dResultCriticalDamagePercent += WeaponEquipment.fCriticalDamage;
 		if (GearEquipmnet != null) 		dResultCriticalDamagePercent += GearEquipmnet.fCriticalDamage;
 		if (AccessoryEquipmnet != null) dResultCriticalDamagePercent += AccessoryEquipmnet.fCriticalDamage;
-		if (creatorWeapon != null) 		dResultCriticalDamagePercent += creatorWeapon.fCriticalDamage;
+		if (creatorWeapon != null) {
+			dResultCriticalDamagePercent += creatorWeapon.fCriticalDamage;
+
+			if (epicOpion != null) {
+				
+
+				if (epicOpion.nIndex == (int)E_EPIC_INDEX.E_EPIC_ENGINE_HAMMER) {
+					if (epicOpion.bIsApplyBuff)
+						dResultCriticalDamagePercent += epicOpion.fValue;
+				} else if (epicOpion.nIndex == (int)E_EPIC_INDEX.E_EPIC_ENGINE_ICEPUNCH)
+					dResultCriticalDamagePercent += epicOpion.fCriticalDamage;
+				else if (epicOpion.nIndex == (int)E_EPIC_INDEX.E_EPIC_SLEDE_HAMMER)
+					dResultCriticalDamagePercent += epicOpion.fSledeCriticalDamage;
+
+			}
+		}
 
 		m_dCriticalDamage = changeStats.dCriticalDamage + (changeStats.dCriticalDamage * dResultCriticalDamagePercent * 0.01);
 
@@ -413,12 +468,40 @@ public class Player
 		if (WeaponEquipment != null)	fResultBigSuccessedPercent += WeaponEquipment.fBigCritical;
 		if (GearEquipmnet != null) 		fResultBigSuccessedPercent += GearEquipmnet.fBigCritical;
 		if (AccessoryEquipmnet != null) fResultBigSuccessedPercent += AccessoryEquipmnet.fBigCritical;
-		if (creatorWeapon != null) 		fResultBigSuccessedPercent += creatorWeapon.fBigSuccessed;
+		if (creatorWeapon != null) 
+		{
+			fResultBigSuccessedPercent += creatorWeapon.fBigSuccessed;
+
+			if (epicOpion != null) {
+				
+				if (epicOpion.nIndex == (int)E_EPIC_INDEX.E_EPIC_RUBBER_CHICKEN)
+					fResultBigSuccessedPercent += epicOpion.fResultValue;
+			}
+		}
 
 		m_fBigSuccessed = changeStats.fBigSuccessed + (changeStats.fBigSuccessed * fResultBigSuccessedPercent * 0.01f);
 
 		if (PlayerInfo != null)
 			PlayerInfo.SetBigSuccessedText ();
+	}
+
+	public void SetFeverTime ()
+	{
+		float fResultFeverPercent = 0.0f;
+
+		if (creatorWeapon != null) 
+		{
+			if (epicOpion != null) {
+				
+				if (epicOpion.nIndex == (int)E_EPIC_INDEX.E_EPIC_GOLD_HAMMER)
+					fResultFeverPercent += 50;
+			}
+		}
+
+		m_fFeverTime = changeStats.fFeverTime + (changeStats.fFeverTime * fResultFeverPercent * 0.01f);
+
+		if (PlayerInfo != null)
+			PlayerInfo.SetFeverTimeText ();
 	}
 
 

@@ -47,6 +47,14 @@ public class ShopShowPanel : MonoBehaviour {
         }
     }
 
+	public void Init()
+	{
+		RemoveText ();
+
+		nameText.text = "";
+		itemImage.sprite = null;
+	}
+
 	public void Setting(ShopButton _shopButton, CGameEquiment _ItemData)
     {
 		shopButton = _shopButton;

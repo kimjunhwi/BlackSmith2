@@ -9,9 +9,7 @@ public class EngineHammer : EpicOption {
 	float fMaxPercent = 70.0f;
 	float fMinPercent = 30.0f;
 
-	public bool bIsApplyBuff = false;
 
-	SpawnManager spawnManager = null;
 
 	RepairObject RepairShowObject;
 
@@ -30,9 +28,23 @@ public class EngineHammer : EpicOption {
 
 	public override bool CheckOption ()
 	{
-		
+		if (RepairShowObject.fCurrentTemperature >= 70) 
+		{
+			bIsApplyBuff = true;
 
-		return true;
+			cPlayerData.SetCriticalDamage ();
+			return true;
+		}
+
+		if (RepairShowObject.fCurrentTemperature <30) 
+		{
+			bIsApplyBuff = false;
+
+			cPlayerData.SetCriticalDamage ();
+			return false;
+		}
+
+		return false;
 	}
 
 	public override void Relive ()
@@ -40,6 +52,5 @@ public class EngineHammer : EpicOption {
 		bIsApplyBuff = false;
 
 		cPlayerData.SetCriticalDamage ();
-
 	}
 }

@@ -64,7 +64,7 @@ public class InventoryButton : MonoBehaviour {
 
 		if (equimentData.nIndex >= 10000) 
 		{
-			inventoryPanel.SetUp (equimentData,equimentData.GetExplain ());
+			inventoryPanel.SetUp (equimentData);
 		}
 		else
 			inventoryPanel.SetUp (equimentData);

@@ -157,12 +157,24 @@ public class Ice : ArbaitBatch {
 
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 
+				if (playerData.AccessoryEquipmnet != null) {
+					if (playerData.AccessoryEquipmnet.nIndex == (int)E_BOSS_ITEM.DODOM_GLASS) {
+						fBossRepairPercent = playerData.AccessoryEquipmnet.fBossOptionValue;
+						fBossCriticalPercent = playerData.AccessoryEquipmnet.fBossOptionValue;
+					} else {
+						fBossRepairPercent = 0;
+						fBossCriticalPercent = 0;
+					}
+				}
+
+
 				//크리티컬 확률 
-				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fAccuracyRate)) 
+				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) 
 					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
 				else 
 					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
-				
+
+				m_dComplate += m_dComplate * fBossRepairPercent * 0.01f;
 				//완성 됐을 경우
 				if (m_dComplate >= weaponData.dMaxComplate)
 				{

@@ -274,6 +274,8 @@ public class Shop : MonoBehaviour {
 							EquimentList.Add(cGameEquiment);
 						}
 
+						FirstCheck ();
+
 						nCurMin = nInitTime_Min;
 						fCurSec = (float)nInitTime_Sec;
 					}
@@ -320,9 +322,11 @@ public class Shop : MonoBehaviour {
 			if (ShopList [nIndex].bIsBuy == false) 
 			{
 				ShopList [nIndex].ClickButton ();
-				break;
+				return;
 			}
 		}
+
+		showPanel.Init ();
 	}
 
 	public void AllNoneDisable()

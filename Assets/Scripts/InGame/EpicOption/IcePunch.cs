@@ -5,13 +5,9 @@ using ReadOnlys;
 
 public class IcePunch : EpicOption {
 
-	public float fWater = 0;
-	public float fWaterPlus = 0;
-	public float fMinusRepiar = 0;
-
 	public override void Init (int _nDay,Player _player)
 	{
-		fWater = 30;
+		fCriticalDamage = 50;
 		fWaterPlus = 50;
 		fMinusRepiar = -30;
 
@@ -19,9 +15,8 @@ public class IcePunch : EpicOption {
 
 		cPlayerData = _player;
 
-		strExplain = string.Format("물 수치 +{0}%, 물 PLUS +{1}, 수리력 -{2}%",fWater,fWaterPlus,fMinusRepiar);
+		strExplain = string.Format("크리 데미지 +{0}%, 물 PLUS +{1}, 수리력 -{2}%",fCriticalDamage,fWaterPlus,fMinusRepiar);
 
-		cPlayerData.SetGoldPlusPercent ();
 	}
 
 	public override string GetExplain () { return strExplain; }

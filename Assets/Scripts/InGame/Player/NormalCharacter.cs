@@ -476,11 +476,23 @@ public class NormalCharacter : Character {
 
 			playerController.GuestSuccessed ();
 
-			fGold = 250 * Mathf.Pow (1.09f, nDay - 1);
 
+			dGold = 250 * Mathf.Pow (1.09f, nDay - 1);
 
+			if (cPlayerData.GearEquipmnet != null) {
+				if (cPlayerData.GearEquipmnet.nIndex == (int)E_BOSS_ITEM.DODOM_FLOWER) {
+					int nValue = 0; 
 
-			ScoreManager.ScoreInstance.GoldPlus (fGold);
+					for (int nIndex = 0; nIndex < SpawnManager.Instance.m_BatchArbait.Length; nIndex++) {
+						if (SpawnManager.Instance.array_ArbaitData [nIndex].bIsAura)
+							nValue++;
+					}
+					dGold += dGold * cPlayerData.GearEquipmnet.fBossOptionValue * nValue * 0.01f;
+
+				}
+			}
+
+			ScoreManager.ScoreInstance.GoldPlus (dGold);
 
 			cPlayerData.SetSuccessedGuestCount (cPlayerData.GetSuccessedGuestCount () + 1);
             ScoreManager.ScoreInstance.SetSuccessedGuestCount(cPlayerData.GetSuccessedGuestCount());

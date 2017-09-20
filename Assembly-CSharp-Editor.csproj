@@ -67,8 +67,9 @@
      <Compile Include="Assets\GooglePlayGames\Editor\xcode\Utils.cs" />
      <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Editor\ReporterEditor.cs" />
      <None Include="Assets\Resources\Data\HammerEpic.txt" />
-     <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver_v1.2.37.0.txt" />
+     <None Include="Assets\Resources\Data\Shop.txt" />
      <None Include="Assets\Resources\Data\BossWeapon.txt" />
+     <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver_v1.2.37.0.txt" />
      <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />
      <None Include="Assets\Resources\Data\Character.txt" />
      <None Include="Assets\Resources\Data\HammerName.txt" />
@@ -86,7 +87,6 @@
      <None Include="Assets\Plugins\Android\MainLibProj\AndroidManifest.xml" />
      <None Include="Assets\Resources\Data\SmithEnhance2.txt" />
      <None Include="Assets\Resources\Data\sound.txt" />
-     <None Include="Assets\Resources\Data\Shop.txt" />
      <None Include="Assets\PlayServicesResolver\proguard-messaging-workaround.txt" />
      <None Include="Assets\StreamingAssets\build_info.txt" />
      <None Include="Assets\Resources\Data\EquimpentEnhance2.txt" />

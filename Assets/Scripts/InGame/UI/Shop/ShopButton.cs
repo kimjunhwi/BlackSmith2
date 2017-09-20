@@ -7,7 +7,7 @@ public class ShopButton : MonoBehaviour {
     public int nIndex;
     public bool bIsBuy { get; set; }
 
-    CGameEquiment equitMent;
+	public CGameEquiment equitMent = null;
 
     ShopShowPanel showPanel;
 
@@ -71,6 +71,8 @@ public class ShopButton : MonoBehaviour {
 		{
 			ItemButton.SetActive (true);
 			NoneItemObject.SetActive (false);
+
+			WeaponPanelImage.sprite = NoneSelectSprite;
 		}
 
         EquitName.text = equitMent.strName;

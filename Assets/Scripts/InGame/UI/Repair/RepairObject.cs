@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using ReadOnlys;
 
 public class RepairObject : MonoBehaviour
 {
@@ -26,8 +27,19 @@ public class RepairObject : MonoBehaviour
 	private string strMaxComplate = "";				//맥스 완성도 
     private float fWeaponDownTemperature = 0;		//무기 수리시 올라가는 온도
     private float fMaxTemperature = 100;					//최대 온도
-    private float fCurrentTemperature= 0;			//현재 온도
+	public float fCurrentTemperature= 0;			//현재 온도
     private float fDownTemperature = 0;				//떨어지는 온도3
+
+	//Sasin Damage
+	private float fPlusItemDamage = 0;
+
+	//Fier
+	private float fFireCritical = 0;
+
+
+	//GoblinHammer
+
+	private double dGoblinRepair = 0;
 
     public float fMaxWater;         //최고치
     public float fCurrentWater;     //남은 량
@@ -682,7 +694,7 @@ public class RepairObject : MonoBehaviour
 
 
     //무기터치
-	public void TouchWeapon(Vector3 _position)
+	public void TouchWeapon(Vector3 _position, bool _bIsDoubleCheck = false)
 	{
         if (weaponData == null)
 			return;
@@ -717,11 +729,116 @@ public class RepairObject : MonoBehaviour
 
 		}
 
-	
+
+		if (player.GearEquipmnet != null) {
+			if (player.GearEquipmnet.nIndex == (int)E_BOSS_ITEM.SASIN_CLOAK) {
+				if (dCurrentComplate * 2 < weaponData.dMaxComplate) {
+					fPlusItemDamage = player.GearEquipmnet.fBossOptionValue;
+				}
+			} else
+				fPlusItemDamage = 0;
+
+			if (player.GearEquipmnet.nIndex == (int)E_BOSS_ITEM.FIRE_CLOAK && _bIsDoubleCheck != false) {
+				if (Random.Range (0, 100) <= player.GearEquipmnet.fBossOptionValue)
+					TouchWeapon (_position, true);
+			}
+		}
+
+		if (player.WeaponEquipment != null) {
+
+			if (player.WeaponEquipment.nIndex == (int)E_BOSS_ITEM.ICE_MORU) {
+				if (Random.Range (0, 100) <= 20) {
+					fCurrentTemperature -= player.WeaponEquipment.fBossOptionValue;
+
+					if (fCurrentTemperature < 0)
+						fCurrentTemperature = 0;
+				}
+			}
+
+			if (player.WeaponEquipment.nIndex == (int)E_BOSS_ITEM.FIRE_MORU)
+				fFireCritical = (int)fCurrentTemperature * player.WeaponEquipment.fBossOptionValue;
+			else
+				fFireCritical = 0;
+
+		}
 
         Debug.Log("Touch");
 		normalWeaponShake.Shake (12.0f, 0.12f);
         fComplateSlideTime = 0.0f;
+
+		if (player.GetEpicOption () != null) {
+
+			//배개 
+			if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_MAGIC) {
+				if (player.GetEpicOption ().CheckOption ()) {
+					for (int nIndex = 0; nIndex < 3; nIndex++)
+						TouchWeapon (_position, true);
+				}
+			} 
+			//뿅 망치 
+			else if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_KO_HAMMER) {
+				if (player.GetEpicOption ().CheckOption ()) {
+					GameObject obj = CriticalTouchPool.Instance.GetObject ();
+
+					obj.transform.SetParent (CanvasTransform, false);
+
+					obj.transform.position = _position;
+
+					obj.GetComponent<CriticalTouchParticle> ().Play ();
+
+					m_PlayerAnimationController.UserCriticalRepair ();
+
+					SpawnManager.Instance.PlayerCritical ();
+
+					dCalcValue = (player.GetRepairPower () + (player.GetRepairPower () * weaponData.dMinusRepair * 0.01));
+
+					dCalcValue *= (player.GetCriticalDamage () + fPlusItemDamage + fFireCritical) * 0.01;
+
+					ShowDamage (dCalcValue, _position);
+
+					dCurrentComplate += dCalcValue;
+
+					spawnManager.ComplateCheckArbait (dCurrentComplate, weaponData.dMaxComplate);
+
+					fCurrentTemperature += fMaxTemperature * 0.06f;
+
+
+					//완성이 됐는지 확인 밑 오브젝트에 진행사항 전달
+					if (SpawnManager.Instance.CheckComplateWeapon (AfootObject, dCurrentComplate, fCurrentTemperature)) {
+
+
+						//만약 완성됐을때 빅 성공인지를 체크
+						if (Random.Range (0.0f, 100.0f) <= Mathf.Round (player.GetBigSuccessed ()) && m_bIsFever == false) {
+							Debug.Log ("Fever!!");
+
+							m_bIsFever = true;
+
+							SpawnManager.Instance.cameraShake.Shake (0.05f, 0.5f);
+
+							SucceessedObject.SetActive (true);
+
+							//SpawnManager.Instance.SettingFever(m_fFeverCreateTime, m_fFeverSpeed);
+
+							this.StartCoroutine (StartFever (player.GetBasicFeverTime ()));
+						}
+
+						ComplateSlider.value = 0;
+						TemperatureSlider.value = 0;
+
+						ComplateText.text = string.Format ("{0:#### / {1}", (int)ComplateSlider.value, 0);
+
+						spawnManager.ComplateCheckArbait (0, 0);
+
+						return;
+					}
+				}
+			} else if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_GOBLIN_HAMMER) {
+				player.GetEpicOption ();
+
+				dGoblinRepair = player.GetEpicOption ().fValue;
+			}
+		} else
+			dGoblinRepair = 0;
 
 		//터치시 체크
 		spawnManager.DodomchitArbaitCheck ();
@@ -733,7 +850,10 @@ public class RepairObject : MonoBehaviour
 
 			dCalcValue = (player.GetRepairPower () +(player.GetRepairPower () * weaponData.dMinusRepair * 0.01));
 
-			dCalcValue *= player.GetCriticalDamage() * 0.01;
+			dCalcValue *= (player.GetCriticalDamage() + fPlusItemDamage + fFireCritical) * 0.01;
+
+			if(dGoblinRepair != 0)
+				dCalcValue = dCalcValue * dGoblinRepair * 0.01;
 
 			ShowDamage (dCalcValue,_position);
 
@@ -799,7 +919,10 @@ public class RepairObject : MonoBehaviour
 
 			dCalcValue = (player.GetRepairPower () +(player.GetRepairPower () * weaponData.dMinusRepair * 0.01));
 
-			dCalcValue *= 1.5;
+			dCalcValue *= (player.GetCriticalDamage() + fPlusItemDamage + fFireCritical) * 0.01;
+
+			if(dGoblinRepair != 0)
+				dCalcValue = dCalcValue * dGoblinRepair * 0.01;
 
 			ShowDamage (dCalcValue,_position);
 
@@ -823,6 +946,11 @@ public class RepairObject : MonoBehaviour
 
 			dCalcValue = (player.GetRepairPower () +(player.GetRepairPower () * weaponData.dMinusRepair * 0.01f));
 
+			dCalcValue += (dCalcValue * fPlusItemDamage * 0.01f);
+
+			if(dGoblinRepair != 0)
+				dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
 			ShowDamage (dCalcValue,_position);
 
 			dCurrentComplate += dCalcValue;
@@ -843,6 +971,11 @@ public class RepairObject : MonoBehaviour
             //만약 완성됐을때 빅 성공인지를 체크
             if (Random.Range(0.0f, 100.0f) <= Mathf.Round(player.GetBigSuccessed()) && m_bIsFever == false)
             {
+				if (player.GetEpicOption () != null) {
+					if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_RUBBER_CHICKEN)
+						player.GetEpicOption ().fResultValue = 0;
+				}
+
                 Debug.Log("Fever!!");
 
                 m_bIsFever = true;
@@ -873,6 +1006,7 @@ public class RepairObject : MonoBehaviour
 			return;
 
 		bossWeaponShake.Shake (12.0f, 0.12f);
+
 		//Ice
 		if (bossCharacter.nIndex == 0)
 		{ 
@@ -1369,8 +1503,10 @@ public class RepairObject : MonoBehaviour
 			if (fCurrentTemperature < 0)
 				fCurrentTemperature = 0;
 			
+			float fMinusValue = (player.AccessoryEquipmnet.nIndex == (int)E_BOSS_ITEM.ICE_RING) ? player.AccessoryEquipmnet.fBossOptionValue : 0;
+			
 			//물 감소량
-			fCurrentWater -=  1000f ;
+			fCurrentWater -=  1000f - fMinusValue;
 
 			if (fCurrentWater < 0) {
 				fCurrentWater = 0;

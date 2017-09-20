@@ -44,7 +44,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	public Boss[] bossInfo = null;
 
-	public BossWeapon[] bossWeaponInfo = null;
+	public CGameEquiment[] bossWeaponInfo = null;
 
 
 	//세이브가 필요한 부분들은 LitJson을 사용함
@@ -777,6 +777,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			kInfo [i - 1].nStrenthCount = int.Parse (Cells [15]);
 			kInfo [i - 1].fOptionPlus = float.Parse (Cells [16]);
 			kInfo [i - 1].nBasicGold = int.Parse (Cells [17]);
+			kInfo [i - 1].strWeaponExplain = Cells [18];
+			kInfo [i - 1].bIsBoss = false;
         }
 
         cEquimentInfo = kInfo;
@@ -835,7 +837,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		List<string> line = LineSplit(ta.text);
 
-		BossWeapon[] kInfo = new BossWeapon[line.Count - 1];
+		CGameEquiment[] kInfo = new CGameEquiment[line.Count - 1];
 
 		for (int i = 0; i < line.Count; i++)
 		{
@@ -846,7 +848,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			string[] Cells = line[i].Split("\t"[0]);	// cell split, tab
 			if (Cells[0] == "") continue;
 
-			kInfo[i - 1] = new BossWeapon();
+			kInfo[i - 1] = new CGameEquiment();
 			kInfo[i - 1].nIndex = int.Parse(Cells[0]);
 			kInfo[i - 1].strResource = Cells[1];
 			kInfo[i - 1].strName = Cells[2];
@@ -863,7 +865,10 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			kInfo[i - 1].fBigCritical = float.Parse(Cells[13]);
 			kInfo[i - 1].fAccuracyRate = float.Parse(Cells[14]);
 			kInfo [i - 1].nStrenthCount = int.Parse (Cells [15]);
-			kInfo [i - 1].explain = Cells [17];
+			kInfo [i - 1].fOptionPlus = float.Parse (Cells [16]);
+			kInfo [i - 1].nBasicGold = int.Parse (Cells [17]);
+			kInfo [i - 1].strWeaponExplain = Cells [18];
+			kInfo [i - 1].bIsBoss = true;
 		}
 
 		bossWeaponInfo = kInfo;
@@ -1696,6 +1701,18 @@ enum E_CREATOR
 	E_EPIC,
 }
 
+enum E_BOSS_ITEM
+{
+	ICE_MORU = 10000,
+	ICE_RING,
+	SASIN_MORU,
+	SASIN_CLOAK,
+	FIRE_CLOAK,
+	FIRE_MORU,
+	DODOM_GLASS,
+	DODOM_FLOWER,
+}
+
 #region Classese
 
 [System.Serializable]
@@ -1733,6 +1750,9 @@ public class CGameEquiment
     public bool bIsEquip 			= false;
 	public float fOptionPlus = 1.0f;
 	public int nBasicGold = 1000;
+	public string strWeaponExplain ="";
+	public float fBossOptionValue = 0.0f;
+	public bool bIsBoss = false;
 
 	public CGameEquiment(){}
 
@@ -1756,10 +1776,8 @@ public class CGameEquiment
 		bIsEquip = _equimentData.bIsEquip;
 		fOptionPlus = _equimentData.fOptionPlus;
 		nBasicGold = _equimentData.nBasicGold;
-	}
-
-	public virtual string GetExplain(){
-		return "";
+		strWeaponExplain = _equimentData.strWeaponExplain;
+		bIsBoss = _equimentData.bIsBoss;
 	}
 }
 
@@ -2204,16 +2222,6 @@ public class Boss
 	public string bossWord04;
 }
 
-[System.Serializable]
-public class BossWeapon : CGameEquiment
-{
-	public string explain;
-
-	public override string GetExplain ()
-	{
-		return explain;
-	}
-}
 
 [System.Serializable]
 public class BossPanelInfo

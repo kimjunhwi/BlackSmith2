@@ -5,8 +5,6 @@ using ReadOnlys;
 
 public class GoblinHammer : EpicOption {
 
-	float fValue = 0;
-
 	public override void Init (int _nDay,Player _player)
 	{
 		nIndex = (int)E_EPIC_INDEX.E_EPIC_GOBLIN_HAMMER;

@@ -32,7 +32,7 @@ public class Character : MonoBehaviour
         MAGIC,
         LEGEND,
     }
-    public float fGold;
+	public double dGold;
     //완성도
 	public double m_dComplate { get; set; }
     //온도

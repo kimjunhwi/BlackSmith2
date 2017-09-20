@@ -5,16 +5,14 @@ using ReadOnlys;
 
 public class FreezingTuna : EpicOption {
 
-
-	float fValue = 0.3f;
-	float fResultValue = 0.0f;
 	float fWaterPercent = 0.0f;
-	SpawnManager spawnManager = null;
 
 	RepairObject RepairShowObject;
 
 	public override void Init (int _nDay,Player _player)
 	{
+		fValue = 0.3f;
+
 		nIndex = (int)E_EPIC_INDEX.E_EPIC_FREEZING_TUNA;
 
 		cPlayerData = _player;

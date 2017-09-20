@@ -133,7 +133,7 @@ public class PlayerSpecificInfo : MonoBehaviour {
 
 	public void SetFeverTimeText()
 	{
-		FeverTimeText.text = string.Format("피버 시간  : {0}초", player.GetBasicFeverTime().ToString ("N2"));
+		FeverTimeText.text = string.Format("피버 시간  : {0}초", player.GetFeverTime().ToString ("N2"));
 	}
 
 

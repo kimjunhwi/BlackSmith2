@@ -39,6 +39,10 @@ public class ArbaitBatch : MonoBehaviour {
 	public double dDodomchitRepair = 0.0f; 
 	public float fDodomchitRepairPercent = 0.0f;
 
+	//Boss Item
+	public float fBossRepairPercent = 0;
+	public float fBossCriticalPercent = 0;
+
     //무기 완성도
 	protected double m_dComplate;
 

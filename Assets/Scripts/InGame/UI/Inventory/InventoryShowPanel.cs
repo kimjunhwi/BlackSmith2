@@ -67,6 +67,9 @@ public class InventoryShowPanel : MonoBehaviour {
 			if (ItemData.fBigCritical       != 0) ItemData.fBigCritical 	+= ItemData.fOptionPlus;
 			if (ItemData.fAccuracyRate      != 0) ItemData.fAccuracyRate 	+= ItemData.fOptionPlus;
 
+			if (ItemData.bIsBoss)
+				ItemData.fBossOptionValue += ItemData.fOptionPlus;
+
 			ItemData.nStrenthCount++;
 
 			EnhanceCostText.text = ChangeValue(ItemData.nBasicGold * Mathf.Pow(1.1f, ItemData.nStrenthCount - 1));
@@ -159,10 +162,10 @@ public class InventoryShowPanel : MonoBehaviour {
 		Text newText = textObject.GetComponent<Text>();
 
 		if(nValue == 0.0f)
-			newText.text = string.Format("{0}",  strName);
+			newText.text = string.Format("{0}%",  strName);
 
 		else
-			newText.text = string.Format("{0} {1}",  strName , nValue.ToString());
+			newText.text = string.Format("{0}{1}%",  strName , nValue.ToString());
 	}
 
 
@@ -179,6 +182,9 @@ public class InventoryShowPanel : MonoBehaviour {
 		if (ItemData.fCriticalDamage    != 0) CreateText("크리티컬데미지 : ", ItemData.fCriticalDamage);
 		if (ItemData.fBigCritical       != 0) CreateText("대성공 : ", ItemData.fBigCritical);
 		if (ItemData.fAccuracyRate      != 0) CreateText("명중률 : ", ItemData.fAccuracyRate);
+
+		if (ItemData.bIsBoss)
+			CreateText (ItemData.strWeaponExplain, ItemData.fBossOptionValue);
 	}
 
 	//값을 수치로 표기하기 위한 함수 

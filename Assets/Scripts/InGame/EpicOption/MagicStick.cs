@@ -5,10 +5,12 @@ using ReadOnlys;
 
 public class MagicStick : EpicOption {
 
-	float fValue = 1;
+
 
 	public override void Init (int _nDay,Player _player)
 	{
+		fValue = 1;
+
 		nCostDay = _nDay;
 
 		nSaveDay = _nDay;
@@ -21,7 +23,7 @@ public class MagicStick : EpicOption {
 
 		fValue = fValue * nCostDay * fPlusOption * 0.01f;  
 
-		strExplain = string.Format("{0}% 확률로 5회 터치",fValue);
+		strExplain = string.Format("{0}% 확률로 3회 터치",fValue);
 	}
 
 	public override string GetExplain () { return strExplain; }

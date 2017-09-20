@@ -189,6 +189,7 @@ public class BossPopUpWindow : MonoBehaviour
 			isRewardPanelOn_Fail = false;
 			isRewardPanelOn_Finish = true;
 			PopUpWindow_Reward.SetActive (false);
+
 		}
 	}
 
@@ -227,14 +228,7 @@ public class BossPopUpWindow : MonoBehaviour
 			}
 
 
-			if (bossIce.eCureentBossState == Character.EBOSS_STATE.RESULT)
-				bossIce.eCureentBossState = Character.EBOSS_STATE.FINISH;
-			if (bossFire.eCureentBossState == Character.EBOSS_STATE.RESULT)
-				bossFire.eCureentBossState = Character.EBOSS_STATE.FINISH;
-			if (bossSasin.eCureentBossState == Character.EBOSS_STATE.RESULT)
-				bossSasin.eCureentBossState = Character.EBOSS_STATE.FINISH;
-			if (bossMusic.eCureentBossState == Character.EBOSS_STATE.RESULT)
-				bossMusic.eCureentBossState = Character.EBOSS_STATE.FINISH;
+		
 
 
 			PopUpWindow_Reward.SetActive (true);
@@ -253,6 +247,15 @@ public class BossPopUpWindow : MonoBehaviour
 				rewardObjPool.ReturnObject (reward);
 				rewardCount--;
 			}
+
+			if (bossIce.eCureentBossState == Character.EBOSS_STATE.RESULT)
+				bossIce.eCureentBossState = Character.EBOSS_STATE.FINISH;
+			if (bossFire.eCureentBossState == Character.EBOSS_STATE.RESULT)
+				bossFire.eCureentBossState = Character.EBOSS_STATE.FINISH;
+			if (bossSasin.eCureentBossState == Character.EBOSS_STATE.RESULT)
+				bossSasin.eCureentBossState = Character.EBOSS_STATE.FINISH;
+			if (bossMusic.eCureentBossState == Character.EBOSS_STATE.RESULT)
+				bossMusic.eCureentBossState = Character.EBOSS_STATE.FINISH;
 
 			PopUpWindow_Reward_YesButton.onClick.RemoveListener (PopUpWindowReward_Switch_isSuccess);
 			isRewardPanelOn_Success = false;

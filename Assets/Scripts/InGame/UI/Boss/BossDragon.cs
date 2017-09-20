@@ -1,12 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossDragon :  BossCharacter 
 {
+
+	public BossDragonDisapperFire bossDisappearFire;
+
 	//SmallFire Pool
 	private bool isActivePassiveSkill01 = false;
 	private bool isActivePassiveSkill02 = false;
+
+
 
 	//tmpValue
 
@@ -57,6 +63,8 @@ public class BossDragon :  BossCharacter
 			{
 
 				animator.SetBool ("isBackGroundChanged", true);
+
+				yield return new WaitForSeconds (1.0f);
 
 				if (animator.GetCurrentAnimatorStateInfo (0).IsName("DragonAppear")) 
 				{
@@ -228,6 +236,8 @@ public class BossDragon :  BossCharacter
 
 	protected override IEnumerator BossDie ()
 	{
+		bossDisappearFire.gameObject.SetActive(true);
+
 		yield return null;
 		//isSmallFireActive = false;
 		Debug.Log ("Boss Die");
@@ -241,9 +251,11 @@ public class BossDragon :  BossCharacter
 		//사라질때의 말풍선
 		bossTalkPanel.StartShowBossTalkWindow (2f, bossWord[(int)E_BOSSWORD.E_BOSSWORD_END]);
 
+	
 		//Animator Bool change
 		animator.SetBool ("isDisappear", true);
 
+		bossDisappearFire.BossDragonDisappearAnimator.SetBool ("isBossDisapperFire", true);
 
 
 		//사라지는 애니메이션이 끝날때 까지 기달인다.
@@ -251,14 +263,16 @@ public class BossDragon :  BossCharacter
 		{
 			if (animator.GetCurrentAnimatorStateInfo (0).IsName ("DragonDisappear"))
 			{
-				yield return new WaitForSeconds (0.8f);
+				yield return new WaitForSeconds (0.1f);
 
 
 
 				eCureentBossState = EBOSS_STATE.RESULT;
 				if (eCureentBossState == EBOSS_STATE.RESULT) 
 				{
-
+					bossDisappearFire.BossDragonDisappearAnimator.SetBool ("isBossDisapperFire", false);
+					bossDisappearFire.BossDragonDisappearAnimator.Play ("BossIdle");
+					bossDisappearFire.gameObject.SetActive(false);
 
 					//Effect Off
 					if(isStandardPhaseFailed == false)
@@ -295,6 +309,13 @@ public class BossDragon :  BossCharacter
 	{
 		yield return null;
 		Debug.Log ("BossResult");
+
+		//Vector3 vector = new Vector3 (gameObject.transform.position.x, gameObject.transform.position.y + 300f, gameObject.transform.position.z);
+
+
+		//gameObject.transform.position = vector;
+
+
 		ActiveTimer ();
 		eCureentBossState = EBOSS_STATE.FINISH;
 		if (eCureentBossState == EBOSS_STATE.FINISH) 
@@ -345,6 +366,8 @@ public class BossDragon :  BossCharacter
 			SpawnManager.Instance.tutorialPanel.DeActiveObj.SetActive (true);
 			SpawnManager.Instance.tutorialPanel.StartContent ();
 		}
+
+
 
 
 

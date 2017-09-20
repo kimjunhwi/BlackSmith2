@@ -269,10 +269,14 @@ public class MakingUI : MonoBehaviour {
 	{
 		if (playerData.GetDay() <= 10)
 			return;
+
+		SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_CREATEHAMMER, 1);
 		
 		ResultUI.Init (playerData, BossSoulSlots);
 
 		SpawnManager.Instance.SetDayInitInfo (playerData.GetDay () - 10);
+
+
 //		
 //
 //		float fRepair = Mathf.RoundToInt (createWeapon.fRepair);
@@ -547,7 +551,6 @@ public class MakingUI : MonoBehaviour {
 	private void SetShowText()
 	{
 		int nDay = playerData.GetDay ();
-
 		float fOriValue = nDay - 1;
 		float fMinusValue = Mathf.Floor( (nDay - 1) * 0.1f ) * 10;
 		float result = fOriValue - fMinusValue;
@@ -569,9 +572,9 @@ public class MakingUI : MonoBehaviour {
 		dCalcMinRepair = dCalcMinRepair * Mathf.Pow(10,nPlusCount);
 		dCurComplete = dCurComplete * Mathf.Pow(10,nPlusCount);
 
-		NowRepairPower.text = ScoreManager.ScoreInstance.ChangeMoney (playerData.GetCreatorWeapon ().dRepair);
+		NowRepairPower.text = string.Format("{0:N}", GameManager.Instance.GetPlayer().GetCreatorWeapon().dRepair);
 
-		RandomRepairPower.text = string.Format("제작시 수리력 {0:F1} ~ {1:F1}",ScoreManager.ScoreInstance.ChangeMoney (dCalcMinRepair),ScoreManager.ScoreInstance.ChangeMoney (dCurComplete));
+		RandomRepairPower.text = string.Format("제작시 수리력 {0:F1} ~ {1:F1}",dCalcMinRepair,dCurComplete);
 	}
 }
 

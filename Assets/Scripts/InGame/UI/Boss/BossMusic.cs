@@ -245,8 +245,7 @@ public class BossMusic : BossCharacter
 			{
 				//Debug.Log ("반사 상태!");
 			}
-
-		
+				
 			if (dCurComplete < 0) {
 				FailState ();
 				yield break;
@@ -386,7 +385,6 @@ public class BossMusic : BossCharacter
 
 
 
-					bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
 					repairObj.ShowBreakWeapon ();
 					repairObj.SetFinishBoss ();									//수리 패널 초기화
 					
@@ -457,6 +455,8 @@ public class BossMusic : BossCharacter
 		//변수 초기화  
 		isStandardPhaseFailed = false;
 		isFailed = false;
+
+		bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
 
 		//배경이 원래대로 돌아가면 다시 손님들이 나오게 한다.
 		if (bossBackGround.isBossBackGround == true) 

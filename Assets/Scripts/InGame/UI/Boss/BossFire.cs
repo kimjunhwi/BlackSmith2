@@ -299,7 +299,7 @@ public class BossFire : BossCharacter
 
 
 					Debug.Log ("Finish Boss");
-					bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
+				
 					//Weapon 터지는 효과
 					repairObj.ShowBreakWeapon ();
 					repairObj.SetFinishBoss ();									//수리 패널 초기화
@@ -376,6 +376,8 @@ public class BossFire : BossCharacter
 		nSmallFireMaxCount = 12;
 		nCurFireCount = 0;
 
+		bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
+
 		if (bossBackGround.isBossBackGround == true)
 		{
 			SpawnManager.Instance.bIsBossCreate = false;
@@ -423,11 +425,6 @@ public class BossFire : BossCharacter
 	public void FailState()
 	{
 		isFailed = true;
-
-		//StopCoroutine (BossSkillStandard ());
-		//StopCoroutine (BossSkill_01 ());
-		//StopCoroutine (BossSKill_02 ());
-
 		StartCoroutine (BossDie ());
 	}
 

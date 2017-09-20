@@ -250,8 +250,6 @@ public class BossSasin : BossCharacter
 			animator.SetBool ("isBackGroundChanged", false);	
 			animator.Play ("BossIdle");
 
-			//배경 초기화 
-			bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
 
 			//Weapon 터지는 효과
 			repairObj.ShowBreakWeapon ();
@@ -312,7 +310,7 @@ public class BossSasin : BossCharacter
 	{
 		yield return null;
 
-
+		Debug.Log ("Boss Sasin Finish");
 		//혹시나 도는 코루틴들 종료
 		StopCoroutine (BossSkillStandard ());
 		StopCoroutine (BossSkill_01 ());
@@ -323,6 +321,9 @@ public class BossSasin : BossCharacter
 		//상태 변수 초기화
 		isFailed = false;
 		isStandardPhaseFailed = false;
+
+		//배경 초기화 
+		bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
 
 	
 		if (bossBackGround.isBossBackGround == true) {
@@ -386,6 +387,7 @@ public class BossSasin : BossCharacter
 		skullObj.parentTransform = bossSkullRespawnPoint;
 		skullObj.fTime = 7f;
 		skullObj.repairObj = repairObj;
+		skullObj.dCurComplete = dBossComplete;
 		fTime = 0f;
 	}
 }

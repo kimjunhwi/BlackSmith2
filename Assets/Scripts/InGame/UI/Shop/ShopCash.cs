@@ -481,6 +481,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			itemBuy_Text.text = "프리패스10를 구입 하시겠습니까?";
 			itemBuy_YesButton.onClick.RemoveAllListeners ();
 			itemBuy_YesButton.onClick.AddListener (() => AddResource (nIndex, 0, getCashItemInfo [nIndex].fRuby ,  GameManager.Instance.player.GetDay() + 10, 10000.0));
+
 			GameObjectActive (YesNoPopUp_Obj);
 		}
 
@@ -545,6 +546,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		if (getCashItemInfo[_index].sItemName == "프리패스" || getCashItemInfo[_index].sItemName == "프리패스5" || getCashItemInfo[_index].sItemName == "프리패스10")
 		{
 			SpawnManager.Instance.SetDayInitInfo (_day);
+			SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_DAYS, _day);
 		}
 
 		ScoreManager.ScoreInstance.GoldPlus (_gold);

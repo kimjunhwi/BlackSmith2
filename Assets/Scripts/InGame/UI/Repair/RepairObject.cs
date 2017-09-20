@@ -61,7 +61,9 @@ public class RepairObject : MonoBehaviour
 
 	//Boss
 	public BossCharacter bossCharacter;		//보스 캐릭터 받는 것
-	BossIce bossIce;
+	public BossIce bossIce;
+	public BossSasin bossSasin;
+
 	private double dBossMaxComplete;		//보스 캐릭터 최대 완성도
 	GameObject waterObject;				//물 오브젝트
 	public GameObject waterPaching;
@@ -72,6 +74,7 @@ public class RepairObject : MonoBehaviour
 	Image BossWeaponSprite;
 	public Animator bossWeaponAnimator;
 	public RuntimeAnimatorController[] bossWeaponController;
+
 
 	//BossSasinText
 	//tmp value
@@ -116,6 +119,7 @@ public class RepairObject : MonoBehaviour
 	private float translateValue;
 
 	//BossFire
+	public BossFire bossFire;
 	public float fSmallFireMinusWater = 0f;
 	public float fSmallFirePlusTemperatrue = 0f;
 	public float fOriWaterPlus = 0f;
@@ -175,7 +179,12 @@ public class RepairObject : MonoBehaviour
 	private int nTouchCount = 0;
 	private TutorialPanel tutorialPanel;
 
+	//Quest
+	public bool bIsMissShowUp = false;		//미스를 했는지 않했는지
+	public bool bIsWaterUse = false;		//물을 썼는지 않썻는지
+
 	public SpawnManager spawnManager;
+
 
 
 	string[] unit = new string[]{ "G", "K", "M", "B", "T", "aa", "bb", "cc", "dd", "ee" }; 
@@ -545,6 +554,11 @@ public class RepairObject : MonoBehaviour
         //SpawnManager.Instance.SettingFever(m_fNormalCretaeTime, m_fNormalSpeed);
     }
 
+	public bool GetIsFever()
+	{
+		return m_bIsFever;
+	}
+
 	public void GetWeapon(GameObject obj, CGameWeaponInfo data, double _dComplate, float _fTemperator)
     {
 		bossWeaponObject.SetActive (false);
@@ -613,9 +627,10 @@ public class RepairObject : MonoBehaviour
 		} else if (_bossData.nIndex == 1)
 		{
 			bossCharacter = _bossData;
-
+			bossSasin = (BossSasin)bossCharacter;
 			//input Image
 			BossWeaponSprite.sprite = _sprite;
+
 
 			//Change AnimController 
 			bossWeaponAnimator.runtimeAnimatorController = bossWeaponController [1];
@@ -623,10 +638,10 @@ public class RepairObject : MonoBehaviour
 		else if (_bossData.nIndex == 2) 
 		{
 			bossCharacter = _bossData;
-
+			bossFire = (BossFire)bossCharacter;
 			//input Image
 			BossWeaponSprite.sprite = _sprite;
-			fOriWaterPlus = GameManager.Instance.GetPlayer ().changeStats.fWaterPlus;
+		
 			//Change AnimController 
 			bossWeaponAnimator.runtimeAnimatorController = bossWeaponController [2];
 		}
@@ -654,6 +669,8 @@ public class RepairObject : MonoBehaviour
 		}
 		else
 			return;
+		//원래 물 수치
+		fOriWaterPlus = GameManager.Instance.GetPlayer ().changeStats.fWaterPlus;
 
 		dCurrentComplate = _dComplate;
 		dBossMaxComplete = _dMaxBossComplete ;
@@ -869,6 +886,7 @@ public class RepairObject : MonoBehaviour
 
 			spawnManager.ComplateCheckArbait (dCurrentComplate, weaponData.dMaxComplate);
 
+
             //완성이 됐는지 확인 밑 오브젝트에 진행사항 전달
 			if (SpawnManager.Instance.CheckComplateWeapon (AfootObject, dCurrentComplate, fCurrentTemperature)) 
 			{
@@ -896,7 +914,9 @@ public class RepairObject : MonoBehaviour
 			damagePool.Damage ("Miss");
 			damagePool.textObjPool = damageTextPool;
 			damagePool.leftSecond = nEnableTime;
-
+			//Quest
+			SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_MISS, 1);
+			bIsMissShowUp = true;
 			return;
 		}
 
@@ -929,6 +949,8 @@ public class RepairObject : MonoBehaviour
 			dCurrentComplate += dCalcValue;
 
 			spawnManager.ComplateCheckArbait (dCurrentComplate, weaponData.dMaxComplate);
+
+			SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_CRITICALSUCCESS, 1);
         }
         else
         {
@@ -985,6 +1007,8 @@ public class RepairObject : MonoBehaviour
 				SucceessedObject.SetActive (true);
 
                 //SpawnManager.Instance.SettingFever(m_fFeverCreateTime, m_fFeverSpeed);
+				//Quest
+				SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_BIGSUCCESS, 1);
 
 				this.StartCoroutine(StartFever(player.GetBasicFeverTime()));
             }
@@ -1036,7 +1060,7 @@ public class RepairObject : MonoBehaviour
 
 					m_PlayerAnimationController.UserCriticalRepair ();
 
-
+					SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_CRITICALSUCCESS, 1);
 
 				} else 
 				{
@@ -1097,6 +1121,8 @@ public class RepairObject : MonoBehaviour
 					ShowDamage (player.GetRepairPower (),_position);
 
 					m_PlayerAnimationController.UserCriticalRepair ();
+
+					SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_CRITICALSUCCESS, 1);
 				}
 				else 
 				{
@@ -1156,6 +1182,9 @@ public class RepairObject : MonoBehaviour
 					bossMissText.textObjPool = textObjectPool;
 					bossMissText.leftSecond = 2.0f;
 					bossMissText.parentTransform = textRectTrasnform;
+					bIsMissShowUp = true;
+					//Quest
+					SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_MISS,1);
 					return;
 				}
 			} 
@@ -1183,6 +1212,8 @@ public class RepairObject : MonoBehaviour
 						ShowDamage (((player.GetRepairPower () * 1.5f) * 0.7f),_position);
 
 						m_PlayerAnimationController.UserCriticalRepair ();
+
+						SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_CRITICALSUCCESS, 1);
 
 					}
 					else
@@ -1226,6 +1257,8 @@ public class RepairObject : MonoBehaviour
 					bossMissText.textObjPool = textObjectPool;
 					bossMissText.leftSecond = 2.0f;
 					bossMissText.parentTransform = textRectTrasnform;
+
+					SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_MISS,1);
 					return;
 				}
 			}
@@ -1262,6 +1295,8 @@ public class RepairObject : MonoBehaviour
 					ShowDamage ((player.GetRepairPower () * 1.5f),_position);
 
 					m_PlayerAnimationController.UserCriticalRepair ();
+
+					SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_CRITICALSUCCESS, 1);
 				}
 				else 
 				{
@@ -1359,6 +1394,8 @@ public class RepairObject : MonoBehaviour
 					ShowDamage ((player.GetRepairPower () * 1.5f),_position);
 
 					m_PlayerAnimationController.UserCriticalRepair ();
+
+					SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_CRITICALSUCCESS, 1);
 				} else {
 					//Debug.Log ("Nor!!!!");
 					GameObject obj = NormalTouchPool.Instance.GetObject();
@@ -1402,6 +1439,8 @@ public class RepairObject : MonoBehaviour
 
 
 					m_PlayerAnimationController.UserCriticalRepair ();
+
+					SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_CRITICALSUCCESS, 1);
 
 				} 
 				else
@@ -1449,8 +1488,9 @@ public class RepairObject : MonoBehaviour
 
 			ShowDamage ((player.GetRepairPower () * 1.5f),_position);
 
-
 			m_PlayerAnimationController.UserCriticalRepair ();
+
+			SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_CRITICALSUCCESS, 1);
 		} 
 		else
 		{
@@ -1479,11 +1519,20 @@ public class RepairObject : MonoBehaviour
 
     public void TouchWater()
 	{
+
+
 		if (weaponData == null)
 			return;
 
+	
+
 		if (isTouchWaterAvailable == true) 
 		{
+			
+			//Quest
+			SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_WATERUSE, 1);
+			bIsWaterUse = true;
+
 			SoundManager.instance.PlaySound (eSoundArray.ES_WaterActiveSound);
 
 			isTouchWaterAvailable = false;
@@ -1542,9 +1591,15 @@ public class RepairObject : MonoBehaviour
 
 		if (bossCharacter == null)
 			return;
+
 	
 		if (isTouchWaterAvailable == true ) 
 		{
+
+			//Quest
+			SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_WATERUSE, 1);
+			bIsWaterUse = true;
+
 			//useWater
 			Debug.Log ("TouchBossWater!!");
 			isTouchWaterAvailable = false;
@@ -1797,13 +1852,9 @@ public class RepairObject : MonoBehaviour
 		fCurrentWater = 0f;
 		fCurrentTemperature = 0f;
 
+
 		GameManager.Instance.GetPlayer ().changeStats.fWaterPlus = fOriWaterPlus;
 		fMaxWater = player.GetBasicMaxWaterPlus ();
-
-		//FireBoss
-		fSmallFireMinusWater = 0f;				
-		fSmallFirePlusTemperatrue = 0f;
-
 
 		TemperatureSlider.maxValue = fMaxTemperature;
 		TemperatureSlider.value = 0;
@@ -1816,51 +1867,59 @@ public class RepairObject : MonoBehaviour
 		ComplateText.text = string.Format ("{0} / {1}", dCurrentComplate, ComplateSlider.maxValue);
 
 		//얼음 보스시 초기화 (아르바이트 어택 스피드, bool)
-		for(int i = 0; i < SpawnManager.Instance.array_ArbaitData.Length ; i++)
-			SpawnManager.Instance.array_ArbaitData [i].SetAttackSpeed (1.0f);
+		if (bossIce != null) {
+			for (int i = 0; i < SpawnManager.Instance.array_ArbaitData.Length; i++)
+				SpawnManager.Instance.array_ArbaitData [i].SetAttackSpeed (1.0f);
 		
-		isBossIcePassive01Active = false;
-
+			isBossIcePassive01Active = false;
+		}
 		//불 보스시 패시브 
 		//물 충전량 50% 감소
-		GameManager.Instance.player.SetBasicWaterPlus(	GameManager.Instance.player.GetBasicWaterPlus() * 2f);
-
-		//음악 보스 패시브 
-		for (int i = 0; i < SpawnManager.Instance.array_ArbaitData.Length; i++)
-			SpawnManager.Instance.array_ArbaitData [i].SetArbaitRepair (1f);
-		
-		isBossMusicPassive01Active = false;
-		isBossMusicPassive02Active = false;
-
-		//음악 노트 모두 제거 
-		if (bossCharacter.nIndex == (int)E_BOSSNAME.E_BOSSNAME_MUSIC) 
+		if (bossFire != null)
 		{
-			int nChildCount = bossNoteRectTransform.childCount;
+			GameManager.Instance.player.SetBasicWaterPlus (GameManager.Instance.player.GetBasicWaterPlus () * 2f);
 
-			while (nChildCount != 0) 
-			{
-				Transform noteGameObject =null;	
-				Debug.Log ("CurCount = " + nChildCount);
-				if (bossNoteRectTransform.Find ("Note"))
-				{
+			//FireBoss
+			fSmallFireMinusWater = 0f;				
+			fSmallFirePlusTemperatrue = 0f;
 
-					noteGameObject = bossNoteRectTransform.Find ("Note");
-					noteObj = noteGameObject.gameObject.GetComponent<NoteObject> ();
-					noteObj.EraseObj ();
-
-				} else if (bossNoteRectTransform.Find ("Note2")) {
-					noteGameObject = bossNoteRectTransform.Find ("Note2");
-					note2Obj = noteGameObject.gameObject.GetComponent<Note2Object> ();
-					note2Obj.EraseObj ();
-				}
-				nChildCount--;
-			}
-			isMoveWeapon = false;
 		}
+		//음악 보스 패시브 
+		if (bossMusic != null) {
+			for (int i = 0; i < SpawnManager.Instance.array_ArbaitData.Length; i++)
+				SpawnManager.Instance.array_ArbaitData [i].SetArbaitRepair (1f);
+		
+			isBossMusicPassive01Active = false;
+			isBossMusicPassive02Active = false;
 
+			//음악 노트 모두 제거 
+			if (bossCharacter.nIndex == (int)E_BOSSNAME.E_BOSSNAME_MUSIC) {
+				int nChildCount = bossNoteRectTransform.childCount;
+
+				while (nChildCount != 0) {
+					Transform noteGameObject = null;	
+					Debug.Log ("CurCount = " + nChildCount);
+					if (bossNoteRectTransform.Find ("Note")) {
+
+						noteGameObject = bossNoteRectTransform.Find ("Note");
+						noteObj = noteGameObject.gameObject.GetComponent<NoteObject> ();
+						noteObj.EraseObj ();
+
+					} else if (bossNoteRectTransform.Find ("Note2")) {
+						noteGameObject = bossNoteRectTransform.Find ("Note2");
+						note2Obj = noteGameObject.gameObject.GetComponent<Note2Object> ();
+						note2Obj.EraseObj ();
+					}
+					nChildCount--;
+				}
+				isMoveWeapon = false;
+			}
+		}
 		bossCharacter = null;
 
 		bossIce = null;
 		bossMusic = null;
+		bossFire = null;
+		bossSasin = null;
 	}
 }

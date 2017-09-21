@@ -13,6 +13,8 @@ public class Sasin : ArbaitBatch {
 		base.Awake();
 
 		nIndex = (int)E_ARBAIT.E_SASIN;
+
+		strSkillExplain = string.Format ("현재 완성도 50% 이하 일 때 사신 공격력, 공격속도 {0}% 상승, 대장장이 수리력 {1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
 	}
 
 	// Update is called once per frame
@@ -57,6 +59,13 @@ public class Sasin : ArbaitBatch {
 	protected override void ReliveSkill()
 	{
 
+	}
+
+	public override void EnhacneArbait ()
+	{
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 10 * 0.01f;
+
+		m_CharacterChangeData.strExplains = string.Format ("현재 완성도 50% 이하 일 때 사신 공격력, 공격속도 {0}% 상승, 대장장이 수리력 {1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
 	}
 
 	public override void StartAura (float _fTime)

@@ -105,6 +105,8 @@ public class ArbaitBatch : MonoBehaviour {
 	protected float fAttackSpeedDownPercent = 1;
 
 
+	public string strSkillExplain;
+
 	public Transform BuffPosition;
 	public Transform DeBuffPosition;
 
@@ -668,11 +670,11 @@ public class ArbaitBatch : MonoBehaviour {
 	#region ApplySasin
 	public void ApplyDodomchit()
 	{
-		fDodomchitRepairPercent += 1.0f;
+		fDodomchitRepairPercent += m_CharacterChangeData.fSkillPercent;
 
-		if (fDodomchitRepairPercent >= m_CharacterChangeData.fSkillPercent) 
+		if (fDodomchitRepairPercent >= 50) 
 		{
-			fDodomchitRepairPercent = m_CharacterChangeData.fSkillPercent;
+			fDodomchitRepairPercent = 50;
 		}
 	}
 
@@ -753,6 +755,16 @@ public class ArbaitBatch : MonoBehaviour {
 
 		m_fTemperator = 0.0f;
     }
+
+	public virtual void EnhacneArbait()
+	{
+
+	}
+
+	public string GetSkillExplain()
+	{
+		return strSkillExplain;
+	}
 
 	public void ArbaitDataInit()
 	{

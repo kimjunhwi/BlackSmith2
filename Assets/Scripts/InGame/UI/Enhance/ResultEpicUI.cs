@@ -223,9 +223,13 @@ public class ResultEpicUI : MonoBehaviour {
 
 		//락이 아닐 경우 다시 에픽 확률을 계산 해서 넣어 줌 
 		if (createWeapon.bIsLock == false) {
+
+			if (createEpic != null)
+				createEpic.Relive ();
+			
 			//특수 옵션 미정
-			if (Random.Range (0, 100) <= 5) {
-				int nRandomIndex = Random.Range (0, (int)E_EPIC_INDEX.E_EPIC_MAX);
+			//if (Random.Range (0, 100) <= 5) {
+			int nRandomIndex = (int)Random.Range (0, (int)E_EPIC_INDEX.E_EPIC_MAX);
 
 				createEpic = EpicFactory (nRandomIndex);
 
@@ -235,11 +239,11 @@ public class ResultEpicUI : MonoBehaviour {
 
 				if (createEpic != null)
 					createEpic.Init (playerData.GetDay (), playerData);	
-			}
-			else 
-			{
-				createEpic = null;
-			}
+			//}
+			//else 
+			//{
+			//	createEpic = null;
+			//}
 		} 
 		//락 일경우 추가 된 일차로 옵션 수치만 다시 설정 해준다.
 		else 
@@ -251,7 +255,7 @@ public class ResultEpicUI : MonoBehaviour {
 		
 			EpicOption.nIndex = (int)E_CREATOR.E_EPIC;
 			EpicOption.strOptionName = createEpic.strExplain;
-			EpicOption.nValue = nInsertValue;
+			EpicOption.nValue = (int)createEpic.fValue;
 			EpicOption.strOptionExplain = createEpic.strExplain;
 			EpicOption.bIsLock = false;
 			createEpic.bIsLock = false;

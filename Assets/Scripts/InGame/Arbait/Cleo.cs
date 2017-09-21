@@ -10,6 +10,8 @@ public class Cleo : ArbaitBatch {
 		base.Awake();
 
 		nIndex = (int)E_ARBAIT.E_CLEA;
+
+		strSkillExplain = string.Format ("물 사용시 모든 직원 공격속도 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
 
 	// Update is called once per frame
@@ -54,6 +56,13 @@ public class Cleo : ArbaitBatch {
 
 		else
 			StartCoroutine (AuraParticle ());
+	}
+
+	public override void EnhacneArbait ()
+	{
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 10 * 0.01f;
+
+		m_CharacterChangeData.strExplains = string.Format ("물 사용시 모든 직원 공격속도 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
 
 	public override IEnumerator AuraParticle ()

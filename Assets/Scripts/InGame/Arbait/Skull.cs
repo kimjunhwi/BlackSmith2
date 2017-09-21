@@ -10,6 +10,8 @@ public class Skull : ArbaitBatch {
 		base.Awake();
 
 		nIndex = (int)E_ARBAIT.E_SKULL;
+
+		strSkillExplain = string.Format ("온도 1%당 직원 크리확률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
 
 	// Update is called once per frame
@@ -56,6 +58,13 @@ public class Skull : ArbaitBatch {
 	protected override void ReliveSkill()
 	{
 
+	}
+
+	public override void EnhacneArbait ()
+	{
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 10 * 0.01f;
+
+		m_CharacterChangeData.strExplains = string.Format ("온도 1%당 직원 크리확률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
 
 	public override void StartAura (float _fTime)

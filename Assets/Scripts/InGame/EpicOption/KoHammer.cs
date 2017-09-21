@@ -10,9 +10,13 @@ public class KoHammer : EpicOption {
 
 	public override void Init (int _nDay,Player _player)
 	{
+		nCostDay = _nDay;
+
 		nIndex = (int)E_EPIC_INDEX.E_EPIC_KO_HAMMER;
 
 		cPlayerData = _player;
+
+		nDightDay = (int)(nCostDay * fDivisionDay);
 
 		strExplain = string.Format("{0}회 터치시 다음 크리",nTouchValue);
 	}

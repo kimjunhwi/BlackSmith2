@@ -4,9 +4,7 @@ using UnityEngine;
 using ReadOnlys;
 
 public class Nurse : ArbaitBatch {
-
-
-
+	
     //크리티컬 받아오기 위함
     private float fGetCritical = 0.0f;
 
@@ -16,14 +14,13 @@ public class Nurse : ArbaitBatch {
     //크리확률증가를 위함
     private float fChangeCritical = 0.0f;
 
-    
-
-
     protected override void Awake()
     {
         base.Awake();
 
         nIndex = (int)E_ARBAIT.E_NURSE;
+
+		strSkillExplain = string.Format ("대장장이 크리확률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
     }
 
     // Update is called once per frame
@@ -51,13 +48,13 @@ public class Nurse : ArbaitBatch {
         SpawnManager.Instance.InsertWeaponArbait(m_CharacterChangeData.index, nBatchIndex);
 
 		AuraObject.SetActive (false);
-
     }
 
     protected override void OnDisable()
     {
-
         base.OnDisable();
+
+		playerData.SetWaterPlus ();
     }
 		
 
@@ -82,6 +79,13 @@ public class Nurse : ArbaitBatch {
         base.ApplyPauseSkill();
 
     }
+
+	public override void EnhacneArbait ()
+	{
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 10 * 0.01f;
+
+		m_CharacterChangeData.strExplains = string.Format ("대장장이 크리확률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+	}
 
     public override void CheckCharacterState(E_ArbaitState _E_STATE)
     {

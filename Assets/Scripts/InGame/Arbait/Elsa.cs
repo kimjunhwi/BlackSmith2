@@ -13,6 +13,7 @@ public class Elsa : ArbaitBatch {
 
         nIndex = (int)E_ARBAIT.E_ROSA;
 
+		strSkillExplain = string.Format ("물 사용시 모든 직원 수리력 {0}% 증가", m_CharacterChangeData.fSkillPercent);
     }
 
     // Update is called once per frame
@@ -56,6 +57,13 @@ public class Elsa : ArbaitBatch {
 
 		else
 			StartCoroutine (AuraParticle ());
+	}
+
+	public override void EnhacneArbait ()
+	{
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 10 * 0.01f;
+
+		m_CharacterChangeData.strExplains = string.Format ("물 사용시 모든 직원 수리력 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
 
 	public override IEnumerator AuraParticle ()

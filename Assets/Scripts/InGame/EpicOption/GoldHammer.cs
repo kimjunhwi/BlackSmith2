@@ -5,11 +5,12 @@ using ReadOnlys;
 
 public class GoldHammer : EpicOption {
 
-	public float fValue = 0;
+	public float fSaveValue = 0;
 
 	public GoldHammer()
 	{
 		fValue = 50.0f;
+		 
 
 		nIndex = (int)E_EPIC_INDEX.E_EPIC_GOLD_HAMMER;
 	}
@@ -18,9 +19,15 @@ public class GoldHammer : EpicOption {
 	{
 		cPlayerData = _player;
 
+		nCostDay = _nDay;
+
+		nDightDay = (int)(nCostDay * fDivisionDay);
+
+		fValue += fValue * nDightDay * fDivisionDay;
+
 		strExplain = string.Format("골드 확득량 +{0}%",fValue);
 
-		cPlayerData.SetGoldPlusPercent ();
+		cPlayerData.SetBasicGoldPlusPercent (cPlayerData.GetBasicGoldPlusPercent() + fValue);
 	}
 
 	public override string GetExplain () { return strExplain; }
@@ -32,6 +39,16 @@ public class GoldHammer : EpicOption {
 
 	public override void Relive ()
 	{
-		cPlayerData.SetGoldPlusPercent ();
+		cPlayerData.SetBasicGoldPlusPercent (cPlayerData.GetBasicGoldPlusPercent() - fValue);
+	}
+
+	public override void Save()
+	{
+		cPlayerData.SetBasicGoldPlusPercent (cPlayerData.GetBasicGoldPlusPercent() - fValue);
+	}
+
+	public override void Load ()
+	{
+		cPlayerData.SetBasicGoldPlusPercent (cPlayerData.GetBasicGoldPlusPercent() + fValue);
 	}
 }

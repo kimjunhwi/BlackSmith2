@@ -16,6 +16,8 @@ public class Knight : ArbaitBatch {
         base.Awake();
 
         nIndex = (int)E_ARBAIT.E_GLAUS;
+
+		strSkillExplain = string.Format ("대장장이 크리시 대장장이, 모든 직원 명중률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
     }
 
     // Update is called once per frame
@@ -57,6 +59,13 @@ public class Knight : ArbaitBatch {
 
         base.OnDisable();
     }
+
+	public override void EnhacneArbait ()
+	{
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 10 * 0.01f;
+
+		strSkillExplain = string.Format ("대장장이 크리시 대장장이, 모든 직원 명중률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+	}
 
 	public override void StartAura (float _fTime)
 	{

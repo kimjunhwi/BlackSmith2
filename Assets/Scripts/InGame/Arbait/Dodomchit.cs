@@ -10,6 +10,8 @@ public class Dodomchit : ArbaitBatch {
 		base.Awake();
 
 		nIndex = (int)E_ARBAIT.E_DODOMCHIT;
+
+		strSkillExplain = string.Format ("공격시 모든 직원 수리력 {0}% 증가 (50%) 물 사용시 초기화", m_CharacterChangeData.fSkillPercent);
 	}
 
 	// Update is called once per frame
@@ -60,6 +62,14 @@ public class Dodomchit : ArbaitBatch {
 	{
 
 	}
+
+	public override void EnhacneArbait ()
+	{
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 10 * 0.01f;
+
+		m_CharacterChangeData.strExplains = string.Format ("공격시 모든 직원 수리력 {0}% 증가 (50%) 물 사용시 초기화", m_CharacterChangeData.fSkillPercent);
+	}
+
 
 	public override void StartAura (float _fTime)
 	{
@@ -171,7 +181,6 @@ public class Dodomchit : ArbaitBatch {
 						fBossCriticalPercent = 0;
 					}
 				}
-
 
 				//크리티컬 확률 
 				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) 

@@ -17,6 +17,8 @@ public class Druid : ArbaitBatch
         base.Awake();
 
         nIndex = (int)E_ARBAIT.E_ELLIE;
+
+		strSkillExplain = string.Format ("대장장이 크리시 모든 직원 공격속도 {0}% 증가", m_CharacterChangeData.fSkillPercent);
     }
 
     // Update is called once per frame
@@ -65,6 +67,13 @@ public class Druid : ArbaitBatch
 
         fChangeCritical = 0.0f;
     }
+
+	public override void EnhacneArbait ()
+	{
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 10 * 0.01f;
+
+		strSkillExplain = string.Format ("대장장이 크리시 모든 직원 공격속도 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+	}
 
 	public override void StartAura (float _fTime)
 	{

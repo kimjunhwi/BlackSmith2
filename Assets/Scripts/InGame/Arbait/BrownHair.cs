@@ -13,6 +13,7 @@ public class BrownHair : ArbaitBatch {
 
 		nIndex = (int)E_ARBAIT.E_LUNA;
 
+		strSkillExplain = string.Format ("물 사용시 모든 직원 크리확률 {0} 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
 	}
 
 
@@ -57,6 +58,13 @@ public class BrownHair : ArbaitBatch {
 
 		else
 			StartCoroutine (AuraParticle ());
+	}
+
+	public override void EnhacneArbait ()
+	{
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 10 * 0.01f;
+
+		m_CharacterChangeData.strExplains = string.Format ("물 사용시 모든 직원 크리확률 {0} 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
 	}
 
 	public override IEnumerator AuraParticle ()

@@ -31,6 +31,8 @@ public class TutorialTouch : MonoBehaviour ,IPointerDownHandler
 				tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_IMAGE02;
 			}
 
+
+
 			//3번째 이미지 터치시
 			if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE03) 
 			{

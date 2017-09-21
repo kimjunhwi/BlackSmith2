@@ -498,7 +498,9 @@ public class NormalCharacter : Character {
 
 			dGold = 250 * Mathf.Pow (1.09f, nDay - 1);
 
-			if (cPlayerData.GearEquipmnet != null) {
+
+			if (cPlayerData.GearEquipmnet != null)
+			{
 				if (cPlayerData.GearEquipmnet.nIndex == (int)E_BOSS_ITEM.DODOM_FLOWER) {
 					int nValue = 0; 
 

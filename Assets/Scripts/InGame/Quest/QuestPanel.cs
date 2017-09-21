@@ -27,6 +27,8 @@ public class QuestPanel : MonoBehaviour
 	public int nQuestIndex =0;
 	public int getGold =0;
 	public int nCompareCondition;			//현재 퀘스트의 변하는 값
+	public int nCompleteCondition;			//퀘스트 완료 조건
+	public int nMutiplyValue;				//배수 조건
 
 	public Text textReward_Honor;
 	public Text textReward_Ruby;
@@ -70,6 +72,7 @@ public class QuestPanel : MonoBehaviour
         //runningObject = transform.FindChild("CheckImage").gameObject;
         //runningButton = transform.FindChild("RunningImage").gameObject;
 		//startButton = transform.FindChild("StartButton").gameObject;
+		giveUpButton.onClick.RemoveAllListeners();
 		giveUpButton.onClick.AddListener(GiveUpActive);
     }
 
@@ -77,7 +80,7 @@ public class QuestPanel : MonoBehaviour
 	{
 
 
-		if (questData.nCompleteCondition == nCompareCondition) 
+		if (nCompareCondition >= nCompleteCondition) 
 		{
 			QuestCompleteActive ();
 
@@ -94,18 +97,22 @@ public class QuestPanel : MonoBehaviour
 	public void GetQuest(CGameQuestInfo _quest, QusetManager _questManager)
     {
         bIsQuest = true;
-		//_quest.bIsActive = true;
+		//1~5배 만큼 곱해준다
+		int randomRange = Random.Range (1, 5);
+
 		nQuestIndex = _quest.nIndex;			//index
         questData = _quest;						//퀘스트 정보
 		questManager = _questManager;			//퀘스트 매니저  
        
 		textQuestContents.text = questData.strExplain;
 
+		//init
 		nCompareCondition = 0;
-		textProgressValue.text = string.Format ("{0}", nCompareCondition)  +"/" + string.Format ("{0}", questData.nCompleteCondition);
+		nCompleteCondition = 0;
+		nCompleteCondition = questData.nCompleteCondition *  randomRange;
+		nMutiplyValue = randomRange;
 
-		//1~5배 만큼 곱해준다
-		int randomRange = Random.Range (1, 5);
+		textProgressValue.text = string.Format ("{0}", nCompareCondition)  +"/" + string.Format ("{0}", nCompleteCondition);
 
 		if (questData.nRewardHonor != 0)
 		{
@@ -126,10 +133,11 @@ public class QuestPanel : MonoBehaviour
 			
 
     }
-	public void GetQuest(CGameQuestInfo _quest, QusetManager _questManager , int _compareValue)
+	//저장된 데이터 불러올떄
+	public void GetQuest(CGameQuestInfo _quest, QusetManager _questManager , int _compareValue , int _multiplyValue)
 	{
 		bIsQuest = true;
-		//_quest.bIsActive = true;
+	
 		nQuestIndex = _quest.nIndex;			//index
 		questData = _quest;						//퀘스트 정보
 		questManager = _questManager;			//퀘스트 매니저  
@@ -137,20 +145,22 @@ public class QuestPanel : MonoBehaviour
 		textQuestContents.text = questData.strExplain;
 		questTypeIndex = questManager.ReturnQuestType (nQuestIndex);
 		nCompareCondition = _compareValue;
-		textProgressValue.text = string.Format ("{0}", nCompareCondition)  +"/" + string.Format ("{0}", questData.nCompleteCondition);
-
+		nCompleteCondition = 0;
+		nCompleteCondition = questData.nCompleteCondition * _multiplyValue;
 		//1~5배 만큼 곱해준다
-		int randomRange = Random.Range (1, 5);
+		textProgressValue.text = string.Format ("{0}", nCompareCondition)  +"/" + string.Format ("{0}", nCompleteCondition);
+
+
 
 		if (questData.nRewardHonor != 0)
 		{
-			int getHonor = questData.nRewardHonor * randomRange;
+			int getHonor = questData.nRewardHonor * _multiplyValue;
 			textReward_Honor.text = string.Format ("{0}", getHonor);
 		}
 
 		if (questData.nRewardRuby != 0) 
 		{
-			int getRuby = questData.nRewardRuby * randomRange;
+			int getRuby = questData.nRewardRuby * _multiplyValue;
 			textReward_Ruby.text = string.Format ("{0}", getRuby);
 		}
 
@@ -159,8 +169,6 @@ public class QuestPanel : MonoBehaviour
 			//textReward.text = questData.nRewardBossPotion.ToString ();
 		}
 	}
-
-
 
 	public void QuestCompleteActive()
 	{
@@ -271,6 +279,7 @@ public class QuestPanel : MonoBehaviour
 	public void ShowProgress()
 	{
 		textProgressValue.text = string.Format ("{0}", nCompareCondition)  +"/" + string.Format ("{0}", questData.nCompleteCondition);
+
 	}
 
 

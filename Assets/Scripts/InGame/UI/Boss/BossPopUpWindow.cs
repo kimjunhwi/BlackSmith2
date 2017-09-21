@@ -328,7 +328,7 @@ public class BossPopUpWindow : MonoBehaviour
 			RewardText.text = "장비";
 			Image RewardImage = Reward.transform.GetChild(1).GetComponent<Image> ();
 			RewardImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache (GameManager.Instance.bossWeaponInfo [_bossWeaponIndex02].strResource);
-			GameManager.Instance.player.inventory.GetEquimnet (GetEquiment(_bossWeaponIndex01));
+			GameManager.Instance.player.inventory.GetEquimnet (GetEquiment(_bossWeaponIndex02));
 		}
 		//Gold
 		GameObject Gold = rewardObjPool.GetObject ();

@@ -2014,9 +2014,8 @@ public class CGameQuestInfo
     public int nType = 0;
 	public string strExplain = "";
 	public string strMultipleCondition = "";
-	public int nCompleteCondition = 0;
-    
 
+	public int nCompleteCondition = 0;
 	public int nRewardHonor=0;
 	public int nRewardBossPotion =0;
 	public int nRewardRuby = 0;
@@ -2035,10 +2034,13 @@ public class CGameQuestSaveInfo
 	//해당 퀘스트의 인덱스와 진행도
 	public int nQuestIndex01;
 	public int nQuestIndex01_ProgressValue;
+	public int nQuestIndex01_MultiplyValue;
 	public int nQuestIndex02;
 	public int nQuestIndex02_ProgressValue;
+	public int nQuestIndex02_MultiplyValue;
 	public int nQuestIndex03;
 	public int nQuestIndex03_ProgressValue;
+	public int nQuestIndex03_MultiplyValue;
 	public int nCurLeftMin;
 	public float fCurLeftSec;
 

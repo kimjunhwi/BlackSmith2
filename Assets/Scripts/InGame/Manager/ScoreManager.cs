@@ -146,21 +146,26 @@ public class ScoreManager : MonoBehaviour
 
 	public void GoldPlus(double _fValue)
     {
+		
         m_dGetGold += _fValue;
-
+		if (m_dGetGold <= 0)
+			m_dGetGold = 0;
 		goldText.text = ChangeMoney(m_dGetGold);
     }
 
 	public void HonorPlus(double _fValue)
 	{
 		m_dGetHonor += _fValue;
-
+		if (m_dGetHonor <= 0)
+			m_dGetHonor = 0;
 		honorText.text = ChangeMoney (m_dGetHonor);
 	}
 
 	public void RubyPlus(int _nValue)
 	{
 		m_nGetRuby += _nValue;
+		if (m_nGetRuby <= 0)
+			m_nGetRuby = 0;
 		rubyText.text = m_nGetRuby.ToString ();
 	}
 
@@ -169,14 +174,18 @@ public class ScoreManager : MonoBehaviour
 		playerDaysInfo.CurrentDaysText.text = string.Format ("{0}", _Days);
 		GameManager.Instance.player.SetDay (_Days);
 	}
-
-
-
-
+		
 	public void SetMaxDays(int _Days)
 	{
 		playerDaysInfo.MaxDaysText.text = string.Format ("{0}", _Days);
 		GameManager.Instance.player.SetMaxDay (_Days);
+	}
+
+	public double GetFreePassGold()
+	{
+		int nCurDay = GameManager.Instance.player.GetDay ();
+		double gold = (250 * Mathf.Pow (1.09f, nCurDay - 1)) * 10;
+		return gold;
 	}
 
 

@@ -463,7 +463,7 @@ public class BossCreator : MonoBehaviour
 			bossDragon.bossEffect = bossEffect;
 			bossDragon.bossBackGround = bossBackGround;
 			bossDragon.bossPopUpWindow = bossPopUpWindow;
-			bossDragon.sBossWeaponSprite = "Weapons/Boss/deathnote";
+			bossDragon.sBossWeaponSprite ="";
 			bossDragon.bossTimer_Obj = bossTimer_Obj;
 			bossDragon.bossUIDisable = bossUIDisable;
 			bossDragon.bossTalkPanel = bossTalkPanel;

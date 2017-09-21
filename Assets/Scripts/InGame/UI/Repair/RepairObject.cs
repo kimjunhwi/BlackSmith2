@@ -448,7 +448,7 @@ public class RepairObject : MonoBehaviour
 				{
 					m_fMinusTemperature = 0.0f;
 
-					fCurrentTemperature -= fMaxTemperature * 0.02f;
+					fCurrentTemperature -= fMaxTemperature * 0.03f;
 
 					if (fCurrentTemperature < 0)
 						fCurrentTemperature = 0;
@@ -538,7 +538,7 @@ public class RepairObject : MonoBehaviour
 
 			//WaterAvailable Arrow 
 			int waterLevel = player.GetMaxWaterLevel();
-			waterAvailableArrow.anchoredPosition = new Vector2(waterAvailableArrow.anchoredPosition.x, waterBottle.sizeDelta.y /( waterLevel + 1));
+			waterAvailableArrow.anchoredPosition = new Vector2(waterAvailableArrow.anchoredPosition.x, waterBottle.sizeDelta.y  /( waterLevel + 1));
 		
 		}
 	}
@@ -614,7 +614,8 @@ public class RepairObject : MonoBehaviour
 		WeaponObject.SetActive (false);
 		waterObject.SetActive (false);
 
-		if (_bossData.nIndex == 0) {
+		if (_bossData.nIndex == 0)
+		{
 			bossCharacter = _bossData;
 			bossIce = (BossIce)bossCharacter;
 
@@ -723,7 +724,7 @@ public class RepairObject : MonoBehaviour
 		{
 			nTouchCount++;
 
-			if (nTouchCount >= 5) 
+			if (nTouchCount >= 8) 
 			{
 				Debug.Log ("StartTuto2");
 				WaterSlider.value = WaterSlider.maxValue;
@@ -731,15 +732,13 @@ public class RepairObject : MonoBehaviour
 				SpawnManager.Instance.tutorialPanel.tutorial_Image.gameObject.SetActive(true);
 				SpawnManager.Instance.tutorialPanel.tutorial_Image.enabled = true;
 				SpawnManager.Instance.tutorialPanel.ShowTutorialImage (1);
-
-
-				SpawnManager.Instance.tutorialPanel.ShowTutorialImage (1);
-
+		
 
 				if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE02) 
 				{
 					Debug.Log ("Change State : " + tutorialPanel.eTutorialState);
 					tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_WAIT_DRAGONSHOW;
+					//TouchWater ();
 				}
 				
 			}
@@ -1547,16 +1546,19 @@ public class RepairObject : MonoBehaviour
 			//Debug.Log ("물 수치 Plus 수치 : " + GameManager.Instance.player.GetWaterPlus() + "물 최대 수치 : " + GameManager.Instance.player.GetBasicMaxWater() ); 
 			
 			//온도 감소량
-			fCurrentTemperature -= fMaxTemperature * 0.5f;
+			fCurrentTemperature -= fMaxTemperature * 0.6f;
 
 			if (fCurrentTemperature < 0)
 				fCurrentTemperature = 0;
-			
-			float fMinusValue = (player.AccessoryEquipmnet.nIndex == (int)E_BOSS_ITEM.ICE_RING) ? player.AccessoryEquipmnet.fBossOptionValue : 0;
-			
-			//물 감소량
-			fCurrentWater -=  1000f - fMinusValue;
 
+			if (player.AccessoryEquipmnet != null) {
+				float fMinusValue = (player.AccessoryEquipmnet.nIndex == (int)E_BOSS_ITEM.ICE_RING) ? player.AccessoryEquipmnet.fBossOptionValue : 0;
+			
+				//물 감소량
+				fCurrentWater -= 1000f - fMinusValue;
+			} else {
+				fCurrentWater -= 1000f;
+			}
 			if (fCurrentWater < 0) {
 				fCurrentWater = 0;
 			}

@@ -257,6 +257,7 @@ public class BossDragon :  BossCharacter
 
 		bossDisappearFire.BossDragonDisappearAnimator.SetBool ("isBossDisapperFire", true);
 
+		yield return new WaitForSeconds (0.6f);
 
 		//사라지는 애니메이션이 끝날때 까지 기달인다.
 		while (true) 

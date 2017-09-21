@@ -89,7 +89,7 @@ public class SkullObject : MonoBehaviour ,IPointerDownHandler
 			double dCurComplete = repairObj.GetCurCompletion ();
 			double dMaxComplete = dCurComplete;
 
-			repairObj.SetCurCompletion (-dMaxComplete * 0.05);
+			repairObj.SetCurCompletion (-dMaxComplete * 0.5f);
 			skullObjPull.ReturnObject (gameObject);
 		}
 			

@@ -14,6 +14,8 @@ public class OrangeHair : ArbaitBatch {
         base.Awake();
 
         nIndex = (int)E_ARBAIT.E_MIA;
+
+		strSkillExplain = string.Format ("대장장이 물 충전속도 {0}% 증가", m_CharacterChangeData.fSkillPercent);
     }
 
     // Update is called once per frame
@@ -52,6 +54,8 @@ public class OrangeHair : ArbaitBatch {
         fGetPlusWater = 0.0f;
         fMinusPlusWater = 0.0f;
         fChangePlusWater = 0.0f;
+
+		playerData.SetWaterPlus ();
     }
 
 	public override void StartAura (float _fTime)
@@ -61,6 +65,13 @@ public class OrangeHair : ArbaitBatch {
 
 		else
 			StartCoroutine (AuraParticle ());
+	}
+
+	public override void EnhacneArbait ()
+	{
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 10 * 0.01f;
+
+		m_CharacterChangeData.strExplains = string.Format ("대장장이 물 충전속도 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
 
 	public override IEnumerator AuraParticle ()

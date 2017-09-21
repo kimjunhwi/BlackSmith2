@@ -446,6 +446,9 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		shop.SaveTime ();
 
+		if (player.GetEpicOption () != null)
+			player.GetEpicOption ().Save ();
+
         playerData = player.changeStats;
 
 		playerData.dGold = ScoreManager.ScoreInstance.GetGold ();
@@ -465,6 +468,9 @@ public class GameManager : GenericMonoSingleton<GameManager>
         SaveQuestList();
 
 		SaveBossPanelInfoList ();
+
+		if (player.GetEpicOption () != null)
+			player.GetEpicOption ().Load ();
 
         SpawnManager.Instance.ApplyArbait();
 
@@ -1083,7 +1089,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		w.Show(_msg, _callback);
 	}
 
-	public void Window_yesno(string strValue, System.Action<string> _callback)
+	public void Window_yesno(string strTitle, string strValue,Sprite _spriteGoods, System.Action<string> _callback)
 	{
 		//GameObject Root_ui = GameObject.Find("root_window)"); //ui attach
 		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_yesno"), Vector3.zero, Quaternion.identity) as GameObject;
@@ -1093,7 +1099,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		go.transform.localScale = Vector3.one;
 
 		CWindowYesNo w = go.GetComponent<CWindowYesNo>();
-		w.Show(strValue, _callback);
+		w.Show(strTitle,strValue,_spriteGoods, _callback);
 	}
     #endregion
 
@@ -1888,10 +1894,10 @@ public class ArbaitData
 	public int nScoutGold;
 
 	//영입 명예
-	public int nScoutHonor;
+	public int nBasicHonor;
 
 	//영입 다이아 
-	public int nScoutDia;
+	public int nScoutHonor;
 
 	//다이아로 구매 가능한지
 	public int nIsDia;
@@ -1929,9 +1935,9 @@ public class ArbaitData
 
 		nScoutGold= _data.nScoutGold;
 
-		nScoutHonor= _data.nScoutHonor;
+		nBasicHonor= _data.nBasicHonor;
 
-		nScoutDia= _data.nScoutDia;
+		nScoutHonor= _data.nScoutHonor;
 
 		nIsDia= _data.nIsDia;
 
@@ -2122,6 +2128,7 @@ public class CGamePlayerData
 	public bool bIsBossSasinPackageBuy;
 	public bool bIsBossFirePackageBuy;
 	public bool bIsBossMusicPackageBuy;
+	public float fGoblinSecond;				//고블린 초
 
 
 	public CGamePlayerData(CGamePlayerData playerData)
@@ -2175,6 +2182,7 @@ public class CGamePlayerData
 		bIsBossSasinPackageBuy = playerData.bIsBossSasinPackageBuy;
 		bIsBossFirePackageBuy = playerData.bIsBossFirePackageBuy;
 		bIsBossMusicPackageBuy = playerData.bIsBossMusicPackageBuy;
+		fGoblinSecond = playerData.fGoblinSecond;
 	}
 }
 
@@ -2185,7 +2193,7 @@ public class CGameMainWeaponOption
 	public int nIndex = 0;
 	public string strOptionName = "";
 	public string strOptionExplain = "";
-	public int nValue = 0;
+	public float nValue = 0;
 	public bool bIsLock = false;
 }
 

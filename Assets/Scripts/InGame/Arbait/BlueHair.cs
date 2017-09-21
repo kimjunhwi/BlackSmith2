@@ -17,6 +17,8 @@ public class BlueHair : ArbaitBatch {
         base.Awake();
 
         nIndex = (int)E_ARBAIT.E_ROY;
+
+		strSkillExplain = string.Format ("대장장이 수리력 {0}% 증가", m_CharacterChangeData.fSkillPercent);
     }
 
 
@@ -55,12 +57,21 @@ public class BlueHair : ArbaitBatch {
         fGetRepairPower = 0.0f;
 
         fMinusRepair = 0.0f;
+
+		playerData.SetRepairPower ();
     }
 
 	public override void StartAura (float _fTime)
 	{
 
 
+	}
+
+	public override void EnhacneArbait ()
+	{
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 10 * 0.01f;
+
+		m_CharacterChangeData.strExplains = string.Format ("대장장이 수리력 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
 
     public override void ApplySkill()

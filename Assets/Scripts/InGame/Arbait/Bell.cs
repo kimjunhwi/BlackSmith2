@@ -13,6 +13,8 @@ public class Bell : ArbaitBatch {
 		base.Awake();
 
 		nIndex = (int)E_ARBAIT.E_BELL;
+
+		strSkillExplain = string.Format ("물 게이지 70%이상 일 때 모든 직원 수리력, 크리 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
 
 	// Update is called once per frame
@@ -57,6 +59,13 @@ public class Bell : ArbaitBatch {
 	protected override void ReliveSkill()
 	{
 		
+	}
+
+	public override void EnhacneArbait ()
+	{
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 10 * 0.01f;
+
+		m_CharacterChangeData.strExplains = string.Format ("물 게이지 70%이상 일 때 모든 직원 수리력, 크리 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
 
 	public override void StartAura (float _fTime)

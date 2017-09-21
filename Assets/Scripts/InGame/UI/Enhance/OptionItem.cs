@@ -67,6 +67,9 @@ public class OptionItem : MonoBehaviour {
 				OptionImage.sprite = UnActiveEpicSprite;
 				LockImage.sprite = UnActiveEpicLockSprite;
 			}
+
+			OptionText.text = _WeaponOption.strOptionExplain;
+
 		} else if (_WeaponOption.nIndex >= (int)E_CREATOR.E_BOSS_ICE) 
 		{
 			OptionImage.sprite = UnActiveBossSprite;

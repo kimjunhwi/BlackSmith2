@@ -8,6 +8,8 @@ public class EpicOption {
 	//에픽 무기 인덱스 
 	public int nIndex = 0;
 
+	public int nDightDay = 0;
+
 	//세이브를 위한 일차
 	public int nSaveDay = 0;
 
@@ -22,7 +24,7 @@ public class EpicOption {
 
 	public const float fDivisionDay = 0.1f;
 
-	public const float fPlusOption = 50f;
+	public const float fPlusOption = 10f;
 
 	//IcePunch
 	public float fCriticalDamage = 0;
@@ -45,4 +47,8 @@ public class EpicOption {
 	public virtual bool CheckOption(){ return false; }
 
 	public virtual void Relive(){ }
+
+	public virtual void Save(){}
+
+	public virtual void Load() {}
 }

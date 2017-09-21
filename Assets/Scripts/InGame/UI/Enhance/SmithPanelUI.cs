@@ -31,6 +31,8 @@ public class SmithPanelUI : EnhanceUI {
 
 			nLevel++;
 
+			SpawnManager.Instance.ArbaitScoutCount ();
+
 			cPlayer.SetSmithLevel (nLevel);
 
 			fEnhanceValue = cPlayer.GetBasicBigSuccessedPercent() + (fBasic * 0.05f);

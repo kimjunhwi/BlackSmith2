@@ -98,6 +98,10 @@ public class Character : MonoBehaviour
 		cPlayerData = GameManager.Instance.player;
 	}
 
+	public virtual void Move (int _nIndex){}
+
+	public virtual void RetreatCharacter(float _fSpeed, bool _bIsBack, bool _bIsAllBack){}
+
 	public virtual bool CheckComplate(double _dComplate,float _fTemperator) {return false; }
     
 	public virtual void Complate(double _dComplate = 0.0f) { }

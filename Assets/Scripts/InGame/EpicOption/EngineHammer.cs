@@ -5,19 +5,24 @@ using ReadOnlys;
 
 public class EngineHammer : EpicOption {
 
-	float fValue = 50f;
 	float fMaxPercent = 70.0f;
 	float fMinPercent = 30.0f;
-
-
 
 	RepairObject RepairShowObject;
 
 	public override void Init (int _nDay,Player _player)
 	{
-		nIndex = (int)E_EPIC_INDEX.E_EPIC_FREEZING_TUNA;
+		fValue = 50f;
+
+		nIndex = (int)E_EPIC_INDEX.E_EPIC_ENGINE_HAMMER;
+
+		nCostDay = _nDay;
+
+		nDightDay = (int)(nCostDay * fDivisionDay);
 
 		cPlayerData = _player;
+
+		fValue += fValue * nDightDay * fDivisionDay; 
 
 		RepairShowObject = GameObject.Find("RepairPanel").GetComponentInChildren<RepairObject>();
 

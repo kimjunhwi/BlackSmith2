@@ -343,15 +343,6 @@ public class Player
 		if (creatorWeapon != null)
 			dResultGoldPlusPercent += creatorWeapon.fPlusGoldPercent;
 
-		if (epicOpion != null) 
-		{
-			if (epicOpion.nIndex == (int)E_EPIC_INDEX.E_EPIC_GOLD_HAMMER) 
-			{
-				GoldHammer goldHammer = epicOpion as GoldHammer;
-				dResultGoldPlusPercent += goldHammer.fValue;
-			}
-		}
-
 		m_dGoldPlusPercent = changeStats.dGoldPlusPercent + (changeStats.dGoldPlusPercent * dResultGoldPlusPercent * 0.01);
 
 		if (PlayerInfo != null)

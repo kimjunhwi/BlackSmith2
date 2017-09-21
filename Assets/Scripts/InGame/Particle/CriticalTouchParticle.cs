@@ -18,6 +18,10 @@ public class CriticalTouchParticle : MonoBehaviour {
 
     public void Play()
     {
+		int nRandomRotation = Random.Range (0, 360 + 1);
+
+		transform.rotation =  Quaternion.Euler(0, 0, nRandomRotation);
+
 		rectTransform.sizeDelta = new Vector2 (m_fWidth, m_fHeight);
 
         anim.SetTrigger("bIsTouch");

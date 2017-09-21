@@ -74,8 +74,6 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	private bool bIsFirst = false;
 
-
-
 	public int nTutorialCurGuestCount = 0;
 
 	public ShopCash shopCash;
@@ -85,6 +83,28 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 	public BossCreator bossCreator;
 
 	public MakingUI makingUI;
+
+
+	///Goblin...
+	System.DateTime StartDate = new System.DateTime();
+
+	System.DateTime EndData;
+
+	System.TimeSpan timeCal;
+
+	private const int nInitTime_Sec = 299;
+
+	public float fCurSec;
+
+	private string strTime ="";
+
+	public bool m_bIsGoblinCreate= false;
+
+	enum E_GUEST
+	{
+		E_NONE = 0,
+		E_GOBLIN = 10,
+	}
 
     private void Awake()
     {
@@ -156,10 +176,20 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			}
 			bIsFirst = true;
 			//2개를 주석하면 튜토리얼 On
-			//tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
-			//tutorialPanel.gameObject.SetActive (false);
+			tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
+			tutorialPanel.gameObject.SetActive (false);
+
+			//if (CheckIsTimer ()) {
+			//	fCurSec = nInitTime_Sec;
+			//
+			//} 
+			//else 
+			//{
+			//	fCurSec = playerData.changeStats.fGoblinSecond;
+			//}
 		}
 	}
+		
     public SpawnManager GetSpawnManager() { return this; }
 
     private void Update()
@@ -169,10 +199,17 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		{
 			m_fCreatePlusTime += Time.deltaTime;
 			m_fLevelTime += Time.deltaTime;
+			fCurSec += Time.deltaTime;
+
+			//if (fCurSec > nInitTime_Sec && m_bIsGoblinCreate == false && list_Character.Count < m_nMaxPollAmount && bIsBossCreate == false && bIsCharacterBack == false) 
+			//{
+			//		CreateGoblin ();
+
+			//	m_bIsGoblinCreate = true;
+			//}
 
 			//만들 수 있는 시간이 지났거나, 현재 손님이 없을경우,
 			//캐릭터 카운트가 최대미만일 경우, 보스가 활성화 중이지 않을경우 캐릭터를 생성한다.
-
 			if ((m_fCreatePlusTime >= m_fCreateTime || list_Character.Count == 0) &&
 			    list_Character.Count < m_nMaxPollAmount && bIsBossCreate == false && bIsCharacterBack == false) {
 				CreateCharacter ();
@@ -270,6 +307,19 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
             list_ArbaitUI.Add(arbiatCharacter);
         }
     }
+
+	public void CreateGoblin()
+	{
+		//만약 이미 활성화 돼있다면 뒤로 돌림
+		if (m_CharicPool [(int)E_GUEST.E_GOBLIN].activeSelf)
+			return;
+
+		//만약 비활성화 상태라면 활성화 시킨후
+		m_CharicPool[(int)E_GUEST.E_GOBLIN].SetActive(true);
+
+		//손님 리스트에 추가
+		InsertCharacter(m_CharicPool[(int)E_GUEST.E_GOBLIN]);
+	}
 
 	//날짜가 바뀔시 그것에 대한 초기화를 진행
 	public void SetDayInitInfo(int _nDay)
@@ -429,7 +479,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 		while (true)
 		{
-			list_Character [nIndex++].GetComponent<NormalCharacter> ().RetreatCharacter (4.0f, true,true);
+			list_Character [nIndex++].GetComponent<Character> ().RetreatCharacter (4.0f, true,true);
 
 			if (nIndex >= list_Character.Count) 
 			{
@@ -444,7 +494,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
     {
         for (int i = nIndex; i < list_Character.Count; i++)
         {
-			list_Character[i].GetComponent<NormalCharacter>().Move(i);
+			list_Character[i].GetComponent<Character>().Move(i);
         }
     }
 
@@ -453,8 +503,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
     {
         list_Character.Add(_obj);
 
-		_obj.GetComponent<NormalCharacter>().Move(list_Character.Count-1);
-        _obj.GetComponent<NormalCharacter>().fSpeed = fSpeed;
+		_obj.GetComponent<Character>().Move(list_Character.Count-1);
+		_obj.GetComponent<Character>().fSpeed = fSpeed;
     }
 
 	public void CreateCharacter()
@@ -464,7 +514,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
         while(true)
         { 
             //범위안에 랜덤으로 선택
-            nSelectCharacter = Random.Range(0, m_CharicPool.Length);
+            nSelectCharacter = Random.Range(0, m_CharicPool.Length - 1);
 
             //만약 이미 활성화 돼있다면 뒤로 돌림
             if (m_CharicPool[nSelectCharacter].activeSelf)
@@ -618,12 +668,17 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 					m_BatchArbait[nIndex].SetActive(false);
 
 					m_nBatchArbaitCount--;
-
 					break;
 				}
 			}
 		}
     }
+
+	public void ArbaitScoutCount()
+	{
+		for (int nIndex = 0; nIndex < list_ArbaitUI.Count; nIndex++) 
+			list_ArbaitUI [nIndex].CheckArbaitScoutCount (false);
+	}
 
 	//물 사용시 아르바이트중에 물 사용시 버프가 있을 경우 적용
 	public void UseWater()
@@ -857,7 +912,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
     {
         for (int nIndex = 0; nIndex < m_BatchArbait.Length; nIndex++)
         {
-            array_ArbaitData[nIndex].RelivePauseSkill();
+			if(m_BatchArbait[nIndex].activeSelf)
+           	 array_ArbaitData[nIndex].RelivePauseSkill();
         }
     }
 
@@ -865,7 +921,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
     {
         for (int nIndex = 0; nIndex < m_BatchArbait.Length; nIndex++)
         {
-            array_ArbaitData[nIndex].ApplyPauseSkill();
+			if(m_BatchArbait[nIndex].activeSelf)
+            	array_ArbaitData[nIndex].ApplyPauseSkill();
         }
     }
 
@@ -980,6 +1037,32 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		GameManager.Instance.ShowRewardAdd_Boss (bossCreator);
 	}
 
+	public bool CheckIsTimer()
+	{
+		if (PlayerPrefs.HasKey("Goblin"))
+		{
+			strTime = PlayerPrefs.GetString("Goblin");
+
+			StartDate = System.Convert.ToDateTime(strTime);
+		}
+
+		EndData = System.DateTime.Now;
+
+		timeCal = EndData - StartDate;
+
+		int nStartTime = StartDate.Hour * 3600 + StartDate.Minute * 60 + StartDate.Second;
+		int nEndTime = EndData.Hour * 3600 + EndData.Minute * 60 + EndData.Second;
+
+		int nCheck = Mathf.Abs(nEndTime - nStartTime);
+
+		//1시간이 지났거나 하루차이가 있을 경우
+		if (timeCal.Days != 0 || nCheck >= 300)
+			return true;
+
+		else
+			return false;
+
+	}
 
 }
 

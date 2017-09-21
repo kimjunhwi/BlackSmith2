@@ -251,7 +251,7 @@ public class Shop : MonoBehaviour {
 
 	public void ShopInit()
 	{
-		GameManager.Instance.Window_yesno ("50", rt => 
+		GameManager.Instance.Window_yesno ("상품을 초기화 하시겠습니까?" , "50",ObjectCashing.Instance.LoadSpriteFromCache("Store/GoldShop/quest_popup_reset_ruby"), rt => 
 		{ 
 			if (rt == "0") 
 			{

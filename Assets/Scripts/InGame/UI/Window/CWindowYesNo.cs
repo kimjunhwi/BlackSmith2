@@ -7,22 +7,28 @@ using UnityEngine.UI;
 
 public class CWindowYesNo : CWindow
 {
-    public Button m_button_yes;
-    public Button m_button_no;
+    public Button m_button_Ads;
+    public Button m_button_Goods;
 	public Button m_button_delete;
+	public Image m_button_Goods_Image;
+
+	public Image m_button_no;
 
 	public Text RubyText;
+	public Text strTitleText;
 
-	public void Show(string strValue, Action<string> _callback)
+	public void Show(string _strTitle, string strValue,Sprite _spriteGoods, Action<string> _callback)
     {
         base.Show(null, _callback);
 
-        m_button_yes.onClick.AddListener(OnYes);
-        m_button_no.onClick.AddListener(OnNo);
+		m_button_Ads.onClick.AddListener(OnYes);
+		m_button_Goods.onClick.AddListener(OnNo);
 		m_button_delete.onClick.AddListener (OnDelete);
 
 		RubyText.text = strValue;
+		strTitleText.text = _strTitle;
 
+		m_button_Goods_Image.sprite = _spriteGoods;
         //m_button_yes.text = CGame.Instance.GetText(10006); //yes
         //m_button_no.text = CGame.Instance.GetText(10007); //no
 

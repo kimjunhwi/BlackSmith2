@@ -112,6 +112,7 @@ public class Note2Object : MonoBehaviour  ,IPointerDownHandler
 
 		if (getInfoGameObject.gameObject.name == "Note2")
 		{
+			SoundManager.instance.PlayTouchMusicNoteSound ();
 			note2ObjPull.ReturnObject (getInfoGameObject);
 			bossMusic.DecreaseRefectionTime (0.25f);
 		}

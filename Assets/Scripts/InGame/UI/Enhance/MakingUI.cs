@@ -75,10 +75,10 @@ public class MakingUI : MonoBehaviour {
 			BossSoulSlots [nIndex].SetUp (this, playerData, nIndex);
 		}
 
-		if (playerData.GetCreatorWeapon ().dRepair == 0) {
-			playerData.SetDay (11);
-
-			MakeWeapon ();
+		if (playerData.GetCreatorWeapon ().dRepair == 0)
+		{
+			//playerData.SetDay (11);
+			//MakeWeapon ();
 		} 
 		else 
 		{
@@ -276,6 +276,7 @@ public class MakingUI : MonoBehaviour {
 
 		SpawnManager.Instance.SetDayInitInfo (playerData.GetDay () - 10);
 
+		SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
 
 //		
 //

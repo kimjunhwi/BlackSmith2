@@ -629,4 +629,6 @@ public class BossCreator : MonoBehaviour
 		}
 		BossPanelInfoSave ();
 	}
+
+
 }

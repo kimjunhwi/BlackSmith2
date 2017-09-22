@@ -89,6 +89,8 @@ public class SkullObject : MonoBehaviour ,IPointerDownHandler
 			double dCurComplete = repairObj.GetCurCompletion ();
 			double dMaxComplete = dCurComplete;
 
+			SoundManager.instance.PlaySound (eSoundArray.ES_BossSasinSkullTouch);
+
 			repairObj.SetCurCompletion (-dMaxComplete * 0.5f);
 			skullObjPull.ReturnObject (gameObject);
 		}

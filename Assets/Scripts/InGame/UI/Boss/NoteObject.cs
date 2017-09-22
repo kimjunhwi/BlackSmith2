@@ -112,8 +112,11 @@ public class NoteObject : MonoBehaviour  ,IPointerDownHandler
 	{
 		getInfoGameObject = eventData.pointerEnter;
 	
-		if (getInfoGameObject.gameObject.name == "Note") 
+		if (getInfoGameObject.gameObject.name == "Note")
+		{
+			
 			CreateNote ();
+		}
 		 
 		else
 			return;
@@ -122,6 +125,7 @@ public class NoteObject : MonoBehaviour  ,IPointerDownHandler
 
 	public void CreateNote()
 	{
+		SoundManager.instance.PlayTouchMusicNoteSound ();
 
 		noteObjPull.ReturnObject (gameObject);
 		bossMusic.DecreaseRefectionTime (0.5f);

@@ -44,12 +44,14 @@ public class BossIceWall : MonoBehaviour , IPointerDownHandler
 		if (getInfoGameObject.gameObject.name == "bossIceWall") 
 		{
 			nCountBreakWall--;
+			if (nCountBreakWall > 0)
+				SoundManager.instance.PlaySound (eSoundArray.ES_BossIceTouch);
 			Debug.Log(getInfoGameObject.gameObject.name + " = " + nCountBreakWall);
 			if (nCountBreakWall == 10) {
 				animator_IceWallRepair.SetBool ("isBreak01", true);
 			}
 
-			if (nCountBreakWall == 1) {
+			if (nCountBreakWall == 5) {
 				animator_IceWallRepair.SetBool ("isBreak02", true);
 			}
 
@@ -64,6 +66,8 @@ public class BossIceWall : MonoBehaviour , IPointerDownHandler
 		if (getInfoGameObject.gameObject.name == "bossIceWall_Arbait1") 
 		{
 			nCountBreakWall--;
+			if (nCountBreakWall > 0)
+				SoundManager.instance.PlaySound (eSoundArray.ES_BossIceTouch);
 			Debug.Log(getInfoGameObject.gameObject.name + " = " + nCountBreakWall);
 			if (nCountBreakWall == 7) {
 				animator_IceWallArbait.SetBool ("isBreak01", true);
@@ -82,6 +86,8 @@ public class BossIceWall : MonoBehaviour , IPointerDownHandler
 		if (getInfoGameObject.gameObject.name == "bossIceWall_Arbait2") 
 		{
 			nCountBreakWall--;
+			if (nCountBreakWall > 0)
+				SoundManager.instance.PlaySound (eSoundArray.ES_BossIceTouch);
 			if (nCountBreakWall == 7) {
 				animator_IceWallArbait.SetBool ("isBreak01", true);
 			}
@@ -99,6 +105,8 @@ public class BossIceWall : MonoBehaviour , IPointerDownHandler
 		if (getInfoGameObject.gameObject.name == "bossIceWall_Arbait3") 
 		{
 			nCountBreakWall--;
+			if (nCountBreakWall > 0)
+				SoundManager.instance.PlaySound (eSoundArray.ES_BossIceTouch);
 			if (nCountBreakWall == 7) {
 				animator_IceWallArbait.SetBool ("isBreak01", true);
 			}
@@ -127,6 +135,7 @@ public class BossIceWall : MonoBehaviour , IPointerDownHandler
 	public IEnumerator FreezeRepair()
 	{
 		animator_IceWallRepair.SetBool ("isFreeze", true); //Start Freeze Animation
+		SoundManager.instance.PlaySound (eSoundArray.ES_BossIceFreeze);
 		while (true) 
 		{
 			Debug.Log ("While FreezeRepair");
@@ -145,6 +154,8 @@ public class BossIceWall : MonoBehaviour , IPointerDownHandler
 	public IEnumerator DeFreezeRepair()
 	{
 		animator_IceWallRepair.SetBool ("isDefreeze", true); //Start Freeze Animation
+
+		SoundManager.instance.PlaySound (eSoundArray.ES_BossIceBreak);
 		while (true) 
 		{
 			if (animator_IceWallRepair.GetCurrentAnimatorStateInfo (0).IsName("Ice_Repair_Defreeze")) 
@@ -167,6 +178,7 @@ public class BossIceWall : MonoBehaviour , IPointerDownHandler
 		
 	public IEnumerator FreezeArbait()
 	{
+		SoundManager.instance.PlaySound (eSoundArray.ES_BossIceFreeze);
 		animator_IceWallArbait = gameObject.GetComponent<Animator> ();
 		animator_IceWallArbait.SetBool ("isFreeze", true); //Start Freeze Animation
 		while (true) 

@@ -32,6 +32,9 @@ public class ShopShowPanel : MonoBehaviour {
 
 	private void BuyClick()
 	{
+		if (ItemData == null)
+			return;
+
 		if (ItemData != null)
 			GameManager.Instance.player.inventory.GetEquimnet (ItemData);
 
@@ -53,6 +56,8 @@ public class ShopShowPanel : MonoBehaviour {
 
 		nameText.text = "";
 		itemImage.sprite = null;
+
+		ItemData = null;
 	}
 
 	public void Setting(ShopButton _shopButton, CGameEquiment _ItemData)

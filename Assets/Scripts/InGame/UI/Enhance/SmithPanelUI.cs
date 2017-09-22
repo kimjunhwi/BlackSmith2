@@ -5,10 +5,12 @@ using ReadOnlys;
 
 public class SmithPanelUI : EnhanceUI {
 
-	private float fBasic = 1;
+	private float fBasic = 10;
 
-	const int nBasicHonor = 100;
-	const int nPlusPercent = 50;
+	const int nMaxLevel = 10;
+
+	const int nBasicHonor = 200;
+	const int nPlusPercent = 100;
 
 	protected override void Awake ()
 	{
@@ -16,34 +18,60 @@ public class SmithPanelUI : EnhanceUI {
 
 		nLevel = cPlayer.GetSmithLevel ();
 
-		EnhanceText.text = string.Format("{0} : {1}", strEnhanceName ,nLevel);
 
-		fCostHonor = nBasicHonor + (nPlusPercent * nLevel - 1);
 
-		CostGoldText.text = ChangeValue(fCostHonor);
+		if (cPlayer.GetSmithLevel () < nMaxLevel) {
+
+			EnhanceText.text = string.Format("{0} : {1}", strEnhanceName ,nLevel);
+
+			fCostHonor = nBasicHonor + (nPlusPercent * nLevel - 1);
+
+			CostGoldText.text = ChangeValue(fCostHonor);
+		} else {
+			EnhanceText.text = string.Format("{0} : {1}", strEnhanceName ,"Max");
+
+			CostGoldText.text = "Max";
+		}
+
+
 	}
 
 	protected override void EnhanceButtonClick ()
 	{
 		fCostHonor = nBasicHonor + (nPlusPercent * nLevel - 1);
 
-		if (fCostHonor <= ScoreManager.ScoreInstance.GetHonor ()) {
+		if (fCostHonor <= ScoreManager.ScoreInstance.GetHonor () && cPlayer.GetSmithLevel() < nMaxLevel) {
+
+			double dEnhanceValue = 0;
 
 			nLevel++;
 
 			SpawnManager.Instance.ArbaitScoutCount ();
 
+			SpawnManager.Instance.balckSmithSetting.SettingSmith (nLevel);
+
 			cPlayer.SetSmithLevel (nLevel);
 
-			fEnhanceValue = cPlayer.GetBasicBigSuccessedPercent() + (fBasic * 0.05f);
+			dEnhanceValue = cPlayer.GetBasicGoldPlusPercent() + 50;
 
-			cPlayer.SetBasicBigSuccessedPercent(fEnhanceValue);
+			cPlayer.SetBasicGoldPlusPercent(dEnhanceValue);
 
-			EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
+			dEnhanceValue = cPlayer.GetBasicHonorGoldPlusPercent() + 50;
+
+			cPlayer.SetBasicHonorPlusPercent (dEnhanceValue);
+
+			EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 
 			ScoreManager.ScoreInstance.HonorPlus (-fCostHonor);
 
-			CostGoldText.text  = ChangeValue((float)(nBasicHonor + (nPlusPercent * nLevel - 1)));
+			if (cPlayer.GetSmithLevel () < nMaxLevel) {
+				CostGoldText.text = ChangeValue ((float)(nBasicHonor + (nPlusPercent * nLevel - 1)));
+			
+				EnhanceText.text = string.Format ("{0} {1}", strEnhanceName, nLevel);
+			} else {
+				CostGoldText.text = "Max";
+				EnhanceText.text =string.Format("{0} {1}", strEnhanceName , "Max");
+			}
 		}
 	}
 }

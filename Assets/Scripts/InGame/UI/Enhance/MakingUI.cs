@@ -91,6 +91,8 @@ public class MakingUI : MonoBehaviour {
 
 			createWeapon.dRepair = LoadCreateWeapon.dRepair;
 
+			createWeapon.nOptionChangeCount = LoadCreateWeapon.nOptionChangeCount;
+
 			if ( LoadCreateWeapon.fArbaitRepair != 0)
 				CheckData (createWeapon, (int)E_CREATOR.E_ARBAIT, (int)LoadCreateWeapon.fArbaitRepair);
 
@@ -320,7 +322,7 @@ public class MakingUI : MonoBehaviour {
 		SetShowText ();
 	}
 
-	private bool CheckData(CreatorWeapon _equiment, int nIndex, int _nInsertValue)
+	public bool CheckData(CreatorWeapon _equiment, int nIndex, int _nInsertValue)
 	{
 		switch(nIndex)
 		{
@@ -331,7 +333,7 @@ public class MakingUI : MonoBehaviour {
 
 				_equiment.fRepairPercent = _nInsertValue;
 
-				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
+				plusItem.nIndex = (int)E_CREATOR.E_REPAIRPERCENT;
 				plusItem.strOptionName = "수리력";
 				plusItem.nValue = _nInsertValue;
 				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
@@ -538,6 +540,7 @@ public class MakingUI : MonoBehaviour {
 		case (int)E_EPIC_INDEX.E_EPIC_FREEZING_TUNA: 	resultOption = new FreezingTuna (); break;
 		case (int)E_EPIC_INDEX.E_EPIC_RUBBER_CHICKEN: 	resultOption = new RubberChicken ();break;
 		case (int)E_EPIC_INDEX.E_EPIC_ENGINE_HAMMER: 	resultOption = new EngineHammer (); break;
+		case (int)E_EPIC_INDEX.E_EPIC_ICEPUNCH: 		resultOption = new IcePunch (); break;
 		case (int)E_EPIC_INDEX.E_EPIC_GOBLIN_HAMMER:	resultOption = new GoblinHammer ();break;
 		case (int)E_EPIC_INDEX.E_EPIC_SLEDE_HAMMER:		resultOption = new SledeHammer (); break;
 
@@ -575,6 +578,13 @@ public class MakingUI : MonoBehaviour {
 		NowRepairPower.text = string.Format("{0:N}", GameManager.Instance.GetPlayer().GetCreatorWeapon().dRepair);
 
 		RandomRepairPower.text = string.Format("제작시 수리력 {0:F1} ~ {1:F1}",dCalcMinRepair,dCurComplete);
+	}
+
+	public void DeleteOption(CGameMainWeaponOption _option)
+	{
+		LIST_OPTION.Remove (_option);
+
+		RefreshDisplay ();
 	}
 }
 

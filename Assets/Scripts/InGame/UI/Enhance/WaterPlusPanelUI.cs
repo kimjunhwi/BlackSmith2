@@ -13,7 +13,7 @@ public class WaterPlusPanelUI : EnhanceUI {
 
 		nLevel = cPlayer.GetWaterPlusLevel ();
 
-		EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
+		EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 
 		CostGoldText.text = ChangeValue(800 * Mathf.Pow (1.095f, nLevel - 1));
 	}
@@ -32,7 +32,7 @@ public class WaterPlusPanelUI : EnhanceUI {
 
 			cPlayer.SetBasicWaterPlus(fEnhanceValue);
 
-			EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
+			EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 
 			ScoreManager.ScoreInstance.GoldPlus (-fCostGold	);
 

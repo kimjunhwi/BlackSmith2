@@ -175,7 +175,7 @@ public class ResultEpicUI : MonoBehaviour {
 		{
 			int nInsertIndex = 0;
 
-			nInsertIndex = Random.Range((int)E_CREATOR.E_ARBAIT, (int)E_CREATOR.E_MAX);
+			nInsertIndex = Random.Range((int)E_CREATOR.E_REPAIRPERCENT, (int)E_CREATOR.E_MAX);
 			nInsertValue = Random.Range (nCalcAddMinOption, nCalcAddMaxOption + 1);
 
 			if (CheckData(createWeapon, nInsertIndex, nInsertValue))
@@ -275,6 +275,8 @@ public class ResultEpicUI : MonoBehaviour {
 			createWeapon.strName = GameManager.Instance.cHammerNames [nRandomWeaponIndex].strName;
 		}
 
+		createWeapon.nOptionChangeCount = 1;
+
 		WeaponImage.sprite = createWeapon.WeaponSprite;
 		WeaponNameText.text = createWeapon.strName;
 	}
@@ -290,7 +292,7 @@ public class ResultEpicUI : MonoBehaviour {
 
 				_equiment.fRepairPercent = _nInsertValue;
 
-				plusItem.nIndex = (int)E_CREATOR.E_ARBAIT;
+				plusItem.nIndex = (int)E_CREATOR.E_REPAIRPERCENT;
 				plusItem.strOptionName = "수리력";
 				plusItem.nValue = _nInsertValue;
 				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);

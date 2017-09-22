@@ -13,7 +13,7 @@ public class RepairPanelUI : EnhanceUI {
 
 		nLevel = cPlayer.GetRepairLevel ();
 
-		EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
+		EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 
 		CostGoldText.text = ChangeValue(1000 * Mathf.Pow (1.095f, nLevel - 1));
 	}
@@ -40,7 +40,7 @@ public class RepairPanelUI : EnhanceUI {
 
 			cPlayer.SetBasicRepairPower (dCurComplete);
 
-			EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
+			EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 
 			ScoreManager.ScoreInstance.GoldPlus (-fCostGold	);
 

@@ -121,6 +121,20 @@ public class Bell : ArbaitBatch {
 		case E_ArbaitState.E_WAIT:
 			{
 				animator.speed = 1.0f;
+
+				if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("Bell_Repair_Work"))
+				{            
+					// Do something
+					animator.SetTrigger("bIsNormalRepair");
+				}        
+
+				if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("Bell_Repair_Critical"))
+				{
+					// Do something
+					animator.SetTrigger("bIsCriticalRepair");
+				}
+
+
 			}
 			break;
 
@@ -151,6 +165,7 @@ public class Bell : ArbaitBatch {
 		switch (E_STATE)
 		{
 		case E_ArbaitState.E_WAIT:
+			SpawnManager.Instance.InsertWeaponArbait(m_CharacterChangeData.index, nBatchIndex);
 
 			//대기중 수리 아이템이 있을 경우 수리로 바꿈
 			if (AfootOjbect != null && bIsRepair == true)
@@ -164,6 +179,9 @@ public class Bell : ArbaitBatch {
 
 			if(AfootOjbect == null || bIsRepair == false)
 				CheckCharacterState(E_ArbaitState.E_WAIT);
+
+			if(AfootOjbect == RepairShowObject.AfootObject)
+				SpawnManager.Instance.InsertWeaponArbait(m_CharacterChangeData.index, nBatchIndex);
 
 			//수리 시간이 되면 0으로 초기화 하고 수리해줌
 			if (fTime >= m_CharacterChangeData.fAttackSpeed)

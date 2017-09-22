@@ -19,7 +19,7 @@ public class IcePunch : EpicOption {
 
 		nDightDay = (int)(nCostDay * fDivisionDay);
 
-		nIndex = (int)E_EPIC_INDEX.E_EPIC_ENGINE_ICEPUNCH;
+		nIndex = (int)E_EPIC_INDEX.E_EPIC_ICEPUNCH;
 
 		cPlayerData = _player;
 

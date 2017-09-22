@@ -100,6 +100,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	public Shop shop = null;
 
+	private OptionItem optionUI = null;
+
 	private ResultEpicUI resultEpicUI = null;
 
 	private BossCreator bossCreator = null;
@@ -1089,7 +1091,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		w.Show(_msg, _callback);
 	}
 
-	public void Window_yesno(string strTitle, string strValue, System.Action<string> _callback)
+	public void Window_yesno(string strTitle, string strValue,Sprite _sprite,  System.Action<string> _callback)
 	{
 		//GameObject Root_ui = GameObject.Find("root_window)"); //ui attach
 		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_yesno"), Vector3.zero, Quaternion.identity) as GameObject;
@@ -1099,7 +1101,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		go.transform.localScale = Vector3.one;
 
 		CWindowYesNo w = go.GetComponent<CWindowYesNo>();
-		w.Show(strTitle,strValue, _callback);
+		w.Show(strTitle,strValue,_sprite, _callback);
 	}
 
 	public void Window_Check(string strValue,System.Action<string> _callback)
@@ -1507,6 +1509,38 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	#region UnityAds
 
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	public void ShowRewardedAd_Option(OptionItem _optionItem)
+	{
+		if (optionUI == null)
+			optionUI = _optionItem;
+
+		if (Advertisement.IsReady("rewardedVideo"))
+		{
+			var options = new ShowOptions { resultCallback = HandleShowResult_Option };
+			Advertisement.Show("rewardedVideo", options);
+		}
+	}
+
+	private void HandleShowResult_Option(ShowResult result)
+	{
+		switch (result)
+		{
+		case ShowResult.Finished:
+			Debug.Log ("The ad was successfully shown.");
+			//
+			// YOUR CODE TO REWARD THE GAMER
+			// Give coins etc.
+
+			optionUI.ChageOption ();
+
+			break;
+
+		case ShowResult.Failed:
+			Debug.LogError("The ad failed to be shown.");
+			break;
+		}
+	}
+
 
 	public void ShowRewardedAd_Creator(ResultEpicUI _ResultEpicUI)
 	{
@@ -1837,6 +1871,8 @@ public class CreatorWeapon
 	public float fSasinBossValue = 0.0f;
 	public float fFireBossValue = 0.0f;
 
+	public int nOptionChangeCount = 1;
+
 	public int nEpicIndex = -1;
 	public int nCostDay = 0;
 	public bool bIsLock = false;
@@ -1866,6 +1902,7 @@ public class CreatorWeapon
 		fRusiuBossValue = _creatorWeapon.fRusiuBossValue;
 		fSasinBossValue = _creatorWeapon.fSasinBossValue;
 		fFireBossValue = _creatorWeapon.fFireBossValue;
+		nOptionChangeCount = _creatorWeapon.nOptionChangeCount;
 		nEpicIndex = _creatorWeapon.nEpicIndex;
 		nCostDay = _creatorWeapon.nCostDay;
 		bIsLock = _creatorWeapon.bIsLock;
@@ -2128,6 +2165,7 @@ public class CGamePlayerData
     public int nEnhanceRepaireLevel;		//수리력 레벨
     public int nEnhanceMaxWaterLevel;		//물최대치 레벨
 	public int nEnhanceWaterPlusLevel;		//물 추가 증가치 레벨
+	public int nEnhaceBigSuccessedLevel;	//대성공 확률 증가 레벨
 	public int nEnhanceAccuracyRateLevel;	//명중률 증가 레벨
 	public int nEnhanceCriticalLevel;		//크리티컬 확률 레벨
 	public int nEnhanceArbaitLevel;			//아르바이트 강화 레벨

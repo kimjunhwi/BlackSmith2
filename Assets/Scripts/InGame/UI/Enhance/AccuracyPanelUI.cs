@@ -13,7 +13,7 @@ public class AccuracyPanelUI : EnhanceUI {
 
 		nLevel = cPlayer.GetAccuracyRateLevel ();
 
-		EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
+		EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 
 		CostGoldText.text = ChangeValue(800 * Mathf.Pow (1.095f, nLevel - 1));
 	}
@@ -32,7 +32,7 @@ public class AccuracyPanelUI : EnhanceUI {
 
 			cPlayer.SetBasicAccuracyRate(fEnhanceValue);
 
-			EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
+			EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 
 			ScoreManager.ScoreInstance.GoldPlus (-fCostGold	);
 

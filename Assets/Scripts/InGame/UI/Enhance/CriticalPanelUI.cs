@@ -13,7 +13,7 @@ public class CriticalPanelUI : EnhanceUI {
 
 		nLevel = cPlayer.GetCriticalLevel ();
 
-		EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
+		EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 
 		CostGoldText.text  = ChangeValue(1000 * Mathf.Pow (1.095f, nLevel - 1));
 	}
@@ -37,6 +37,8 @@ public class CriticalPanelUI : EnhanceUI {
 			ScoreManager.ScoreInstance.GoldPlus (-fCostGold	);
 
 			CostGoldText.text  = ChangeValue(1000 * Mathf.Pow (1.095f, nLevel - 1));
+
+			EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 		}
 	}
 }

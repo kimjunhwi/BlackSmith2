@@ -309,6 +309,7 @@
      <Compile Include="Assets\Scripts\InGame\Particle\SuccessedPool.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\TemperatureBoomParticle.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\TemperatureBoomPool.cs" />
+     <Compile Include="Assets\Scripts\InGame\Player\BlackSmith.cs" />
      <Compile Include="Assets\Scripts\InGame\Player\Character.cs" />
      <Compile Include="Assets\Scripts\InGame\Player\Goblin_Guest.cs" />
      <Compile Include="Assets\Scripts\InGame\Player\NormalCharacter.cs" />
@@ -356,6 +357,7 @@
      <Compile Include="Assets\Scripts\InGame\UI\Boss\SkullObject.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\DamageTextPool.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Enhance\AccuracyPanelUI.cs" />
+     <Compile Include="Assets\Scripts\InGame\UI\Enhance\BigSucceseedPanelUI.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Enhance\BossSoul.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Enhance\BossSoul\BossSoulFire.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Enhance\BossSoul\BossSoulIce.cs" />

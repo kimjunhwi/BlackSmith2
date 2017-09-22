@@ -65,6 +65,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	public RepairObject repairObject;
 
+	public BlackSmith balckSmithSetting;
+
 	public Player playerData;
 
 	public BuffPool BuffParticlePool;
@@ -331,9 +333,13 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		//손님을 전부 되돌림
 		if (list_Character.Count != 0)
 		{
-			for(int nIndex = 0; nIndex < list_Character.Count; nIndex++)
-				list_Character[nIndex].GetComponent<Character>().RetreatCharacter(4.0f,true,true);
-			
+			for (int nIndex = 0; nIndex < list_Character.Count; nIndex++) 
+			{
+				if (list_Character [nIndex] == m_CharicPool [(int)E_GUEST.E_GOBLIN])
+					continue;
+
+				list_Character [nIndex].GetComponent<Character> ().RetreatCharacter (4.0f, true, true);
+			}
 			m_nDay = _nDay;
 
 

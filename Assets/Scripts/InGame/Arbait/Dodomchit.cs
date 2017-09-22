@@ -171,6 +171,9 @@ public class Dodomchit : ArbaitBatch {
 			if(AfootOjbect == null || bIsRepair == false)
 				CheckCharacterState(E_ArbaitState.E_WAIT);
 
+			if(AfootOjbect == RepairShowObject.AfootObject)
+				SpawnManager.Instance.InsertWeaponArbait(m_CharacterChangeData.index, nBatchIndex);
+
 			//수리 시간이 되면 0으로 초기화 하고 수리해줌
 			if (fTime >= m_CharacterChangeData.fAttackSpeed)
 			{

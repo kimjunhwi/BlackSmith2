@@ -15,7 +15,7 @@ public class FeverTimeUI : EnhanceUI{
 
 		nLevel = cPlayer.GetFeverLevel ();
 
-		EnhanceText.text = string.Format("{0} : {1}", strEnhanceName ,nLevel);
+		EnhanceText.text = string.Format("{0} {1}", strEnhanceName ,nLevel);
 
 		fCostHonor = nBasicHonor + (nPlusPercent * nLevel - 1);
 
@@ -36,7 +36,7 @@ public class FeverTimeUI : EnhanceUI{
 
 			cPlayer.SetBasicFeverTime(fEnhanceValue);
 
-			EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
+			EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 
 			ScoreManager.ScoreInstance.HonorPlus (-fCostHonor);
 

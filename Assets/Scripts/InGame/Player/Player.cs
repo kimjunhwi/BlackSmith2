@@ -59,6 +59,8 @@ public class Player
 	public int GetFeverLevel() { return changeStats.nFeverTimeLevel; }
 	public void SetFeverLevel(int _nValue) { changeStats.nFeverTimeLevel = _nValue; }
 
+	public int GetBigSuccessedLevel() { return changeStats.nEnhaceBigSuccessedLevel;}
+	public void SetBigSuccessedLevel(int _nValeu){ changeStats.nEnhaceBigSuccessedLevel = _nValeu;}
 
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	public double GetBasicRepairPower(){ return changeStats.dRepairPower; }
@@ -93,6 +95,13 @@ public class Player
 		changeStats.dGoldPlusPercent = _dValue;
 
 		SetGoldPlusPercent ();
+	}
+
+	public double GetBasicHonorGoldPlusPercent() {return changeStats.dHornorPlusPercent;}
+	public void SetBasicHonorPlusPercent(double _dValue){ 
+		changeStats.dHornorPlusPercent = _dValue;
+
+		SetHonorPlusPercent ();
 	}
 
 	public float GetBasicMaxWaterPlus() { return changeStats.fMaxWater; }
@@ -261,7 +270,7 @@ public class Player
 						dResultRepairPowerPercent += epicOpion.fResultValue;
 				}
 
-				if (epicOpion.nIndex == (int)E_EPIC_INDEX.E_EPIC_ENGINE_ICEPUNCH)
+				if (epicOpion.nIndex == (int)E_EPIC_INDEX.E_EPIC_ICEPUNCH)
 					dResultRepairPowerPercent += epicOpion.fMinusRepiar;
 
 			}
@@ -382,7 +391,7 @@ public class Player
 
 			if (epicOpion != null) {
 				
-				if (epicOpion.nIndex == (int)E_EPIC_INDEX.E_EPIC_ENGINE_ICEPUNCH)
+				if (epicOpion.nIndex == (int)E_EPIC_INDEX.E_EPIC_ICEPUNCH)
 					fResultWaterPlusPercent += epicOpion.fWaterPlus;
 			}
 		}
@@ -450,7 +459,7 @@ public class Player
 				if (epicOpion.nIndex == (int)E_EPIC_INDEX.E_EPIC_ENGINE_HAMMER) {
 					if (epicOpion.bIsApplyBuff)
 						dResultCriticalDamagePercent += epicOpion.fValue;
-				} else if (epicOpion.nIndex == (int)E_EPIC_INDEX.E_EPIC_ENGINE_ICEPUNCH)
+				} else if (epicOpion.nIndex == (int)E_EPIC_INDEX.E_EPIC_ICEPUNCH)
 					dResultCriticalDamagePercent += epicOpion.fCriticalDamage;
 				else if (epicOpion.nIndex == (int)E_EPIC_INDEX.E_EPIC_SLEDE_HAMMER)
 					dResultCriticalDamagePercent += epicOpion.fSledeCriticalDamage;

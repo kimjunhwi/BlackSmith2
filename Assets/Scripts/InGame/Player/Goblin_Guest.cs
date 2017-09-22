@@ -172,6 +172,13 @@ public class Goblin_Guest : Character {
 		yield return null;
 	}
 
+	public override void RetreatCharacter(float _fSpeed,bool _bIsBack,  bool _bIsAllBack = false)
+	{
+		fSpeed = _fSpeed;
+
+		m_bIsBack = _bIsBack;
+	}
+
 	//지정한 인덱스로 손님을 이동시키기 위함
 	public override void Move(int _nIndex)
 	{

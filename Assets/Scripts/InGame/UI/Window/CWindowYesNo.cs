@@ -14,7 +14,9 @@ public class CWindowYesNo : CWindow
 	public Text RubyText;
 	public Text strTitleText;
 
-	public void Show(string _strTitle, string strValue, Action<string> _callback)
+	public Image Goods_Image;
+
+	public void Show(string _strTitle, string strValue,Sprite _Goods_Sprite, Action<string> _callback)
     {
         base.Show(null, _callback);
 
@@ -24,6 +26,8 @@ public class CWindowYesNo : CWindow
 
 		RubyText.text = strValue;
 		strTitleText.text = _strTitle;
+
+		Goods_Image.sprite = _Goods_Sprite;
     }
     //public override void Show(GameObject _root, Action<string> _callback)
     //{

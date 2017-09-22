@@ -172,8 +172,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			}
 			bIsFirst = true;
 			//2개를 주석하면 튜토리얼 On
-			//tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
-			//tutorialPanel.gameObject.SetActive (false);
+			tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
+			tutorialPanel.gameObject.SetActive (false);
 
 			if (CheckIsTimer ()) {
 				fCurSec = nInitTime_Sec;
@@ -227,6 +227,11 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			{
 				if (SpawnManager.Instance.list_Character.Count <= 0)
 				{
+
+					//tutorialPanel.tutorialImage_Obj.SetActive (true);
+					//Instance.tutorialPanel.tutorial_Image.gameObject.SetActive (true);
+					//Instance.tutorialPanel.tutorial_Image.enabled = true;
+
 					tutorialPanel.playerTalk.TalkBoxOnOff(true);
 					tutorialPanel.playerTalk.StartPlayerTalk(1);
 					tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX02;

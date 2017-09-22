@@ -37,6 +37,8 @@ public class BossCreator : MonoBehaviour
 	public BossConsumeItemInfo bossConsumeItemInfo; //보스가 소비하는 아이템 정보
 	public BossRegenTimer bossRegenTimer;			//보스 도전 횟수 리젠되는 시간
 	public BossBackGround bossBackGround;			//보스등장시 바뀌는 배경
+	public Scrolling backGroundScolling;
+
 	public BossPopUpWindow bossPopUpWindow;			//보스 결과창
 	public GameObject bossUIDisable;				//보스 등장시 아래 UI를 못쓰게 하는 패널
 	public GameObject bossTimer_Obj;				//보스 시간 Obj
@@ -97,8 +99,8 @@ public class BossCreator : MonoBehaviour
 			bossConsumeItemInfo.bossCreator = this;
 		if (bossRegenTimer.bossCreator == null)
 			bossRegenTimer.bossCreator = this;
-		if (bossBackGround.bossCreator == null)
-			bossBackGround.bossCreator = this;
+		//if (bossBackGround.bossCreator == null)
+		//	bossBackGround.bossCreator = this;
 
 		//결과창에 쓰임
 		if (bossPopUpWindow.bossIce == null)
@@ -279,6 +281,7 @@ public class BossCreator : MonoBehaviour
 			bossIce.bossInfo = GameManager.Instance.bossInfo [_index];
 			bossIce.bossEffect = bossEffect;
 			bossIce.bossBackGround = bossBackGround;
+			bossIce.backGroundScolling = backGroundScolling;
 			bossIce.bossPopUpWindow = bossPopUpWindow;
 			bossIce.sBossWeaponSprite = "Weapons/Boss/BOSS1_Weapon";
 			bossIce.bossTimer_Obj = bossTimer_Obj;
@@ -306,7 +309,8 @@ public class BossCreator : MonoBehaviour
 
 			else 
 			{
-				bossBackGround.StartChangeBackGroundToBossBackGround ();
+				//bossBackGround.StartChangeBackGroundToBossBackGround ();
+				backGroundScolling.StartChangeBackground(eBackgroundMat.E_BackgroundMat_Night);
 				bossList [_index].SetActive (true);
 			}
 		
@@ -322,6 +326,7 @@ public class BossCreator : MonoBehaviour
 			bossSasin.bossInfo = GameManager.Instance.bossInfo [_index];
 			bossSasin.bossEffect = bossEffect;
 			bossSasin.bossBackGround = bossBackGround;
+			bossSasin.backGroundScolling = backGroundScolling;
 			bossSasin.bossPopUpWindow = bossPopUpWindow;
 			bossSasin.sBossWeaponSprite = "Weapons/Boss/BOSS1_Weapon";
 			bossSasin.bossTimer_Obj = bossTimer_Obj;
@@ -349,7 +354,8 @@ public class BossCreator : MonoBehaviour
 			}
 			else 
 			{
-				bossBackGround.StartChangeBackGroundToBossBackGround ();
+				//backGroundScolling.StartChangeBackground(eBackgroundMat.E_BackgroundMat_Boss);
+				backGroundScolling.StartChangeBackground(eBackgroundMat.E_BackgroundMat_Boss);
 				bossList [_index].SetActive (true);
 			}
 			//bossList [1].SetActive (true);
@@ -367,6 +373,7 @@ public class BossCreator : MonoBehaviour
 			bossFire.bossInfo = GameManager.Instance.bossInfo [_index];
 			bossFire.bossEffect = bossEffect;
 			bossFire.bossBackGround = bossBackGround;
+			bossFire.backGroundScolling = backGroundScolling;
 			bossFire.bossPopUpWindow = bossPopUpWindow;
 			bossFire.sBossWeaponSprite = "Weapons/Boss/deathnote";
 			bossFire.bossTimer_Obj = bossTimer_Obj;
@@ -394,7 +401,8 @@ public class BossCreator : MonoBehaviour
 			}
 			else 
 			{
-				bossBackGround.StartChangeBackGroundToBossBackGround ();
+				//bossBackGround.StartChangeBackGroundToBossBackGround ();
+				backGroundScolling.StartChangeBackground(eBackgroundMat.E_BackgroundMat_Boss);
 				bossList [_index].SetActive (true);
 			}
 
@@ -416,6 +424,7 @@ public class BossCreator : MonoBehaviour
 			bossMusic.bossInfo = GameManager.Instance.bossInfo [_index];
 			bossMusic.bossEffect = bossEffect;
 			bossMusic.bossBackGround = bossBackGround;
+			bossMusic.backGroundScolling = backGroundScolling;
 			bossMusic.bossPopUpWindow = bossPopUpWindow;
 			bossMusic.sBossWeaponSprite = "Weapons/Boss/deathnote";
 			bossMusic.bossTimer_Obj = bossTimer_Obj;
@@ -480,7 +489,8 @@ public class BossCreator : MonoBehaviour
 			bossDragon.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE02] = "Drop the beat~!";
 			bossDragon.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "SeeYa!";
 
-			bossBackGround.StartChangeBackGroundToBossBackGround ();
+			//bossBackGround.StartChangeBackGroundToBossBackGround ();
+			backGroundScolling.StartChangeBackground(eBackgroundMat.E_BackgroundMat_Boss);
 			bossList [_index].SetActive (true);
 
 
@@ -554,8 +564,8 @@ public class BossCreator : MonoBehaviour
 			{
 				//배경화면 전환
 				Debug.Log("보스 소환!!");
-				bossBackGround.StartChangeBackGroundToBossBackGround ();
-
+				//bossBackGround.StartChangeBackGroundToBossBackGround ();
+				backGroundScolling.StartChangeBackground(eBackgroundMat.E_BackgroundMat_Boss);
 				bossList [_index].SetActive (true);
 				//bossHint.m_isCheckBossHint = false;
 

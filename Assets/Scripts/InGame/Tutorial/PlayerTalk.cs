@@ -14,6 +14,10 @@ public class PlayerTalk : MonoBehaviour ,IPointerDownHandler
 	private bool isTextShowAll;		//텍스트가 모두 보여졌는가?
 	private bool isPlayerText01AndGuestShow;
 
+	public Image arrow_Image;
+	private bool isTextBlink = false;
+	private bool isTextTouchAvailable = false;
+
 
 	void Start()
 	{
@@ -21,9 +25,9 @@ public class PlayerTalk : MonoBehaviour ,IPointerDownHandler
 		isPlayerText01AndGuestShow = false;
 		m_sPlayerText[0] = "으아아..\n일 하기 싫어 ㅠㅠ";
 		m_sPlayerText[1] = "다했다!!!!\n게임해야지 개꿀";
-		m_sPlayerText[2] = "응..?\n(아버지 손님인가..어떡하지..)";
+		m_sPlayerText[2] = "응?\n(어떡하지...)";
 		m_sPlayerText[3] = "예?";
-		m_sPlayerText[4] = "어이쿻ㅎㅎㅎ";
+		m_sPlayerText[4] = "어이쿠ㅎㅎ";
 		m_sPlayerText[5] = "^^"; 
 		m_sPlayerText[6] =  "허으엉어엉어어ㅠㅠ";
 		m_sPlayerText[7] = "용 죽여버릴거야ㅠ";
@@ -49,11 +53,17 @@ public class PlayerTalk : MonoBehaviour ,IPointerDownHandler
 		{
 			if (isTextShowAll == true)
 			{
+
+
 				m_fContinueTextTime -= Time.deltaTime;
 
 				//일정시간이 지나면 다음 껄로 넘어간다
 				if (m_fContinueTextTime <= 0) 
 				{
+					//텍스트를 클릭하면 넘어간다
+					if (isTextBlink == true)
+						yield break;
+					
 					//첫번째 플레이어 말풍선후 손님들 등장
 					if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX01 && isPlayerText01AndGuestShow == false) {
 						tutorialPanel.StartGuestShow ();	
@@ -129,12 +139,15 @@ public class PlayerTalk : MonoBehaviour ,IPointerDownHandler
 				{
 					m_playerTalk_Text.text += getString [nStrIndex];
 					nStrIndex++;
-				}
+				} 
 				else
+				{
 					isTextShowAll = true;
+					StartTextAvailableBlink ();
+				}
 
 
-				yield return new WaitForSeconds (0.15f);
+				yield return new WaitForSeconds (0.075f);
 			}
 
 
@@ -147,6 +160,32 @@ public class PlayerTalk : MonoBehaviour ,IPointerDownHandler
 
 	}
 
+	public void StartTextAvailableBlink()
+	{
+		isTextTouchAvailable = false;
+		StartCoroutine (TextAvailableBlink ());
+	}
+
+	public IEnumerator TextAvailableBlink()
+	{
+		isTextTouchAvailable = true;
+		isTextBlink = false;
+
+		while (true) 
+		{
+			if (arrow_Image.isActiveAndEnabled == true)
+				arrow_Image.enabled = false;
+			else
+				arrow_Image.enabled = true;
+
+			yield return new WaitForSeconds(0.2f);
+		}
+
+		yield return null;
+
+	}
+
+
 	//말풍선 창 On/off
 	public void TalkBoxOnOff(bool _isOnOff)
 	{
@@ -158,17 +197,81 @@ public class PlayerTalk : MonoBehaviour ,IPointerDownHandler
 	{
 		GameObject getInfoGameObject = eventData.pointerEnter;
 
-		if (getInfoGameObject.name == "PlayerWordWindow") 
-		{
-			//ShowGuset를 하면 손님 5명이 나오는 동시에 튜토이미지 1,2 실행
-			if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX01)
+		if (isTextTouchAvailable == true) {
+			isTextTouchAvailable = false;
+			isTextBlink = true;				//Blink될때 클릭을 했으니 위에 것은 return;
+			if (getInfoGameObject.name == "PlayerTouchCheckImage")
+
 			{
-				StartCoroutine (tutorialPanel.GuestShow());
-				isPlayerText01AndGuestShow = true;
-				TalkBoxOnOff (false);
+				//ShowGuset를 하면 손님 5명이 나오는 동시에 튜토이미지 1,2 실행
+				if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX01) {
+					tutorialPanel.StartGuestShow ();
+					isPlayerText01AndGuestShow = true;
+					TalkBoxOnOff (false);
+					return;
+				}
+
+				if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX02)
+				{
+					TalkBoxOnOff (false);
+					tutorialPanel.DeActiveObj.SetActive (true);
+					tutorialPanel.StartTutorialFullScreenTextPanelAlpha (TutorialOption.E_TUTORIAL_OPTION_FADEIN);
+					tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_FULLSCREENTALK02;
+					return;
+				
+				}
+
+
+				if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX03) 
+				{
+					tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_DRAGONTALKBOX03;
+					TalkBoxOnOff (false);
+					return;
+				}
+
+				if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX04)
+				{
+					tutorialPanel.eTutorialState = TutorialOrder.E_TUTORAIL_START_DRAGONREPAIR;
+					TalkBoxOnOff (false);
+					return;
+				}
+
+				if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX05) {
+
+					tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_DRAGONTALKBOX04;
+					TalkBoxOnOff (false);
+					return;
+				}
+				if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX06) 
+				{
+
+					tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_DRAGONTALKBOX05;
+					TalkBoxOnOff (false);
+					return;
+				}
+
+				if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX07) 
+				{
+
+					tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX08;
+					TalkBoxOnOff (false);
+					return;
+				}
+
+
+
+				if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX08) 
+				{
+
+					tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_DAYS;
+					TalkBoxOnOff (false);
+					return;
+				}
+
+
+				//다음 대화로 넘어간다
+				//특정 조건에 따라 연속적인 텍스트도 필요
 			}
-			//다음 대화로 넘어간다
-			//특정 조건에 따라 연속적인 텍스트도 필요
 		}
 
 	}

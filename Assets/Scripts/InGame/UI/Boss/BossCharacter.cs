@@ -29,6 +29,7 @@ public class BossCharacter : Character
 	public BossTimer bossTimer;					//보스 타이머
 	public BossEffect bossEffect;				//보스에 따른 이펙트
 	public BossBackGround bossBackGround;		//보스등장시 바뀌는 배경
+	public Scrolling backGroundScolling;
 	public BossPopUpWindow bossPopUpWindow;		//보스 보상창
 	public string sBossWeaponSprite;			//보스 무기 이미지
 	public GameObject bossUIDisable;			//UIBlockArea

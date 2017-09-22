@@ -90,6 +90,10 @@ public class TutorialPanel : MonoBehaviour
 			button.GetComponent<Button> ().onClick.AddListener (StartGoShowOpen);
 			eTutorialState = TutorialOrder.E_TUTORIAL_START_FULLSCREENTALK01;
 			playerTalk.tutorialPanel = this;
+
+			SpawnManager.Instance.tutorialPanel.tutorialImage_Obj.SetActive (false);
+			SpawnManager.Instance.tutorialPanel.tutorial_Image.gameObject.SetActive (false);
+			SpawnManager.Instance.tutorialPanel.tutorial_Image.enabled = false;
 		}
 		else
 			eTutorialState = TutorialOrder.E_TUTORIAL_START_DAYS;
@@ -116,7 +120,7 @@ public class TutorialPanel : MonoBehaviour
 
 		while (true) 
 		{
-			yield return new WaitForSeconds (0.1f);
+			yield return new WaitForSeconds (0.07f);
 		
 			if (eTutorialState == TutorialOrder.E_TUTORIAL_START_FULLSCREENTALK01) 
 			{
@@ -125,7 +129,7 @@ public class TutorialPanel : MonoBehaviour
 				if (nIndex + nIndex2 >= nCount)
 				{
 					button.SetActive (true);
-
+					button.GetComponentInChildren<Text> ().text = "일하러 가기";
 					yield break;
 				}
 				if (nIndex < strText01.Length)
@@ -176,6 +180,7 @@ public class TutorialPanel : MonoBehaviour
 					button.GetComponent<Button> ().onClick.AddListener (StartDays10);
 
 					button.SetActive (true);
+					button.GetComponentInChildren<Text> ().text = "게임하기";
 					yield break;
 				}
 
@@ -204,6 +209,7 @@ public class TutorialPanel : MonoBehaviour
 		text01.text = "";
 		text02.text = "";
 		button.SetActive (false);
+
 	}
 
 	public void StartGuestShow()
@@ -216,13 +222,17 @@ public class TutorialPanel : MonoBehaviour
 		DeActiveObj.SetActive (false);
 		int nGuestCount = 0;
 
+
 		while (nGuestCount != 5) 
 		{
 			SpawnManager.Instance.CreateCharacter ();
 			yield return new WaitForSeconds (0.3f);
 			nGuestCount++;
 		}
-
+	
+		tutorialImage_Obj.SetActive (true);
+		tutorial_Image.gameObject.SetActive (true);
+		tutorial_Image.enabled = true;
 		ShowTutorialImage (0);
 
 		eTutorialState = TutorialOrder.E_TUTORIAL_START_IMAGE01;
@@ -333,6 +343,7 @@ public class TutorialPanel : MonoBehaviour
 					eTutorialState = TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX01;
 					playerTalk.TalkBoxOnOff (true);
 					playerTalk.StartPlayerTalk (0);
+					DeActiveObj.SetActive (false);
 					yield break;
 				}
 

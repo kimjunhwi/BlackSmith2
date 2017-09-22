@@ -72,7 +72,7 @@ public class BossMusic : BossCharacter
 		while (true)
 		{
 			//무기 이미지 추가
-			if (bossBackGround.isBossBackGround == true) {
+			if (backGroundScolling.isQuadChangeFinsihed == true) {
 
 				animator.SetBool ("isBackGroundChanged", true);
 
@@ -456,12 +456,14 @@ public class BossMusic : BossCharacter
 		isStandardPhaseFailed = false;
 		isFailed = false;
 
-		bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
-
+		//bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
+		backGroundScolling.StartChangeBackground(eBackgroundMat.E_BackgroundMat_Main);
+		SpawnManager.Instance.bIsBossCreate = false;
+		/*
 		//배경이 원래대로 돌아가면 다시 손님들이 나오게 한다.
 		if (bossBackGround.isBossBackGround == true) 
 			SpawnManager.Instance.bIsBossCreate = false;
-
+		*/
 		//UiBlock Disable
 		bossUIDisable.SetActive (false);	
 

@@ -82,7 +82,7 @@ public class BossDragon :  BossCharacter
 			while (true) 
 			{
 				//무기 이미지 추가
-				if (bossBackGround.isBossBackGround == true) {
+				if (backGroundScolling.isQuadChangeFinsihed == true) {
 
 					animator.SetBool ("isBackGroundChanged", true);
 
@@ -409,7 +409,9 @@ public class BossDragon :  BossCharacter
 					animator.Play ("BossIdle");
 
 					Debug.Log ("Finish Boss");
-					bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
+					//bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
+					backGroundScolling.StartChangeBackground(eBackgroundMat.E_BackgroundMat_Main);
+					SpawnManager.Instance.bIsBossCreate = false;
 					//Weapon 터지는 효과
 					repairObj.ShowBreakWeapon ();
 					repairObj.SetFinishBoss ();									//수리 패널 초기화
@@ -551,12 +553,15 @@ public class BossDragon :  BossCharacter
 		//nSmallFireMaxCount = 12;
 		//nCurFireCount = 0;
 
+		SpawnManager.Instance.bIsBossCreate = false;
+
+		/*
 		if (bossBackGround.isBossBackGround == true)
 		{
-			SpawnManager.Instance.bIsBossCreate = false;
 			bossBackGround.isBossBackGround = false;
 			bossBackGround.isOriginBackGround = true;
 		}
+		*/
 		bossUIDisable.SetActive (false);
 
 		SpawnManager.Instance.ReliveArbaitBossRepair ();

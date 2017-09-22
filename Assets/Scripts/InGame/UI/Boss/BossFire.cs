@@ -75,7 +75,7 @@ public class BossFire : BossCharacter
 		while (true)
 		{
 			//무기 이미지 추가
-			if (bossBackGround.isBossBackGround == true) 
+			if (backGroundScolling.isQuadChangeFinsihed == true) 
 			{
 
 				animator.SetBool ("isBackGroundChanged", true);
@@ -376,14 +376,17 @@ public class BossFire : BossCharacter
 		nSmallFireMaxCount = 12;
 		nCurFireCount = 0;
 
-		bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
-
+		//bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
+		backGroundScolling.StartChangeBackground(eBackgroundMat.E_BackgroundMat_Main);
+		SpawnManager.Instance.bIsBossCreate = false;
+		/*
 		if (bossBackGround.isBossBackGround == true)
 		{
 			SpawnManager.Instance.bIsBossCreate = false;
 			bossBackGround.isBossBackGround = false;
 			bossBackGround.isOriginBackGround = true;
 		}
+		*/
 		bossUIDisable.SetActive (false);
 
 		SpawnManager.Instance.ReliveArbaitBossRepair ();

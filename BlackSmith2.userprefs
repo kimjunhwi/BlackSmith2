@@ -1,16 +1,22 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/InGame/Tutorial/TutorialPanel.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/InGame/UI/Boss/BossCreator.cs">
     <Files>
-      <File FileName="Assets/Scripts/InGame/UI/Boss/BossDragon.cs" Line="378" Column="39" />
       <File FileName="Assets/Scripts/InGame/Tutorial/TutorialPanel.cs" Line="86" Column="2" />
       <File FileName="Assets/Scripts/InGame/Tutorial/TutorialTouch.cs" Line="29" Column="5" />
-      <File FileName="Assets/Scripts/InGame/Tutorial/PlayerTalk.cs" Line="115" Column="73" />
+      <File FileName="Assets/Scripts/InGame/Tutorial/PlayerTalk.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/InGame/Manager/SpawnManager.cs" Line="223" Column="31" />
       <File FileName="Assets/Scripts/InGame/Manager/UIManager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/InGame/UI/Enhance/MakingUI.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/InGame/UI/Boss/BossTimer.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/InGame/UI/Repair/RepairObject.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scrolling.cs" Line="36" Column="2" />
+      <File FileName="Assets/Scripts/InGame/UI/Boss/BossDragon.cs" Line="78" Column="3" />
+      <File FileName="Assets/Scripts/InGame/UI/Boss/BossFire.cs" Line="78" Column="55" />
+      <File FileName="Assets/Scripts/InGame/UI/Boss/BossIce.cs" Line="63" Column="55" />
+      <File FileName="Assets/Scripts/InGame/UI/Boss/BossMusic.cs" Line="75" Column="55" />
+      <File FileName="Assets/Scripts/InGame/UI/Boss/BossSasin.cs" Line="327" Column="43" />
+      <File FileName="Assets/Scripts/InGame/UI/Boss/BossCreator.cs" Line="313" Column="82" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -35,6 +41,8 @@
       <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/Tutorial/PlayerTalk.cs" line="129" column="1" />
       <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/Tutorial/PlayerTalk.cs" line="51" column="1" />
       <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/Tutorial/TutorialTouch.cs" line="78" column="1" />
+      <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scrolling.cs" line="124" column="1" />
+      <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scrolling.cs" line="147" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

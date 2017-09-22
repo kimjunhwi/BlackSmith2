@@ -65,7 +65,7 @@ public class BossSasin : BossCharacter
 	{
 		while (true)
 		{
-			if (this.bossBackGround.isBossBackGround == true) 
+			if (backGroundScolling.isQuadChangeFinsihed == true) 
 			{
 				//배경이 바뀌면 등장 애니메이션 시작
 				animator.SetBool ("isBackGroundChanged", true);
@@ -323,12 +323,15 @@ public class BossSasin : BossCharacter
 		isStandardPhaseFailed = false;
 
 		//배경 초기화 
-		bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
+		//bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
+		backGroundScolling.StartChangeBackground(eBackgroundMat.E_BackgroundMat_Main);
 
-	
+		SpawnManager.Instance.bIsBossCreate = false;
+		/*
 		if (bossBackGround.isBossBackGround == true) {
 			SpawnManager.Instance.bIsBossCreate = false;			//손님들 재등장
 		}
+		*/
 		//UIBloack off
 		bossUIDisable.SetActive (false);						
 

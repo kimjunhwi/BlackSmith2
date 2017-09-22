@@ -229,8 +229,14 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			{
 				if (SpawnManager.Instance.list_Character.Count <= 0)
 				{
-					tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_DRAGONSHOW;
-					StartCoroutine (SpawnManager.Instance.bossCreator.BossCreate (4));
+
+					//tutorialPanel.tutorialImage_Obj.SetActive (true);
+					//Instance.tutorialPanel.tutorial_Image.gameObject.SetActive (true);
+					//Instance.tutorialPanel.tutorial_Image.enabled = true;
+
+					tutorialPanel.playerTalk.TalkBoxOnOff(true);
+					tutorialPanel.playerTalk.StartPlayerTalk(1);
+					tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX02;
 				}
 			}
 
@@ -1080,6 +1086,12 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		else
 			return false;
 
+	}
+
+
+	public void StartBossCreate(int _index)
+	{
+		StartCoroutine(	bossCreator.BossCreate (_index));
 	}
 
 }

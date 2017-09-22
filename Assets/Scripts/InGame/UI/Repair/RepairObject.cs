@@ -519,7 +519,7 @@ public class RepairObject : MonoBehaviour
 	public void ShowBreakWeapon()
 	{
 		//터지는 파티클
-		SoundManager.instance.PlaySound (eSoundArray.ES_WeaponExplosionSound);
+		//SoundManager.instance.PlaySound (eSoundArray.ES_TempratureExplosion);
 		GameObject obj = BreakBoomPool.Instance.GetObject ();
 		obj.transform.SetParent (weaponBoomTransform.transform, false);
 
@@ -786,15 +786,13 @@ public class RepairObject : MonoBehaviour
 				SpawnManager.Instance.tutorialPanel.tutorial_Image.gameObject.SetActive(true);
 				SpawnManager.Instance.tutorialPanel.tutorial_Image.enabled = true;
 				SpawnManager.Instance.tutorialPanel.ShowTutorialImage (1);
-
-
-				SpawnManager.Instance.tutorialPanel.ShowTutorialImage (1);
-
+		
 
 				if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE02) 
 				{
-					Debug.Log ("Change State : " + tutorialPanel.eTutorialState);
 					tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_WAIT_DRAGONSHOW;
+
+					Debug.Log ("Change State : " + tutorialPanel.eTutorialState);
 				}	
 			}
 		}
@@ -802,6 +800,9 @@ public class RepairObject : MonoBehaviour
 		//피버일경우 크리 데미지로 완성도를 증가시킴
 		if (m_bIsFever)
 		{
+			//Sound
+			SoundManager.instance.PlayTouchFeverSound ();
+
 			m_PlayerAnimationController.UserBigSuccessedRepair ();
 
 			dCalcValue = (player.GetRepairPower () +(player.GetRepairPower () * weaponData.dMinusRepair * 0.01));
@@ -949,6 +950,8 @@ public class RepairObject : MonoBehaviour
 		spawnManager.DodomchitArbaitCheck ();
 
 		if (Random.Range (0, 100) >= Mathf.Round (player.GetAccuracyRate () - player.GetAccuracyRate () * weaponData.fMinusAccuracy * 0.01f)) {
+
+			SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Miss);
 
 			GameObject damageText = damageTextPool.GetObject ();
 
@@ -1236,6 +1239,8 @@ public class RepairObject : MonoBehaviour
 				{
 					Debug.Log ("Attack To Sasin Miss");
 
+					SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Miss);
+
 					textObj = textObjectPool.GetObject ();
 					textObj.transform.SetParent (textRectTrasnform.transform, false);
 					textObj.transform.localScale = Vector3.one;
@@ -1311,6 +1316,9 @@ public class RepairObject : MonoBehaviour
 				else 
 				{
 					Debug.Log ("Miss");
+
+					SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Miss);
+
 					textObj = textObjectPool.GetObject ();
 					textObj.transform.SetParent (textRectTrasnform.transform, false);
 					textObj.transform.localScale = Vector3.one;

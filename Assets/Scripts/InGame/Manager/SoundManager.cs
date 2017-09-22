@@ -13,27 +13,43 @@ public enum eSound : int
 {
 	BGM_Main   = 101,
 	BGM_BossBattle    = 102,
-	TouchSoundWeapon00 = 201,
-	TouchSoundWeapon01 = 202,
-	TouchSoundWeapon02 = 203,
-	TouchSound_Cri = 204,
-	TouchSound_Miss = 205,
-	TouchSound_Menu = 206,
-	FixedSound_Success = 207,
-	FixedSound_Fail = 208,
-	BossSound_Success = 209,
-	BossSound_Fail = 210,
-	CraftSound_Finish = 211,
-	CraftSound_GreatSuccess = 212,
-	WeaponExplosionSound = 213,
-	WaterActiveSound = 214,
-	TemperatureSound = 215,
+	TempratureExplosion = 201,
+	WaterActiveSound = 202,
+	TouchSoundWeapon00 = 203,
+	TouchSoundWeapon01 = 204,
+	TouchSoundWeapon02 = 205,
+	TouchSound_Cri = 206,
+	TouchSound_Miss = 207,
+	TouchSound_Menu = 208,
+	FixedSound_Success = 209,
+	BlackSmithRankUp = 210,
+	Fever= 211,
+	FeverTouch1 = 212,
+	FeverTouch2 = 213,
+	BossSound_Success = 214,
+	BossSound_Fail = 215,
+	CraftSound_Finish = 216,
+	CraftSound_GreatFinish = 217,
+	BossIceTouch = 218,
+	BossIceBreak = 219,
+	BossIceFreeze = 220,
+	BossSasinSkullTouch = 221,
+	BossFireExplosion = 222,
+	BossFireExtingu = 223,
+	BossMusicPiano1 = 224,
+	BossMusicPiano2 = 225,
+	BossMusicDJScratch = 226,
+	BossDragonAppear =227,
+	BossDragonDisappear = 228,
+	TemperatureSound = 999,
 };
 
 public enum eSoundArray 
 {
 	BGM_Main = 0,
 	BGM_BossBattle,
+	ES_TempratureExplosion,
+	ES_WaterActiveSound,
 	ES_TouchWeapon00,
 	ES_TouchWeapon01,
 	ES_TouchWeapon02,
@@ -41,15 +57,25 @@ public enum eSoundArray
 	ES_TouchSound_Miss,
 	ES_TouchSound_Menu,
 	ES_FixedSound_Success,
-	ES_FixedSound_Fail,
+	ES_BlackSmithRankUp,
+	ES_Fever,
+	ES_FeverTouch1,
+	ES_FeverTouch2,
 	ES_BossSound_Success,
 	ES_BossSound_Fail,
 	ES_CraftSound_Finish,
-	ES_CraftSound_GreatSuccess,
-	ES_WeaponExplosionSound,
-	ES_WaterActiveSound,
-	ES_TemperatureSound = 16,
-
+	ES_CraftSound_GreatFinish,
+	ES_BossIceTouch,
+	ES_BossIceBreak,
+	ES_BossIceFreeze,
+	ES_BossSasinSkullTouch,
+	ES_BossFireExplosion,
+	ES_BossFireExtingu,
+	ES_BossMusicPiano1,
+	ES_BossMusicPiano2,
+	ES_BossMusicDJScratch,
+	ES_BossDragonAppear,
+	ES_BossDragonDisappear,
 }
 
 public class SoundManager : MonoBehaviour 
@@ -98,6 +124,8 @@ public class SoundManager : MonoBehaviour
 	{
 		AddSource((int)eSound.BGM_Main, "Sound_BGM_Main");
 		AddSource ((int)eSound.BGM_BossBattle, "Sound_BGM_BossBattle");
+		AddSource((int)eSound.TempratureExplosion, "Sound_ES_WeaponExplosion");
+		AddSource((int)eSound.WaterActiveSound, "Sound_ES_WaterActive");
 		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon00");
 		AddSource((int)eSound.TouchSoundWeapon01, "Sound_ES_TouchWeapon01");
 		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon02");
@@ -105,14 +133,25 @@ public class SoundManager : MonoBehaviour
 		AddSource((int)eSound.TouchSound_Miss, "Sound_ES_TouchMiss");
 		AddSource((int)eSound.TouchSound_Menu, "Sound_ES_TouchMenu");
 		AddSource((int)eSound.FixedSound_Success, "Sound_ES_FixedSuccess");
-		AddSource((int)eSound.FixedSound_Fail, "Sound_ES_FixedFail");
+		AddSource((int)eSound.BlackSmithRankUp, "Sound_ES_BlackSmithRankUp");
+		AddSource((int)eSound.Fever, "Sound_ES_Fever");
+		AddSource((int)eSound.FeverTouch1, "Sound_ES_FeverTouch1");
+		AddSource((int)eSound.FeverTouch2, "Sound_ES_FeverTouch2");
 		AddSource((int)eSound.BossSound_Success, "Sound_ES_BossSuccess");
 		AddSource((int)eSound.BossSound_Fail, "Sound_ES_BossFail");
 		AddSource((int)eSound.CraftSound_Finish, "Sound_ES_CraftFinish");
-		AddSource((int)eSound.CraftSound_GreatSuccess, "Sound_ES_CraftGreatSuccess");
-		AddSource((int)eSound.WeaponExplosionSound, "Sound_ES_WeaponExplosion");
-		AddSource((int)eSound.WaterActiveSound, "Sound_ES_WaterActive");
-		AddSource((int)eSound.TemperatureSound, "Sound_ES_TempratureExplosion");
+		AddSource((int)eSound.CraftSound_GreatFinish, "Sound_ES_CraftGreatSuccess");
+		AddSource((int)eSound.BossIceTouch, "Sound_ES_BossIceTouch");
+		AddSource((int)eSound.BossIceBreak, "Sound_ES_BossIceBreak");
+		AddSource((int)eSound.BossIceFreeze, "Sound_ES_BossIceFreeze");
+		AddSource((int)eSound.BossSasinSkullTouch, "Sound_ES_BossSasinSkullTouch");
+		AddSource((int)eSound.BossFireExplosion, "Sound_ES_BossFireExplosion");
+		AddSource((int)eSound.BossFireExtingu, "Sound_ES_BossFireExtingu");
+		AddSource((int)eSound.BossMusicPiano1, "Sound_ES_BossMusicPiano1");
+		AddSource((int)eSound.BossMusicPiano2, "Sound_ES_BossMusicPiano2");
+		AddSource((int)eSound.BossMusicDJScratch, "Sound_ES_BossMusicDJScratch");
+		AddSource((int)eSound.BossDragonAppear, "Sound_ES_BossDragonAppear");
+		AddSource((int)eSound.BossDragonDisappear, "Sound_ES_BossDragonDisappear");
 	}   
 
 	// Add Source ----------------------------------------------------------------
@@ -528,6 +567,19 @@ public class SoundManager : MonoBehaviour
 	public void PlayTouchNormalWeapon()
 	{
 		int randomIndex = Random.Range ((int)eSoundArray.ES_TouchWeapon00, (int)eSoundArray.ES_TouchWeapon02);
+		AudioSource aSource = SoundManager.instance.SoundArray [randomIndex].gameObject.GetComponent<AudioSource> ();
+		aSource.Play ();
+	}
+	public void PlayTouchFeverSound()
+	{
+		int randomIndex = Random.Range ((int)eSoundArray.ES_FeverTouch1, (int)eSoundArray.ES_FeverTouch2);
+		AudioSource aSource = SoundManager.instance.SoundArray [randomIndex].gameObject.GetComponent<AudioSource> ();
+		aSource.Play ();
+	}
+
+	public void PlayTouchMusicNoteSound()
+	{
+		int randomIndex = Random.Range ((int)eSoundArray.ES_BossMusicPiano1, (int)eSoundArray.ES_BossMusicPiano2);
 		AudioSource aSource = SoundManager.instance.SoundArray [randomIndex].gameObject.GetComponent<AudioSource> ();
 		aSource.Play ();
 	}

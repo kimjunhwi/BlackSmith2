@@ -21,6 +21,7 @@ public class OptionController : MonoBehaviour {
 
 	public void OptionWindowActive()
 	{
+		SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
 		if (optionPopUpWindow.activeSelf != true)
 			optionPopUpWindow.SetActive (true);
 		else
@@ -31,6 +32,7 @@ public class OptionController : MonoBehaviour {
 	//사운드 OnOff 스위치(중간 버튼) 
 	public void SoundSwitch()
 	{
+		SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
 		if (optionSoundSwitch_Off.activeSelf != true) 
 		{
 			optionSoundSwitch_Off.SetActive (true);
@@ -48,6 +50,7 @@ public class OptionController : MonoBehaviour {
 	//사운드 On
 	public void SoundSwitchOn()
 	{
+		SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
 		optionSoundSwitch_On.SetActive (true);
 		optionSoundSwitch_Off.SetActive (false);
 		SoundManager.instance.UnMuteES ();
@@ -56,6 +59,8 @@ public class OptionController : MonoBehaviour {
 	//사운드 Off
 	public void SoundSwitchFalse()
 	{
+		SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
+		SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
 		optionSoundSwitch_On.SetActive (false);
 		optionSoundSwitch_Off.SetActive (true);
 		SoundManager.instance.MuteES ();
@@ -64,6 +69,7 @@ public class OptionController : MonoBehaviour {
 	//BGM OnOff 스위치(중간 버튼) 
 	public void BgmSwitch()
 	{
+		SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
 		if (optionBgmSwitch_Off.activeSelf != true) 
 		{
 			optionBgmSwitch_Off.SetActive (true);
@@ -81,6 +87,7 @@ public class OptionController : MonoBehaviour {
 	//BGM On
 	public void BgmSwitchOn()
 	{
+		SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
 		optionBgmSwitch_On.SetActive (true);
 		optionBgmSwitch_Off.SetActive (false);
 		SoundManager.instance.UnMuteBGM ();
@@ -89,6 +96,7 @@ public class OptionController : MonoBehaviour {
 	//BGM Off
 	public void BgmSwitchFalse()
 	{
+		SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
 		optionBgmSwitch_Off.SetActive (true);
 		optionBgmSwitch_On.SetActive (false);
 		SoundManager.instance.MuteBGM ();

@@ -265,6 +265,8 @@ public class ResultEpicUI : MonoBehaviour {
 			createWeapon.WeaponSprite = Resources.Load<Sprite> ("Crafts/CreatorWeapon/" + createEpic.nIndex);
 
 			createWeapon.strName = GameManager.Instance.cHammerNames [createEpic.nIndex].strName;
+
+			SoundManager.instance.PlaySound (eSoundArray.ES_CraftSound_GreatFinish);
 		} 
 		else 
 		{
@@ -273,6 +275,8 @@ public class ResultEpicUI : MonoBehaviour {
 			createWeapon.WeaponSprite = Resources.Load<Sprite> ("Crafts/CreatorWeapon/" + nRandomWeaponIndex);
 
 			createWeapon.strName = GameManager.Instance.cHammerNames [nRandomWeaponIndex].strName;
+
+			SoundManager.instance.PlaySound (eSoundArray.ES_CraftSound_Finish);
 		}
 
 		createWeapon.nOptionChangeCount = 1;

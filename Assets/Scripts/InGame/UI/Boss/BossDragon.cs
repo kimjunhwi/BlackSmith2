@@ -12,7 +12,11 @@ public class BossDragon :  BossCharacter
 	private bool isActivePassiveSkill01 = false;
 	private bool isActivePassiveSkill02 = false;
 
-
+	private const string sTutorialDragonText01 = "크아아아아아ㅏㅏ";
+	private const string sTutorialDragonText02 = "너의 명성을 듣고 내 무기를 맡기러 왔다.";
+	private const string sTutorialDragonText03 = "시간이 없군 얼은 시작하지";
+	private const string sTutorialDragonText04 = "헐...";
+	private const string sTutorialDragonText05 = "ㅡㅡ";
 
 	//tmpValue
 
@@ -24,6 +28,19 @@ public class BossDragon :  BossCharacter
 
 	public double dBossComplete = 0;
 
+	private bool isBossDragonEnter = false;
+	private bool isBossDragonTalkBox01 = false;
+	private bool isBossDragonTalkBox02 = false;
+	private bool isBossDragonTalkBox03 = false;
+	private bool isBossDragonRepairOn = false;
+	private bool isBossDragonTalkBox04 = false;		//playerTalk
+	private bool isBossDragonTalkBox05 = false;
+	private bool isBossDragonTalkBox06 = false;
+	private bool isBossDragonBreath = false;
+	private bool isBossDragonPlayerTalkBox08 = false;
+	private bool isBossDragonFinish = false;
+
+	private int nTimerOverCheck = 0;
 
 	private void Start()
 	{
@@ -54,51 +71,103 @@ public class BossDragon :  BossCharacter
 		StopCoroutine (BossResult ());
 	} 
 
+
+
 	protected override IEnumerator BossWait ()
 	{
-		while (true)
+
+		while (isBossDragonRepairOn == false)
 		{
-			//무기 이미지 추가
-			if (bossBackGround.isBossBackGround == true) 
+			
+			while (true) 
 			{
+				//무기 이미지 추가
+				if (backGroundScolling.isQuadChangeFinsihed == true) {
 
-				animator.SetBool ("isBackGroundChanged", true);
+					animator.SetBool ("isBackGroundChanged", true);
 
-				yield return new WaitForSeconds (1.0f);
+					SoundManager.instance.PlaySound (eSoundArray.ES_BossDragonAppear);
+					yield return new WaitForSeconds (1.0f);
 
-				if (animator.GetCurrentAnimatorStateInfo (0).IsName("DragonAppear")) 
-				{
-					//yield return new WaitForSeconds (0.1f);
-					animator.SetBool ("isAppear", true);
-					eCureentBossState = EBOSS_STATE.PHASE_00;
-				} 
-				else
+					if (animator.GetCurrentAnimatorStateInfo (0).IsName ("DragonAppear")) {
+						//yield return new WaitForSeconds (0.1f);
+						animator.SetBool ("isAppear", true);
+						eCureentBossState = EBOSS_STATE.PHASE_00;
+					} else
+						yield return null;
+
+
+					if (eCureentBossState == EBOSS_STATE.PHASE_00) {
+						float fOriValue = (24 + (nCurLevel * 5));
+						float fMinusValue = (Mathf.Floor ((24f + (float)nCurLevel * 5f) * 0.1f)) * 10;
+						float result = fOriValue - fMinusValue;
+
+						double dCurComplete = (bossInfo.dComplate * Mathf.Pow (2, (Mathf.Floor (Mathf.Max (((64 + (nCurLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 8;
+						repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache (sBossWeaponSprite), dCurComplete, 0, 0, this);
+
+
+						dBossComplete = dCurComplete;
+
+						break;
+					}
+				} else
 					yield return null;
-
-
-				if (eCureentBossState == EBOSS_STATE.PHASE_00) 
-				{
-					float fOriValue = (24 + (nCurLevel * 5));
-					float fMinusValue = (Mathf.Floor( (24f + (float)nCurLevel * 5f) * 0.1f ) ) * 10;
-					float result = fOriValue - fMinusValue;
-
-					double dCurComplete = (bossInfo.dComplate * Mathf.Pow (2, (Mathf.Floor( Mathf.Max (((64 + (nCurLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 8;
-					repairObj.GetBossWeapon (ObjectCashing.Instance.LoadSpriteFromCache (sBossWeaponSprite), dCurComplete, 0, 0, this);
-
-
-					dBossComplete = dCurComplete;
-					ActiveTimer ();
-					uiDisable.isBossSummon = false;
-					break;
-				}
 			}
-			else
+
+
+
+			//해당 상태이면 계속 체크
+			while (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_DRAGONTALKBOX01) 
+			{
+				if (isBossDragonTalkBox01 == false)
+				{
+					SpawnManager.Instance.tutorialPanel.DragonWepaonBlack_Obj.SetActive (true);
+					Debug.Log ("E_TUTORIAL_START_DRAGONTALKBOX01");
+					bossTalkPanel.StartShowTutorialBossTalkWindow (2, sTutorialDragonText01);
+					isBossDragonTalkBox01 = true;
+				}
 				yield return null;
 
+			}
 
+
+			while (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_DRAGONTALKBOX02) {
+				if (isBossDragonTalkBox02 == false) {
+					Debug.Log ("E_TUTORIAL_START_DRAGONTALKBOX02");
+					bossTalkPanel.StartShowTutorialBossTalkWindow (2, sTutorialDragonText02);
+					isBossDragonTalkBox02 = true;
+				}
+				yield return null;
+
+			}
+
+			while (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_DRAGONTALKBOX03) 
+			{
+				if (isBossDragonTalkBox03 == false) {
+					Debug.Log ("E_TUTORIAL_START_DRAGONTALKBOX03");
+					bossTalkPanel.StartShowTutorialBossTalkWindow (2, sTutorialDragonText03);
+					isBossDragonTalkBox03 = true;
+				}
+				yield return null;
+			}
+
+	
+
+			while (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORAIL_START_DRAGONREPAIR) 
+			{
+			
+				ActiveTimer ();
+				uiDisable.isBossSummon = false;
+				StartCoroutine (BossSkillStandard ());
+				isBossDragonRepairOn = true;
+				SpawnManager.Instance.tutorialPanel.DragonWepaonBlack_Obj.SetActive (false);
+				break;
+
+			}
+	
+			yield return null;
 		}
-		StartCoroutine (BossSkillStandard ());
-		yield break;
+		yield return null;
 	}
 
 	protected override IEnumerator BossSkillStandard ()
@@ -106,7 +175,6 @@ public class BossDragon :  BossCharacter
 		uiManager.AllDisable ();
 		bossPanel.SetActive (true);
 
-		bossTalkPanel.StartShowBossTalkWindow (2f, bossWord[(int)E_BOSSWORD.E_BOSSWORD_BEGIN]);
 		isStandardPhaseFailed = true;
 		while (true)
 		{
@@ -146,7 +214,7 @@ public class BossDragon :  BossCharacter
 	protected override IEnumerator BossSkill_01 ()
 	{
 
-		bossTalkPanel.StartShowBossTalkWindow (2f, bossWord[(int)E_BOSSWORD.E_BOSSWORD_PHASE01]);
+	//	bossTalkPanel.StartShowBossTalkWindow (2f, bossWord[(int)E_BOSSWORD.E_BOSSWORD_PHASE01]);
 
 		bossEffect.ActiveEffect (BOSSEFFECT.BOSSEFFECT_FIREANGRY);
 		isStandardPhaseFailed = false;
@@ -187,7 +255,7 @@ public class BossDragon :  BossCharacter
 	protected override IEnumerator BossSKill_02 ()
 	{
 		//nSmallFireMaxCount = 20;
-		bossTalkPanel.StartShowBossTalkWindow (2f,bossWord[(int)E_BOSSWORD.E_BOSSWORD_PHASE02]);
+	//	bossTalkPanel.StartShowBossTalkWindow (2f,bossWord[(int)E_BOSSWORD.E_BOSSWORD_PHASE02]);
 		while (true)
 		{
 			//fRandomXPos = Random.Range (fXPos - (smallFireRespawnPoint.sizeDelta.x/2), fXPos + (smallFireRespawnPoint.sizeDelta.x/2));
@@ -236,28 +304,80 @@ public class BossDragon :  BossCharacter
 
 	protected override IEnumerator BossDie ()
 	{
+		
 		bossDisappearFire.gameObject.SetActive(true);
-
+		nTimerOverCheck = 1;
 		yield return null;
 		//isSmallFireActive = false;
 		Debug.Log ("Boss Die");
+		ActiveTimer ();
+		SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_END_DRAGONREPAIR;
 		//화면에 남아있는 불씨들을 없앤다
 		//while (smallFireRespawnPoint.childCount != 0) 
 		//{
 		//	GameObject go = smallFireRespawnPoint.GetChild (0).gameObject;
 		//	smallFirePool.ReturnObject(go);
 		//}
+		while (true) 
+		{
+			if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_DRAGONBREATH) {
+				break;
+			}
 
-		//사라질때의 말풍선
-		bossTalkPanel.StartShowBossTalkWindow (2f, bossWord[(int)E_BOSSWORD.E_BOSSWORD_END]);
+			while (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_END_DRAGONREPAIR) 
+			{
+				if (isBossDragonTalkBox04 == false) 
+				{
+					//SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_DRAGONTALKBOX04;
+
+					SpawnManager.Instance.tutorialPanel.playerTalk.TalkBoxOnOff (true);
+					SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX05;
+					SpawnManager.Instance.tutorialPanel.playerTalk.StartPlayerTalk (4);
+	
+					isBossDragonTalkBox04 = true;
+				}
+				yield return null;
+			}
+
+			while (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_DRAGONTALKBOX04) 
+			{
+				if (isBossDragonTalkBox05 == false) 
+				{
+					bossTalkPanel.StartShowTutorialBossTalkWindow (2, sTutorialDragonText04);
+					isBossDragonTalkBox05 = true;
+				}
+				yield return null;
+			}
+
+
+			while (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_DRAGONTALKBOX05) 
+			{
+				if (isBossDragonTalkBox06 == false) 
+				{
+					bossTalkPanel.StartShowTutorialBossTalkWindow (2, sTutorialDragonText05);
+					isBossDragonTalkBox06 = true;
+				}
+				yield return null;
+			}
 
 	
+
+			yield return null;
+		}
+		//사라질때의 말풍선
+		//bossTalkPanel.StartShowBossTalkWindow (2f, bossWord[(int)E_BOSSWORD.E_BOSSWORD_END]);
+
+
+
+		SoundManager.instance.PlaySound (eSoundArray.ES_BossDragonDisappear);
 		//Animator Bool change
 		animator.SetBool ("isDisappear", true);
 
 		bossDisappearFire.BossDragonDisappearAnimator.SetBool ("isBossDisapperFire", true);
 
-		yield return new WaitForSeconds (0.6f);
+		yield return new WaitForSeconds (1.5f);
+
+
 
 		//사라지는 애니메이션이 끝날때 까지 기달인다.
 		while (true) 
@@ -276,8 +396,8 @@ public class BossDragon :  BossCharacter
 					bossDisappearFire.gameObject.SetActive(false);
 
 					//Effect Off
-					if(isStandardPhaseFailed == false)
-						bossEffect.ActiveEffect (BOSSEFFECT.BOSSEFFECT_FIREANGRY);
+					//if(isStandardPhaseFailed == false)
+					//	bossEffect.ActiveEffect (BOSSEFFECT.BOSSEFFECT_FIREANGRY);
 
 					//말풍선 off
 					if (bossTalkPanel.bossTalkPanel.activeSelf == true)
@@ -289,11 +409,13 @@ public class BossDragon :  BossCharacter
 					animator.Play ("BossIdle");
 
 					Debug.Log ("Finish Boss");
-					bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
+					//bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
+					backGroundScolling.StartChangeBackground(eBackgroundMat.E_BackgroundMat_Main);
+					SpawnManager.Instance.bIsBossCreate = false;
 					//Weapon 터지는 효과
 					repairObj.ShowBreakWeapon ();
 					repairObj.SetFinishBoss ();									//수리 패널 초기화
-
+				
 					break;
 				}
 			}
@@ -301,9 +423,45 @@ public class BossDragon :  BossCharacter
 				yield return null;
 		}
 
-		StartCoroutine (BossResult ());
+
+		while (true)
+		{
+			if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_DAYS)
+			{
+				StartCoroutine (BossResult ());
+				yield break;
+			}
+
+			while (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_DRAGONBREATH)
+			{
+				if (isBossDragonBreath == false) {
+					SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX07;
+					SpawnManager.Instance.tutorialPanel.playerTalk.TalkBoxOnOff (true);
+					SpawnManager.Instance.tutorialPanel.playerTalk.StartPlayerTalk (6);
+			
+					isBossDragonBreath = true;
+				}
+				yield return null;
+			}
 
 
+			while (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX08)
+			{
+				if (isBossDragonPlayerTalkBox08 == false)
+				{
+
+					SpawnManager.Instance.tutorialPanel.playerTalk.TalkBoxOnOff (true);
+					SpawnManager.Instance.tutorialPanel.playerTalk.StartPlayerTalk (7);
+
+					isBossDragonPlayerTalkBox08 = true;
+				}
+				yield return null;
+			}
+
+			yield return null;
+
+		}
+			
 	}
 
 	protected override IEnumerator BossResult ()
@@ -311,13 +469,6 @@ public class BossDragon :  BossCharacter
 		yield return null;
 		Debug.Log ("BossResult");
 
-		//Vector3 vector = new Vector3 (gameObject.transform.position.x, gameObject.transform.position.y + 300f, gameObject.transform.position.z);
-
-
-		//gameObject.transform.position = vector;
-
-
-		ActiveTimer ();
 		eCureentBossState = EBOSS_STATE.FINISH;
 		if (eCureentBossState == EBOSS_STATE.FINISH) 
 		{
@@ -361,13 +512,27 @@ public class BossDragon :  BossCharacter
 		yield return null;
 		Debug.Log ("BossFinish");
 
-		if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_DRAGONSHOW) {
-			SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_DAYS;
+		while (true) 
+		{
+			if(SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_SHOWCONSTRUCT)
+				break;
 
-			SpawnManager.Instance.tutorialPanel.DeActiveObj.SetActive (true);
-			SpawnManager.Instance.tutorialPanel.StartContent ();
+			if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_DAYS)
+			{
+				if (isBossDragonFinish == false) {
+					SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_DAYS;
+
+					SpawnManager.Instance.tutorialPanel.DeActiveObj.SetActive (true);
+					SpawnManager.Instance.tutorialPanel.StartTutorialFullScreenTextPanelAlpha (TutorialOption.E_TUTORIAL_OPTION_FADEIN);
+				
+					isBossDragonFinish = true;
+				}
+			}
+
+			yield return null;
+
+
 		}
-
 
 
 
@@ -388,12 +553,15 @@ public class BossDragon :  BossCharacter
 		//nSmallFireMaxCount = 12;
 		//nCurFireCount = 0;
 
+		SpawnManager.Instance.bIsBossCreate = false;
+
+		/*
 		if (bossBackGround.isBossBackGround == true)
 		{
-			SpawnManager.Instance.bIsBossCreate = false;
 			bossBackGround.isBossBackGround = false;
 			bossBackGround.isOriginBackGround = true;
 		}
+		*/
 		bossUIDisable.SetActive (false);
 
 		SpawnManager.Instance.ReliveArbaitBossRepair ();
@@ -430,8 +598,11 @@ public class BossDragon :  BossCharacter
 
 	public void FailState()
 	{
-		isFailed = true;
+		if (nTimerOverCheck == 1)
+			return;
 
+		isFailed = true;
+	
 		//StopCoroutine (BossSkillStandard ());
 		//StopCoroutine (BossSkill_01 ());
 		//StopCoroutine (BossSKill_02 ());

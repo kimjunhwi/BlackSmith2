@@ -171,7 +171,7 @@ public class Player
 		m_fMinusValue = Mathf.Floor( (changeStats.nEnhanceRepaireLevel - 1) * 0.1f ) * 10;
 		m_fResult = m_fOriValue - m_fMinusValue;
 
-		double dCurComplete = _weapon.dRepair *  Mathf.Pow (1.022f, (Mathf.Floor((changeStats.nEnhanceRepaireLevel - 1) * 0.1f))) * (1 + (changeStats.nEnhanceRepaireLevel * 0.03f));
+		double dCurComplete = _weapon.dRepair *  Mathf.Pow (1.022f, Mathf.Floor((changeStats.nEnhanceRepaireLevel - 1) * 0.1f)) * (1 + (changeStats.nEnhanceRepaireLevel * 0.03f));
 
 		SetBasicRepairPower (dCurComplete);
 
@@ -283,6 +283,12 @@ public class Player
 		}
 		m_dRepairPower = changeStats.dRepairPower + (changeStats.dRepairPower * dResultRepairPowerPercent * 0.01);
 
+		if (spawnManager != null) 
+			if (spawnManager.list_ArbaitUI.Count != 0) 
+				spawnManager.SettingArbaitRepairPower (m_dRepairPower);
+			
+		
+
 		if (PlayerInfo != null)
 			PlayerInfo.SetRepairpowerText ();
 	}
@@ -380,6 +386,12 @@ public class Player
 					fResultWaterPlusPercent += epicOpion.fWaterPlus;
 			}
 		}
+
+		if (spawnManager != null) 
+			//오렌지 헤어 아르바이트가 배치중이라면 스킬을 적용
+			if (spawnManager.list_ArbaitUI.Count != 0) 
+				if (spawnManager.m_BatchArbait [(int)E_ARBAIT.E_MIA].activeSelf == true)
+					fResultWaterPlusPercent += spawnManager.array_ArbaitData [(int)E_ARBAIT.E_MIA].m_CharacterChangeData.fSkillPercent;
 
 		//Ice골렘이 배치 됐다면
 		if (spawnManager != null)

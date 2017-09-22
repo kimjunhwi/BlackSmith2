@@ -8,8 +8,8 @@ public class ShopCashBuffSlot : MonoBehaviour {
 	public Image icon_Image;
 	public Text Timer_Text;
 
-	private float fCurSec = 0f;
-	private int curMin = 0;
+	public float fCurSec = 0f;
+	public int curMin = 0;
 
 	public SimpleObjectPool pool_Obj;
 

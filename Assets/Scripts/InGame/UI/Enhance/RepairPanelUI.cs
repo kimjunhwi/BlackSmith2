@@ -36,6 +36,8 @@ public class RepairPanelUI : EnhanceUI {
 
 			double dCurComplete = cPlayer.GetCreatorWeapon().dRepair *  Mathf.Pow (1.022f, (Mathf.Floor((nLevel - 1) * 0.1f))) * (1 + (nLevel * 0.03f));
 
+			dCurComplete = (nLevel < 10) ? dCurComplete + 5 : dCurComplete;
+
 			cPlayer.SetBasicRepairPower (dCurComplete);
 
 			EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);

@@ -17,7 +17,7 @@ namespace ReadOnlys
 
     enum E_SortingSprite
     {
-        E_BACK = 2,
+        E_BACK = 10,
         E_WALK,
     }
 

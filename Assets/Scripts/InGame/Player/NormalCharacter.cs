@@ -12,17 +12,6 @@ public class NormalCharacter : Character {
 
 	private int m_nCheck = -1;
 
-	//캐릭터 인덱스
-	public int m_nIndex = -1;
-
-	//도착 지점
-	private Vector3 m_VecEndPos;
-
-	//활성화 됐을때 위치
-	private Vector3 m_VecStartPos;
-   
-	//움직일 이동 거리
-	private Vector3 m_VecMoveDistance;
 
 	//무기가 보일 말풍선(?) // 미정
 	private GameObject WeaponBackground;
@@ -30,23 +19,13 @@ public class NormalCharacter : Character {
 	//완성도 게이지
 	private Transform ComplateScale;
 
-	//생성되는 위치
-	public Transform spawnTransform;
-
 	private SpriteRenderer backGround;
 
 	//돌아가는지
-	public bool m_bIsBack = false;
 	public bool m_bIsAllBack = false;
-
-	//뒤로 가는 부분에 처음 부분만 실행하기 위함
-	private bool m_bIsFirstBack = false;
 
 	//처음 목표지점에 도달했을 경우에만 아르바이트에게 맞는게 있는지 검사함
 	private bool m_bIsFirst = false;
-
-	//캐릭터가 지정한 위치에 도달했는가
-	public bool m_bIsArrival = false;
 
 	private int nDay = 1;
 
@@ -54,24 +33,17 @@ public class NormalCharacter : Character {
     {
         base.Awake();
 
-
 		boxCollider = gameObject.GetComponent<BoxCollider2D>();
 
 		WeaponBackground = transform.Find("Case").gameObject;
 
 		backGround = WeaponBackground.GetComponent<SpriteRenderer> ();
 
-		m_VecEndPos = GameObject.Find("EndPoint").transform.position;
-
-		spawnTransform = GameObject.Find("SpawnPoint").gameObject.transform;
-
 		RepairShowObject = GameObject.Find("RepairPanel").GetComponentInChildren<RepairObject>();
 
 		weaponsSprite = WeaponBackground.transform.Find("WeaponSprite").GetComponent<SpriteRenderer>();
 
 		ComplateScale = WeaponBackground.transform.Find ("ComplateGaugeParent").GetComponent<Transform> ();
-
-        m_VecStartPos = spawnTransform.position;
 
 		ComplateScale.localScale = new Vector3 (1.0f, 0, 1.0f);
 
@@ -385,8 +357,10 @@ public class NormalCharacter : Character {
 
 	void OnMouseDown()
 	{
-		if (Input.GetMouseButtonDown (0) && (E_STATE == ENORMAL_STATE.WAIT || WeaponBackground.activeSelf) && SpawnManager.Instance.tutorialPanel.eTutorialState ==
-		   TutorialOrder.E_TUTORIAL_START_IMAGE01 && SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE02)
+		if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE01 || SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE02)
+			return;
+
+		if (Input.GetMouseButtonDown (0) && (E_STATE == ENORMAL_STATE.WAIT || WeaponBackground.activeSelf))
 		{
 			//onPointerDown 보다 먼저 호출
 			//if (!EventSystem.current.IsPointerOverGameObject ()) {

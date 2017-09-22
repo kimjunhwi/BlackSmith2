@@ -8,6 +8,9 @@ public class Sasin : ArbaitBatch {
 	double m_dPlusRepairPower = 0;
 	float m_dMinusAttackSpeed = 0;
 
+	private const float fNormalSize = 0.6f;
+	private const float fCriticalSize = 1.0f;
+
 	protected override void Awake()
 	{
 		base.Awake();
@@ -15,6 +18,8 @@ public class Sasin : ArbaitBatch {
 		nIndex = (int)E_ARBAIT.E_SASIN;
 
 		strSkillExplain = string.Format ("현재 완성도 50% 이하 일 때 사신 공격력, 공격속도 {0}% 상승, 대장장이 수리력 {1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
+
+		repairParticlePool = GameObject.Find ("SasinBossParticlePool").GetComponent<SimpleObjectPool> ();
 	}
 
 	// Update is called once per frame
@@ -191,10 +196,16 @@ public class Sasin : ArbaitBatch {
 
 				//크리티컬 확률 
 				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) 
+				{
 					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
-				else 
-					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
 
+					RepairParticle (true);
+
+				} else 
+				{
+					RepairParticle (false);
+					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
+				}
 				m_dComplate += m_dComplate * fBossRepairPercent * 0.01f;
 				//완성 됐을 경우
 				if (m_dComplate >= weaponData.dMaxComplate)
@@ -221,6 +232,21 @@ public class Sasin : ArbaitBatch {
 			}
 
 			break;
+		}
+	}
+
+	private void RepairParticle(bool bIsCritical)
+	{
+		GameObject obj = repairParticlePool.GetObject ();
+
+		obj.GetComponent<ParticlePlay> ().Play (repairParticlePool);
+
+		if (bIsCritical) {
+			obj.transform.localScale = Vector3.one;
+			obj.transform.position = CriticalHitTransform.position;
+		} else {
+			obj.transform.localScale = new Vector3 (fNormalSize, 1, fNormalSize);
+			obj.transform.position = NormalHitTransform.position;
 		}
 	}
 }

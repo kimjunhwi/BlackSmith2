@@ -120,6 +120,16 @@ public class ArbaitBatch : MonoBehaviour {
     //무기 등급을 어디까지 받아올지를 정하기 위해 사용
     public int nGrade { get; set; }
 
+	public Transform NormalHitTransform;
+	public Transform CriticalHitTransform;
+
+	public Transform BossHitTransform;
+
+	public SimpleObjectPool normalParticlePool;
+	public SimpleObjectPool CriticalParticlePool;
+
+	public SimpleObjectPool repairParticlePool;
+
 	// Use this for initialization
 	protected virtual void Awake()
     {
@@ -797,5 +807,42 @@ public class ArbaitBatch : MonoBehaviour {
 	public void SetArbaitRepair(float _fValue)
 	{
 		fRepairDownPercent = fRepairDownPercent * _fValue;
+	}
+
+	public void CreateParticle()
+	{
+		GameObject obj = repairParticlePool.GetObject ();
+
+		obj.transform.position = BossHitTransform.position;
+
+		obj.GetComponent<ParticlePlay> ().Play (repairParticlePool);
+	}
+
+	public virtual void CreateNormalParticle()
+	{
+		GameObject obj = normalParticlePool.GetObject ();
+
+		obj.transform.position = NormalHitTransform.position;
+
+		obj.GetComponent<ParticlePlay>().Play(normalParticlePool);
+	}
+
+	public virtual void ResetNormalRepair()
+	{
+		animator.SetTrigger("bIsNormalRepair");
+	}
+
+	public virtual void CreateCriticalParitcle()
+	{
+		GameObject obj = CriticalParticlePool.GetObject ();
+
+		obj.transform.position = CriticalHitTransform.position;
+
+		obj.GetComponent<ParticlePlay>().Play(CriticalParticlePool);
+	}
+
+	public virtual void ResetCriticalRepair()
+	{
+		animator.SetTrigger("bIsCriticalRepair");
 	}
 }

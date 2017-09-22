@@ -1035,7 +1035,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
         int nRandom;
 
-        nRandom = Random.Range(0, 7);
+        nRandom = Random.Range(0, 41);
 
 		CGameWeaponInfo ResultWeapon = new CGameWeaponInfo (cWeaponInfo [nRandom]);
 
@@ -1089,7 +1089,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		w.Show(_msg, _callback);
 	}
 
-	public void Window_yesno(string strTitle, string strValue,Sprite _spriteGoods, System.Action<string> _callback)
+	public void Window_yesno(string strTitle, string strValue, System.Action<string> _callback)
 	{
 		//GameObject Root_ui = GameObject.Find("root_window)"); //ui attach
 		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_yesno"), Vector3.zero, Quaternion.identity) as GameObject;
@@ -1099,6 +1099,32 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		go.transform.localScale = Vector3.one;
 
 		CWindowYesNo w = go.GetComponent<CWindowYesNo>();
+		w.Show(strTitle,strValue, _callback);
+	}
+
+	public void Window_Check(string strValue,System.Action<string> _callback)
+	{
+		//GameObject Root_ui = GameObject.Find("root_window)"); //ui attach
+		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_Check"), Vector3.zero, Quaternion.identity) as GameObject;
+		go.transform.parent = Root_ui.transform;
+		go.transform.localPosition = Vector3.zero;
+		go.transform.localRotation = Quaternion.identity;
+		go.transform.localScale = Vector3.one;
+
+		CWindowCheck w = go.GetComponent<CWindowCheck>();
+		w.Show(strValue, _callback);
+	}
+
+	public void Window_Goblin_yesno(string strTitle, string strValue,Sprite _spriteGoods, System.Action<string> _callback)
+	{
+		//GameObject Root_ui = GameObject.Find("root_window)"); //ui attach
+		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_Goblin_Buff_Yes_No"), Vector3.zero, Quaternion.identity) as GameObject;
+		go.transform.parent = Root_ui.transform;
+		go.transform.localPosition = Vector3.zero;
+		go.transform.localRotation = Quaternion.identity;
+		go.transform.localScale = Vector3.one;
+
+		CWindowGoblin w = go.GetComponent<CWindowGoblin>();
 		w.Show(strTitle,strValue,_spriteGoods, _callback);
 	}
     #endregion
@@ -1905,6 +1931,8 @@ public class ArbaitData
 	//구매 했는지
 	public bool bIsBuyCheck;
 
+	public int nPlayerGetRepair;
+
 
 	public ArbaitData(ArbaitData _data)
 	{
@@ -1942,6 +1970,8 @@ public class ArbaitData
 		nIsDia= _data.nIsDia;
 
 		bIsBuyCheck= _data.bIsBuyCheck;
+
+		nPlayerGetRepair = _data.nPlayerGetRepair;
 	}
 }
 

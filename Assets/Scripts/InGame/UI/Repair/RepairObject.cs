@@ -273,7 +273,7 @@ public class RepairObject : MonoBehaviour
 		AllDebuffIconInit ();
 	}
 
-	void AllDebuffIconInit()
+	public void AllDebuffIconInit()
 	{
 		for (int nIndex = 0; nIndex < DeBuff_Objects.Length; nIndex++)
 			DeBuff_Objects [nIndex].SetActive (false);
@@ -668,6 +668,8 @@ public class RepairObject : MonoBehaviour
 
 		WeaponObject.SetActive (false);
 		waterObject.SetActive (false);
+
+		AllDebuffIconInit ();
 
 		if (_bossData.nIndex == 0) {
 			bossCharacter = _bossData;
@@ -2127,6 +2129,5 @@ public class RepairObject : MonoBehaviour
 
 			return;
 		}
-
 	}
 }

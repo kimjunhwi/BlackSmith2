@@ -466,7 +466,6 @@ public class NormalCharacter : Character {
 			cPlayerData.SetSuccessedGuestCount (cPlayerData.GetSuccessedGuestCount () + 1);
             ScoreManager.ScoreInstance.SetSuccessedGuestCount(cPlayerData.GetSuccessedGuestCount());
 
-
 			//셩공 손님이 30명 이상 이라면 
 			if (cPlayerData.GetSuccessedGuestCount () >= 10) 
 			{

@@ -267,6 +267,8 @@ public class BossCreator : MonoBehaviour
 	{
 		yield return null;
 
+		SpawnManager.Instance.repairObject.AllDebuffIconInit ();
+
 		if(bossConsumeItemInfo.nInviteMentCurCount != 0)
 			bossConsumeItemInfo.nInviteMentCurCount--;
 

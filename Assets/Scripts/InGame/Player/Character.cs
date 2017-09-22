@@ -87,11 +87,40 @@ public class Character : MonoBehaviour
 
 	public Player cPlayerData;
 
+	//도착 지점
+	public Vector3 m_VecEndPos;
+
+	//활성화 됐을때 위치
+	public Vector3 m_VecStartPos;
+
+	//움직일 이동 거리
+	public Vector3 m_VecMoveDistance;
+
+	//생성되는 위치
+	public Transform spawnTransform;
+
+	//캐릭터 인덱스
+	public int m_nIndex = -1;
+
+	public bool m_bIsBack = false;
+
+	//캐릭터가 지정한 위치에 도달했는가
+	public bool m_bIsArrival = false;
+
+	//뒤로 가는 부분에 처음 부분만 실행하기 위함
+	public bool m_bIsFirstBack = false;
+
 	public virtual void Awake()
 	{
 		E_GRADE = CHARACTER_GRADE.NORMAL;
 
 		mySprite = GetComponent<SpriteRenderer> ();
+
+		m_VecEndPos = GameObject.Find("EndPoint").transform.position;
+
+		spawnTransform = GameObject.Find("SpawnPoint").gameObject.transform;
+
+		m_VecStartPos = spawnTransform.position;
 
 		m_anim = gameObject.GetComponent<Animator> ();
 

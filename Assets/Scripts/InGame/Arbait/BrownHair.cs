@@ -14,6 +14,9 @@ public class BrownHair : ArbaitBatch {
 		nIndex = (int)E_ARBAIT.E_LUNA;
 
 		strSkillExplain = string.Format ("물 사용시 모든 직원 크리확률 {0} 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
+
+		normalParticlePool = GameObject.Find ("NormalRepairPool").GetComponent<SimpleObjectPool> ();
+		CriticalParticlePool = GameObject.Find ("CriticalRepairPool").GetComponent<SimpleObjectPool> ();
 	}
 
 
@@ -165,8 +168,6 @@ public class BrownHair : ArbaitBatch {
 			{
 				fTime = 0.0f;
 
-				animator.SetTrigger("bIsRepair");
-
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 
 				if (playerData.AccessoryEquipmnet != null) {
@@ -180,10 +181,13 @@ public class BrownHair : ArbaitBatch {
 				}
 
 				//크리티컬 확률 
-				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) 
+				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) {
+					animator.SetTrigger ("bIsCriticalRepair");
 					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
-				else 
+				} else {
+					animator.SetTrigger ("bIsNormalRepair");
 					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
+				}
 
 				m_dComplate += m_dComplate * fBossRepairPercent * 0.01f;
 

@@ -5,6 +5,15 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using ReadOnlys;
 
+enum E_DEBUFF_ICON
+{
+	E_DEBUFF_REPAIR = 0,
+	E_DEBUFF_ACCURACY,
+	E_DEBUFF_CRITICAL,
+	E_DEBUFF_CRITICALDAMAGE,
+	E_DEBUFF_WATERPLUS,
+}
+
 public class RepairObject : MonoBehaviour
 {
 	public Slider ComplateSlider;
@@ -187,6 +196,8 @@ public class RepairObject : MonoBehaviour
 
 	public Vector3 TouchPosition;
 
+	public GameObject[] DeBuff_Objects;
+
 
 	string[] unit = new string[]{ "G", "K", "M", "B", "T", "aa", "bb", "cc", "dd", "ee" }; 
 
@@ -258,6 +269,14 @@ public class RepairObject : MonoBehaviour
 		WeaponObject.SetActive (true);
 		waterObject.SetActive (true);
 		waterPaching.SetActive (false);
+
+		AllDebuffIconInit ();
+	}
+
+	void AllDebuffIconInit()
+	{
+		for (int nIndex = 0; nIndex < DeBuff_Objects.Length; nIndex++)
+			DeBuff_Objects [nIndex].SetActive (false);
 	}
 
 	public IEnumerator StartWaterFx()
@@ -603,8 +622,25 @@ public class RepairObject : MonoBehaviour
             weaponData = data;
         }
 
+		AllDebuffIconInit ();
+
 		PlayerInfo.SetGuestWeapon (weaponData);
 
+		if (weaponData.dMinusRepair != 0)
+			DeBuff_Objects [(int)E_DEBUFF_ICON.E_DEBUFF_REPAIR].SetActive (true);
+
+		if (weaponData.fMinusAccuracy != 0)
+			DeBuff_Objects [(int)E_DEBUFF_ICON.E_DEBUFF_ACCURACY].SetActive (true);
+
+		if (weaponData.fMinusCriticalChance != 0)
+			DeBuff_Objects [(int)E_DEBUFF_ICON.E_DEBUFF_CRITICAL].SetActive (true);
+
+		if (weaponData.dMinusCriticalDamage != 0)
+			DeBuff_Objects [(int)E_DEBUFF_ICON.E_DEBUFF_CRITICALDAMAGE].SetActive (true);
+
+		if (weaponData.fMinusChargingWater != 0)
+			DeBuff_Objects [(int)E_DEBUFF_ICON.E_DEBUFF_WATERPLUS].SetActive (true);
+		
 		dCurrentComplate = _dComplate;
 
 		ComplateSlider.maxValue = (float)weaponData.dMaxComplate;

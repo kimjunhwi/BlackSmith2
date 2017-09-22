@@ -10,14 +10,11 @@ public class CWindowYesNo : CWindow
     public Button m_button_Ads;
     public Button m_button_Goods;
 	public Button m_button_delete;
-	public Image m_button_Goods_Image;
-
-	public Image m_button_no;
 
 	public Text RubyText;
 	public Text strTitleText;
 
-	public void Show(string _strTitle, string strValue,Sprite _spriteGoods, Action<string> _callback)
+	public void Show(string _strTitle, string strValue, Action<string> _callback)
     {
         base.Show(null, _callback);
 
@@ -27,11 +24,6 @@ public class CWindowYesNo : CWindow
 
 		RubyText.text = strValue;
 		strTitleText.text = _strTitle;
-
-		m_button_Goods_Image.sprite = _spriteGoods;
-        //m_button_yes.text = CGame.Instance.GetText(10006); //yes
-        //m_button_no.text = CGame.Instance.GetText(10007); //no
-
     }
     //public override void Show(GameObject _root, Action<string> _callback)
     //{

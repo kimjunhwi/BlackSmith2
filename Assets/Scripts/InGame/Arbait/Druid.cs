@@ -19,6 +19,10 @@ public class Druid : ArbaitBatch
         nIndex = (int)E_ARBAIT.E_ELLIE;
 
 		strSkillExplain = string.Format ("대장장이 크리시 모든 직원 공격속도 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+
+		normalParticlePool = GameObject.Find ("NormalRepairPool").GetComponent<SimpleObjectPool> ();
+
+		CriticalParticlePool = GameObject.Find ("CriticalRepairPool").GetComponent<SimpleObjectPool> ();
     }
 
     // Update is called once per frame
@@ -256,8 +260,6 @@ public class Druid : ArbaitBatch
                 {
 				fTime = 0.0f;
 
-				animator.SetTrigger("bIsRepair");
-
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 
 				if (playerData.AccessoryEquipmnet != null) {
@@ -272,10 +274,13 @@ public class Druid : ArbaitBatch
 
 
 				//크리티컬 확률 
-				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) 
+				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) {
+					animator.SetTrigger ("bIsCriticalRepair");
 					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
-				else 
+				} else {
+					animator.SetTrigger ("bIsNormalRepair");
 					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
+				}
 
 				m_dComplate += m_dComplate * fBossRepairPercent * 0.01f;
                     //완성 됐을 경우

@@ -88,19 +88,57 @@ public class OptionItem : MonoBehaviour {
 	{
 		if (WeaponOption.nIndex == (int)E_CREATOR.E_EPIC) 
 		{
+
+
 			if (WeaponOption.bIsLock == false) 
 			{
-				WeaponOption.bIsLock = true;
-				makingUI.createEpic.bIsLock = true;
-				OptionImage.sprite = ActiveEpicSprite;
-				LockImage.sprite = ActiveEpicLockSprite;
+				GameManager.Instance.Window_yesno ("에픽 옵션을 잠금 하시겠습니까?", "50", rt => 
+					{
+						if(rt == "0")
+						{
+
+
+							WeaponOption.bIsLock = true;
+							makingUI.createEpic.bIsLock = true;
+							OptionImage.sprite = ActiveEpicSprite;
+							LockImage.sprite = ActiveEpicLockSprite;
+						}
+						else if(rt == "1")
+						{
+							if(ScoreManager.ScoreInstance.GetRuby() >= 50)
+							{
+								WeaponOption.bIsLock = true;
+								makingUI.createEpic.bIsLock = true;
+								OptionImage.sprite = ActiveEpicSprite;
+								LockImage.sprite = ActiveEpicLockSprite;
+							}
+							else
+							{
+								GameManager.Instance.Window_notice("루비가 부족합니다",null);
+							}
+
+						}
+					}
+				);
 			} 
 			else 
 			{
-				WeaponOption.bIsLock = false;
-				makingUI.createEpic.bIsLock = false;
-				OptionImage.sprite = UnActiveEpicSprite;
-				LockImage.sprite = UnActiveEpicLockSprite;
+
+				GameManager.Instance.Window_Check ("에픽 옵션 잠금을 해제 하시겠습니까?", rt => {
+					if (rt == "0") {
+						WeaponOption.bIsLock = false;
+						makingUI.createEpic.bIsLock = false;
+						OptionImage.sprite = UnActiveEpicSprite;
+						LockImage.sprite = UnActiveEpicLockSprite;
+
+					} else if (rt == "1") {
+						return;
+					}
+
+				}
+				);
+
+
 			}
 
 		} 

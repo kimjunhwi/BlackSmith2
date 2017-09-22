@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour {
 	public Transform BigSuccessedPosition;
 	public BigSuccesedPool BigSuccessedPool;
 
+	public SimpleObjectPool NormalRepairPool;
+	public SimpleObjectPool CriticalRepairPool;
+
     void Start()
     {
         m_Animator = GetComponent<Animator>();
@@ -44,22 +47,20 @@ public class PlayerController : MonoBehaviour {
     public void CreateNormalEffect()
 	{
 
-        GameObject obj = NormalRepairPool.Instance.GetObject();
+        GameObject obj = NormalRepairPool.GetObject();
 
 		obj.transform.position = normalPosition.position;
 
-        obj.GetComponent<NormalRepairParticle>().Play();
+		obj.GetComponent<ParticlePlay>().Play(NormalRepairPool);
     }
 
     public void CreateCriticalEffect()
     {
-		
-
-        GameObject obj = CriticalRepairPool.Instance.GetObject();
+        GameObject obj = CriticalRepairPool.GetObject();
 
 		obj.transform.position = criticalPosition.position;
 
-        obj.GetComponent<CriticalRepairParticle>().Play();
+		obj.GetComponent<ParticlePlay>().Play(CriticalRepairPool);
     }
 
 	public void NormalTouchSound()

@@ -27,7 +27,7 @@ public class ArbaitCharacter : MonoBehaviour {
 	public Image BuyImage;
     protected Image m_CharacterImageObject;
     
-	protected ArbaitData m_CharacterData;
+	protected ArbaitData m_CharacterData = null;
 	protected CGameArbaitGrade[] ArbaitEnhanceData; 
 
 
@@ -96,6 +96,12 @@ public class ArbaitCharacter : MonoBehaviour {
 		playerData = GameManager.Instance.GetPlayer ();
 	}
 
+	void OnEnable()
+	{
+		if(m_CharacterData != null)
+			ChangeArbaitText ();
+	}
+
 	public void SetUp(int _nIndex,Sprite _sprite)
 	{
 		nIndex = _nIndex;
@@ -125,8 +131,11 @@ public class ArbaitCharacter : MonoBehaviour {
     {
         //스코어 매니저를 만들었을 경우 개선
 
-		if (m_CharacterData.nScoutGold >= ScoreManager.ScoreInstance.GetGold() && m_CharacterData.nScoutHonor >= ScoreManager.ScoreInstance.GetHonor())
+		if (m_CharacterData.nScoutGold <= ScoreManager.ScoreInstance.GetGold() && m_CharacterData.nScoutHonor <= ScoreManager.ScoreInstance.GetHonor())
         {
+			ScoreManager.ScoreInstance.GoldPlus (-m_CharacterData.nScoutGold);
+			ScoreManager.ScoreInstance.HonorPlus (-m_CharacterData.nScoutHonor);
+
             //추후 추가
             m_CharacterData.level = 1;
 
@@ -277,7 +286,7 @@ public class ArbaitCharacter : MonoBehaviour {
         LevelText.text = m_CharacterData.level.ToString();
         NameText.text = m_CharacterData.name;
         SkillExplainText.text = m_CharacterData.strExplains;
-        RepairPowerText.text = m_CharacterData.dRepairPower.ToString("F1");
+		RepairPowerText.text = ScoreManager.ScoreInstance.ChangeMoney(m_CharacterData.dRepairPower);
         AttackSpeedText.text = m_CharacterData.fAttackSpeed.ToString("F1");
         CriticalText.text = m_CharacterData.fCritical.ToString("F1");
         AccuracyText.text = m_CharacterData.fAccuracyRate.ToString("F1");

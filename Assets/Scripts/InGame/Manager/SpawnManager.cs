@@ -92,7 +92,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	System.TimeSpan timeCal;
 
-	private const int nInitTime_Sec = 299;
+	private const int nInitTime_Sec = 59;
 
 	public float fCurSec;
 
@@ -129,10 +129,6 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			//터치 오브젝트들을 초기화 밑 할당 해줌 (추후 텍스트 추가)
 
 			BreakBoomPool.Instance.Init ();
-
-			NormalRepairPool.Instance.Init ();
-
-			CriticalRepairPool.Instance.Init ();
 
 			TemperatureBoomPool.Instance.Init ();
 
@@ -179,14 +175,14 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			//tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
 			//tutorialPanel.gameObject.SetActive (false);
 
-			//if (CheckIsTimer ()) {
-			//	fCurSec = nInitTime_Sec;
-			//
-			//} 
-			//else 
-			//{
-			//	fCurSec = playerData.changeStats.fGoblinSecond;
-			//}
+			if (CheckIsTimer ()) {
+				fCurSec = nInitTime_Sec;
+			
+			} 
+			else 
+			{
+				fCurSec = playerData.changeStats.fGoblinSecond;
+			}
 		}
 	}
 		
@@ -201,12 +197,14 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			m_fLevelTime += Time.deltaTime;
 			fCurSec += Time.deltaTime;
 
-			//if (fCurSec > nInitTime_Sec && m_bIsGoblinCreate == false && list_Character.Count < m_nMaxPollAmount && bIsBossCreate == false && bIsCharacterBack == false) 
-			//{
-			//		CreateGoblin ();
+			if (fCurSec > nInitTime_Sec && m_bIsGoblinCreate == false && list_Character.Count < m_nMaxPollAmount && bIsBossCreate == false && bIsCharacterBack == false) 
+			{
+				CreateGoblin ();
 
-			//	m_bIsGoblinCreate = true;
-			//}
+				m_bIsGoblinCreate = true;
+
+				fCurSec = 0;
+			}
 
 			//만들 수 있는 시간이 지났거나, 현재 손님이 없을경우,
 			//캐릭터 카운트가 최대미만일 경우, 보스가 활성화 중이지 않을경우 캐릭터를 생성한다.
@@ -341,7 +339,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		if (list_Character.Count != 0)
 		{
 			for(int nIndex = 0; nIndex < list_Character.Count; nIndex++)
-				list_Character[nIndex].GetComponent<NormalCharacter>().RetreatCharacter(4.0f,true,true);
+				list_Character[nIndex].GetComponent<Character>().RetreatCharacter(4.0f,true,true);
 			
 			m_nDay = _nDay;
 
@@ -431,7 +429,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
         tempObject = SearchCharacter(_obj);
 
         if (tempObject)
-			tempObject.GetComponent<NormalCharacter>().m_bIsBack = true;
+			tempObject.GetComponent<Character>().m_bIsBack = true;
 
     }
 
@@ -470,8 +468,13 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			}
 		}
 
-		if(list_Character[0].GetComponent<NormalCharacter>().E_STATE == Character.ENORMAL_STATE.WAIT)
-			list_Character [0].GetComponent<NormalCharacter> ().RepairObjectInputWeapon ();
+		if (list_Character [0] == m_CharicPool [(int)E_GUEST.E_GOBLIN]) {
+			if (list_Character [1].GetComponent<NormalCharacter> ().E_STATE == Character.ENORMAL_STATE.WAIT)
+				list_Character [1].GetComponent<NormalCharacter> ().RepairObjectInputWeapon ();
+		}
+		else if(list_Character[0].GetComponent<NormalCharacter>().E_STATE == Character.ENORMAL_STATE.WAIT)
+				list_Character [0].GetComponent<NormalCharacter> ().RepairObjectInputWeapon ();
+		
 
 		OrderMove ();
 	}
@@ -642,7 +645,13 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
         array_ArbaitData[nIndex].GetWeaponData(_obj, _data, _dComplate, _fTemperator);
     }
     ////////////////////////////////////////////////////////////////
-
+	public void SettingArbaitRepairPower(double _dValue)
+	{
+		for (int nIndex = 0; nIndex < array_ArbaitData.Length; nIndex++) 
+		{
+			array_ArbaitData [nIndex].m_CharacterChangeData.dRepairPower = _dValue * array_ArbaitData [nIndex].m_CharacterChangeData.nPlayerGetRepair * 0.01f;
+		}
+	}
 
     //만약 아르바이트에서 무기를 가져갈때, 현재 캐릭터의 인덱스와, 배치된 인덱스를 통해 가져온다.
 	public void InsertWeaponArbait(int _nIndex,int _nBatchIndex)
@@ -651,6 +660,9 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
         foreach(GameObject _obj in list_Character)
         {
+			if (_obj == m_CharicPool [(int)E_GUEST.E_GOBLIN])
+				continue;
+
 			charData = _obj.GetComponent<NormalCharacter>();
 
 			if (charData.m_bIsRepair == false && charData.E_STATE == Character.ENORMAL_STATE.WAIT)

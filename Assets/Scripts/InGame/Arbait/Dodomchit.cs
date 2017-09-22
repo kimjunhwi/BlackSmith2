@@ -5,6 +5,10 @@ using ReadOnlys;
 
 public class Dodomchit : ArbaitBatch {
 
+
+	private const float fNormalSize = 0.6f;
+	private const float fCriticalSize = 1.0f;
+
 	protected override void Awake()
 	{
 		base.Awake();
@@ -12,6 +16,8 @@ public class Dodomchit : ArbaitBatch {
 		nIndex = (int)E_ARBAIT.E_DODOMCHIT;
 
 		strSkillExplain = string.Format ("공격시 모든 직원 수리력 {0}% 증가 (50%) 물 사용시 초기화", m_CharacterChangeData.fSkillPercent);
+
+		repairParticlePool = GameObject.Find ("RusiuBossParticlePool").GetComponent<SimpleObjectPool> ();
 	}
 
 	// Update is called once per frame
@@ -183,11 +189,13 @@ public class Dodomchit : ArbaitBatch {
 				}
 
 				//크리티컬 확률 
-				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) 
+				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) {
+					RepairParticle (true);
 					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
-				else 
+				} else {
+					RepairParticle (false);
 					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
-
+				}
 				m_dComplate += m_dComplate * fBossRepairPercent * 0.01f;
 				//완성 됐을 경우
 				if (m_dComplate >= weaponData.dMaxComplate)
@@ -214,6 +222,21 @@ public class Dodomchit : ArbaitBatch {
 			}
 
 			break;
+		}
+	}
+
+	private void RepairParticle(bool bIsCritical)
+	{
+		GameObject obj = repairParticlePool.GetObject ();
+
+		obj.GetComponent<ParticlePlay> ().Play (repairParticlePool);
+
+		if (bIsCritical) {
+			obj.transform.localScale = Vector3.one;
+			obj.transform.position = CriticalHitTransform.position;
+		} else {
+			obj.transform.localScale = new Vector3 (fNormalSize, 1, fNormalSize);
+			obj.transform.position = NormalHitTransform.position;
 		}
 	}
 }

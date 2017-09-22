@@ -16,6 +16,10 @@ public class OrangeHair : ArbaitBatch {
         nIndex = (int)E_ARBAIT.E_MIA;
 
 		strSkillExplain = string.Format ("대장장이 물 충전속도 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+
+		normalParticlePool = GameObject.Find ("NormalRepairPool").GetComponent<SimpleObjectPool> ();
+
+		CriticalParticlePool = GameObject.Find ("CriticalRepairPool").GetComponent<SimpleObjectPool> ();
     }
 
     // Update is called once per frame
@@ -37,7 +41,7 @@ public class OrangeHair : ArbaitBatch {
 
         CheckCharacterState(E_STATE);
 
-        ApplySkill();
+		playerData.SetWaterPlus ();
 
         SpawnManager.Instance.InsertWeaponArbait(m_CharacterChangeData.index, nBatchIndex);
 
@@ -104,26 +108,12 @@ public class OrangeHair : ArbaitBatch {
 
     public override void ApplySkill()
     {
-        if (fChangePlusWater >= 1)
-            ReliveSkill();
-
-        fGetPlusWater = playerData.GetBasicWaterPlus();
-
-        fChangePlusWater = fGetPlusWater * (m_CharacterChangeData.fSkillPercent * 0.01f);
-
-		playerData.SetBasicWaterPlus(fGetPlusWater + fChangePlusWater);
+       
     }
 
     protected override void ReliveSkill()
     {
-        if(fChangePlusWater <= 1)
-            return;
-
-        fGetPlusWater = playerData.GetBasicWaterPlus();
-
-        fMinusPlusWater = fGetPlusWater - fChangePlusWater;
-
-        playerData.SetBasicWaterPlus(fMinusPlusWater);
+       
     }
     
     public override void RelivePauseSkill()
@@ -204,8 +194,6 @@ public class OrangeHair : ArbaitBatch {
 			{
 				fTime = 0.0f;
 
-				animator.SetTrigger("bIsRepair");
-
 				if (playerData.AccessoryEquipmnet != null) {
 					if (playerData.AccessoryEquipmnet.nIndex == (int)E_BOSS_ITEM.DODOM_GLASS) {
 						fBossRepairPercent = playerData.AccessoryEquipmnet.fBossOptionValue;
@@ -218,10 +206,13 @@ public class OrangeHair : ArbaitBatch {
 
 
 				//크리티컬 확률 
-				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) 
+				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) {
+					animator.SetTrigger ("bIsCriticalRepair");
 					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
-				else 
+				} else {
+					animator.SetTrigger ("bIsNormalRepair");
 					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
+				}
 
 				m_dComplate += m_dComplate * fBossRepairPercent * 0.01f;
 				//완성 됐을 경우

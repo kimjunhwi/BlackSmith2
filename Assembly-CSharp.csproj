@@ -48,8 +48,8 @@
   <ItemGroup>
      <Compile Include="Assets\Boomlagoon\JSON\JSONObject.cs" />
      <Compile Include="Assets\Boomlagoon\JSON\TestScene\JSONObjectTester.cs" />
+     <Compile Include="Assets\CWindowGoblin.cs" />
      <Compile Include="Assets\GPGSIds.cs" />
-     <Compile Include="Assets\Goblin_Guest.cs" />
      <Compile Include="Assets\GooglePlayGames\BasicApi\Achievement.cs" />
      <Compile Include="Assets\GooglePlayGames\BasicApi\CommonStatusCodes.cs" />
      <Compile Include="Assets\GooglePlayGames\BasicApi\CommonTypes.cs" />
@@ -310,6 +310,7 @@
      <Compile Include="Assets\Scripts\InGame\Particle\TemperatureBoomParticle.cs" />
      <Compile Include="Assets\Scripts\InGame\Particle\TemperatureBoomPool.cs" />
      <Compile Include="Assets\Scripts\InGame\Player\Character.cs" />
+     <Compile Include="Assets\Scripts\InGame\Player\Goblin_Guest.cs" />
      <Compile Include="Assets\Scripts\InGame\Player\NormalCharacter.cs" />
      <Compile Include="Assets\Scripts\InGame\Player\Player.cs" />
      <Compile Include="Assets\Scripts\InGame\Player\PlayerController.cs" />
@@ -391,6 +392,7 @@
      <Compile Include="Assets\Scripts\InGame\UI\Shop\ShopShowPanel.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\UIDisable.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Window\CWindow.cs" />
+     <Compile Include="Assets\Scripts\InGame\UI\Window\CWindowCheck.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Window\CWindowNotice.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Window\CWindowOk.cs" />
      <Compile Include="Assets\Scripts\InGame\UI\Window\CWindowYesNo.cs" />

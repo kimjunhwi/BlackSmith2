@@ -172,8 +172,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			}
 			bIsFirst = true;
 			//2개를 주석하면 튜토리얼 On
-			tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
-			tutorialPanel.gameObject.SetActive (false);
+			//tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
+			//tutorialPanel.gameObject.SetActive (false);
 
 			if (CheckIsTimer ()) {
 				fCurSec = nInitTime_Sec;
@@ -227,8 +227,9 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			{
 				if (SpawnManager.Instance.list_Character.Count <= 0)
 				{
-					tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_DRAGONSHOW;
-					StartCoroutine (SpawnManager.Instance.bossCreator.BossCreate (4));
+					tutorialPanel.playerTalk.TalkBoxOnOff(true);
+					tutorialPanel.playerTalk.StartPlayerTalk(1);
+					tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX02;
 				}
 			}
 
@@ -1074,6 +1075,12 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		else
 			return false;
 
+	}
+
+
+	public void StartBossCreate(int _index)
+	{
+		StartCoroutine(	bossCreator.BossCreate (_index));
 	}
 
 }

@@ -316,7 +316,7 @@ public class TutorialPanel : MonoBehaviour
 			//fade in
 			if (_option == TutorialOption.E_TUTORIAL_OPTION_FADEIN) 
 			{
-				Debug.Log ("Fade In!!");
+				//Debug.Log ("Fade In!!");
 				m_fTutorialFullScrreneAlpha += Time.deltaTime * m_fAlphaValue;
 				originColor = new Color (DeActiveObj_Image.color.r, DeActiveObj_Image.color.g, DeActiveObj_Image.color.b, m_fTutorialFullScrreneAlpha);
 				DeActiveObj_Image.color = originColor;
@@ -339,7 +339,7 @@ public class TutorialPanel : MonoBehaviour
 			//fade out
 			else 
 			{
-				Debug.Log ("Fade Out!!");
+				//Debug.Log ("Fade Out!!");
 				m_fTutorialFullScrreneAlpha -= Time.deltaTime * m_fAlphaValue;
 				originColor = new Color (DeActiveObj_Image.color.r, DeActiveObj_Image.color.g, DeActiveObj_Image.color.b, m_fTutorialFullScrreneAlpha);
 				DeActiveObj_Image.color = originColor;

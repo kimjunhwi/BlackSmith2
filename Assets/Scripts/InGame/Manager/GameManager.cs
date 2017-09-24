@@ -215,7 +215,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		if(File.Exists(strCreate)) 
 		{
 			Debug.Log("Search CreateWeapon");
-			StartCoroutine (LinkedCreateWeaponAccess (strCreate));
+		yield return StartCoroutine (LinkedCreateWeaponAccess (strCreate));
 		}
 
 
@@ -373,12 +373,13 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		if (dataAsJson == "") 
 		{
+			Debug.Log ("No Search");
 			yield return StartCoroutine( LinkedPlayerAccess( Path.Combine(Application.streamingAssetsPath, strPlayerPath)));
 
 			yield break;
 		}
 
-
+		Debug.Log (dataAsJson);
 
 		playerData = JsonHelper.ListFromJson<CGamePlayerData>(dataAsJson)[0];
 	}

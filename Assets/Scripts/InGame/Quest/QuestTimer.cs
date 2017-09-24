@@ -129,15 +129,15 @@ public class QuestTimer : MonoBehaviour
 		gameObject.SetActive (true);
 		QuestTimer_Text.enabled = true;
 		isTimeOn = true;
-		nInitTime_Min = 0;
-		nInitTime_sec = 20;
+		nInitTime_Min = 59;
+		nInitTime_sec = 59;
 		Debug.Log ("QuestTimer is On : " + isTimeOn + " Start Timer !");
 		StartCoroutine (Timer (nInitTime_Min, nInitTime_sec));
 	}
 	public void InitQuestTimer()
 	{
-		nInitTime_Min = 0;
-		nInitTime_sec = 20;
+		nInitTime_Min = 59;
+		nInitTime_sec = 59;
 		Debug.Log ("QuestTimer is On : " + isTimeOn + " Start Timer !");
 		QuestTimer_Text.enabled = false;
 		isTimeOn = false;

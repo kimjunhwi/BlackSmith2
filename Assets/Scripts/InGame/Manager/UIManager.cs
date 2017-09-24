@@ -18,6 +18,8 @@ public class UIManager : MonoBehaviour
 	public ShopCash shopCash;
 	public QusetManager questManager;
 
+	public GameObject [] TutorialUIOff_Obj;
+
 	void Start()
 	{
 		//shopCash.StartSetUp ();
@@ -130,5 +132,31 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
+
+	public void SetTutorial(bool _isOn)
+	{
+		//UI Off
+		if (_isOn == true)
+		{
+			for (int i = 0; i < TutorialUIOff_Obj.Length; i++) 
+			{
+				TutorialUIOff_Obj [i].SetActive (false);
+				if (i == 4) 
+					TutorialUIOff_Obj [i].SetActive (true);
+				
+			}
+		}
+		//UI On
+		else 
+		{
+			for (int i = 0; i < TutorialUIOff_Obj.Length; i++) 
+			{
+				TutorialUIOff_Obj [i].SetActive (true);
+				if (i == 4) 
+					TutorialUIOff_Obj [i].SetActive (false);
+			}
+		}
+
+	}
 
 }

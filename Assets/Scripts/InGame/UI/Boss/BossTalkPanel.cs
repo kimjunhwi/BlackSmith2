@@ -180,10 +180,13 @@ public class BossTalkPanel : MonoBehaviour  , IPointerDownHandler
 		while (true) 
 		{
 			fTime -= Time.deltaTime;
+
+			if (isTextBlink == true)
+				yield break;
+			
 			if (fTime <= 0) 
 			{
-				if (isTextBlink == true)
-					yield break;
+				
 
 				//ChangeState
 				if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_DRAGONTALKBOX01) 
@@ -270,12 +273,11 @@ public class BossTalkPanel : MonoBehaviour  , IPointerDownHandler
 
 		if (isTextTouchAvailable == true) 
 		{
-
-			isTextTouchAvailable = false;
-			isTextBlink = true;				//Blink될때 클릭을 했으니 위에 것은 return;
-
 			if (getInfoGameObject.name == "BossTouchCheckImage") 
 			{
+				isTextTouchAvailable = false;
+				isTextBlink = true;				//Blink될때 클릭을 했으니 위에 것은 return;
+
 				if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_DRAGONTALKBOX01) 
 				{
 					SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_DRAGONTALKBOX02;

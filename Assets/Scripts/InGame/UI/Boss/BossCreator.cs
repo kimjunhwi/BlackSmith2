@@ -267,7 +267,7 @@ public class BossCreator : MonoBehaviour
 	{
 		yield return null;
 
-		SpawnManager.Instance.repairObject.AllDebuffIconInit ();
+
 
 		if(bossConsumeItemInfo.nInviteMentCurCount != 0)
 			bossConsumeItemInfo.nInviteMentCurCount--;
@@ -312,7 +312,7 @@ public class BossCreator : MonoBehaviour
 			else 
 			{
 				//bossBackGround.StartChangeBackGroundToBossBackGround ();
-				backGroundScolling.StartChangeBackground(eBackgroundMat.E_BackgroundMat_Night);
+				backGroundScolling.StartChangeBackground(eBackgroundMat.E_BackgroundMat_Boss);
 				bossList [_index].SetActive (true);
 			}
 		
@@ -474,6 +474,7 @@ public class BossCreator : MonoBehaviour
 			bossDragon.bossEffect = bossEffect;
 			bossDragon.bossBackGround = bossBackGround;
 			bossDragon.bossPopUpWindow = bossPopUpWindow;
+			bossDragon.backGroundScolling = backGroundScolling;
 			bossDragon.sBossWeaponSprite ="";
 			bossDragon.bossTimer_Obj = bossTimer_Obj;
 			bossDragon.bossUIDisable = bossUIDisable;

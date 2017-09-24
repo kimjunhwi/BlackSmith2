@@ -15,7 +15,6 @@ public class QuestPanel : MonoBehaviour
 	[HideInInspector]
 	public CGameQuestInfo questData;
 
-    public GameObject runningObject;
 	public Button giveUpButton;
 
 	//Complete
@@ -63,29 +62,22 @@ public class QuestPanel : MonoBehaviour
 	public int nBossMusicSuccessCount;
 	public int nConstantAccessCount;
 
-
-
+	private bool bIsCheckComplete;
 
     private void Start()
     {
-		
-        //runningObject = transform.FindChild("CheckImage").gameObject;
-        //runningButton = transform.FindChild("RunningImage").gameObject;
-		//startButton = transform.FindChild("StartButton").gameObject;
+		bIsCheckComplete = false;
 		giveUpButton.onClick.RemoveAllListeners();
 		giveUpButton.onClick.AddListener(GiveUpActive);
     }
 
 	void Update()
 	{
-
-
-		if (nCompareCondition >= nCompleteCondition) 
+		if (nCompareCondition >= nCompleteCondition && bIsCheckComplete == false) 
 		{
 			QuestCompleteActive ();
-
+			bIsCheckComplete = true;
 		}
-
 	}
 
 	public void GiveUpActive()
@@ -278,7 +270,7 @@ public class QuestPanel : MonoBehaviour
 
 	public void ShowProgress()
 	{
-		textProgressValue.text = string.Format ("{0}", nCompareCondition)  +"/" + string.Format ("{0}", questData.nCompleteCondition);
+		textProgressValue.text = string.Format ("{0}", nCompareCondition)  +"/" + string.Format ("{0}", nCompleteCondition);
 
 	}
 

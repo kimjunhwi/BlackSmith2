@@ -176,6 +176,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			//2개를 주석하면 튜토리얼 On
 			tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
 			tutorialPanel.gameObject.SetActive (false);
+			uiManager.SetTutorial (false);
 
 			if (CheckIsTimer ()) {
 				fCurSec = nInitTime_Sec;
@@ -184,6 +185,16 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			else 
 			{
 				fCurSec = playerData.changeStats.fGoblinSecond;
+			}
+
+			//처음실행시(저장x) 보스
+			if (GameManager.Instance.cBossPanelListInfo [0].isSaved == false) {
+				PlayerPrefs.DeleteKey ("BossInvitementSaveTime");
+				PlayerPrefs.DeleteKey ("BossRegenTime");
+			}
+			//처음실행시(저장x) 퀘스트
+			if (GameManager.Instance.cQuestSaveListInfo [0].bIsFirstActive == true) {
+				PlayerPrefs.DeleteKey ("EndSaveTime");
 			}
 		}
 	}
@@ -229,11 +240,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			{
 				if (SpawnManager.Instance.list_Character.Count <= 0)
 				{
-
-					//tutorialPanel.tutorialImage_Obj.SetActive (true);
-					//Instance.tutorialPanel.tutorial_Image.gameObject.SetActive (true);
-					//Instance.tutorialPanel.tutorial_Image.enabled = true;
-
+					SpawnManager.Instance.repairObject.AllDebuffIconInit ();
 					tutorialPanel.playerTalk.TalkBoxOnOff(true);
 					tutorialPanel.playerTalk.StartPlayerTalk(1);
 					tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX02;

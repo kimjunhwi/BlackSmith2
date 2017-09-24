@@ -14,6 +14,7 @@ enum E_SMITH
 	E_SMITH_HOUSE,
 	E_SMITH_LOGO,
 	E_SMITH_SLOT,
+	E_SMITH_BURN,
 }
 
 public class BlackSmith : MonoBehaviour {
@@ -22,21 +23,26 @@ public class BlackSmith : MonoBehaviour {
 	public GameObject StreetShopObject;
 	public GameObject StoreHouseObject;
 	public GameObject BlackSmithObject;
+	public GameObject TutorialBurnObject;
 
 	// Use this for initialization
-	void Start () {
-		SettingSmith (GameManager.Instance.GetPlayer ().GetSmithLevel ());
+	void Start () 
+	{
+		//튜토리얼 일때는 처음에 세팅을 안한다
+		if(SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_FINISH)
+			SettingSmith (GameManager.Instance.GetPlayer ().GetSmithLevel ());
 	}
 	
 	public void SettingSmith(int nLevel)
 	{
-		if (nLevel < 1 || nLevel > 10)
+		if (nLevel < 1 || nLevel > 11)
 			return;
 
 		MachaObject.SetActive (false);
 		StreetShopObject.SetActive (false);
 		StoreHouseObject.SetActive (false);
 		BlackSmithObject.SetActive (false);
+		TutorialBurnObject.SetActive (false);
 
 		switch (nLevel) 
 		{
@@ -95,6 +101,10 @@ public class BlackSmith : MonoBehaviour {
 			BlackSmithObject.transform.GetChild (0).gameObject.SetActive (true);
 			BlackSmithObject.transform.GetChild (1).gameObject.SetActive (true);
 			BlackSmithObject.transform.GetChild (2).gameObject.SetActive (true);
+			break;
+		case (int)E_SMITH.E_SMITH_BURN:
+			TutorialBurnObject.SetActive (true);
+			TutorialBurnObject.transform.GetChild (0).gameObject.SetActive (true);
 			break;
 		}
 	}

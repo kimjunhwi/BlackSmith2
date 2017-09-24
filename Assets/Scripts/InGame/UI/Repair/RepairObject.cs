@@ -74,10 +74,10 @@ public class RepairObject : MonoBehaviour
 	public BossSasin bossSasin;
 
 	private double dBossMaxComplete;		//보스 캐릭터 최대 완성도
-	GameObject waterObject;				//물 오브젝트
+	GameObject waterObject;					//물 오브젝트
 	public GameObject waterPaching;
-	GameObject bossWeaponObject;		//보스 무기 버튼
-	GameObject bossWaterObject;			//보스 물 버튼 
+	GameObject bossWeaponObject;			//보스 무기 버튼
+	GameObject bossWaterObject;				//보스 물 버튼 
 
 	Image BossWeaponAlphaSprite;
 	Image BossWeaponSprite;

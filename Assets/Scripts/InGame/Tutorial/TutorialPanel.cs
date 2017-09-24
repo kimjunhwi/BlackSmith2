@@ -128,6 +128,7 @@ public class TutorialPanel : MonoBehaviour
 				//End Condition
 				if (nIndex + nIndex2 >= nCount)
 				{
+					SpawnManager.Instance.uiManager.SetTutorial (true);
 					button.SetActive (true);
 					button.GetComponentInChildren<Text> ().text = "일하러 가기";
 					yield break;
@@ -175,6 +176,9 @@ public class TutorialPanel : MonoBehaviour
 				//End Condition
 				if (nIndex + nIndex2 >= strText05.Length + strText06.Length)
 				{
+					SpawnManager.Instance.uiManager.SetTutorial (false);
+					SpawnManager.Instance.balckSmithSetting.SettingSmith (1);
+
 					eTutorialState = TutorialOrder.E_TUTORIAL_START_IMAGE03;
 					button.GetComponent<Button> ().onClick.RemoveAllListeners ();
 					button.GetComponent<Button> ().onClick.AddListener (StartDays10);
@@ -205,6 +209,7 @@ public class TutorialPanel : MonoBehaviour
 
 	public void StartGoShowOpen()
 	{
+		SpawnManager.Instance.balckSmithSetting.SettingSmith (10);
 		StartCoroutine( TutorialFullScreenTextPanelAlpha (TutorialOption.E_TUTORIAL_OPTION_FADEOUT));
 		text01.text = "";
 		text02.text = "";

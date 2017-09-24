@@ -108,8 +108,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	public IEnumerator DataLoad()
     {
-		PlayerPrefs.DeleteKey ("BossRegenTime");
-		PlayerPrefs.DeleteKey ("BossInvitementSaveTime");
+		//PlayerPrefs.DeleteKey ("BossRegenTime");
+		//PlayerPrefs.DeleteKey ("BossInvitementSaveTime");
 		//PlayerPrefs.DeleteKey("FirstLogin");
 
 		Load_TableInfo_Hammer();
@@ -1655,13 +1655,15 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			if (isQuestAdsOn == true) 
 			{
 				isQuestAdsOn = false;
-				if (questManager.questObjects.Count == questManager.nQuestMaxHaveCount) 
-				{
+				if (questManager.questObjects.Count == questManager.nQuestMaxHaveCount) {
 					questManager.ShowEmptyQuestFull ();
 					return;
 				}
 				else
+				{
+					//questManager.InitQuestTimer ();
 					questManager.QuestInit ();
+				}
 			}
 			break;
 		case ShowResult.Skipped:

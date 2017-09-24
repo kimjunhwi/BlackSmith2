@@ -374,8 +374,9 @@ public class BossDragon :  BossCharacter
 		animator.SetBool ("isDisappear", true);
 
 		bossDisappearFire.BossDragonDisappearAnimator.SetBool ("isBossDisapperFire", true);
-
-		yield return new WaitForSeconds (1.5f);
+		yield return new WaitForSeconds (0.75f);
+		SpawnManager.Instance.balckSmithSetting.SettingSmith (11);	//집 체인지
+		yield return new WaitForSeconds (0.75f);
 
 
 
@@ -385,7 +386,6 @@ public class BossDragon :  BossCharacter
 			if (animator.GetCurrentAnimatorStateInfo (0).IsName ("DragonDisappear"))
 			{
 				yield return new WaitForSeconds (0.1f);
-
 
 
 				eCureentBossState = EBOSS_STATE.RESULT;
@@ -434,7 +434,9 @@ public class BossDragon :  BossCharacter
 
 			while (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_DRAGONBREATH)
 			{
-				if (isBossDragonBreath == false) {
+				if (isBossDragonBreath == false) 
+				{
+					
 					SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_PLAYERTALKBOX07;
 					SpawnManager.Instance.tutorialPanel.playerTalk.TalkBoxOnOff (true);
 					SpawnManager.Instance.tutorialPanel.playerTalk.StartPlayerTalk (6);

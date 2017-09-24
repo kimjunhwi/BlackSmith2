@@ -361,9 +361,15 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			//questObjects.Clear ();
 			//Add
 
-			//퀘가 꽉차 있다면 
-			if (questObjects.Count >= 3)
+			//개수가 최대 개수와 같으면 경고창을 띄운다
+			if (questObjects.Count == nQuestMaxHaveCount) 
+			{
+				ShowEmptyQuestFull ();
+				questTimer.isTimeOn = false;
+				questTimer.isTimeEnd = false;
+				questTimer.InitQuestTimer ();
 				return;
+			}
 
 			for (int i = questObjects.Count ; questObjects.Count < nQuestMaxHaveCount; i++)
 			{
@@ -400,9 +406,13 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			questTimer.isTimeOn = false;
 			questTimer.InitQuestTimer ();
 
+			//개수가 최대 개수와 같으면 경고창을 띄운다
 			if (questObjects.Count == nQuestMaxHaveCount) 
 			{
 				ShowEmptyQuestFull ();
+				questTimer.isTimeOn = false;
+				questTimer.isTimeEnd = false;
+				questTimer.InitQuestTimer ();
 				return;
 			}
 

@@ -215,17 +215,23 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		if(File.Exists(strCreate)) 
 		{
 			Debug.Log("Search CreateWeapon");
-			yield return StartCoroutine (LinkedCreateWeaponAccess (strCreate));
+			StartCoroutine (LinkedCreateWeaponAccess (strCreate));
 		}
 
 
 		if(File.Exists(ArbaitFilePath)) 
+		{
+		Debug.Log("Search Arbait");
 		yield return StartCoroutine (LinkedArbaitAccess (ArbaitFilePath));
 
+		}
 		else 
 		{
+			Debug.Log("None Search Arbait");
+
 			ArbaitFilePath = Path.Combine(Application.streamingAssetsPath, strArbaitPath);
-		yield return StartCoroutine(LinkedArbaitAccess (ArbaitFilePath));
+			
+			yield return StartCoroutine(LinkedArbaitAccess (ArbaitFilePath));
 		}
 		Debug.Log("1");
 
@@ -245,7 +251,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 //		yield return StartCoroutine(LinkedShopAccess (EquimentFilePath));
 //		}
 
-		if(Directory.Exists(PlayerFilePath)) 
+		if(File.Exists(PlayerFilePath)) 
 		{
 		Debug.Log("Search PlayerData");
 		yield return StartCoroutine (LinkedPlayerAccess (PlayerFilePath));
@@ -299,7 +305,16 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
         string dataAsJson = www.text.ToString();
 
-		Debug.Log (dataAsJson);
+		if (dataAsJson == "") 
+		{
+			Debug.Log ("NULL");
+
+			yield return StartCoroutine (LinkedArbaitAccess (Path.Combine(Application.streamingAssetsPath, strArbaitPath)));
+
+			Debug.Log ("None NULL");
+
+			yield break;
+		}
 
         ArbaitDataBase = JsonHelper.ListFromJson<ArbaitData>(dataAsJson);
 
@@ -324,10 +339,6 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			yield break;
 
 		cInvetoryInfo = JsonHelper.ListFromJson<CGameEquiment>(dataAsJson);
-
-		Debug.Log ("cInvetoryInfo Count" + cInvetoryInfo.Count);
-
-		Debug.Log("6");
 	}
 
 	IEnumerator LinkedShopAccess(string filePath)
@@ -342,7 +353,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		Debug.Log (dataAsJson);
 
-		if (dataAsJson == null)
+		if (dataAsJson == "")
 			yield break;
 
 		equimnetData = JsonHelper.ListFromJson<CGameEquiment>(dataAsJson);
@@ -360,7 +371,14 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		string dataAsJson = www.text.ToString();
 
-		Debug.Log (dataAsJson);
+		if (dataAsJson == "") 
+		{
+			yield return StartCoroutine( LinkedPlayerAccess( Path.Combine(Application.streamingAssetsPath, strPlayerPath)));
+
+			yield break;
+		}
+
+
 
 		playerData = JsonHelper.ListFromJson<CGamePlayerData>(dataAsJson)[0];
 	}
@@ -372,6 +390,11 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		yield return www;
 
 		string dataAsJson = www.text.ToString();
+
+		Debug.Log (dataAsJson);
+
+		if (dataAsJson == "")
+			yield break;
 
 		creatorWeaponData = JsonHelper.ListFromJson<CreatorWeapon>(dataAsJson)[0];
 	}
@@ -387,7 +410,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		string dataAsJson = www.text.ToString();
 
-		Debug.Log (dataAsJson);
+		if (dataAsJson == "")
+			yield break;
 
 		cQuestSaveListInfo = JsonHelper.ListFromJson<CGameQuestSaveInfo>(dataAsJson);
 	}
@@ -402,7 +426,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		string dataAsJson = www.text.ToString();
 
-		Debug.Log (dataAsJson);
+		if (dataAsJson == "")
+			yield break;
 
 		cBossPanelListInfo = JsonHelper.ListFromJson<BossPanelInfo>(dataAsJson);
 	}

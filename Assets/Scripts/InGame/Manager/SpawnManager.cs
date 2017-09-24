@@ -174,9 +174,9 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			}
 			bIsFirst = true;
 			//2개를 주석하면 튜토리얼 On
-			tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
-			tutorialPanel.gameObject.SetActive (false);
-			uiManager.SetTutorial (false);
+			//tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
+			//tutorialPanel.gameObject.SetActive (false);
+			//uiManager.SetTutorial (false);
 
 
 			if (CheckIsTimer ()) {

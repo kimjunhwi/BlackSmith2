@@ -1,35 +1,29 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/InGame/UI/Shop/Shop.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/InGame/UI/Enhance/ResultEpicUI.cs">
     <Files>
-      <File FileName="Assets/Scripts/InGame/EpicOption/FreezingTuna.cs" Line="21" Column="3" />
+      <File FileName="Assets/Scripts/InGame/EpicOption/FreezingTuna.cs" Line="1" Column="1" />
       <File FileName="Assets/StreamingAssets/PlayerData.json" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/Particle/CriticalTouchParticle.cs" Line="23" Column="30" />
-      <File FileName="Assets/Scripts/InGame/UI/Repair/RepairObject.cs" Line="1918" Column="32" />
-      <File FileName="Assets/Scripts/InGame/EpicOption/MagicStick.cs" Line="10" Column="15" />
-      <File FileName="Assets/Scripts/InGame/Arbait/OrangeHair.cs" Line="122" Column="53" />
-      <File FileName="Assets/Scripts/InGame/Player/Player.cs" Line="390" Column="56" />
-      <File FileName="Assets/Scripts/InGame/UI/Boss/BossDragon.cs" Line="381" Column="72" />
-      <File FileName="Assets/Scripts/InGame/UI/Boss/BossFire.cs" Line="227" Column="33" />
-      <File FileName="Assets/Scripts/InGame/UI/Enhance/WaterPlusPanelUI.cs" Line="33" Column="12" />
-      <File FileName="Assets/Scripts/InGame/EpicOption/IcePunch.cs" Line="15" Column="2" />
-      <File FileName="Assets/Scripts/InGame/Manager/GameManager.cs" Line="678" Column="41" />
-      <File FileName="Assets/Scripts/InGame/Manager/SpawnManager.cs" Line="875" Column="13" />
-      <File FileName="Assets/Scripts/InGame/Arbait/BlueHair.cs" Line="99" Column="1" />
-      <File FileName="Assets/Scripts/InGame/Arbait/ArbaitBatch.cs" Line="257" Column="1" />
-      <File FileName="Assets/Scripts/InGame/UI/Window/CWindowYesNo.cs" Line="24" Column="1" />
-      <File FileName="Assets/Scripts/InGame/UI/Shop/Shop.cs" Line="254" Column="122" />
+      <File FileName="Assets/Scripts/InGame/UI/Enhance/ResultEpicUI.cs" Line="78" Column="1" />
+      <File FileName="Assets/Scripts/InGame/UI/Enhance/MakingUI.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/InGame/UI/Enhance/SmithPanelUI.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/InGame/UI/Inventory/Inventory.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/InGame/Player/Player.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/InGame/UI/Shop/Shop.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/InGame/Quest/QusetManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/InGame/Manager/SpawnManager.cs" Line="173" Column="56" />
+      <File FileName="Assets/Scripts/InGame/Manager/UIManager.cs" Line="151" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/ImaiDakaki/BlackSmith5/Assets/Scripts/InGame/UI/Enhance/RepairPanelUI.cs" line="37" column="118" />
+      <Breakpoint file="/Users/ImaiDakaki/BlackSmith5/Assets/Scripts/InGame/UI/Enhance/RepairPanelUI.cs" line="35" column="118" />
       <Breakpoint file="/Users/ImaiDakaki/BlackSmith5/Assets/Scripts/InGame/Manager/SpawnManager.cs" line="82" column="1" />
-      <Breakpoint file="/Users/ImaiDakaki/BlackSmith5/Assets/Scripts/InGame/UI/Shop/Shop.cs" line="293" column="1" />
+      <Breakpoint file="/Users/ImaiDakaki/BlackSmith5/Assets/Scripts/InGame/UI/Shop/Shop.cs" line="299" column="1" />
       <Breakpoint file="/Users/ImaiDakaki/BlackSmith5/Assets/Scripts/InGame/UI/Shop/ShopShowPanel.cs" line="52" column="1" />
-      <Breakpoint file="/Users/ImaiDakaki/BlackSmith5/Assets/Scripts/InGame/UI/Enhance/SmithPanelUI.cs" line="34" column="1" />
-      <Breakpoint file="/Users/ImaiDakaki/BlackSmith5/Assets/Scripts/InGame/EpicOption/FreezingTuna.cs" line="35" column="13" />
-      <Breakpoint file="/Users/ImaiDakaki/BlackSmith5/Assets/Scripts/InGame/Manager/GameManager.cs" line="442" column="1" />
+      <Breakpoint file="/Users/ImaiDakaki/BlackSmith5/Assets/Scripts/InGame/UI/Enhance/SmithPanelUI.cs" line="32" column="1" />
+      <Breakpoint file="/Users/ImaiDakaki/BlackSmith5/Assets/Scripts/InGame/UI/Shop/Shop.cs" line="128" column="1" />
+      <Breakpoint file="/Users/ImaiDakaki/BlackSmith5/Assets/Scripts/InGame/UI/Enhance/MakingUI.cs" line="201" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

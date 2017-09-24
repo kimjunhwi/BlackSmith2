@@ -5,8 +5,6 @@ using ReadOnlys;
 
 public class SmithPanelUI : EnhanceUI {
 
-	private float fBasic = 10;
-
 	const int nMaxLevel = 10;
 
 	const int nBasicHonor = 200;
@@ -52,6 +50,8 @@ public class SmithPanelUI : EnhanceUI {
 
 			cPlayer.SetSmithLevel (nLevel);
 
+			SetShopMaxCount ();
+
 			dEnhanceValue = cPlayer.GetBasicGoldPlusPercent() + 50;
 
 			cPlayer.SetBasicGoldPlusPercent(dEnhanceValue);
@@ -73,5 +73,13 @@ public class SmithPanelUI : EnhanceUI {
 				EnhanceText.text =string.Format("{0} {1}", strEnhanceName , "Max");
 			}
 		}
+	}
+
+	public void SetShopMaxCount()
+	{
+		int nDight = cPlayer.GetSmithLevel () % 3;
+
+		if (nDight == 1)
+			cPlayer.SetShopMaxCount (cPlayer.GetShopMaxCount () + 1);
 	}
 }

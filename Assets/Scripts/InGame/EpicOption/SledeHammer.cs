@@ -26,7 +26,7 @@ public class SledeHammer : EpicOption {
 		m_fBasicPlusDamage += m_fBasicPlusDamage * nDightDay *fDivisionDay;
 		m_fBasicPlusAccuracy += m_fBasicPlusAccuracy * nDightDay * fDivisionDay; 
 
-		strExplain = string.Format("터치 시 크리 데미지 +{0}% 명중률 -{1}%(빗나갈시 증가 및 감소 능력 초기화",fSledeCriticalDamage,fSledeAccuracyRate);
+		strExplain = string.Format("터치 시 크리 데미지 +{0}% 명중률 -{1}%(빗나갈시 증가 및 감소 능력 초기화",m_fBasicPlusDamage,m_fBasicPlusAccuracy);
 	}
 
 	public override string GetExplain () { return strExplain; }

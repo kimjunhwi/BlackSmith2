@@ -5,8 +5,6 @@ using ReadOnlys;
 
 public class RepairPanelUI : EnhanceUI {
 
-	double dValue = 0;
-
 	protected override void Awake ()
 	{
 		base.Awake ();
@@ -30,9 +28,9 @@ public class RepairPanelUI : EnhanceUI {
 
 			//제작무기공격*(1+(강화레벨*0.03))* 1.022^(QUOTIENT(강화레벨-1,10))
 
-			float fOriValue = nLevel - 1;
-			float fMinusValue = Mathf.Floor( (nLevel - 1) * 0.1f ) * 10;
-			float result = fOriValue - fMinusValue;
+//			float fOriValue = nLevel - 1;
+//			float fMinusValue = Mathf.Floor( (nLevel - 1) * 0.1f ) * 10;
+//			float result = fOriValue - fMinusValue;
 
 			double dCurComplete = cPlayer.GetCreatorWeapon().dRepair *  Mathf.Pow (1.022f, (Mathf.Floor((nLevel - 1) * 0.1f))) * (1 + (nLevel * 0.03f));
 

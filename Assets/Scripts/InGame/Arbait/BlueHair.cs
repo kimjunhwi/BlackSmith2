@@ -6,11 +6,11 @@ using ReadOnlys;
 public class BlueHair : ArbaitBatch {
 
 
-    private float fChangeRepair = 0.0f;
-
-    private float fGetRepairPower = 0.0f;
-
-    private float fMinusRepair = 0.0f;
+//    private float fChangeRepair = 0.0f;
+//
+//    private float fGetRepairPower = 0.0f;
+//
+//    private float fMinusRepair = 0.0f;
 
     protected override void Awake()
     {
@@ -54,12 +54,6 @@ public class BlueHair : ArbaitBatch {
     protected override void OnDisable()
 	{
         base.OnDisable();
-
-        fChangeRepair = 0.0f;
-
-        fGetRepairPower = 0.0f;
-
-        fMinusRepair = 0.0f;
 
 		playerData.SetRepairPower ();
     }

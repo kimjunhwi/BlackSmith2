@@ -5,14 +5,14 @@ using ReadOnlys;
 
 public class Nurse : ArbaitBatch {
 	
-    //크리티컬 받아오기 위함
-    private float fGetCritical = 0.0f;
-
-    //크리티컬 감소되는 값
-    private float fMinusCritical = 0.0f;
-
-    //크리확률증가를 위함
-    private float fChangeCritical = 0.0f;
+//    //크리티컬 받아오기 위함
+//    private float fGetCritical = 0.0f;
+//
+//    //크리티컬 감소되는 값
+//    private float fMinusCritical = 0.0f;
+//
+//    //크리확률증가를 위함
+//    private float fChangeCritical = 0.0f;
 
     protected override void Awake()
     {

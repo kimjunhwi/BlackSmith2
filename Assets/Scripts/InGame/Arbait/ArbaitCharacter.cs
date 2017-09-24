@@ -147,27 +147,37 @@ public class ArbaitCharacter : MonoBehaviour {
 	{
 		if (_bIsBoss) 
 		{
+			if (m_CharacterData.index < 10)
+				return;
+
 			m_CharacterData.nScoutCount++;
 
-			if (m_CharacterData.nMaxScoutCount <= m_CharacterData.nScoutCount) 
-			{
-				m_BuyButton.SetActive (true);
-				m_SettingPanel.SetActive (false);
+			CheckBuyCharacter ();
 
-				gameObject.GetComponent<Image>().sprite = m_ActiveSprite;
-			}
+//			if (m_CharacterData.nMaxScoutCount <= m_CharacterData.nScoutCount) 
+//			{
+//				m_BuyButton.SetActive (true);
+//				m_SettingPanel.SetActive (false);
+//
+//				gameObject.GetComponent<Image>().sprite = m_ActiveSprite;
+//			}
 		} 
 		else 
 		{
+			if (m_CharacterData.index >= 10)
+				return;
+
 			m_CharacterData.nScoutCount++;
 
-			if (m_CharacterData.level != 0 && m_CharacterData.nMaxScoutCount <= m_CharacterData.nScoutCount) 
-			{
-				m_BuyButton.SetActive (true);
-				m_SettingPanel.SetActive (true);
+			CheckBuyCharacter ();
 
-				gameObject.GetComponent<Image>().sprite = m_ActiveSprite;
-			}
+//			if (m_CharacterData.level == 0 && m_CharacterData.nMaxScoutCount <= m_CharacterData.nScoutCount) 
+//			{
+//				m_BuyButton.SetActive (true);
+//				m_SettingPanel.SetActive (true);
+//
+//				gameObject.GetComponent<Image>().sprite = m_ActiveSprite;
+//			}
 		}
 	}
 
@@ -195,7 +205,7 @@ public class ArbaitCharacter : MonoBehaviour {
         }
 
         //구매했을경우
-        else
+		else if(m_CharacterData.level != 0)
         {
             m_BuyButton.SetActive(false);
             m_SettingPanel.SetActive(true);

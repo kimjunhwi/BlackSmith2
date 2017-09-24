@@ -212,14 +212,14 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		string strCreate = Path.Combine (Application.persistentDataPath, strCreateWeapon);
 
 		//제작 무기 로드 
-		if(Directory.Exists(strCreate)) 
+		if(File.Exists(strCreate)) 
 		{
 			Debug.Log("Search CreateWeapon");
 			yield return StartCoroutine (LinkedCreateWeaponAccess (strCreate));
 		}
 
 
-		if(Directory.Exists(ArbaitFilePath)) 
+		if(File.Exists(ArbaitFilePath)) 
 		yield return StartCoroutine (LinkedArbaitAccess (ArbaitFilePath));
 
 		else 
@@ -230,13 +230,13 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		Debug.Log("1");
 
 
-		if(Directory.Exists(InventoryFilePath)) 
+		if(File.Exists(InventoryFilePath)) 
 		 yield return StartCoroutine (LinkedInventoryAccess (InventoryFilePath));
 
 
 		Debug.Log("4");
 
-		if(Directory.Exists(EquimentFilePath)) 
+		if(File.Exists(EquimentFilePath)) 
 		yield return StartCoroutine (LinkedShopAccess (EquimentFilePath));
 
 //		else 
@@ -258,7 +258,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		}
 		Debug.Log("7");
 
-		if(Directory.Exists(QuestFilePath)) 
+		if(File.Exists(QuestFilePath)) 
 			yield return StartCoroutine (LinkedQuestAccess (QuestFilePath));
 		else
 		{
@@ -268,7 +268,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			cQuestSaveListInfo.Add(tmpQuestSaveInfo);
 		}
 
-		if(Directory.Exists(BossFilePath)) 
+		if(File.Exists(BossFilePath)) 
 			yield return StartCoroutine (LinkedBossPanelInfoAccess (BossFilePath));
 		else
 		{

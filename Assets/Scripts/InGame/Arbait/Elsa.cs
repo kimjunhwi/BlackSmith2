@@ -5,7 +5,7 @@ using ReadOnlys;
 
 public class Elsa : ArbaitBatch {
 
-    private float fChangeCritical = 0.0f;
+//    private float fChangeCritical = 0.0f;
 
     protected override void Awake()
     {
@@ -51,7 +51,7 @@ public class Elsa : ArbaitBatch {
 
         base.OnDisable();
 
-        fChangeCritical = 0.0f;
+ //       fChangeCritical = 0.0f;
     }
 
 	public override void StartAura (float _fTime)

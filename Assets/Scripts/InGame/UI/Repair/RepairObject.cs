@@ -289,14 +289,12 @@ public class RepairObject : MonoBehaviour
 				if (isTouchWater == true)
 				{
 					waterFxObj.transform.SetAsLastSibling ();
-					Debug.Log("BossWeaponWaterFx !!");
 					bossWaterCat_animator.SetBool ("isTouchWater", true);
 					CatWater_animator.SetBool ("isTouchWater", true);
 
 					if (CatWater_animator.GetCurrentAnimatorStateInfo (0).IsName ("Water_Fx_spread"))
 					{
 						yield return new WaitForSeconds (0.5f);
-						//Debug.Log ("BossWeaponWaterFinish !!");
 						waterFxObj.transform.SetAsFirstSibling ();
 						bossWaterCat_animator.SetBool ("isTouchWater", false);
 						CatWater_animator.SetBool ("isTouchWater", false);
@@ -313,14 +311,12 @@ public class RepairObject : MonoBehaviour
 				if (isTouchWater == true)
 				{
 					waterFxObj.transform.SetAsLastSibling ();
-					//Debug.Log("NormalWeaponWater !!");
 					weaponWaterCat_animator.SetBool ("isTouchWater", true);		//CatAnimation go
 					CatWater_animator.SetBool ("isTouchWater", true);			//WaterAnmation go
 
 					if (CatWater_animator.GetCurrentAnimatorStateInfo (0).IsName ("Water_Fx_spread"))
 					{
 						yield return new WaitForSeconds (0.5f);
-						Debug.Log ("WeaponWaterFinish !!");
 						waterFxObj.transform.SetAsFirstSibling ();
 						weaponWaterCat_animator.SetBool ("isTouchWater", false);
 						CatWater_animator.SetBool ("isTouchWater", false);
@@ -553,8 +549,7 @@ public class RepairObject : MonoBehaviour
 			
 			else
 				SpawnManager.Instance.UnWaterCheck ();
-
-			//Debug.Log ("CurPlusWater / " +GameManager.Instance.player.GetWaterPlus() + "WaterMax " + fMaxWater );
+			
 			if (fCurrentTemperature > 0) 
 			{
 				fDownTemperature = (fMaxTemperature - fCurrentTemperature) * 0.05f;
@@ -782,7 +777,6 @@ public class RepairObject : MonoBehaviour
 
 			if (nTouchCount >= 5) 
 			{
-				Debug.Log ("StartTuto2");
 				WaterSlider.value = WaterSlider.maxValue;
 				SpawnManager.Instance.tutorialPanel.tutorialImage_Obj.SetActive (true);
 				SpawnManager.Instance.tutorialPanel.tutorial_Image.gameObject.SetActive(true);
@@ -793,8 +787,6 @@ public class RepairObject : MonoBehaviour
 				if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE02) 
 				{
 					tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_WAIT_DRAGONSHOW;
-
-					Debug.Log ("Change State : " + tutorialPanel.eTutorialState);
 				}	
 			}
 		}
@@ -875,7 +867,6 @@ public class RepairObject : MonoBehaviour
 
 		}
 
-        Debug.Log("Touch");
 		normalWeaponShake.Shake (12.0f, 0.12f);
         fComplateSlideTime = 0.0f;
 
@@ -914,7 +905,6 @@ public class RepairObject : MonoBehaviour
 
 						//만약 완성됐을때 빅 성공인지를 체크
 						if (Random.Range (0.0f, 100.0f) <= Mathf.Round (player.GetBigSuccessed ()) && m_bIsFever == false) {
-							Debug.Log ("Fever!!");
 
 							m_bIsFever = true;
 
@@ -1010,7 +1000,6 @@ public class RepairObject : MonoBehaviour
         }
         else
         {
-            Debug.Log("Nor!!!!");
 
             GameObject obj = NormalTouchPool.Instance.GetObject();
 
@@ -1067,8 +1056,6 @@ public class RepairObject : MonoBehaviour
             if (Random.Range(0.0f, 100.0f) <= Mathf.Round(player.GetBigSuccessed()) && m_bIsFever == false)
 			{
 
-                Debug.Log("Fever!!");
-
                 m_bIsFever = true;
 
 				SpawnManager.Instance.cameraShake.Shake (0.05f, 0.5f);
@@ -1105,14 +1092,14 @@ public class RepairObject : MonoBehaviour
 		{ 
 			if (bossCharacter.eCureentBossState < Character.EBOSS_STATE.PHASE_01)
 			{
-				//Debug.Log ("IcePhase00");
+				
 			}
 			else if (bossCharacter.eCureentBossState >= Character.EBOSS_STATE.PHASE_01 && bossCharacter.eCureentBossState < Character.EBOSS_STATE.PHASE_02)
 			{
-				//Debug.Log ("IcePhase01");
+				
 				//크리티컬 확률 감소o
 				if (Random.Range (1, 100) <= Mathf.Round (player.GetCriticalChance () - 30.0f)) {
-					//Debug.Log ("Cri!!!");
+					
 					GameObject obj = CriticalTouchPool.Instance.GetObject ();
 
 					obj.transform.SetParent (CanvasTransform, false);
@@ -1133,7 +1120,7 @@ public class RepairObject : MonoBehaviour
 
 				} else 
 				{
-					//Debug.Log ("Nor!!!!");
+					
 				
 					GameObject obj = NormalTouchPool.Instance.GetObject();
 
@@ -1161,7 +1148,7 @@ public class RepairObject : MonoBehaviour
 			} 
 			else if (bossCharacter.eCureentBossState >= Character.EBOSS_STATE.PHASE_02)
 			{
-				//Debug.Log ("IcePhase02");
+				
 				//아르바이트 공속 감소 들어가야함
 				if (isBossIcePassive01Active == false)
 				{
@@ -1174,7 +1161,7 @@ public class RepairObject : MonoBehaviour
 
 				//크리티컬 확률 감소o
 				if (Random.Range (1, 100) <= Mathf.Round (player.GetCriticalChance () - 30.0f)) {
-					//Debug.Log ("Cri!!!");
+					
 					GameObject obj = CriticalTouchPool.Instance.GetObject ();
 
 					obj.transform.SetParent (CanvasTransform, false);
@@ -1195,7 +1182,7 @@ public class RepairObject : MonoBehaviour
 				}
 				else 
 				{
-					//Debug.Log ("Nor!!!!");
+					
 
 					GameObject obj = NormalTouchPool.Instance.GetObject();
 
@@ -1228,18 +1215,19 @@ public class RepairObject : MonoBehaviour
 
 		if (bossCharacter.nIndex == 1) 
 		{ 
-			if (bossCharacter.eCureentBossState < Character.EBOSS_STATE.PHASE_01)
-				Debug.Log ("SasinPhase00");
+			if (bossCharacter.eCureentBossState < Character.EBOSS_STATE.PHASE_01) {
+			}
 			 
 			else if (bossCharacter.eCureentBossState >= Character.EBOSS_STATE.PHASE_01 && bossCharacter.eCureentBossState < Character.EBOSS_STATE.PHASE_02)
 			{
-				Debug.Log ("SasinPhase01");
+				
 				//명중률 50% 감소
-				if (nRandom <= nChancePercent) 
-					Debug.Log ("Attack To Sasin Success");
+				if (nRandom <= nChancePercent) {
+
+				}
 				else
 				{
-					Debug.Log ("Attack To Sasin Miss");
+					
 
 					SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Miss);
 
@@ -1261,13 +1249,13 @@ public class RepairObject : MonoBehaviour
 			} 
 			else if (bossCharacter.eCureentBossState >= Character.EBOSS_STATE.PHASE_02) 
 			{
-				Debug.Log ("SasinPhase02");
+				
 				//수리력 30% 감소
 				if (nRandom <= nChancePercent) 
 				{
 					//크리티컬 확률 
 					if (Random.Range (1, 100) <= Mathf.Round (player.GetCriticalChance ())) {
-						Debug.Log ("Cri!!!");
+						
 						GameObject obj = CriticalTouchPool.Instance.GetObject ();
 
 						obj.transform.SetParent (CanvasTransform, false);
@@ -1289,7 +1277,7 @@ public class RepairObject : MonoBehaviour
 					}
 					else
 					{
-						Debug.Log ("Nor!!!!");
+						
 
 						GameObject obj = NormalTouchPool.Instance.GetObject();
 
@@ -1317,7 +1305,7 @@ public class RepairObject : MonoBehaviour
 				} 
 				else 
 				{
-					Debug.Log ("Miss");
+					
 
 					SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Miss);
 
@@ -1353,7 +1341,7 @@ public class RepairObject : MonoBehaviour
 				//Player의 기본 능력치에 따른 크리 and 노말 평타
 				if (Random.Range (1, 100) <= Mathf.Round (player.GetCriticalChance ())) 
 				{
-					//Debug.Log ("Cri!!!");
+					
 					GameObject obj = CriticalTouchPool.Instance.GetObject ();
 
 					obj.transform.SetParent (CanvasTransform, false);
@@ -1374,7 +1362,7 @@ public class RepairObject : MonoBehaviour
 				}
 				else 
 				{
-					//Debug.Log ("Nor!!!!");
+					
 					GameObject obj = NormalTouchPool.Instance.GetObject();
 
 					obj.transform.SetParent(CanvasTransform, false);
@@ -1413,7 +1401,7 @@ public class RepairObject : MonoBehaviour
 		{ 
 			if (bossCharacter.eCureentBossState < Character.EBOSS_STATE.PHASE_01) 
 			{
-				Debug.Log ("MusicPhase00");
+				
 				//Player의 기본 능력치에 따른 크리 and 노말 평타
 
 
@@ -1421,7 +1409,6 @@ public class RepairObject : MonoBehaviour
 			}
 			else if (bossCharacter.eCureentBossState >= Character.EBOSS_STATE.PHASE_01 && bossCharacter.eCureentBossState < Character.EBOSS_STATE.PHASE_02)
 			{
-				Debug.Log ("MusicPhase01");
 				//아르바이트의 수리력이 50% 감소, 무기 움직임 시작
 				if (isBossMusicPassive01Active == false) {
 					
@@ -1436,7 +1423,6 @@ public class RepairObject : MonoBehaviour
 			}
 			else if (bossCharacter.eCureentBossState >= Character.EBOSS_STATE.PHASE_02)
 			{
-				Debug.Log ("MusicPhase02");
 				if (isBossMusicPassive02Active == false) {
 
 					for (int i = 0; i < SpawnManager.Instance.array_ArbaitData.Length; i++) {
@@ -1452,7 +1438,7 @@ public class RepairObject : MonoBehaviour
 			{
 				if (Random.Range (1, 100) <= Mathf.Round (player.GetCriticalChance ()))
 				{
-					//Debug.Log ("Cri!!!");
+					
 					GameObject obj = CriticalTouchPool.Instance.GetObject ();
 
 					obj.transform.SetParent (CanvasTransform, false);
@@ -1471,7 +1457,7 @@ public class RepairObject : MonoBehaviour
 
 					SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_CRITICALSUCCESS, 1);
 				} else {
-					//Debug.Log ("Nor!!!!");
+					
 					GameObject obj = NormalTouchPool.Instance.GetObject();
 
 					obj.transform.SetParent(CanvasTransform, false);
@@ -1496,7 +1482,7 @@ public class RepairObject : MonoBehaviour
 			{
 				if (Random.Range (1, 100) <= Mathf.Round (player.GetCriticalChance ()))
 				{
-					//Debug.Log ("Cri!!!");
+					
 					GameObject obj = CriticalTouchPool.Instance.GetObject ();
 
 					obj.transform.SetParent (CanvasTransform, false);
@@ -1519,7 +1505,7 @@ public class RepairObject : MonoBehaviour
 				} 
 				else
 				{
-					//Debug.Log ("Nor!!!!");
+					
 					GameObject obj = NormalTouchPool.Instance.GetObject();
 
 					obj.transform.SetParent(CanvasTransform, false);
@@ -1547,7 +1533,7 @@ public class RepairObject : MonoBehaviour
 		//Player의 기본 능력치에 따른 크리 and 노말 평타
 		if (Random.Range (1, 100) <= Mathf.Round (player.GetCriticalChance ())) 
 		{
-			//Debug.Log ("Cri!!!");
+			
 			GameObject obj = CriticalTouchPool.Instance.GetObject ();
 
 			obj.transform.SetParent (CanvasTransform, false);
@@ -1568,7 +1554,7 @@ public class RepairObject : MonoBehaviour
 		} 
 		else
 		{
-			//Debug.Log ("Nor!!!!");
+			
 			GameObject obj = NormalTouchPool.Instance.GetObject();
 
 			obj.transform.SetParent(CanvasTransform, false);
@@ -1618,7 +1604,7 @@ public class RepairObject : MonoBehaviour
 			dCurrentComplate += GameManager.Instance.player.GetRepairPower() * (fCurrentTemperature  * 11f * 0.00556f) * 
 				(1f + (weaponData.fMinusUseWater * 0.05f));
 
-			//Debug.Log ("물 수치 Plus 수치 : " + GameManager.Instance.player.GetWaterPlus() + "물 최대 수치 : " + GameManager.Instance.player.GetBasicMaxWater() ); 
+
 			
 			//온도 감소량
 			fCurrentTemperature -= fMaxTemperature * 0.5f;
@@ -1646,11 +1632,7 @@ public class RepairObject : MonoBehaviour
 			}
 
 			//float resultWaterValue =  (weaponData.fMinusUseWater * 0.01f);
-			Debug.Log ("Before fCurrent : " + dCurrentComplate);          
-
-			Debug.Log ("After fCurrent : " + dCurrentComplate);     
-
-			Debug.Log ("TouchWater!!");
+		
 			//bossWaterCat_animator.SetBool ("isTouchWater", true);
 
 			SpawnManager.Instance.UseWater ();
@@ -1685,7 +1667,6 @@ public class RepairObject : MonoBehaviour
 			bIsWaterUse = true;
 
 			//useWater
-			Debug.Log ("TouchBossWater!!");
 			isTouchWaterAvailable = false;
 			isTouchWater = true;
 
@@ -1719,7 +1700,6 @@ public class RepairObject : MonoBehaviour
 			{
 				
 				int nChildCount = bossNoteRectTransform.childCount;
-				Debug.Log ("CurCount = " + nChildCount);
 				for (int i = 0; i < nChildCount; i++)
 				{
 					Transform noteGameObject = null;		
@@ -1750,11 +1730,6 @@ public class RepairObject : MonoBehaviour
 				bossIce.ActiveIceWall ();
 			}
 				
-		
-
-
-
-			Debug.Log ("FireBossWaterValue : " + completeValueResult);
 
 			//불 보스 일 경우에만  물수치가 50%감소
 
@@ -1981,7 +1956,6 @@ public class RepairObject : MonoBehaviour
 
 				while (nChildCount != 0) {
 					Transform noteGameObject = null;	
-					Debug.Log ("CurCount = " + nChildCount);
 					if (bossNoteRectTransform.Find ("Note")) {
 
 						noteGameObject = bossNoteRectTransform.Find ("Note");
@@ -2061,7 +2035,6 @@ public class RepairObject : MonoBehaviour
 
 			SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_CRITICALSUCCESS, 1);
 		} else {
-			Debug.Log ("Nor!!!!");
 
 			GameObject obj = NormalTouchPool.Instance.GetObject ();
 
@@ -2104,7 +2077,6 @@ public class RepairObject : MonoBehaviour
 						player.GetEpicOption ().fResultValue = 0;
 				}
 
-				Debug.Log ("Fever!!");
 
 				m_bIsFever = true;
 

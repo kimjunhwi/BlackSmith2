@@ -29,6 +29,8 @@ public class BossElement : MonoBehaviour
 
 	public void AddLevel()
 	{
+
+		SoundManager.instance.PlaySound(eSoundArray.ES_TouchSound_Menu);
 		if (curLevel < maxLevel)
 			curLevel++;
 		bossLevel_Text.text = string.Format ("Lv {0}", curLevel);
@@ -36,6 +38,8 @@ public class BossElement : MonoBehaviour
 
 	public void MinusLevel()
 	{
+
+		SoundManager.instance.PlaySound(eSoundArray.ES_TouchSound_Menu);
 		if (curLevel > minLevel)
 			curLevel--;
 		bossLevel_Text.text = "Lv " + curLevel.ToString ();

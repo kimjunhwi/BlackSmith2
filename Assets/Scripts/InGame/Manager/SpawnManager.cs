@@ -1039,6 +1039,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	public void ShowAdsSkipInGameManager(bool _isRuby)
 	{
+		SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
 		questManager.questAdsPopUpWindow_YesNo.SetActive (false);
 
 		if (_isRuby == true) 
@@ -1054,6 +1055,9 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	public void ShowRewardInGameManager(BossCreator bossCreator , bool _isRuby)
 	{
+
+		SoundManager.instance.PlaySound(eSoundArray.ES_TouchSound_Menu);
+
 		if (_isRuby == true) {
 			ScoreManager.ScoreInstance.RubyPlus (-50);
 			GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCount = 5;

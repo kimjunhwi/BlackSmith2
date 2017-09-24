@@ -452,24 +452,6 @@ public class BossMusic : BossCharacter
 		StopCoroutine (BossDie ());
 		StopCoroutine (BossResult ());
 
-		//변수 초기화  
-		isStandardPhaseFailed = false;
-		isFailed = false;
-
-		//bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
-		backGroundScolling.StartChangeBackground(eBackgroundMat.E_BackgroundMat_Main);
-		SpawnManager.Instance.bIsBossCreate = false;
-		/*
-		//배경이 원래대로 돌아가면 다시 손님들이 나오게 한다.
-		if (bossBackGround.isBossBackGround == true) 
-			SpawnManager.Instance.bIsBossCreate = false;
-		*/
-		//UiBlock Disable
-		bossUIDisable.SetActive (false);	
-
-		//아르바이트들 대기상태로 전환
-		SpawnManager.Instance.ReliveArbaitBossRepair ();
-
 		//노트 개수 초기화 
 		nNoteCount = 0;
 		//게임화면에 있는 모든 음악 노트 제거
@@ -479,15 +461,35 @@ public class BossMusic : BossCharacter
 			noteObjectPool.ReturnObject(go);
 		}
 
+		//변수 초기화  
+		isStandardPhaseFailed = false;
+		isFailed = false;
+
 		//반사 상태 초기화
 		isReflect = false;
 		isSwitch = false;
 		fCurReflectTime = 0f;
 		fReflectRoutineTime = 5f;
 
+	
+
+		//bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
+		backGroundScolling.StartChangeBackground(eBackgroundMat.E_BackgroundMat_Main);
+		SpawnManager.Instance.bIsBossCreate = false;
+
+		//UiBlock Disable
+		bossUIDisable.SetActive (false);	
+
+		//아르바이트들 대기상태로 전환
+		SpawnManager.Instance.ReliveArbaitBossRepair ();
+
 		eCureentBossState = EBOSS_STATE.CREATEBOSS;					//현재 보스 상태 초기화
+
+
 		gameObject.SetActive (false);
 		Debug.Log ("Finish Boss");
+
+
 
 	}
 

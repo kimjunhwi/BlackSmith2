@@ -28,7 +28,8 @@ public class BossDragon :  BossCharacter
 
 	public double dBossComplete = 0;
 
-	private bool isBossDragonEnter = false;
+	private bool isBossDragonBgmOn = false;
+
 	private bool isBossDragonTalkBox01 = false;
 	private bool isBossDragonTalkBox02 = false;
 	private bool isBossDragonTalkBox03 = false;
@@ -75,29 +76,39 @@ public class BossDragon :  BossCharacter
 
 	protected override IEnumerator BossWait ()
 	{
-
+		
 		while (isBossDragonRepairOn == false)
 		{
 			
 			while (true) 
 			{
 				//무기 이미지 추가
-				if (backGroundScolling.isQuadChangeFinsihed == true) {
+				if (backGroundScolling.isQuadChangeFinsihed == true) 
+				{
 
 					animator.SetBool ("isBackGroundChanged", true);
-
-					SoundManager.instance.PlaySound (eSoundArray.ES_BossDragonAppear);
+					if (isBossDragonBgmOn == false) 
+					{
+						isBossDragonBgmOn = true;
+						SoundManager.instance.PlaySound (eSoundArray.ES_BossDragonAppear);
+					}
+				
 					yield return new WaitForSeconds (1.0f);
 
-					if (animator.GetCurrentAnimatorStateInfo (0).IsName ("DragonAppear")) {
-						//yield return new WaitForSeconds (0.1f);
+					if (animator.GetCurrentAnimatorStateInfo (0).IsName ("DragonAppear")) 
+					{
+			
+						
 						animator.SetBool ("isAppear", true);
 						eCureentBossState = EBOSS_STATE.PHASE_00;
 					} else
 						yield return null;
 
 
-					if (eCureentBossState == EBOSS_STATE.PHASE_00) {
+					if (eCureentBossState == EBOSS_STATE.PHASE_00)
+					{
+						
+
 						float fOriValue = (24 + (nCurLevel * 5));
 						float fMinusValue = (Mathf.Floor ((24f + (float)nCurLevel * 5f) * 0.1f)) * 10;
 						float result = fOriValue - fMinusValue;
@@ -110,7 +121,8 @@ public class BossDragon :  BossCharacter
 
 						break;
 					}
-				} else
+				} 
+				else
 					yield return null;
 			}
 
@@ -521,7 +533,10 @@ public class BossDragon :  BossCharacter
 
 			if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_DAYS)
 			{
-				if (isBossDragonFinish == false) {
+				if (isBossDragonFinish == false) 
+				{
+					//ChangeSound
+					SoundManager.instance.ChangeBGM(eSoundArray.BGM_BossBattle, eSoundArray.BGM_Main);
 					SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_DAYS;
 
 					SpawnManager.Instance.tutorialPanel.DeActiveObj.SetActive (true);

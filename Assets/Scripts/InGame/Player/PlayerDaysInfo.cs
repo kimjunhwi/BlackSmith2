@@ -33,6 +33,8 @@ public class PlayerDaysInfo : MonoBehaviour , IPointerDownHandler
 		if (getInfoGameObject.gameObject == null)
 			return;
 
+		SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
+
 		//MaxDay
 		if (getInfoGameObject.gameObject.name == "CurrentDaysText" || 
 			getInfoGameObject.gameObject.name == "DayText") 

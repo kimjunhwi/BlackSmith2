@@ -529,7 +529,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
         SaveArbaitData();
 
-		if(creatorWeaponData == null)
+		if(creatorWeaponData != null)
 			SaveCreateWeaponData ();
 
         SavePlayerData();

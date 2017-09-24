@@ -33,12 +33,12 @@ public class LogoManager : MonoBehaviour
 		#elif UNITY_ANDROID
 		//EnableGameSave
 		// enables saving game progress.
-		PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
-		.EnableSavedGames()
-		.Build();
-		PlayGamesPlatform.InitializeInstance(config);
+		//PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
+		//.EnableSavedGames()
+		//.Build();
+		//PlayGamesPlatform.InitializeInstance(config);
 		//GoogleLogin Active
-		PlayGamesPlatform.Activate();
+		//PlayGamesPlatform.Activate();
 
 		StartCoroutine( GameManager.Instance.DataLoad());
 		#endif

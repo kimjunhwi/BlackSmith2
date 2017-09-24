@@ -497,8 +497,9 @@ public class BossCreator : MonoBehaviour
 			bossList [_index].SetActive (true);
 
 
+			//Dragon Save Pass
+			yield break;
 
-		//	nBossMusicLeftCount--;
 
 
 		}

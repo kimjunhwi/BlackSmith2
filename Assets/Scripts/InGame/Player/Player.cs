@@ -28,11 +28,6 @@ public class Player
 	//플레이어 정보 표시 스크 
 	public PlayerSpecificInfo PlayerInfo = null;
 
-	//몫과 나머지를 구하기 위함
-	float m_fOriValue;
-	float m_fMinusValue;
-	float m_fResult;
-
 
 
 	public int GetSmithLevel() { return changeStats.nBlackSmithLevel; }
@@ -176,9 +171,6 @@ public class Player
 
 		epicOpion = _EpicOption;
 
-		m_fOriValue = changeStats.nEnhanceRepaireLevel - 1;
-		m_fMinusValue = Mathf.Floor( (changeStats.nEnhanceRepaireLevel - 1) * 0.1f ) * 10;
-		m_fResult = m_fOriValue - m_fMinusValue;
 
 		double dCurComplete = _weapon.dRepair *  Mathf.Pow (1.022f, Mathf.Floor((changeStats.nEnhanceRepaireLevel - 1) * 0.1f)) * (1 + (changeStats.nEnhanceRepaireLevel * 0.03f));
 

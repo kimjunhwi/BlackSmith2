@@ -12,7 +12,7 @@ public class Shop : MonoBehaviour {
 	public float fCurSec;
 
     private int nShopCount = 0;
-    private int nShopMaxLength = 6;
+    private int nShopMaxLength = 5;
 
 	private const int nInitTime_Min = 59;
 	private const int nInitTime_Sec = 59;
@@ -55,7 +55,7 @@ public class Shop : MonoBehaviour {
 
 			obj.transform.localScale = Vector3.one;
 
-            ShopList[nIndex] = shopScript;
+			ShopList [nIndex] = shopScript;
         }
 
         nEquimentLength = GameManager.Instance.GetEquimentLength();
@@ -108,14 +108,42 @@ public class Shop : MonoBehaviour {
         else
         {
 			if (EquimentList.Count != 0) {
+
+				if (playerData.GetShopMaxCount () != EquimentList.Count) 
+				{
+					int nCount = playerData.GetShopMaxCount () - EquimentList.Count;
+
+					int nEquipmentCount = EquimentList.Count;
+
+					for (int nIndex = 0; nIndex < EquimentList.Count; nIndex++) {
+						CGameEquiment cGameEquiment = EquimentList [nIndex];
+
+						ShopList [nIndex].GetEquiment (this, inventory, showPanel, cGameEquiment);
+					}
+
+					for (int nIndex = nEquipmentCount; nIndex < nEquipmentCount + nCount; nIndex++) {
+
+						CGameEquiment cGameEquiment = GetEquiment();
+
+						ShopList[nIndex].GetEquiment(this, inventory, showPanel, cGameEquiment);
+
+						EquimentList.Add(cGameEquiment);
+
+					}
+
+					FirstCheck ();
+
+
+				} else {
 				
-				for (int nIndex = 0; nIndex < EquimentList.Count; nIndex++) {
-					CGameEquiment cGameEquiment = EquimentList [nIndex];
+					for (int nIndex = 0; nIndex < EquimentList.Count; nIndex++) {
+						CGameEquiment cGameEquiment = EquimentList [nIndex];
 
-					ShopList [nIndex].GetEquiment (this, inventory, showPanel, cGameEquiment);
+						ShopList [nIndex].GetEquiment (this, inventory, showPanel, cGameEquiment);
+					}
+
+					FirstCheck ();
 				}
-
-				FirstCheck ();
 
 			}
             //완전 처음 일 경우 

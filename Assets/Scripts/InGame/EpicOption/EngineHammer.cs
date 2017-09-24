@@ -5,8 +5,8 @@ using ReadOnlys;
 
 public class EngineHammer : EpicOption {
 
-	float fMaxPercent = 70.0f;
-	float fMinPercent = 30.0f;
+	const float fMaxPercent = 70.0f;
+	const float fMinPercent = 30.0f;
 
 	RepairObject RepairShowObject;
 
@@ -33,7 +33,7 @@ public class EngineHammer : EpicOption {
 
 	public override bool CheckOption ()
 	{
-		if (RepairShowObject.fCurrentTemperature >= 70) 
+		if (RepairShowObject.fCurrentTemperature >= fMaxPercent) 
 		{
 			bIsApplyBuff = true;
 

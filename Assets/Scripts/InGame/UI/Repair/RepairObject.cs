@@ -35,7 +35,7 @@ public class RepairObject : MonoBehaviour
 	private double dCurrentComplate = 0;				//현재완성도
 	private string strMaxComplate = "";				//맥스 완성도 
     private float fWeaponDownTemperature = 0;		//무기 수리시 올라가는 온도
-    private float fMaxTemperature = 100;					//최대 온도
+    private float fMaxTemperature = 100;			//최대 온도
 	public float fCurrentTemperature= 0;			//현재 온도
     private float fDownTemperature = 0;				//떨어지는 온도3
 
@@ -199,7 +199,7 @@ public class RepairObject : MonoBehaviour
 	public GameObject[] DeBuff_Objects;
 
 
-	string[] unit = new string[]{ "G", "K", "M", "B", "T", "aa", "bb", "cc", "dd", "ee" }; 
+	string[] unit = new string[]{ "G", "K", "M", "B", "T", "aa", "bb", "cc", "dd", "ee","ff","gg","hh","ii","jj","kk","ll","mm","nn","oo","pp","qq","rr","ss","tt","uu","vv","ww","xx","yy","zz","aaa", "bbb", "ccc", "ddd", "eee","fff","ggg","hhh","iii","jjj","kkk","lll","mmm","nnn","ooo","ppp","qqq","rrr","sss","ttt","uuu","vvv","www","xxx","yyy","zzz" };
 
 	void Start()
 	{
@@ -1645,7 +1645,7 @@ public class RepairObject : MonoBehaviour
 				fCurrentWater = 0;
 			}
 
-			float resultWaterValue =  (weaponData.fMinusUseWater * 0.01f);
+			//float resultWaterValue =  (weaponData.fMinusUseWater * 0.01f);
 			Debug.Log ("Before fCurrent : " + dCurrentComplate);          
 
 			Debug.Log ("After fCurrent : " + dCurrentComplate);     
@@ -1787,8 +1787,7 @@ public class RepairObject : MonoBehaviour
 	//값을 수치로 표기하기 위한 함수 
 	public string ChangeValue(double _dValue)
 	{ 
-		//
-		int[] cVal = new int[10]; 
+		long[] cVal = new long[100]; 
 
 		int index = 0; 
 
@@ -1803,13 +1802,13 @@ public class RepairObject : MonoBehaviour
 
 				last4 = strValue.Substring (strValue.Length - 4); 
 
-				int intLast4 = int.Parse (last4); 
+				long intLast4 = long.Parse (last4); 
 
 				cVal [index] = intLast4 % 1000; 
 
 				strValue = strValue.Remove (strValue.Length - 3); 
 			} else { 
-				cVal [index] = int.Parse (strValue); 
+				cVal [index] = long.Parse (strValue); 
 				break; 
 			} 
 
@@ -1829,7 +1828,7 @@ public class RepairObject : MonoBehaviour
 
 			if (_dValue >= 100) 
 			{
-				int nResult = cVal [index] * 1000 + cVal [index - 1]; 
+				long nResult = cVal [index] * 1000 + cVal [index - 1]; 
 
 				string strFirstValue = nResult.ToString ().Substring (0, 3);
 
@@ -1838,7 +1837,7 @@ public class RepairObject : MonoBehaviour
 				return string.Format ("{0}.{1:##}{2}", strFirstValue, strSecondValue, unit [index]); 
 			} else if (_dValue >= 10) 
 			{
-				int nResult = cVal [index] * 1000 + cVal [index - 1]; 
+				long nResult = cVal [index] * 1000 + cVal [index - 1]; 
 
 				string strFirstValue = nResult.ToString ().Substring (0, 2);
 
@@ -1847,7 +1846,7 @@ public class RepairObject : MonoBehaviour
 				return string.Format ("{0}.{1:##}{2}", strFirstValue, strSecondValue, unit [index]); 
 			} else 
 			{
-				int nResult = cVal [index] * 1000 + cVal [index - 1]; 
+				long nResult = cVal [index] * 1000 + cVal [index - 1]; 
 
 				string strFirstValue = nResult.ToString ().Substring (0, 1);
 

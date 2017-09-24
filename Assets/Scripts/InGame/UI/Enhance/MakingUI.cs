@@ -24,26 +24,19 @@ public class MakingUI : MonoBehaviour {
 	public EpicOption createEpic = null;
 
 	//기본 값
-	const int m_nBasicGold = 1200;
-	const int m_nBasicHonor = 300;
 	const int m_nBasicMinRepair = 6;
 	const int m_nBasicMaxRepair = 10;
 	const int m_nBasicMinOption = 1;
 	const int m_nBasicMaxOption = 3;
 
 	//일차 별로 증가하는 값, 단 추가옵션과 보스옵션 같은 경우 10 레벨 마다 증가 한다.
-	const int m_nPlusGoldPercent = 20;
-	const int m_nPlusHonorPercent = 10;
 	const int m_nPlusRepairMinPercent = 10;
 	const int m_nPlusRepairMaxPercent = 10;
 	const int m_nPlusOptionMinPercent = 10;
 	const int m_nPlusOptionMaxPercent = 10;
 
 	//Calc Data
-	int nCalcGoldCost = 0;
-	int nCalcHonorCost = 0;
 	double dCalcMinRepair = 0;
-	double dCalcMaxRepair = 0;
 	int nCalcAddMinOption = 0;
 	int nCalcAddMaxOption = 0;
 
@@ -576,9 +569,9 @@ public class MakingUI : MonoBehaviour {
 		dCalcMinRepair = dCalcMinRepair * Mathf.Pow(10,nPlusCount);
 		dCurComplete = dCurComplete * Mathf.Pow(10,nPlusCount);
 
-		NowRepairPower.text = string.Format("{0:N}", GameManager.Instance.GetPlayer().GetCreatorWeapon().dRepair);
+		NowRepairPower.text = 	ScoreManager.ScoreInstance.ChangeMoney( GameManager.Instance.GetPlayer().GetCreatorWeapon().dRepair);
 
-		RandomRepairPower.text = string.Format("제작시 수리력 {0:F1} ~ {1:F1}",dCalcMinRepair,dCurComplete);
+		RandomRepairPower.text = string.Format("제작시 수리력 : {0} ~ {1}", ScoreManager.ScoreInstance.ChangeMoney(dCalcMinRepair),ScoreManager.ScoreInstance.ChangeMoney(dCurComplete));
 	}
 
 	public void DeleteOption(CGameMainWeaponOption _option)

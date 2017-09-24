@@ -5,9 +5,9 @@ using ReadOnlys;
 
 public class OrangeHair : ArbaitBatch {
 
-    private float fGetPlusWater = 0.0f;
-    private float fMinusPlusWater = 0.0f;
-    private float fChangePlusWater = 0.0f;
+//    private float fGetPlusWater = 0.0f;
+//    private float fMinusPlusWater = 0.0f;
+//    private float fChangePlusWater = 0.0f;
 
     protected override void Awake()
     {
@@ -55,9 +55,9 @@ public class OrangeHair : ArbaitBatch {
 
         base.OnDisable();
 
-        fGetPlusWater = 0.0f;
-        fMinusPlusWater = 0.0f;
-        fChangePlusWater = 0.0f;
+//        fGetPlusWater = 0.0f;
+//        fMinusPlusWater = 0.0f;
+//        fChangePlusWater = 0.0f;
 
 		playerData.SetWaterPlus ();
     }

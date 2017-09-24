@@ -5,8 +5,8 @@ using ReadOnlys;
 
 public class Bell : ArbaitBatch {
 
-	private bool m_bIsBuff = false;
-	private float fChangeCritical = 0.0f;
+//	private bool m_bIsBuff = false;
+//	private float fChangeCritical = 0.0f;
 
 	protected override void Awake()
 	{

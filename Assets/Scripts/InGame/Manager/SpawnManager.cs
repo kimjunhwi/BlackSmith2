@@ -343,6 +343,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		m_fCreatePlusTime = 0.0f;
 		m_fLevelTime = 0.0f;
 
+		m_nDay = _nDay;
+
 		//손님을 전부 되돌림
 		if (list_Character.Count != 0)
 		{
@@ -353,7 +355,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 				list_Character [nIndex].GetComponent<Character> ().RetreatCharacter (4.0f, true, true);
 			}
-			m_nDay = _nDay;
+
 
 
 

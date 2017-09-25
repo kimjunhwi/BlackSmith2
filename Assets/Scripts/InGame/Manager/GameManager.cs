@@ -142,6 +142,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		CreateWeapon = ConstructString<CreatorWeapon>(strCreateWeapon);
 
+
+
 		if(CreateWeapon != null)
 			creatorWeaponData = CreateWeapon[0];
 
@@ -163,9 +165,9 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		else
 			cBossPanelListInfo = ConstructString<BossPanelInfo> (strBossPanelInfoPath);
 
-
+	
 		Debug.Log(playerData.strName);
-
+	
 
 		player = new Player();
 
@@ -292,37 +294,40 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		if(File.Exists(QuestFilePath))
 		{
-		Debug.Log("Search Quest");
-
-		string dataAsJson = File.ReadAllText (QuestFilePath);
-
-		Debug.Log (dataAsJson);
-
-			cQuestSaveListInfo = JsonHelper.ListFromJson<CGameQuestSaveInfo>(dataAsJson);
+			Debug.Log("Search Quest");
+			string dataAsJson = File.ReadAllText (QuestFilePath);
+		if(dataAsJson.Length <= 11)
+			{
+				Debug.Log("No SavedQuestData Create New ");
+				cQuestSaveListInfo = new List<CGameQuestSaveInfo>();
+				CGameQuestSaveInfo tmpQuestSaveInfo = new CGameQuestSaveInfo();
+				cQuestSaveListInfo.Add(tmpQuestSaveInfo);
+				Debug.Log (dataAsJson);
+			}
+			else
+			{
+				Debug.Log (dataAsJson);
+				cQuestSaveListInfo = JsonHelper.ListFromJson<CGameQuestSaveInfo>(dataAsJson);
+			}
 		}
-		else
-		{
-			Debug.Log("No SavedQuestData Create New ");
-			cQuestSaveListInfo = new List<CGameQuestSaveInfo>();
-			CGameQuestSaveInfo tmpQuestSaveInfo = new CGameQuestSaveInfo();
-			cQuestSaveListInfo.Add(tmpQuestSaveInfo);
-		}
-
+	
 		if(File.Exists(BossFilePath)) 
 		{
 			Debug.Log("Search Boss");
 
 			string dataAsJson = File.ReadAllText (BossFilePath);
-
-			Debug.Log (dataAsJson);
-
-			cBossPanelListInfo = JsonHelper.ListFromJson<BossPanelInfo>(dataAsJson);
-		}
-		else
-		{
-			Debug.Log("No Saved Local BossPanel Info");
-			cBossPanelInfo = new BossPanelInfo();
-			cBossPanelListInfo.Add(cBossPanelInfo);
+		if(dataAsJson.Length <= 11)
+			{
+				Debug.Log("No Saved Local BossPanel Info");
+				cBossPanelInfo = new BossPanelInfo();
+				cBossPanelListInfo.Add(cBossPanelInfo);
+				Debug.Log (dataAsJson);
+			}
+			else
+			{
+				Debug.Log (dataAsJson);
+				cBossPanelListInfo = JsonHelper.ListFromJson<BossPanelInfo>(dataAsJson);
+			}
 		}
 
 		//Player

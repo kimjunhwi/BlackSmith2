@@ -50,17 +50,15 @@ public class Scrolling : MonoBehaviour
 
 		if (isQuadChangeFinsihed == true) 
 		{
-			if(gameObject.transform.GetChild(2).name == "Quad_Front")
+			if (gameObject.transform.GetChild (2).name == "Quad_Front")
 				QuadFront.material.mainTextureOffset = offset;
 			else
 				QuadBack.material.mainTextureOffset = offset;
-
-				
-
-		} else 
+		}
+		else 
 		{
+			//overLay
 			QuadFront.material.mainTextureOffset = offset;
-
 			QuadBack.material.mainTextureOffset = offset;
 		}
 

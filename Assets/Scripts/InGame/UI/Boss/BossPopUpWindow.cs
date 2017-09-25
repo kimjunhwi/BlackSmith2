@@ -195,7 +195,6 @@ public class BossPopUpWindow : MonoBehaviour
 
 	public void PopUpWindowReward_Switch_isSuccess()
 	{
-
 		if (PopUpWindow_Reward.activeSelf != true) 
 		{
 			Debug.Log ("Active IsSuccess");
@@ -236,8 +235,10 @@ public class BossPopUpWindow : MonoBehaviour
 		} 
 		else
 		{
+
 			Debug.Log ("DeActive IsSuccess");
 
+			SoundManager.instance.PlaySound(eSoundArray.ES_TouchSound_Menu);
 			SoundManager.instance.PlaySound(eSoundArray.BGM_Main);
 
 			int rewardCount = PopUpWindow_RewardPanel.transform.childCount;

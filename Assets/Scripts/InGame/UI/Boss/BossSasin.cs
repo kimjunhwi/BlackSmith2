@@ -327,15 +327,13 @@ public class BossSasin : BossCharacter
 		backGroundScolling.StartChangeBackground(eBackgroundMat.E_BackgroundMat_Main);
 
 		SpawnManager.Instance.bIsBossCreate = false;
-		/*
-		if (bossBackGround.isBossBackGround == true) {
-			SpawnManager.Instance.bIsBossCreate = false;			//손님들 재등장
-		}
-		*/
-		//UIBloack off
-		bossUIDisable.SetActive (false);						
+
+
+		bossUIDisable.SetActive (false);
+
 
 		SpawnManager.Instance.ReliveArbaitBossRepair ();
+
 
 		//남아 있는 해골 제거
 		while (bossSkullRespawnPoint.childCount != 0) 
@@ -346,6 +344,8 @@ public class BossSasin : BossCharacter
 		eCureentBossState = EBOSS_STATE.CREATEBOSS;
 		gameObject.SetActive (false);
 		Debug.Log ("Finish Boss");
+
+
 	}
 
 

@@ -164,9 +164,6 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 			rewardCurMile_Text.text = string.Format("{0}", nQuestMileCount );
 		}
-
-
-	
 	}
 
 	public void OnPointerClick (PointerEventData eventData)
@@ -184,6 +181,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	//포기 버튼을 누를시
 	public void GiveUpQuest()
 	{
+		SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
 		if (!questAdsPopUpWindow_YesNo.activeSelf) 
 		{
 			questYesAndExitPopUpWindow_Yes.SetActive (true);
@@ -205,6 +203,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	public void CheckQuestDestroy()
 	{
 		QuestPanel deleteQuestPanel = null;
+		SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
 
 		for (int i = 0; i < questDay.transform.childCount; i++)
 		{
@@ -237,6 +236,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 			if (deleteQuestPanel.bIsQuest == false)
 			{
+				SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
 				deleteQuestPanel.bIsQuest = false;
 				deleteQuestPanel.completeButton.SetActive (false);
 				questObjectPool.ReturnObject (go);
@@ -261,6 +261,8 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	//시간이 지나가지 않아도 초기화 버튼으로 초기화 할때
 	public void QuestInit_ShowWindow()
 	{
+		SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
+
 		if (!questAdsPopUpWindow_YesNo.activeSelf) 
 		{
 			//추후 루비 추가 해야됨 ,광고 추가 

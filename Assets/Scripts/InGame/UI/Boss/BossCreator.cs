@@ -453,7 +453,7 @@ public class BossCreator : MonoBehaviour
 			}
 			else 
 			{
-				bossBackGround.StartChangeBackGroundToBossBackGround ();
+				backGroundScolling.StartChangeBackground(eBackgroundMat.E_BackgroundMat_Boss);
 				bossList [_index].SetActive (true);
 			}
 
@@ -497,8 +497,9 @@ public class BossCreator : MonoBehaviour
 			bossList [_index].SetActive (true);
 
 
+			//Dragon Save Pass
+			yield break;
 
-		//	nBossMusicLeftCount--;
 
 
 		}

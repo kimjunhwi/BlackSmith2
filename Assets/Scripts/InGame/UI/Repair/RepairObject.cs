@@ -433,9 +433,12 @@ public class RepairObject : MonoBehaviour
 						else
 							dCurrentComplate = (dCurrentComplate) - weaponData.dMaxComplate * 0.3f;
 
-						if (dCurrentComplate <= 0) {
-							SpawnManager.Instance.bIsBossCreate = false;
-							continue;
+						if (dCurrentComplate <= 0) 
+						{
+							if(bossCharacter == null)
+								SpawnManager.Instance.bIsBossCreate = false;
+							else
+								continue;
 						}
 					}
 

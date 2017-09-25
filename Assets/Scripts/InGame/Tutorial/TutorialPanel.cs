@@ -250,6 +250,8 @@ public class TutorialPanel : MonoBehaviour
 	}
 	public void StartFullScreenTime(float _time)
 	{
+		//ChangeSound
+		SoundManager.instance.ChangeBGM(eSoundArray.BGM_Main, eSoundArray.BGM_BossBattle);
 		StartCoroutine(FullScreenText02StartTime(_time));
 	}
 

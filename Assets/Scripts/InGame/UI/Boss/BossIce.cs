@@ -382,16 +382,9 @@ public class BossIce : BossCharacter
 
 		//bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
 		backGroundScolling.StartChangeBackground(eBackgroundMat.E_BackgroundMat_Main);
-
 		SpawnManager.Instance.bIsBossCreate = false;
-		/*
-		if (bossBackGround.isBossBackGround == true)
-		{
-			
-			bossBackGround.isBossBackGround = false;
-			bossBackGround.isOriginBackGround = true;
-		}
-		*/
+
+
 		bossUIDisable.SetActive (false);
 
 
@@ -400,7 +393,7 @@ public class BossIce : BossCharacter
 		gameObject.SetActive (false);
 		eCureentBossState = EBOSS_STATE.CREATEBOSS;
 		Debug.Log ("Finish Boss");
-
+	
 
 	}
 

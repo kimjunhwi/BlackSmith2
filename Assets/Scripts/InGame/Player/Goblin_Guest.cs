@@ -65,7 +65,7 @@ public class Goblin_Guest : Character {
 			dValue = (250 * Mathf.Pow (1.09f, cPlayerData.GetDay () - 1)) * 10;
 
 			break;
-		case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_HONOR:
+		case (int)E_GOBLIN_INDEX.E_GOBLIN_HONOR:
 			dValue = 100;
 
 			break;
@@ -77,6 +77,8 @@ public class Goblin_Guest : Character {
 			dValue = 0;
 			break;
 		}
+
+		BallonObject.SetActive (false);
 	}
 
 	void OnDisable()
@@ -131,6 +133,8 @@ public class Goblin_Guest : Character {
 
 		case ENORMAL_STATE.WAIT:
 			m_anim.SetBool ("bIsWalk", false);
+
+			BallonObject.SetActive (true);
 			break;
 
 		case ENORMAL_STATE.BACK:
@@ -138,6 +142,8 @@ public class Goblin_Guest : Character {
 			//딱 한번만 호출 되야 하는 부분
 			if (!m_bIsFirstBack) 
 			{
+				BallonObject.SetActive (false);
+
 				fSpeed = 3.0f;
 
 				m_bIsFirstBack = true;
@@ -213,54 +219,7 @@ public class Goblin_Guest : Character {
 
 				//광고 보고 2배
 				if (rt == "0") {
-
-					switch(nRandomIndex)
-					{
-					case (int)E_GOBLIN_INDEX.E_GOBLIN_GOLD:
-						ScoreManager.ScoreInstance.GoldPlus(dValue * 2);
-						break;
-					case (int)E_GOBLIN_INDEX.E_GOBLIN_HONOR:
-						ScoreManager.ScoreInstance.HonorPlus(dValue * 2);
-						break;
-					case (int)E_GOBLIN_INDEX.E_GOBLIN_RUBY:
-						ScoreManager.ScoreInstance.RubyPlus( (int)(dValue * 2));
-						break;
-					case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_GODL:
-
-						if(SpawnManager.Instance.shopCash.isConumeBuff_Gold)
-						{
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD,SpawnManager.Instance.shopCash.shopCashBuffSlots[0].curMin + 10,SpawnManager.Instance.shopCash.shopCashBuffSlots[0].fCurSec);
-						}
-						else
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD,10,0);
-						break;
-					case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_HONOR:
-						if(SpawnManager.Instance.shopCash.isConumeBuff_Honor)
-						{
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR,SpawnManager.Instance.shopCash.shopCashBuffSlots[0].curMin + 10,SpawnManager.Instance.shopCash.shopCashBuffSlots[0].fCurSec);
-						}
-						else
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR,10,0);
-						break;
-					case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_ARBAIT:
-						if(SpawnManager.Instance.shopCash.isConumeBuff_Honor)
-						{
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF,SpawnManager.Instance.shopCash.shopCashBuffSlots[0].curMin + 10,SpawnManager.Instance.shopCash.shopCashBuffSlots[0].fCurSec);
-						}
-						else
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF,10,0);
-						break;
-					case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_TOUCH:
-						if(SpawnManager.Instance.shopCash.isConumeBuff_Attack)
-						{
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK,SpawnManager.Instance.shopCash.shopCashBuffSlots[0].curMin + 10,SpawnManager.Instance.shopCash.shopCashBuffSlots[0].fCurSec);
-						}
-						else
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK,10,0);
-						break;
-					}
-
-					m_bIsBack = true;
+					GameManager.Instance.ShowRewardedAd_Goblin(this);
 				} 
 				// 그냥 받기 
 				else if (rt == "1") {
@@ -271,52 +230,107 @@ public class Goblin_Guest : Character {
 						ScoreManager.ScoreInstance.GoldPlus(dValue);
 						break;
 					case (int)E_GOBLIN_INDEX.E_GOBLIN_HONOR:
-						ScoreManager.ScoreInstance.HonorPlus(dValue);
+						ScoreManager.ScoreInstance.HonorPlus(dValue );
 						break;
 					case (int)E_GOBLIN_INDEX.E_GOBLIN_RUBY:
-						ScoreManager.ScoreInstance.RubyPlus((int)(dValue));
+						ScoreManager.ScoreInstance.RubyPlus( (int)(dValue ));
 						break;
 					case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_GODL:
 
 						if(SpawnManager.Instance.shopCash.isConumeBuff_Gold)
 						{
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD,SpawnManager.Instance.shopCash.shopCashBuffSlots[0].curMin + 5,SpawnManager.Instance.shopCash.shopCashBuffSlots[0].fCurSec);
+							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD,SpawnManager.Instance.shopCash.shopCashBuffSlots[0].curMin + 4,SpawnManager.Instance.shopCash.shopCashBuffSlots[0].fCurSec + 59);
 						}
 						else
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD,5,0);
+							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD,4,59);
 						break;
+
 					case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_HONOR:
 						if(SpawnManager.Instance.shopCash.isConumeBuff_Honor)
 						{
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR,SpawnManager.Instance.shopCash.shopCashBuffSlots[1].curMin + 5,SpawnManager.Instance.shopCash.shopCashBuffSlots[1].fCurSec);
+							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR,SpawnManager.Instance.shopCash.shopCashBuffSlots[1].curMin + 4,SpawnManager.Instance.shopCash.shopCashBuffSlots[1].fCurSec + 59);
 						}
 						else
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR,5,0);
+							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR,4,59);
 						break;
 					case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_ARBAIT:
 						if(SpawnManager.Instance.shopCash.isConumeBuff_Honor)
 						{
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF,SpawnManager.Instance.shopCash.shopCashBuffSlots[2].curMin + 5,SpawnManager.Instance.shopCash.shopCashBuffSlots[2].fCurSec);
+							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF,SpawnManager.Instance.shopCash.shopCashBuffSlots[2].curMin + 4,SpawnManager.Instance.shopCash.shopCashBuffSlots[2].fCurSec + 59);
 						}
 						else
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF,5,0);
+							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF,4,59);
 						break;
 					case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_TOUCH:
 						if(SpawnManager.Instance.shopCash.isConumeBuff_Attack)
 						{
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK,SpawnManager.Instance.shopCash.shopCashBuffSlots[3].curMin + 5,SpawnManager.Instance.shopCash.shopCashBuffSlots[3].fCurSec);
+							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK,SpawnManager.Instance.shopCash.shopCashBuffSlots[3].curMin + 4,SpawnManager.Instance.shopCash.shopCashBuffSlots[3].fCurSec + 59);
 						}
 						else
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK,5,0);
+							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK,4,59);
 						break;
 					}
 
-
-
 					m_bIsBack = true;
-				}
+
+					BallonObject.SetActive(false);
+			}
 			}
 			);
 		}
+	}
+
+	public void Goblin_Show_Ads()
+	{
+		switch(nRandomIndex)
+		{
+		case (int)E_GOBLIN_INDEX.E_GOBLIN_GOLD:
+			ScoreManager.ScoreInstance.GoldPlus(dValue * 2);
+			break;
+		case (int)E_GOBLIN_INDEX.E_GOBLIN_HONOR:
+			ScoreManager.ScoreInstance.HonorPlus(dValue * 2);
+			break;
+		case (int)E_GOBLIN_INDEX.E_GOBLIN_RUBY:
+			ScoreManager.ScoreInstance.RubyPlus( (int)(dValue * 2));
+			break;
+		case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_GODL:
+
+			if(SpawnManager.Instance.shopCash.isConumeBuff_Gold)
+			{
+				SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD,SpawnManager.Instance.shopCash.shopCashBuffSlots[0].curMin + 9,SpawnManager.Instance.shopCash.shopCashBuffSlots[0].fCurSec + 59);
+			}
+			else
+				SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD,9,59);
+			break;
+
+		case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_HONOR:
+			if(SpawnManager.Instance.shopCash.isConumeBuff_Honor)
+			{
+				SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR,SpawnManager.Instance.shopCash.shopCashBuffSlots[1].curMin + 9,SpawnManager.Instance.shopCash.shopCashBuffSlots[1].fCurSec + 59);
+			}
+			else
+				SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR,9,59);
+			break;
+		case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_ARBAIT:
+			if(SpawnManager.Instance.shopCash.isConumeBuff_Honor)
+			{
+				SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF,SpawnManager.Instance.shopCash.shopCashBuffSlots[2].curMin + 9,SpawnManager.Instance.shopCash.shopCashBuffSlots[2].fCurSec + 59);
+			}
+			else
+				SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF,9,59);
+			break;
+		case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_TOUCH:
+			if(SpawnManager.Instance.shopCash.isConumeBuff_Attack)
+			{
+				SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK,SpawnManager.Instance.shopCash.shopCashBuffSlots[3].curMin + 9,SpawnManager.Instance.shopCash.shopCashBuffSlots[3].fCurSec + 59);
+			}
+			else
+				SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK,9,59);
+			break;
+		}
+
+		m_bIsBack = true;
+
+		BallonObject.SetActive(false);
 	}
 }

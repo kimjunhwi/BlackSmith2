@@ -110,6 +110,8 @@ public class Character : MonoBehaviour
 	//뒤로 가는 부분에 처음 부분만 실행하기 위함
 	public bool m_bIsFirstBack = false;
 
+	public GameObject BallonObject;
+
 	public virtual void Awake()
 	{
 		E_GRADE = CHARACTER_GRADE.NORMAL;

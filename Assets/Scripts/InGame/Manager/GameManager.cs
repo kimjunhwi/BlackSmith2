@@ -100,6 +100,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	public Shop shop = null;
 
+	private Goblin_Guest goblin_Guest = null;
+
 	private OptionItem optionUI = null;
 
 	private ResultEpicUI resultEpicUI = null;
@@ -256,7 +258,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		{
 			Debug.Log("Inventory");
 
-			string dataAsJson = File.ReadAllText (ArbaitFilePath);
+			string dataAsJson = File.ReadAllText (InventoryFilePath);
 
 			Debug.Log(dataAsJson);
 
@@ -1581,6 +1583,75 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	}
 
 	#region UnityAds
+
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	public void ShowRewardedAd_Goblin(Goblin_Guest _goblin_Guest)
+	{
+		if (goblin_Guest == null)
+			goblin_Guest = _goblin_Guest;
+
+		if (Advertisement.IsReady("rewardedVideo"))
+		{
+			var options = new ShowOptions { resultCallback = HandleShowResult_Goblin };
+			Advertisement.Show("rewardedVideo", options);
+		}
+	}
+
+	private void HandleShowResult_Goblin(ShowResult result)
+	{
+		switch (result)
+		{
+		case ShowResult.Finished:
+			Debug.Log ("The ad was successfully shown.");
+			//
+			// YOUR CODE TO REWARD THE GAMER
+			// Give coins etc.
+
+			goblin_Guest.Goblin_Show_Ads ();
+
+			break;
+
+		case ShowResult.Failed:
+			Debug.LogError("The ad failed to be shown.");
+			break;
+		}
+	}
+
+
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	public void ShowRewardedAd_EpicChange(OptionItem _optionItem)
+	{
+		if (optionUI == null)
+			optionUI = _optionItem;
+
+		if (Advertisement.IsReady("rewardedVideo"))
+		{
+			var options = new ShowOptions { resultCallback = HandleShowResult_Option };
+			Advertisement.Show("rewardedVideo", options);
+		}
+	}
+
+	private void HandleShowResult_EpicChange(ShowResult result)
+	{
+		switch (result)
+		{
+		case ShowResult.Finished:
+			Debug.Log ("The ad was successfully shown.");
+			//
+			// YOUR CODE TO REWARD THE GAMER
+			// Give coins etc.
+
+			optionUI.ChageOption ();
+
+			break;
+
+		case ShowResult.Failed:
+			Debug.LogError("The ad failed to be shown.");
+			break;
+		}
+	}
+
+
 
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	public void ShowRewardedAd_Option(OptionItem _optionItem)

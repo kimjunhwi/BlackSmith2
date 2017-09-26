@@ -433,9 +433,7 @@ public class NormalCharacter : Character {
 
 			playerController.GuestSuccessed ();
 
-
 			dGold = 250 * Mathf.Pow (1.09f, nDay - 1);
-
 
 			if (cPlayerData.GearEquipmnet != null)
 			{
@@ -450,6 +448,11 @@ public class NormalCharacter : Character {
 
 				}
 			}
+
+			dGold += dGold * cPlayerData.GetGoldPlusPercent() * 0.01f;
+
+			if (SpawnManager.Instance.shopCash.isConumeBuff_Gold)
+				dGold *= 2;
 
 			if (cPlayerData.GetEpicOption () != null) 
 			{
@@ -466,9 +469,16 @@ public class NormalCharacter : Character {
 			cPlayerData.SetSuccessedGuestCount (cPlayerData.GetSuccessedGuestCount () + 1);
             ScoreManager.ScoreInstance.SetSuccessedGuestCount(cPlayerData.GetSuccessedGuestCount());
 
-			//셩공 손님이 30명 이상 이라면 
+			//셩공 손님이 10명 이상 이라면 
 			if (cPlayerData.GetSuccessedGuestCount () >= 10) 
 			{
+				int nHonor =  Mathf.RoundToInt((float)(5 + (1.3 * (nDay - 1))));
+
+				if (SpawnManager.Instance.shopCash.isConumeBuff_Honor)
+					nHonor *= 2;
+
+				ScoreManager.ScoreInstance.HonorPlus (nHonor);
+
                 //날짜 초기화
                 cPlayerData.SetSuccessedGuestCount(0);
 

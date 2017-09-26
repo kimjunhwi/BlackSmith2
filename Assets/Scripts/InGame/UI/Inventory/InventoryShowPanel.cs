@@ -76,6 +76,8 @@ public class InventoryShowPanel : MonoBehaviour {
 
 			ResetItemText ();
 
+			player.PlayerStatsSetting ();
+
 			NameText.text = string.Format("{0} +{1}", ItemData.strName , ItemData.nStrenthCount);
 		}
 	}

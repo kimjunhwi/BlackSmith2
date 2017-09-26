@@ -187,19 +187,24 @@ public class ResultEpicUI : MonoBehaviour {
 		{
 			//만약 체크가 됐다면 
 			if (BossSoulSlots [nIndex].bIsCheck) {
+
 				nInsertValue = Random.Range (nCalcAddMinOption, nCalcAddMaxOption + 1);
 
-				if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_ICE)
+				if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_ICE) {
 					createWeapon.fIceBossValue = nInsertValue;
+					playerData.changeStats.nIceMaterial--;
 
-				else if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_SASIN)
+				} else if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_SASIN) {
 					createWeapon.fSasinBossValue = nInsertValue;
-
-				else if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_FIRE)
+					playerData.changeStats.nSasinMaterial--;
+				} else if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_FIRE) {
 					createWeapon.fFireBossValue = nInsertValue;
+					playerData.changeStats.nFireMaterial--;
 
-				else if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_MUSIC)
+				} else if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_MUSIC) {
 					createWeapon.fRusiuBossValue = nInsertValue;
+					playerData.changeStats.nRusiuMaterial--;
+				}
 
 				CGameMainWeaponOption plusItem = new CGameMainWeaponOption ();
 
@@ -214,11 +219,10 @@ public class ResultEpicUI : MonoBehaviour {
 		}
 
 		//만약 전 에픽이 있을 경우 락을 했는지 안했는지 넣어 줌
-		if (createEpic != null) 
+		if (playerData.GetCreatorWeapon() != null) 
 		{
-			createWeapon.bIsLock = createEpic.bIsLock;
-			createWeapon.nCostDay = createEpic.nCostDay;
-			createWeapon.nEpicIndex = createEpic.nIndex;
+			createWeapon.bIsLock = playerData.GetCreatorWeapon().bIsLock;
+			createWeapon.nEpicIndex = playerData.GetCreatorWeapon().nEpicIndex;
 		}
 
 		//락이 아닐 경우 다시 에픽 확률을 계산 해서 넣어 줌 
@@ -228,8 +232,8 @@ public class ResultEpicUI : MonoBehaviour {
 				createEpic.Relive ();
 			
 			//특수 옵션 미정
-			//if (Random.Range (0, 100) <= 5) {
-			int nRandomIndex = (int)Random.Range (0, (int)E_EPIC_INDEX.E_EPIC_MAX);
+			if (Random.Range (0, 100) <= 10) {
+				int nRandomIndex = (int)Random.Range (0, (int)E_EPIC_INDEX.E_EPIC_MAX);
 
 				createEpic = EpicFactory (nRandomIndex);
 
@@ -239,15 +243,18 @@ public class ResultEpicUI : MonoBehaviour {
 
 				if (createEpic != null)
 					createEpic.Init (playerData.GetDay (), playerData);	
-			//}
-			//else 
-			//{
-			//	createEpic = null;
-			//}
+			} else {
+				createEpic = null;
+			}
 		} 
 		//락 일경우 추가 된 일차로 옵션 수치만 다시 설정 해준다.
-		else 
+		else {
+			createEpic = EpicFactory (createWeapon.nEpicIndex);
+
 			createEpic.Init (playerData.GetDay (), playerData);
+
+			createWeapon.bIsLock = false;
+		}
 
 		if (createEpic != null) {
 			//에픽 옵션 추가 

@@ -68,8 +68,10 @@ public class Scrolling : MonoBehaviour
 
 
 
-	public void StartChangeBackground(eBackgroundMat _changeBackground)
+	public void StartChangeBackground(eBackgroundMat _changeBackground,float _fChangeValue = 0.5f)
 	{
+		fChangedValue = _fChangeValue;
+
 		StartCoroutine (ChangeBackground (_changeBackground));
 	}
 

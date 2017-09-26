@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
-
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CWindowYesNo : CWindow
+public class CWindowYesNo : CWindow , IPointerDownHandler
 {
     public Button m_button_Ads;
     public Button m_button_Goods;
@@ -15,6 +15,8 @@ public class CWindowYesNo : CWindow
 	public Text strTitleText;
 
 	public Image Goods_Image;
+
+	GameObject getInfoGameObject;
 
 	public void Show(string _strTitle, string strValue,Sprite _Goods_Sprite, Action<string> _callback)
     {
@@ -58,5 +60,19 @@ public class CWindowYesNo : CWindow
 		base.Close ();
 
 		Destroy (this.gameObject);
+	}
+
+	public void OnPointerDown (PointerEventData eventData)
+	{
+		getInfoGameObject = eventData.pointerEnter;
+
+		if (getInfoGameObject.gameObject == null)
+			return;
+		if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE04)
+			return;
+
+		if (getInfoGameObject.gameObject.name == "BackGroundPanel")
+			getInfoGameObject.transform.parent.gameObject.SetActive (false);
+
 	}
 }

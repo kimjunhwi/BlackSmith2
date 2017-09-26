@@ -65,7 +65,7 @@ public class ScoreManager : MonoBehaviour
 
 	public void SetSuccessedGuestCount(int _nValue)
 	{
-		SuccessedGuestCount.text = string.Format ("Successed {0} / 10", _nValue);
+		SuccessedGuestCount.text = string.Format ("남은손님 {0} / 10", _nValue);
 	}
 
 

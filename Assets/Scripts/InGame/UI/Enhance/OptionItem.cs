@@ -97,10 +97,7 @@ public class OptionItem : MonoBehaviour {
 					{
 						if(rt == "0")
 						{
-							WeaponOption.bIsLock = true;
-							makingUI.createEpic.bIsLock = true;
-							OptionImage.sprite = ActiveEpicSprite;
-							LockImage.sprite = ActiveEpicLockSprite;
+							GameManager.Instance.ShowRewardedAd_EpicChange(this);
 						}
 						else if(rt == "1")
 						{
@@ -109,9 +106,9 @@ public class OptionItem : MonoBehaviour {
 								ScoreManager.ScoreInstance.RubyPlus(-50);
 
 								WeaponOption.bIsLock = true;
-								makingUI.createEpic.bIsLock = true;
 								OptionImage.sprite = ActiveEpicSprite;
 								LockImage.sprite = ActiveEpicLockSprite;
+								GameManager.Instance.GetPlayer().GetCreatorWeapon().bIsLock = true;
 							}
 							else
 							{
@@ -128,10 +125,9 @@ public class OptionItem : MonoBehaviour {
 				GameManager.Instance.Window_Check ("에픽 옵션 잠금을 해제 하시겠습니까?", rt => {
 					if (rt == "0") {
 						WeaponOption.bIsLock = false;
-						makingUI.createEpic.bIsLock = false;
 						OptionImage.sprite = UnActiveEpicSprite;
 						LockImage.sprite = UnActiveEpicLockSprite;
-
+						GameManager.Instance.GetPlayer().GetCreatorWeapon().bIsLock = false;
 					} else if (rt == "1") {
 						return;
 					}
@@ -174,6 +170,14 @@ public class OptionItem : MonoBehaviour {
 				}
 			);
 		}
+	}
+
+	public void Lock_EpicOption()
+	{
+		WeaponOption.bIsLock = true;
+		OptionImage.sprite = ActiveEpicSprite;
+		LockImage.sprite = ActiveEpicLockSprite;
+		GameManager.Instance.GetPlayer().GetCreatorWeapon().bIsLock = true;
 	}
 
 	public void ChageOption()

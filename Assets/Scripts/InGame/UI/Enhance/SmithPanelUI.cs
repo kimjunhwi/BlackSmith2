@@ -10,13 +10,14 @@ public class SmithPanelUI : EnhanceUI {
 	const int nBasicHonor = 200;
 	const int nPlusPercent = 100;
 
+	public GameObject UpgradeEffectObject;
+	public HanabiTest Hanabi;
+
 	protected override void Awake ()
 	{
 		base.Awake ();
 
 		nLevel = cPlayer.GetSmithLevel ();
-
-
 
 		if (cPlayer.GetSmithLevel () < nMaxLevel) {
 
@@ -30,6 +31,12 @@ public class SmithPanelUI : EnhanceUI {
 
 			CostGoldText.text = "Max";
 		}
+	}
+
+	public void OnEnable()
+	{
+//		fCostHonor;
+
 
 
 	}
@@ -51,6 +58,10 @@ public class SmithPanelUI : EnhanceUI {
 			cPlayer.SetSmithLevel (nLevel);
 
 			SetShopMaxCount ();
+
+			UpgradeEffectObject.SetActive (true);
+
+			Hanabi.Play ();
 
 			dEnhanceValue = cPlayer.GetBasicGoldPlusPercent() + 50;
 

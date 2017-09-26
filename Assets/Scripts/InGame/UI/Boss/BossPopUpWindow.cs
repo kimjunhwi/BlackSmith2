@@ -431,7 +431,7 @@ public class BossPopUpWindow : MonoBehaviour
 		resultEquiment.strName = getEquiment.strName;
 		resultEquiment.nSlotIndex = getEquiment.nSlotIndex;
 		resultEquiment.strResource = getEquiment.strResource;
-		resultEquiment.strWeaponExplain = getEquiment.strResource;
+		resultEquiment.strWeaponExplain = getEquiment.strWeaponExplain;
 		resultEquiment.bIsBoss = getEquiment.bIsBoss;
 
 		int nLength = int.Parse( resultEquiment.sGrade);

@@ -15,9 +15,22 @@ public class Skull : ArbaitBatch {
 
 		nIndex = (int)E_ARBAIT.E_SKULL;
 
+		string name = "불타는 해골왕";
+
+		m_CharacterChangeData.name = name;
+
 		strSkillExplain = string.Format ("온도 1%당 직원 크리확률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 
 		repairParticlePool = GameObject.Find ("SkullBossParticlePool").GetComponent<SimpleObjectPool> ();
+
+		m_CharacterChangeData.strExplains = string.Format ("온도 1%당 직원 크리확률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+
+		m_CharacterChangeData.strPurchasing = string.Format ("{0} / 20 이상 클리어", m_CharacterChangeData.nScoutCount);
+	}
+
+	public override void Purchasing ()
+	{
+		m_CharacterChangeData.strPurchasing = string.Format ("{0} / 20 이상 클리어", m_CharacterChangeData.nScoutCount);
 	}
 
 	// Update is called once per frame
@@ -68,7 +81,7 @@ public class Skull : ArbaitBatch {
 
 	public override void EnhacneArbait ()
 	{
-		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 10 * 0.01f;
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 5 * 0.01f;
 
 		m_CharacterChangeData.strExplains = string.Format ("온도 1%당 직원 크리확률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 	}

@@ -7,7 +7,7 @@ public class SmithPanelUI : EnhanceUI {
 
 	const int nMaxLevel = 10;
 
-	const int nBasicHonor = 200;
+	const int nBasicHonor = 300;
 	const int nPlusPercent = 100;
 
 	public GameObject UpgradeEffectObject;
@@ -31,6 +31,8 @@ public class SmithPanelUI : EnhanceUI {
 
 			CostGoldText.text = "Max";
 		}
+
+		NextPercentText.text = (cPlayer.GetBasicGoldPlusPercent() + 50).ToString();
 	}
 
 	public void OnEnable()
@@ -72,6 +74,8 @@ public class SmithPanelUI : EnhanceUI {
 			cPlayer.SetBasicHonorPlusPercent (dEnhanceValue);
 
 			EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
+
+			NextPercentText.text = (cPlayer.GetBasicGoldPlusPercent() + 50).ToString();
 
 			ScoreManager.ScoreInstance.HonorPlus (-fCostHonor);
 

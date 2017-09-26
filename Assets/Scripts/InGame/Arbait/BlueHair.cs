@@ -18,10 +18,16 @@ public class BlueHair : ArbaitBatch {
 
         nIndex = (int)E_ARBAIT.E_ROY;
 
+		string name = "클로스";
+
+		m_CharacterChangeData.name = name;
+
 		strSkillExplain = string.Format ("대장장이 수리력 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 
 		normalParticlePool = GameObject.Find ("NormalRepairPool").GetComponent<SimpleObjectPool> ();
 		CriticalParticlePool = GameObject.Find ("CriticalRepairPool").GetComponent<SimpleObjectPool> ();
+
+		m_CharacterChangeData.strExplains = string.Format ("대장장이 수리력 {0}% 증가", m_CharacterChangeData.fSkillPercent);
     }
 
 
@@ -66,7 +72,7 @@ public class BlueHair : ArbaitBatch {
 
 	public override void EnhacneArbait ()
 	{
-		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 10 * 0.01f;
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 5 * 0.01f;
 
 		m_CharacterChangeData.strExplains = string.Format ("대장장이 수리력 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
@@ -182,14 +188,13 @@ public class BlueHair : ArbaitBatch {
 				SpawnManager.Instance.InsertWeaponArbait(m_CharacterChangeData.index, nBatchIndex);
 
 			//수리 시간이 되면 0으로 초기화 하고 수리해줌
-			if(fTime >= m_fRepairTime)
+			if (fTime >= m_CharacterChangeData.fAttackSpeed)
 			{
 				fTime = 0.0f;
 
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 
-				if (playerData.AccessoryEquipmnet != null) 
-				{
+				if (playerData.AccessoryEquipmnet != null) {
 					if (playerData.AccessoryEquipmnet.nIndex == (int)E_BOSS_ITEM.DODOM_GLASS) {
 						fBossRepairPercent = playerData.AccessoryEquipmnet.fBossOptionValue;
 						fBossCriticalPercent = playerData.AccessoryEquipmnet.fBossOptionValue;
@@ -208,7 +213,13 @@ public class BlueHair : ArbaitBatch {
 					animator.SetTrigger ("bIsNormalRepair");
 					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
 				}
+
 				m_dComplate += m_dComplate * fBossRepairPercent * 0.01f;
+
+				m_dComplate += m_dComplate * playerData.changeStats.fArbaitsPower * 0.01f;
+
+				if (spawnManager.shopCash.isConumeBuff_Staff)
+					m_dComplate *= 2;
 
 				//완성 됐을 경우
 				if (m_dComplate >= weaponData.dMaxComplate)
@@ -218,10 +229,9 @@ public class BlueHair : ArbaitBatch {
 					ComplateWeapon();
 				}
 
-				SpawnManager.Instance.CheckComplateWeapon (AfootOjbect, m_dComplate,m_fTemperator);
+				SpawnManager.Instance.CheckComplateWeapon(AfootOjbect, m_dComplate,m_fTemperator);
 			}
 			break;
-
 		case E_ArbaitState.E_BOSSREPAIR:
 
 			//수리
@@ -232,14 +242,39 @@ public class BlueHair : ArbaitBatch {
 			{
 				fTime = 0.0f;
 
-				animator.SetTrigger("bIsRepair");
+				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 
-				RepairShowObject.SetCurCompletion(m_CharacterChangeData.dRepairPower );
+				if (playerData.AccessoryEquipmnet != null) {
+					if (playerData.AccessoryEquipmnet.nIndex == (int)E_BOSS_ITEM.DODOM_GLASS) {
+						fBossRepairPercent = playerData.AccessoryEquipmnet.fBossOptionValue;
+						fBossCriticalPercent = playerData.AccessoryEquipmnet.fBossOptionValue;
+					} else {
+						fBossRepairPercent = 0;
+						fBossCriticalPercent = 0;
+					}
+				}
+
+
+				//크리티컬 확률 
+				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) {
+					animator.SetTrigger ("bIsCriticalRepair");
+					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
+				} else {
+					animator.SetTrigger ("bIsNormalRepair");
+					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
+				}
+
+				m_dComplate += m_dComplate * fBossRepairPercent * 0.01f;
+
+				m_dComplate += m_dComplate * playerData.changeStats.fArbaitsPower * 0.01f;
+
+				if (spawnManager.shopCash.isConumeBuff_Staff)
+					m_dComplate *= 2;
+
+				RepairShowObject.SetCurCompletion(m_dComplate );
 			}
 
 			break;
 		}
 	}
-
-
 }

@@ -472,7 +472,7 @@ public class NormalCharacter : Character {
 			//셩공 손님이 10명 이상 이라면 
 			if (cPlayerData.GetSuccessedGuestCount () >= 10) 
 			{
-				int nHonor =  Mathf.RoundToInt((float)(5 + (1.3 * (nDay - 1))));
+				int nHonor =  Mathf.RoundToInt((float)(10 + 1.3 * (nDay - 1)));
 
 				if (SpawnManager.Instance.shopCash.isConumeBuff_Honor)
 					nHonor *= 2;

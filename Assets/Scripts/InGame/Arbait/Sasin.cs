@@ -17,9 +17,22 @@ public class Sasin : ArbaitBatch {
 
 		nIndex = (int)E_ARBAIT.E_SASIN;
 
+		string name = "시련의 사신";
+
+		m_CharacterChangeData.name = name;
+
 		strSkillExplain = string.Format ("현재 완성도 50% 이하 일 때 사신 공격력, 공격속도 {0}% 상승, 대장장이 수리력 {1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
 
 		repairParticlePool = GameObject.Find ("SasinBossParticlePool").GetComponent<SimpleObjectPool> ();
+
+		m_CharacterChangeData.strExplains = string.Format ("현재 완성도 50% 이하 일 때 사신 공격력, 공격속도 {0}% 상승, 대장장이 수리력 {1}% 증가", m_CharacterChangeData.fSkillPercent,m_CharacterChangeData.fSkillPercent);
+
+		m_CharacterChangeData.strPurchasing = string.Format ("{0} / 20 이상 클리어", m_CharacterChangeData.nScoutCount);
+	}
+
+	public override void Purchasing ()
+	{
+		m_CharacterChangeData.strPurchasing = string.Format ("{0} / 20 이상 클리어", m_CharacterChangeData.nScoutCount);
 	}
 
 	// Update is called once per frame
@@ -68,7 +81,7 @@ public class Sasin : ArbaitBatch {
 
 	public override void EnhacneArbait ()
 	{
-		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 10 * 0.01f;
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 5 * 0.01f;
 
 		m_CharacterChangeData.strExplains = string.Format ("현재 완성도 50% 이하 일 때 사신 공격력, 공격속도 {0}% 상승, 대장장이 수리력 {1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
 	}

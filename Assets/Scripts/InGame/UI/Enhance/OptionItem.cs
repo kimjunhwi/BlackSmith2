@@ -216,9 +216,6 @@ public class OptionItem : MonoBehaviour {
 		case (int)E_CREATOR.E_WATERCHARGE:
 			weapon.fWaterPlus = 0;
 			break;
-		case (int)E_CREATOR.E_WATERUSE:
-			weapon.fActiveWater = 0;
-			break;
 		case (int)E_CREATOR.E_CRITICAL:
 			weapon.fCriticalChance = 0;
 			break;

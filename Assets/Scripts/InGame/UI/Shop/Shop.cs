@@ -145,8 +145,7 @@ public class Shop : MonoBehaviour {
 					FirstCheck ();
 				}
 
-				StartCoroutine (Timer (nInitTime_Min, nInitTime_Sec));
-
+				StartCoroutine (Timer( nCurMin, (int)fCurSec));
 			}
             //완전 처음 일 경우 
             else

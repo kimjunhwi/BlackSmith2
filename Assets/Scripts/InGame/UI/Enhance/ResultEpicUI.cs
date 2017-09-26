@@ -135,10 +135,10 @@ public class ResultEpicUI : MonoBehaviour {
 
 		int nDay = playerData.GetDay ();
 		float fOriValue = nDay - 1;
-		float fMinusValue = Mathf.Floor( (nDay - 1) * 0.1f ) * 10;
+		float fMinusValue = Mathf.Floor( (nDay) * 0.1f ) * 10;
 		float result = fOriValue - fMinusValue;
 
-		double dCurComplete = 3 * Mathf.Max( Mathf.Pow (1.85f, (Mathf.Floor((nDay + 9) * 0.1f))),1) * (1 + (result) * 0.05f);
+		double dCurComplete = 3 * Mathf.Max( Mathf.Pow (1.85f, (Mathf.Floor((nDay + 10) * 0.1f))),1) * (1 + (result) * 0.05f);
 
 		dCalcMinRepair = dCurComplete - dCurComplete * 0.1f;
 
@@ -388,24 +388,6 @@ public class ResultEpicUI : MonoBehaviour {
 			}
 			break;
 
-		case (int)E_CREATOR.E_WATERUSE:
-			if (_equiment.fActiveWater == 0)
-			{
-				CGameMainWeaponOption plusItem = new CGameMainWeaponOption ();
-
-				_equiment.fActiveWater = _nInsertValue;
-
-				plusItem.nIndex = (int)E_CREATOR.E_WATERUSE;
-				plusItem.strOptionName = "물 추가 증가량";
-				plusItem.nValue = _nInsertValue;
-				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
-				plusItem.bIsLock = false;
-
-				LIST_OPTION.Add (plusItem);
-
-				return true;
-			}
-			break;
 		case (int)E_CREATOR.E_CRITICAL:
 			if (_equiment.fCriticalChance == 0)
 			{

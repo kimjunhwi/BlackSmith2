@@ -51,6 +51,8 @@ public class ArbaitCharacter : MonoBehaviour {
 	public Text PurchasingText;
 	public Text BuyText;
 
+	public GameObject PurchasingNameObject;
+	public Text CharacterNameText;
 	public Text EnhaceText;
 
 	public Player playerData;
@@ -125,6 +127,16 @@ public class ArbaitCharacter : MonoBehaviour {
 
 		BuyText.text = (m_CharacterData.nScoutGold != 0) ? m_CharacterData.nScoutGold.ToString() : m_CharacterData.nScoutHonor.ToString();
 		GoldText.text =  (m_CharacterData.nBasicHonor * (m_CharacterData.level * 0.5 * m_CharacterData.nBasicHonor)).ToString();
+
+		spawnManager.array_ArbaitData [nIndex].Purchasing ();
+
+		if (m_CharacterData.index >= 10) {
+			PurchasingNameObject.SetActive (true);
+			CharacterNameText.text = m_CharacterData.name;
+		} else {
+			PurchasingNameObject.SetActive (false);
+		}
+
 	}
 
     public void BuyCharacter()
@@ -152,6 +164,8 @@ public class ArbaitCharacter : MonoBehaviour {
 
 			m_CharacterData.nScoutCount++;
 
+			spawnManager.array_ArbaitData [nIndex].Purchasing ();
+
 			CheckBuyCharacter ();
 
 //			if (m_CharacterData.nMaxScoutCount <= m_CharacterData.nScoutCount) 
@@ -168,6 +182,8 @@ public class ArbaitCharacter : MonoBehaviour {
 				return;
 
 			m_CharacterData.nScoutCount++;
+
+			spawnManager.array_ArbaitData [nIndex].Purchasing ();
 
 			CheckBuyCharacter ();
 
@@ -276,18 +292,19 @@ public class ArbaitCharacter : MonoBehaviour {
 
     public void EnhanceEvent()
     {
-		if (m_CharacterData.nBasicHonor * (m_CharacterData.level * 0.5 * m_CharacterData.nBasicHonor) <= ScoreManager.ScoreInstance.GetHonor ()) 
+		if (m_CharacterData.nBasicHonor * (m_CharacterData.level * 0.4 * m_CharacterData.nBasicHonor) <= ScoreManager.ScoreInstance.GetHonor ()) 
 		{
-			m_CharacterData.fAttackSpeed -= m_CharacterData.fAttackSpeed * 2 * 0.01f;
-			m_CharacterData.fCritical += m_CharacterData.fCritical * 2 * 0.01f;
+			m_CharacterData.fAttackSpeed -= m_CharacterData.fAttackSpeed * 1 * 0.01f;
+			m_CharacterData.fCritical += m_CharacterData.fCritical * 1 * 0.01f;
 
 			m_CharacterData.level++;
+			m_CharacterData.nPlayerGetRepair++;
 
 			spawnManager.array_ArbaitData [nIndex].EnhacneArbait();
 
 			ChangeArbaitText ();
 
-			GoldText.text =  (m_CharacterData.nBasicHonor * (m_CharacterData.level * 0.5 * m_CharacterData.nBasicHonor)).ToString();
+			GoldText.text =  (m_CharacterData.nBasicHonor * (m_CharacterData.level * 0.4 * m_CharacterData.nBasicHonor)).ToString();
 		}
     }
 
@@ -296,6 +313,7 @@ public class ArbaitCharacter : MonoBehaviour {
         LevelText.text = m_CharacterData.level.ToString();
         NameText.text = m_CharacterData.name;
         SkillExplainText.text = m_CharacterData.strExplains;
+		PurchasingText.text = m_CharacterData.strPurchasing;
 		RepairPowerText.text = ScoreManager.ScoreInstance.ChangeMoney(m_CharacterData.dRepairPower);
         AttackSpeedText.text = m_CharacterData.fAttackSpeed.ToString("F1");
         CriticalText.text = m_CharacterData.fCritical.ToString("F1");

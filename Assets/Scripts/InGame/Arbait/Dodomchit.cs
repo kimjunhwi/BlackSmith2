@@ -13,17 +13,30 @@ public class Dodomchit : ArbaitBatch {
 	{
 		base.Awake();
 
+		string name = "리듬타는 개구리";
+
+		m_CharacterChangeData.name = name;
+
 		nIndex = (int)E_ARBAIT.E_DODOMCHIT;
 
-		strSkillExplain = string.Format ("공격시 모든 직원 수리력 {0}% 증가 (50%) 물 사용시 초기화", m_CharacterChangeData.fSkillPercent);
+		strSkillExplain = string.Format ("공격시 모든 직원 수리력 {0}% 증가 (50%) \n 물 사용시 초기화", m_CharacterChangeData.fSkillPercent);
 
 		repairParticlePool = GameObject.Find ("RusiuBossParticlePool").GetComponent<SimpleObjectPool> ();
+
+		m_CharacterChangeData.strExplains = string.Format ("공격시 모든 직원 수리력 {0}% 증가 (50%) \n 물 사용시 초기화", m_CharacterChangeData.fSkillPercent);
+
+		m_CharacterChangeData.strPurchasing = string.Format ("{0} / 20 이상 클리어", m_CharacterChangeData.nScoutCount);
 	}
 
 	// Update is called once per frame
 	protected override void Update()
 	{
 		StartCoroutine(this.CharacterAction());
+	}
+
+	public override void Purchasing ()
+	{
+		m_CharacterChangeData.strPurchasing = string.Format ("{0} / 20 이상 클리어", m_CharacterChangeData.nScoutCount);
 	}
 
 
@@ -71,7 +84,7 @@ public class Dodomchit : ArbaitBatch {
 
 	public override void EnhacneArbait ()
 	{
-		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 10 * 0.01f;
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 5 * 0.01f;
 
 		m_CharacterChangeData.strExplains = string.Format ("공격시 모든 직원 수리력 {0}% 증가 (50%) 물 사용시 초기화", m_CharacterChangeData.fSkillPercent);
 	}

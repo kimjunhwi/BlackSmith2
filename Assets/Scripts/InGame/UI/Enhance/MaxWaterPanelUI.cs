@@ -23,6 +23,8 @@ public class MaxWaterPanelUI : EnhanceUI {
 		fCostHonor = nBasicHonor * nLevel;
 
 		CostGoldText.text = fCostHonor.ToString();
+
+		NextPercentText.text = (cPlayer.GetBasicMaxWater () + 1000).ToString();
 	}
 
 	protected override void EnhanceButtonClick ()
@@ -40,6 +42,8 @@ public class MaxWaterPanelUI : EnhanceUI {
 			cPlayer.SetBasicMaxWater(fEnhanceValue);
 
 			EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
+
+			NextPercentText.text = (cPlayer.GetBasicMaxWater () + 1000).ToString();
 
 			ScoreManager.ScoreInstance.HonorPlus (-fCostHonor);
 

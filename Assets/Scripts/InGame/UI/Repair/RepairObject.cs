@@ -506,7 +506,7 @@ public class RepairObject : MonoBehaviour
 
 			if (ComplateSlider.value != dCurrentComplate) 
 			{
-				fComplateSlideTime += Time.deltaTime;
+				fComplateSlideTime += Time.deltaTime * 5f;
 
 				ComplateSlider.value = Mathf.Lerp (ComplateSlider.value, (float)dCurrentComplate, fComplateSlideTime);
 

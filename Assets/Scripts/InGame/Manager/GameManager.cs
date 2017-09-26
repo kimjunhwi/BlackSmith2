@@ -1958,7 +1958,6 @@ enum E_CREATOR
 	E_HONOR,
 	E_GOLD,
 	E_WATERCHARGE,
-	E_WATERUSE,
 	E_CRITICAL,
 	E_CRITICALD,
 	E_BIGCRITICAL,
@@ -2064,7 +2063,6 @@ public class CreatorWeapon
 	public float fPlusHonorPercent 	= 0.0f ;	//명예 추가 증가량
 	public float fPlusGoldPercent 	= 0.0f;		//골드 추가 증가량
 	public float fWaterPlus 		= 0.0f;		//물 추가 수치
-	public float fActiveWater 		= 0.0f;		//물 사용시 추가 증가
 	public float fCriticalChance 	= 0.0f;		//크리티컬 찬스
 	public float fCriticalDamage 	= 0.0f;		//크리티컬 데미지
 	public float fBigSuccessed 		= 0.0f;		//대 성공 확률 
@@ -2097,7 +2095,6 @@ public class CreatorWeapon
 		fPlusHonorPercent = _creatorWeapon.fPlusHonorPercent;
 		fPlusGoldPercent = _creatorWeapon.fPlusGoldPercent;
 		fWaterPlus = _creatorWeapon.fWaterPlus;
-		fActiveWater = _creatorWeapon.fActiveWater;
 		fCriticalChance = _creatorWeapon.fCriticalChance;
 		fCriticalDamage = _creatorWeapon.fCriticalDamage;
 		fBigSuccessed = _creatorWeapon.fBigSuccessed;
@@ -2427,6 +2424,7 @@ public class CGamePlayerData
 		nEnhanceRepaireLevel= playerData.nEnhanceRepaireLevel;
 		nEnhanceMaxWaterLevel= playerData.nEnhanceMaxWaterLevel;
 		nEnhanceWaterPlusLevel= playerData.nEnhanceWaterPlusLevel;
+		nEnhaceBigSuccessedLevel = playerData.nEnhaceBigSuccessedLevel;
 		nEnhanceAccuracyRateLevel= playerData.nEnhanceAccuracyRateLevel;
 		nEnhanceCriticalLevel= playerData.nEnhanceCriticalLevel;
 		nEnhanceArbaitLevel = playerData.nEnhanceArbaitLevel;

@@ -771,6 +771,11 @@ public class ArbaitBatch : MonoBehaviour {
 
 	}
 
+	public virtual void Purchasing()
+	{
+
+	}
+
 	public string GetSkillExplain()
 	{
 		return strSkillExplain;

@@ -16,6 +16,8 @@ public class WaterPlusPanelUI : EnhanceUI {
 		EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 
 		CostGoldText.text = ChangeValue(800 * Mathf.Pow (1.095f, nLevel - 1));
+
+		NextPercentText.text = (cPlayer.GetBasicWaterPlus() + (fBasic * 0.01f)).ToString();
 	}
 
 	protected override void EnhanceButtonClick ()
@@ -31,6 +33,8 @@ public class WaterPlusPanelUI : EnhanceUI {
 			fEnhanceValue = cPlayer.GetBasicWaterPlus() + (fBasic * 0.01f);
 
 			cPlayer.SetBasicWaterPlus(fEnhanceValue);
+
+			NextPercentText.text = (cPlayer.GetBasicWaterPlus() + (fBasic * 0.01f)).ToString();
 
 			EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 

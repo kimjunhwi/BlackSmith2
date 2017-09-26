@@ -20,6 +20,8 @@ public class BigSucceseedPanelUI : EnhanceUI {
 		fCostHonor = nBasicHonor + (nPlusPercent * nLevel - 1);
 
 		CostGoldText.text = ChangeValue(fCostHonor);
+
+		NextPercentText.text = (cPlayer.GetBasicBigSuccessedPercent() + (fBasic * 0.05f)).ToString();
 	}
 
 	protected override void EnhanceButtonClick ()
@@ -37,6 +39,8 @@ public class BigSucceseedPanelUI : EnhanceUI {
 			cPlayer.SetBasicBigSuccessedPercent(fEnhanceValue);
 
 			EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
+
+			NextPercentText.text = (cPlayer.GetBasicBigSuccessedPercent() + (fBasic * 0.05f)).ToString();
 
 			ScoreManager.ScoreInstance.HonorPlus (-fCostHonor);
 

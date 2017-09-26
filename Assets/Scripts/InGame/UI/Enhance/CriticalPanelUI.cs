@@ -16,6 +16,8 @@ public class CriticalPanelUI : EnhanceUI {
 		EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 
 		CostGoldText.text  = ChangeValue(1000 * Mathf.Pow (1.095f, nLevel - 1));
+
+		NextPercentText.text = (cPlayer.GetBasicCriticalChance() + (fBasic * 0.01f)).ToString();
 	}
 
 	protected override void EnhanceButtonClick ()
@@ -35,6 +37,8 @@ public class CriticalPanelUI : EnhanceUI {
 			EnhanceText.text = strEnhanceName + nLevel;
 
 			ScoreManager.ScoreInstance.GoldPlus (-fCostGold	);
+
+			NextPercentText.text = (cPlayer.GetBasicCriticalChance() + (fBasic * 0.01f)).ToString();
 
 			CostGoldText.text  = ChangeValue(1000 * Mathf.Pow (1.095f, nLevel - 1));
 

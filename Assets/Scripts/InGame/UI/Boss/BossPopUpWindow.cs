@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using ReadOnlys;
 
 enum PANELINDEX
 {
@@ -207,22 +208,29 @@ public class BossPopUpWindow : MonoBehaviour
 
 			if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_ICE)
 			{
+				GameManager.Instance.GetPlayer ().changeStats.nIceMaterial++;
+				SpawnManager.Instance.list_ArbaitUI [(int)E_ARBAIT.E_ICE].CheckArbaitScoutCount (true);
 				RewardShowAndAdd (0, 1);
 			}
 
 			if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_SASIN)
 			{
+				GameManager.Instance.GetPlayer ().changeStats.nSasinMaterial++;
+				SpawnManager.Instance.list_ArbaitUI [(int)E_ARBAIT.E_SASIN].CheckArbaitScoutCount (true);
 				RewardShowAndAdd (2, 3);
 			}
 
 			if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_FIRE)
 			{
+				GameManager.Instance.GetPlayer ().changeStats.nFireMaterial++;
+				SpawnManager.Instance.list_ArbaitUI [(int)E_ARBAIT.E_SKULL].CheckArbaitScoutCount (true);
 				RewardShowAndAdd (4, 1);
 			}
 
-
 			if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_MUSIC)
 			{
+				GameManager.Instance.GetPlayer ().changeStats.nRusiuMaterial++;
+				SpawnManager.Instance.list_ArbaitUI [(int)E_ARBAIT.E_DODOMCHIT].CheckArbaitScoutCount (true);
 				RewardShowAndAdd (6, 7);
 			}
 

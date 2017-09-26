@@ -11,8 +11,20 @@ public class Ice : ArbaitBatch {
 
 		nIndex = (int)E_ARBAIT.E_ICE;
 
+		string name = "얼음 골렘";
+
+		m_CharacterChangeData.name = name;
+
 		strSkillExplain = string.Format ("물 Plus {0}%, 크리데미지 {1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
 	
+		m_CharacterChangeData.strExplains = string.Format ("물 Plus {0}%, 크리데미지 {1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
+
+		m_CharacterChangeData.strPurchasing = string.Format ("{0} / 20 이상 클리어", m_CharacterChangeData.nScoutCount);
+	}
+
+	public override void Purchasing ()
+	{
+		m_CharacterChangeData.strPurchasing = string.Format ("{0} / 20 이상 클리어", m_CharacterChangeData.nScoutCount);
 	}
 
 	// Update is called once per frame
@@ -61,7 +73,7 @@ public class Ice : ArbaitBatch {
 
 	public override void EnhacneArbait ()
 	{
-		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 10 * 0.01f;
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 5 * 0.01f;
 
 		m_CharacterChangeData.strExplains = string.Format ("물 Plus {0}%, 크리데미지 {1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
 	}

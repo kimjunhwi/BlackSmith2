@@ -20,11 +20,17 @@ public class Nurse : ArbaitBatch {
 
         nIndex = (int)E_ARBAIT.E_NURSE;
 
+		string name = "리니아";
+
+		m_CharacterChangeData.name = name;
+
 		strSkillExplain = string.Format ("대장장이 크리확률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 
 		normalParticlePool = GameObject.Find ("NormalRepairPool").GetComponent<SimpleObjectPool> ();
 
 		CriticalParticlePool = GameObject.Find ("CriticalRepairPool").GetComponent<SimpleObjectPool> ();
+
+		m_CharacterChangeData.strExplains = string.Format ("대장장이 크리확률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
     }
 
     // Update is called once per frame
@@ -86,7 +92,7 @@ public class Nurse : ArbaitBatch {
 
 	public override void EnhacneArbait ()
 	{
-		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 10 * 0.01f;
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 5 * 0.01f;
 
 		m_CharacterChangeData.strExplains = string.Format ("대장장이 크리확률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
@@ -156,20 +162,20 @@ public class Nurse : ArbaitBatch {
                     CheckCharacterState(E_ArbaitState.E_REPAIR);
 
                 break;
-            case E_ArbaitState.E_REPAIR:
+		case E_ArbaitState.E_REPAIR:
 
-                //수리
-                fTime += Time.deltaTime;
+			//수리
+			fTime += Time.deltaTime;
 
 			if(AfootOjbect == null || bIsRepair == false)
 				CheckCharacterState(E_ArbaitState.E_WAIT);
 
 			if(AfootOjbect == RepairShowObject.AfootObject)
 				SpawnManager.Instance.InsertWeaponArbait(m_CharacterChangeData.index, nBatchIndex);
-				
-                //수리 시간이 되면 0으로 초기화 하고 수리해줌
-                if (fTime >= m_fRepairTime)
-                {
+
+			//수리 시간이 되면 0으로 초기화 하고 수리해줌
+			if (fTime >= m_CharacterChangeData.fAttackSpeed)
+			{
 				fTime = 0.0f;
 
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
@@ -195,17 +201,23 @@ public class Nurse : ArbaitBatch {
 				}
 
 				m_dComplate += m_dComplate * fBossRepairPercent * 0.01f;
-                    //완성 됐을 경우
-				if (m_dComplate >= weaponData.dMaxComplate)
-                    {
-                        ScoreManager.ScoreInstance.GoldPlus(100);
 
-                        ComplateWeapon();
-                    }
+				m_dComplate += m_dComplate * playerData.changeStats.fArbaitsPower * 0.01f;
+
+				if (spawnManager.shopCash.isConumeBuff_Staff)
+					m_dComplate *= 2;
+
+				//완성 됐을 경우
+				if (m_dComplate >= weaponData.dMaxComplate)
+				{
+					ScoreManager.ScoreInstance.GoldPlus(100);
+
+					ComplateWeapon();
+				}
 
 				SpawnManager.Instance.CheckComplateWeapon(AfootOjbect, m_dComplate,m_fTemperator);
-                }
-                break;
+			}
+			break;
 		case E_ArbaitState.E_BOSSREPAIR:
 
 			//수리
@@ -216,12 +228,39 @@ public class Nurse : ArbaitBatch {
 			{
 				fTime = 0.0f;
 
-				animator.SetTrigger("bIsRepair");
+				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 
-				RepairShowObject.SetCurCompletion(m_CharacterChangeData.dRepairPower );
+				if (playerData.AccessoryEquipmnet != null) {
+					if (playerData.AccessoryEquipmnet.nIndex == (int)E_BOSS_ITEM.DODOM_GLASS) {
+						fBossRepairPercent = playerData.AccessoryEquipmnet.fBossOptionValue;
+						fBossCriticalPercent = playerData.AccessoryEquipmnet.fBossOptionValue;
+					} else {
+						fBossRepairPercent = 0;
+						fBossCriticalPercent = 0;
+					}
+				}
+
+
+				//크리티컬 확률 
+				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) {
+					animator.SetTrigger ("bIsCriticalRepair");
+					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
+				} else {
+					animator.SetTrigger ("bIsNormalRepair");
+					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
+				}
+
+				m_dComplate += m_dComplate * fBossRepairPercent * 0.01f;
+
+				m_dComplate += m_dComplate * playerData.changeStats.fArbaitsPower * 0.01f;
+
+				if (spawnManager.shopCash.isConumeBuff_Staff)
+					m_dComplate *= 2;
+
+				RepairShowObject.SetCurCompletion(m_dComplate );
 			}
 
 			break;
-        }
+		}
     }
 }

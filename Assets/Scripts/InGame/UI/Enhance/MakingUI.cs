@@ -22,6 +22,7 @@ public class MakingUI : MonoBehaviour {
 	Player playerData;
 
 	public EpicOption createEpic = null;
+	public RepairPanelUI repairUI;
 
 	//기본 값
 	const int m_nBasicMinRepair = 6;
@@ -100,9 +101,6 @@ public class MakingUI : MonoBehaviour {
 
 			if ( LoadCreateWeapon.fWaterPlus != 0)
 				CheckData (createWeapon, (int)E_CREATOR.E_WATERCHARGE, (int)LoadCreateWeapon.fWaterPlus);
-
-			if ( LoadCreateWeapon.fActiveWater != 0)
-				CheckData (createWeapon, (int)E_CREATOR.E_WATERUSE, (int)LoadCreateWeapon.fActiveWater);
 
 			if ( LoadCreateWeapon.fCriticalChance != 0)
 				CheckData (createWeapon, (int)E_CREATOR.E_CRITICAL, (int)LoadCreateWeapon.fCriticalChance);
@@ -404,6 +402,8 @@ public class MakingUI : MonoBehaviour {
 	
 		playerData.SetCreatorWeapon (_weapon, _epicOption);
 
+		repairUI.ChagneRepairData ();
+
 		if (_weapon.fIceBossValue != 0) {
 			BossSlotOne.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/IceSoul");
 		}
@@ -548,24 +548,6 @@ public class MakingUI : MonoBehaviour {
 			}
 			break;
 
-		case (int)E_CREATOR.E_WATERUSE:
-			if (_equiment.fActiveWater == 0)
-			{
-				CGameMainWeaponOption plusItem = new CGameMainWeaponOption ();
-
-				_equiment.fActiveWater = _nInsertValue;
-
-				plusItem.nIndex = (int)E_CREATOR.E_WATERUSE;
-				plusItem.strOptionName = "물 추가 증가량";
-				plusItem.nValue = _nInsertValue;
-				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
-				plusItem.bIsLock = false;
-
-				LIST_OPTION.Add (plusItem);
-
-				return true;
-			}
-			break;
 		case (int)E_CREATOR.E_CRITICAL:
 			if (_equiment.fCriticalChance == 0)
 			{

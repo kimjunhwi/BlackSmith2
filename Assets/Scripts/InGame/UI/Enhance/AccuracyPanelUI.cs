@@ -16,6 +16,8 @@ public class AccuracyPanelUI : EnhanceUI {
 		EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 
 		CostGoldText.text = ChangeValue(800 * Mathf.Pow (1.095f, nLevel - 1));
+
+		NextPercentText.text = (cPlayer.GetBasicAccuracyRate() + (fBasic * 0.01f)).ToString();
 	}
 
 	protected override void EnhanceButtonClick ()
@@ -33,6 +35,8 @@ public class AccuracyPanelUI : EnhanceUI {
 			cPlayer.SetBasicAccuracyRate(fEnhanceValue);
 
 			EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
+
+			NextPercentText.text = (cPlayer.GetBasicAccuracyRate() + (fBasic * 0.01f)).ToString();
 
 			ScoreManager.ScoreInstance.GoldPlus (-fCostGold	);
 

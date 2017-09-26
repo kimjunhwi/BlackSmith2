@@ -167,10 +167,12 @@ public class Player
 	//08.09
 	//플레이어 제작 
 	public void SetCreatorWeapon(CreatorWeapon _weapon,EpicOption _EpicOption){
+
+		creatorWeapon = null;
+
 		creatorWeapon = _weapon; 
 
 		epicOpion = _EpicOption;
-
 
 		double dCurComplete = _weapon.dRepair *  Mathf.Pow (1.022f, Mathf.Floor((changeStats.nEnhanceRepaireLevel - 1) * 0.1f)) * (1 + (changeStats.nEnhanceRepaireLevel * 0.03f));
 

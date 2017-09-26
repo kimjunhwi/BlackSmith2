@@ -47,7 +47,7 @@ public class SmithPanelUI : EnhanceUI {
 	{
 		fCostHonor = nBasicHonor + (nPlusPercent * nLevel - 1);
 
-		if (fCostHonor <= ScoreManager.ScoreInstance.GetHonor () && cPlayer.GetSmithLevel() < nMaxLevel) 
+		if (fCostHonor <= ScoreManager.ScoreInstance.GetHonor () && cPlayer.GetSmithLevel() < nMaxLevel && Hanabi.bIsPlay == false) 
 		{
 			
 			double dEnhanceValue = 0;
@@ -68,11 +68,11 @@ public class SmithPanelUI : EnhanceUI {
 
 			Hanabi.Play ();
 
-			dEnhanceValue = cPlayer.GetBasicGoldPlusPercent() + 50;
+			dEnhanceValue = cPlayer.GetBasicGoldPlusPercent() + 10;
 
 			cPlayer.SetBasicGoldPlusPercent(dEnhanceValue);
 
-			dEnhanceValue = cPlayer.GetBasicHonorGoldPlusPercent() + 50;
+			dEnhanceValue = cPlayer.GetBasicHonorGoldPlusPercent() + 10;
 
 			cPlayer.SetBasicHonorPlusPercent (dEnhanceValue);
 

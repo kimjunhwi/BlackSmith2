@@ -9,6 +9,8 @@ public class HanabiTest : MonoBehaviour {
 	const float fMinSize = 0.8f;
 	const float fMaxSize = 1.0f;
 
+	public bool bIsPlay = false;
+
 	public GameObject UpgradeEffect;
 
 	public Transform[] hanabiTransform;
@@ -31,6 +33,8 @@ public class HanabiTest : MonoBehaviour {
 	IEnumerator Test()
 	{
 		int nLength = 0;
+
+		bIsPlay = true;
 
 		while (nLength != nMaxLength) 
 		{
@@ -56,8 +60,11 @@ public class HanabiTest : MonoBehaviour {
 
 		UpgradeEffect.SetActive (false);
 
+		SpawnManager.Instance.scrolling.StartChangeBackground (eBackgroundMat.E_BackgroundMat_Main,2);
 
-		SpawnManager.Instance.scrolling.StartChangeBackground (eBackgroundMat.E_BackgroundMat_Main);
+		yield return new WaitForSeconds (1f);
+
+		bIsPlay = false;
 
 		yield break;
 	}

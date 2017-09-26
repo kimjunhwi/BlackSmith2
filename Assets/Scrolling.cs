@@ -20,6 +20,8 @@ public class Scrolling : MonoBehaviour
 
 	public Material [] backGroundMaterials;
 
+	public bool bIsPlay = false;
+
 	public bool isQuadBack = false;
 	public bool isQuadChangeFinsihed = false;
 	private bool isFirstOn = false;
@@ -70,6 +72,8 @@ public class Scrolling : MonoBehaviour
 
 	public void StartChangeBackground(eBackgroundMat _changeBackground,float _fChangeValue = 0.5f)
 	{
+		bIsPlay = true;
+
 		fChangedValue = _fChangeValue;
 
 		StartCoroutine (ChangeBackground (_changeBackground));
@@ -163,7 +167,7 @@ public class Scrolling : MonoBehaviour
 			{
 				Debug.Log ("배경바꾸기 완료");
 				//앞뒤 바뀐다
-			
+				bIsPlay = false;
 
 				if (isQuadBack == false) 
 				{

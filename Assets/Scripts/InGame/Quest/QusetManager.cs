@@ -161,17 +161,22 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			silder.value += ((float)nQuestMileCount / (float)nQeustMaxMileCount) * sliderSpeed * Time.deltaTime;
 
 			//해당 포인트 이상이면 적용
-			if (silder.value >= nFirstReward && GameManager.Instance.cQuestSaveListInfo[0].isMileReward01 == false)
+			if (nQuestMileCount >= nFirstReward && GameManager.Instance.cQuestSaveListInfo[0].isMileReward01 == false)
 				rewardCheckImage01.SetActive (true);
-			if (silder.value >= nSecondReward && GameManager.Instance.cQuestSaveListInfo[0].isMileReward02 == false)
+			if (nQuestMileCount >= nSecondReward && GameManager.Instance.cQuestSaveListInfo[0].isMileReward02 == false)
 				rewardCheckImage02.SetActive (true);
-			if (silder.value >= nThirdReward && GameManager.Instance.cQuestSaveListInfo[0].isMileReward03 == false)
+			if (nQuestMileCount >= nThirdReward && GameManager.Instance.cQuestSaveListInfo[0].isMileReward03 == false)
 				rewardCheckImage03.SetActive (true);
-
-			rewardCurMile_Text.text = string.Format("{0}", nQuestMileCount ) + " pt";
+			if(nQuestMileCount < 0)
+				rewardCurMile_Text.text = string.Format("{0}", 0 ) + " pt";
+			else
+				rewardCurMile_Text.text = string.Format("{0}", nQuestMileCount ) + " pt";
 		}
 		else{
-			rewardCurMile_Text.text = string.Format("{0}", 0 ) + " pt";
+			if(nQuestMileCount < 0)
+				rewardCurMile_Text.text = string.Format("{0}", 0 ) + " pt";
+			else
+				rewardCurMile_Text.text = string.Format("{0}", nQuestMileCount ) + " pt";
 		}
 	}
 
@@ -223,6 +228,10 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			{
 				deleteQuestPanel.bIsQuest = false;
 				deleteQuestPanel.completeButton.SetActive (false);
+
+			
+
+
 				questObjectPool.ReturnObject (go);
 				questObjects.Remove (deleteQuestPanel);
 			}
@@ -246,7 +255,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			if (deleteQuestPanel.bIsQuest == false)
 			{
 				SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
-				deleteQuestPanel.bIsQuest = false;
+				deleteQuestPanel.bIsQuest = true;
 				deleteQuestPanel.completeButton.SetActive (false);
 				questObjectPool.ReturnObject (go);
 				questObjects.Remove (deleteQuestPanel);
@@ -349,7 +358,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			//Add
 			for (int i = 0; i < nQuestMaxHaveCount; i++)
 			{
-				nQuestCount++;
+
 				quest = questObjectPool.GetObject ();
 				quest.transform.SetParent (questDay.transform,false);
 				quest.transform.localScale = Vector3.one;
@@ -359,7 +368,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 				questObjects.Add (questPanel);
 			}
 
-			QuestDataDispatch ();	//Data Dispatch
+			QuestDataDispatchInit ();	//Data Dispatch
 
 			questTimer.isTimeOn = false;
 			questTimer.isTimeEnd = false;
@@ -394,6 +403,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 				QuestPanel questPanel = quest.gameObject.GetComponent<QuestPanel> ();
 				questPanel.nQuestPanelIndex = i;
+				questPanel.bIsQuest = true;
 				questObjects.Add (questPanel);
 			}
 
@@ -434,6 +444,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 				quest.transform.localScale = Vector3.one;
 
 				QuestPanel questPanel = quest.gameObject.GetComponent<QuestPanel> ();
+				questPanel.bIsQuest = true;
 				questObjects.Add (questPanel);
 				QuestDataDispatch (i);
 			}
@@ -481,6 +492,50 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		SaveQuestData ();
 	}
 
+	public void QuestDataDispatchInit()
+	{
+		nQuestTotalCount = GameManager.Instance.cQusetInfo.Length;
+
+
+		if (GameManager.Instance.cBossPanelListInfo [0].isUnlockIceBoss == false &&
+			GameManager.Instance.cBossPanelListInfo [0].isUnlockSasinBoss == false &&
+			GameManager.Instance.cBossPanelListInfo [0].isUnlockSasinBoss == false && 
+			GameManager.Instance.cBossPanelListInfo [0].isUnlockSasinBoss == false)
+			nQuestTotalCount -= 6;
+
+		if (GameManager.Instance.cBossPanelListInfo [0].isUnlockIceBoss == true && GameManager.Instance.cBossPanelListInfo [0].isUnlockSasinBoss == false
+			&&  GameManager.Instance.cBossPanelListInfo [0].isUnlockSasinBoss == false && GameManager.Instance.cBossPanelListInfo [0].isUnlockSasinBoss == false)
+			nQuestTotalCount -= 5;
+
+		if (GameManager.Instance.cBossPanelListInfo [0].isUnlockIceBoss == true && GameManager.Instance.cBossPanelListInfo [0].isUnlockSasinBoss == true
+			&&  GameManager.Instance.cBossPanelListInfo [0].isUnlockSasinBoss == false && GameManager.Instance.cBossPanelListInfo [0].isUnlockSasinBoss == false) 
+			nQuestTotalCount -= 4;
+
+		if (GameManager.Instance.cBossPanelListInfo [0].isUnlockIceBoss == true && GameManager.Instance.cBossPanelListInfo [0].isUnlockSasinBoss == true
+			&&  GameManager.Instance.cBossPanelListInfo [0].isUnlockSasinBoss == true && GameManager.Instance.cBossPanelListInfo [0].isUnlockSasinBoss == false)
+			nQuestTotalCount -= 3;
+
+
+		int RepeatCount = questObjects.Count;
+
+		for(int i = 0 ; i< RepeatCount; i++)
+		{
+			Debug.Log ("Dispatch Quest");
+
+			QuestPanel questPanel = questObjects[i].gameObject.GetComponent<QuestPanel> ();
+
+
+			int random = Random.Range (0, nQuestTotalCount - 1 );
+
+
+			questPanel.GetQuest (questDatas [random], this);
+			//questPanel.InitQuestValue ();
+			questPanel.questTypeIndex = (QuestType)questDatas [random].nType;
+		}
+
+		SaveQuestData ();
+	}
+
 	//Data 할당
 	public void QuestDataDispatch()
     {
@@ -511,9 +566,12 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	
 		for(int i = 0 ; i< nQuestCount; i++)
 		{
+			Debug.Log ("Dispatch Quest");
 			
 			QuestPanel questPanel = questObjects[index].gameObject.GetComponent<QuestPanel> ();
 				
+			questPanel.InitQuestValue ();
+
 			int random = Random.Range (0, nQuestTotalCount - 1 );
 
 

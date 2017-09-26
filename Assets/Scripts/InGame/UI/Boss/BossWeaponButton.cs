@@ -51,7 +51,6 @@ public class BossWeaponButton : MonoBehaviour {
 
 		if(nbTouches > 0)
 		{
-			Debug.Log("TouchBossWeapon");
 			for (int nIndex = 0; nIndex < nbTouches; nIndex++) 
 			{
 

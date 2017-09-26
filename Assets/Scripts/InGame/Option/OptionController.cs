@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OptionController : MonoBehaviour {
 
@@ -11,12 +12,16 @@ public class OptionController : MonoBehaviour {
 	public GameObject optionBgmSwitch_On;
 	public GameObject optionBgmSwitch_Off;
 
+	public GameObject optionCloudSaveData_Obj;
+	public GameObject optionCloudLoadData_Obj;
 
 
 
 	public void Start()
 	{
 		optionPopUpWindow.SetActive (false);
+		optionCloudSaveData_Obj.GetComponent<Button> ().onClick.AddListener (GameManager.Instance.SaveCloudData);
+		optionCloudLoadData_Obj.GetComponent<Button> ().onClick.AddListener (GameManager.Instance.LoadCloudData);
 	}
 
 	public void OptionWindowActive()

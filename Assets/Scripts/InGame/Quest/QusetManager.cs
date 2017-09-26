@@ -82,7 +82,10 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	private bool isLoginAndFirstActive = false;
 	private bool isInGameOnOff = false;
 
-
+	void Awake()
+	{
+		isInGameOnOff = false;
+	}
 
 	public void SetUp()
 	{

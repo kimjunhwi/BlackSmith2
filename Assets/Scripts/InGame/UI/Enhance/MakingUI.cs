@@ -270,8 +270,11 @@ public class MakingUI : MonoBehaviour {
 		ResultUI.Init (playerData, BossSoulSlots);
 
 		SpawnManager.Instance.SetDayInitInfo (playerData.GetDay () - 10);
-
-		SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
+		if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_SHOWCONSTRUCT)
+		{
+			SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
+			GameManager.Instance.GetPlayer ().changeStats.bIsTutorial = true;
+		}
 
 //		
 //

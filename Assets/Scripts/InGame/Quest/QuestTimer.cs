@@ -43,10 +43,13 @@ public class QuestTimer : MonoBehaviour
 	//초기화 시간이 지났는지
 	public bool checkIsTimeGone()
 	{
-		if (PlayerPrefs.HasKey ("EndSaveTime"))
-		{
+		if (PlayerPrefs.HasKey ("EndSaveTime")) {
 			strTime = PlayerPrefs.GetString ("EndSaveTime");
 			EndData = System.Convert.ToDateTime (strTime);
+		}
+		else 
+		{
+			EndData = System.DateTime.Now;
 		}
 		StartedTime = System.DateTime.Now;
 		Debug.Log ("StartTime :"+ StartedTime + " / EndTime :" + EndData);

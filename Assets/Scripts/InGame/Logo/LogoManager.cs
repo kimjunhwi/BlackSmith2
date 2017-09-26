@@ -19,33 +19,37 @@ public class LogoManager : MonoBehaviour
 	public bool bIsUnityEditorComplete = false;
 	public bool bIsLoginComplete = false;
 	public bool bIsCloundDataLoaded = false;
+	private bool bIsLoginWindowOn = false;
+
+	private bool bIsGoogleLoginComplete = false;
+	private bool bIsGuestLoginComplete = false;
 
 	public GameObject loginWindow;
 	public LogoTextBlink logoBlink;
 
+	public GameObject nickInputFieldWindow_Obj;
 
+	private string strPlayerNick;
 
 	// Use this for initialization
 	void Start () 
 	{
+		strPlayerNick = "";
 		#if UNITY_EDITOR
 		StartCoroutine( GameManager.Instance.DataLoad());
 		#elif UNITY_ANDROID
 		//EnableGameSave
 		// enables saving game progress.
-		//PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
-		//.EnableSavedGames()
-		//.Build();
-		//PlayGamesPlatform.InitializeInstance(config);
+		PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
+		.EnableSavedGames()
+		.Build();
+		PlayGamesPlatform.InitializeInstance(config);
 		//GoogleLogin Active
-		//PlayGamesPlatform.Activate();
-
+		PlayGamesPlatform.Activate();
 		StartCoroutine( GameManager.Instance.DataLoad());
 		#endif
 	}
 
-
-	
 	// Update is called once per frame
 	void Update () 
 	{
@@ -101,43 +105,106 @@ public class LogoManager : MonoBehaviour
 		ao = SceneManager.LoadSceneAsync (1);
 		ao.allowSceneActivation = false;
 
-		while (!ao.isDone) 
+		while (true) 
 		{
-			if (ao.progress == 0.9f)
+			//end Condition
+			if(ao.progress == 0.9f && bIsUnityEditorComplete == true)
 			{
-				Debug.Log ("Ready To Start!!");
 				loadingText.text = "화면을 터치하세요";
-				bIsUnityEditorComplete = true;
+				//bIsUnityEditorComplete = true;
 				logoBlink.StartBlinkText();
 				yield break;
 			}
+			
+			//Skip Login
+			if (GameManager.Instance.GetPlayer().changeStats.bIsGoogleLogin == true || 
+				GameManager.Instance.GetPlayer().changeStats.bIsGusetLogin == true)
+			{
+				Debug.Log ("Loading...");
+				if(GameManager.Instance.GetPlayer().changeStats.bIsGoogleLogin == true && bIsGoogleLoginComplete==false )
+				{
+					bIsLoginWindowOn = true;
+					LoginGoogle();
+					continue;
+				}
+
+				if(GameManager.Instance.GetPlayer().changeStats.bIsGusetLogin == true && bIsGuestLoginComplete == false)
+				{
+					bIsLoginWindowOn = true;
+					bIsGuestLoginComplete = true;
+					bIsUnityEditorComplete = true;
+					continue;
+				}
+				yield return null;
+			}
+
+			if(GameManager.Instance.GetPlayer().changeStats.bIsGoogleLogin == false && 
+				GameManager.Instance.GetPlayer().changeStats.bIsGusetLogin == false)
+			{
+				if(bIsLoginWindowOn == false)
+				{	
+					LoginWindow_Active(true);	
+					bIsLoginWindowOn = true;
+				}
+
+			}
 			yield return null;
 		}
+
+
 		#elif UNITY_ANDROID
 		yield return new WaitForSeconds (0.3f);
 
 		ao = SceneManager.LoadSceneAsync (1);
 		ao.allowSceneActivation = false;
+	
 
-		while (!ao.isDone) 
+		while (true) 
 		{
-			if (ao.progress == 0.9f)
+
+		//end Condition
+		if(ao.progress == 0.9f && bIsLoginComplete == true)
+		{
+			loadingText.text = "화면을 터치하세요";
+			logoBlink.StartBlinkText();
+			yield break;
+		}
+
+		//Skip Login
+		if (GameManager.Instance.GetPlayer().changeStats.bIsGoogleLogin == true || 
+		GameManager.Instance.GetPlayer().changeStats.bIsGusetLogin == true)
+		{
+			Debug.Log ("Loading...");
+			if(GameManager.Instance.GetPlayer().changeStats.bIsGoogleLogin == true && bIsGoogleLoginComplete==false )
 			{
-				//Debug.Log ("Ready To Start!!");
-				loadingText.text = "화면을 터치하세요";
-				if(Social.localUser.authenticated == true)
-				{
-					bIsLoginComplete = true;
-					logoBlink.StartBlinkText();
-					yield break;
-				}
-				else
-				{
-					LoginWindow_Active(true);	
-					yield break;
-				}
-			
+				bIsLoginWindowOn = true;
+				bIsGoogleLoginComplete = true;
+				LoginGoogle();
+				
+				continue;
 			}
+
+			if(GameManager.Instance.GetPlayer().changeStats.bIsGusetLogin == true && bIsGuestLoginComplete == false)
+			{
+				bIsLoginWindowOn = true;
+				bIsGuestLoginComplete = true;
+				bIsLoginComplete = true;
+				continue;
+			}
+			yield return null;
+		}
+
+		if(GameManager.Instance.GetPlayer().changeStats.bIsGoogleLogin == false && 
+		GameManager.Instance.GetPlayer().changeStats.bIsGusetLogin == false)
+		{
+			if(bIsLoginWindowOn == false)
+			{	
+				LoginWindow_Active(true);	
+				bIsLoginWindowOn = true;
+			}
+
+		}
+	
 			yield return null;
 		}
 		#endif
@@ -155,14 +222,30 @@ public class LogoManager : MonoBehaviour
 			{
 				if (success)
 				{
-					Debug.Log("You've successfully logged in");
-					bIsLoginComplete = true;
-					LoginWindow_Active(false);
-					logoBlink.StartBlinkText();
-					//GameManager.Instance.LoadData();
-					//yield return new WaitForSeconds (1.0f);
-					//ao.allowSceneActivation = true;
 
+					Debug.Log("You've successfully logged in");
+
+					LoginWindow_Active(false);
+
+					if(GameManager.Instance.GetPlayer().changeStats.strName == "player")
+					{
+						Debug.Log("Google Login First Login Set Nick");
+						bIsGoogleLoginComplete = true;
+						//nickInputFieldWindow_Obj.SetActive(true);
+						GameManager.Instance.GetPlayer().changeStats.bIsGoogleLogin = true;
+						bIsLoginComplete = true;
+					}
+					else
+					{
+						#if UNITY_EDITOR
+						Debug.Log("Google Login Skip Login");
+						bIsUnityEditorComplete = true;
+						bIsGoogleLoginComplete = true;
+						#elif UNITY_ANDROID
+						Debug.Log("Google Login Skip Login");
+						bIsLoginComplete = true;
+						#endif
+					}
 				}
 				else
 				{
@@ -176,10 +259,91 @@ public class LogoManager : MonoBehaviour
 
 	public void LoginGuest()
 	{
-		bIsLoginComplete = true;
+
 		LoginWindow_Active(false);
-		logoBlink.StartBlinkText();
+
+
+		#if UNITY_EDITOR
+
+		//처음실행시 닉x 로그인후
+		if(GameManager.Instance.GetPlayer().changeStats.strName == "player")
+		{
+			Debug.Log("GuestLogin First Login Set Nick");
+			nickInputFieldWindow_Obj.SetActive(true);
+
+		}
+		else
+		{
+			Debug.Log("GuestLogin Nick Skip");
+			bIsUnityEditorComplete = true;
+			bIsGuestLoginComplete = true;
+		}
+
+		#elif UNITY_ANDROID
+		//처음실행시 닉x 로그인후
+		if(GameManager.Instance.GetPlayer().changeStats.strName == "player")
+		{
+			Debug.Log("GuestLogin First Login Set Nick");
+			bIsLoginComplete = true;
+			bIsGuestLoginComplete = true;
+			GameManager.Instance.GetPlayer().changeStats.bIsGusetLogin = true;
+			//nickInputFieldWindow_Obj.SetActive(true);
+		}
+	
+		else
+		{
+			Debug.Log("GuestLogin Nick Skip");
+			bIsLoginComplete = true;
+			bIsGuestLoginComplete = true;
+			GameManager.Instance.GetPlayer().changeStats.bIsGusetLogin = true;
+		}
+		#endif
+
 	}
 
+	public void GetPlayerNick()
+	{
+		InputField nickField =  nickInputFieldWindow_Obj.GetComponentInChildren<InputField> ();
+		strPlayerNick = nickField.text;
+	}
+
+	public void SetPlayerNick()
+	{
+		GameManager.Instance.GetPlayer ().changeStats.strName = strPlayerNick;
+
+		#if UNITY_EDITOR
+		if(bIsGoogleLoginComplete == true)
+		{
+			Debug.Log("Nick Google Login");
+			bIsUnityEditorComplete = true;			//Loading Complete
+			bIsGuestLoginComplete = false;
+			GameManager.Instance.GetPlayer().changeStats.bIsGoogleLogin = true;
+		}
+		else
+		{
+			Debug.Log("Guset Google Login");
+			bIsUnityEditorComplete = true;			//Loading Complete
+			bIsGuestLoginComplete = true;
+			GameManager.Instance.GetPlayer().changeStats.bIsGusetLogin = true;
+		}
+
+		#elif UNITY_ANDROID
+		if(bIsGoogleLoginComplete == true)
+		{
+			Debug.Log("Nick Google Login");
+			bIsLoginComplete = true;			//Loading Complete
+			bIsGuestLoginComplete = false;
+			GameManager.Instance.GetPlayer().changeStats.bIsGoogleLogin = true;
+		}
+		else
+		{
+			Debug.Log("Guset Google Login");
+			bIsLoginComplete = true;			//Loading Complete
+			bIsGuestLoginComplete = true;
+			GameManager.Instance.GetPlayer().changeStats.bIsGusetLogin = true;
+		}
+		#endif
+
+	}
 
 }

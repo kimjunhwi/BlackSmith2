@@ -98,11 +98,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 	//캐시 상점 실행에 호출
 	public void StartSetUp()
 	{
-
-
 		InitializePurchasing();
-
-		
 		SetUpItemList ((int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_CONSUME);
 	}
 
@@ -121,11 +117,15 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		}
 	}
 
+	public void CallRubyCashShop()
+	{
+		gameObject.SetActive (true);
+		StartSetUp ();
+		ShowPaenl (2);
+	}
+
 	public void SetUpItemList(int _index)
 	{
-		
-
-		
 		if (addSlotObjs [_index].childCount != 0) 
 		{
 			if (_index == (int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE)

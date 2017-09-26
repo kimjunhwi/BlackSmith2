@@ -7,6 +7,7 @@ public class PlayerSpecificInfo : MonoBehaviour {
 
     Player player;
 
+	public Text PlayerNameText;
     public Text RepairPowerText;
     public Text ArbaitRepairIncreaseText;
     public Text CriticalDamageText;
@@ -32,6 +33,11 @@ public class PlayerSpecificInfo : MonoBehaviour {
         player = GameManager.Instance.player;
 
 		player.SetPlayerInfo (this);
+
+		//PlayerNameText.text = player.changeStats.strName + "의 대장간";
+
+		gameObject.SetActive (false);
+
     }
 
 	public void OnEnable()

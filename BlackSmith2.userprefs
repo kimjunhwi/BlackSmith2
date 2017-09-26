@@ -1,20 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/InGame/Manager/GameManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/InGame/Logo/LogoManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/InGame/Manager/SpawnManager.cs" Line="179" Column="4" />
       <File FileName="Assets/Scripts/InGame/Tutorial/TutorialPanel.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/UI/Boss/BossIce.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/UI/Boss/BossSasin.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/UI/Boss/BossFire.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/UI/Boss/BossMusic.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/UI/Boss/BossPopUpWindow.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scrolling.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/UI/Repair/RepairObject.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/UI/Boss/BossCreator.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/Manager/GameManager.cs" Line="319" Column="23" />
-      <File FileName="Assets/Scripts/InGame/UI/Boss/BossRegenTimer.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/InGame/Tutorial/PlayerTalk.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/InGame/Manager/GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/InGame/Logo/LogoManager.cs" Line="143" Column="5" />
+      <File FileName="Assets/Scripts/InGame/Manager/SpawnManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/InGame/Logo/LogoTextBlink.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/InGame/Player/PlayerSpecificInfo.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -32,14 +25,13 @@
       <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/UI/Boss/BossSasin.cs" line="234" column="1" />
       <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/UI/Boss/BossSasin.cs" line="271" column="1" />
       <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/UI/Boss/BossSasin.cs" line="313" column="1" />
-      <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/Quest/QusetManager.cs" line="89" column="1" />
-      <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/Quest/QusetManager.cs" line="321" column="1" />
+      <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/Quest/QusetManager.cs" line="92" column="1" />
+      <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/Quest/QusetManager.cs" line="324" column="1" />
       <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/Tutorial/PlayerTalk.cs" line="104" column="1" />
       <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/Tutorial/PlayerTalk.cs" line="129" column="1" />
       <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/Tutorial/PlayerTalk.cs" line="51" column="1" />
       <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/Tutorial/TutorialTouch.cs" line="78" column="1" />
-      <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/Manager/SpawnManager.cs" line="111" column="1" />
-      <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/Manager/SpawnManager.cs" line="228" column="1" />
+      <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/Manager/SpawnManager.cs" line="243" column="1" />
       <Breakpoint file="/Users/cheolgeungi/BlackSmith2/Assets/Scripts/InGame/UI/Boss/BossIce.cs" line="384" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

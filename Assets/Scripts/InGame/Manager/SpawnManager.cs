@@ -173,10 +173,22 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 					GameManager.Instance.GetPlayer ().changeStats.fAttackBuffSecond);
 			}
 			bIsFirst = true;
-			//2개를 주석하면 튜토리얼 On
-			tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
-			tutorialPanel.gameObject.SetActive (false);
-			uiManager.SetTutorial (false);
+
+			if (GameManager.Instance.GetPlayer ().changeStats.bIsTutorial == true) {
+				//2개를 주석하면 튜토리얼 On
+				tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
+				tutorialPanel.gameObject.SetActive (false);
+				uiManager.SetTutorial (false);
+			}
+			else 
+			{
+				//Time Init
+				PlayerPrefs.DeleteKey ("EndSaveTime");
+				PlayerPrefs.DeleteKey ("BossRegenTime");
+				PlayerPrefs.DeleteKey ("BossInvitementSaveTime");
+			}
+
+
 
 
 			if (CheckIsTimer ()) {
@@ -187,6 +199,9 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			{
 				fCurSec = playerData.changeStats.fGoblinSecond;
 			}
+
+
+
 		}
 	}
 		
@@ -195,7 +210,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
     private void Update()
     {
 		//튜토 아닐때
-		if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_FINISH  && bIsFirst == true)
+		if (GameManager.Instance.GetPlayer ().changeStats.bIsTutorial == true  && bIsFirst == true)
 		{
 			m_fCreatePlusTime += Time.deltaTime;
 			m_fLevelTime += Time.deltaTime;
@@ -218,7 +233,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			}
 		} 
 		//튜토 일떄
-		else
+		else if(GameManager.Instance.GetPlayer ().changeStats.bIsTutorial == false  && bIsFirst == true)
 		{
 			//처음 시작 설명 텍스트 
 			if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_NONE) 
@@ -283,6 +298,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
         for (int nIndex = 0; nIndex < m_BatchArbait.Length; nIndex++)
         {
+			Debug.Log (nIndex);
+
             //화면에 보이는 배치 오브젝트
             m_BatchArbait[nIndex] = Instantiate(m_BatchArbait[nIndex]);
 

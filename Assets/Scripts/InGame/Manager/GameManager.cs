@@ -164,7 +164,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		}
 		else
 			cBossPanelListInfo = ConstructString<BossPanelInfo> (strBossPanelInfoPath);
-
+		
 	
 		Debug.Log(playerData.strName);
 	
@@ -296,7 +296,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		{
 			Debug.Log("Search Quest");
 			string dataAsJson = File.ReadAllText (QuestFilePath);
-		if(dataAsJson.Length <= 11)
+			if(dataAsJson.Length <= 11)
 			{
 				Debug.Log("No SavedQuestData Create New ");
 				cQuestSaveListInfo = new List<CGameQuestSaveInfo>();
@@ -310,13 +310,21 @@ public class GameManager : GenericMonoSingleton<GameManager>
 				cQuestSaveListInfo = JsonHelper.ListFromJson<CGameQuestSaveInfo>(dataAsJson);
 			}
 		}
+		else
+		{
+			Debug.Log("No SavedQuestData Create New ");
+			cQuestSaveListInfo = new List<CGameQuestSaveInfo>();
+			CGameQuestSaveInfo tmpQuestSaveInfo = new CGameQuestSaveInfo();
+			cQuestSaveListInfo.Add(tmpQuestSaveInfo);
+
+		}
 	
 		if(File.Exists(BossFilePath)) 
 		{
 			Debug.Log("Search Boss");
 
 			string dataAsJson = File.ReadAllText (BossFilePath);
-		if(dataAsJson.Length <= 11)
+			if(dataAsJson.Length <= 11)
 			{
 				Debug.Log("No Saved Local BossPanel Info");
 				cBossPanelInfo = new BossPanelInfo();
@@ -328,6 +336,14 @@ public class GameManager : GenericMonoSingleton<GameManager>
 				Debug.Log (dataAsJson);
 				cBossPanelListInfo = JsonHelper.ListFromJson<BossPanelInfo>(dataAsJson);
 			}
+		}
+		else
+		{
+			Debug.Log("No Saved Local BossPanel Info");
+			cBossPanelInfo = new BossPanelInfo();
+			cBossPanelListInfo.Add(cBossPanelInfo);
+			Debug.Log(cBossPanelListInfo[0]);
+
 		}
 
 		//Player
@@ -1309,6 +1325,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	private void LoadGame(ISavedGameMetadata game)
 	{
 		Debug.Log ("LoadGame");
+		((PlayGamesPlatform)Social.Active).SavedGame.ReadBinaryData(game, OnSavedGameDataRead);
+		/*
 		Debug.Log("GetInt : " + PlayerPrefs.GetInt("FirstLogin"));
 		if (PlayerPrefs.GetInt("FirstLogin") == 1)
 		{
@@ -1332,8 +1350,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			return;
 		}
 		else
-			((PlayGamesPlatform)Social.Active).SavedGame.ReadBinaryData(game, OnSavedGameDataRead);
-		
+			
+		*/
 	}
 
 	private void SaveGame(ISavedGameMetadata game)
@@ -1354,11 +1372,17 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		string dataAsString_Quest = JsonHelper.ListToJson<CGameQuestSaveInfo>(cQuestSaveListInfo);
 		//BossPanelInfo
 		string dataAsString_BossPaenl = JsonHelper.ListToJson<BossPanelInfo>(cBossPanelListInfo);
+		//CreatorWeapon
+		string dataAsString_CreateWeapon = JsonHelper.ListToJson<CreatorWeapon>(CreateWeapon);
+		//Shop
+		string dataAsString_Shop = JsonHelper.ListToJson<CGameEquiment>(equimnetData);
+
 	
 		SpawnManager.Instance.ApplyArbait();
 
 		string ResultData = dataAsString_PlayerData + divideMark + dataAsString_ArabaitData + divideMark + dataAsString_Inventory
-		                    + divideMark + dataAsString_Quest + divideMark + dataAsString_BossPaenl;
+			+ divideMark + dataAsString_Quest + divideMark + dataAsString_BossPaenl + divideMark + dataAsString_CreateWeapon + divideMark 
+			+ dataAsString_Shop;
 		
 		Debug.Log (ResultData);
 		//encoding to byte array
@@ -1464,7 +1488,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 				for (int i = 0; i < cloudDataString.Length; i++)
 				{
 
-					if (cloudDataString [i] == '^') {
+					if (cloudDataString [i] == '^') 
+					{
 						Debug.Log ("I : " + i);
 						//getCloudDataString.Remove(i - 1 ,1);
 						//Debug.Log ("Delete Divide Mark : " + getCloudDataString[i]);
@@ -1498,7 +1523,24 @@ public class GameManager : GenericMonoSingleton<GameManager>
 							getCloudDataString = "";
 							continue;
 						}
-					
+
+						if (inputCount == 5) 
+						{
+							Debug.Log (getCloudDataString);
+							Debug.Log ("Google Loaded GameData BossPanelInfo Data");
+							cBossPanelListInfo = JsonHelper.ListFromJson<BossPanelInfo> (getCloudDataString);
+							getCloudDataString = "";
+							continue;
+						}
+
+						if (inputCount == 6) {
+
+							Debug.Log (getCloudDataString);
+							Debug.Log ("Google Loaded GameData CreatorWeapon Data");
+							CreateWeapon =  JsonHelper.ListFromJson<CreatorWeapon>(getCloudDataString);
+							getCloudDataString = "";
+							continue;
+						}
 
 
 					} 
@@ -1508,8 +1550,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 						if (i == cloudDataString.Length - 1) 
 						{
 							Debug.Log (getCloudDataString);
-							Debug.Log ("Google Loaded GameData BossPanelInfo Data");
-							cBossPanelListInfo = JsonHelper.ListFromJson<BossPanelInfo> (getCloudDataString);
+							Debug.Log ("Google Loaded GameData Shop Data");
+							equimnetData =   JsonHelper.ListFromJson<CGameEquiment>(getCloudDataString);
 							getCloudDataString = "";
 							continue;
 						}
@@ -1518,21 +1560,11 @@ public class GameManager : GenericMonoSingleton<GameManager>
 						
 				}
 
-				//playerData = JsonHelper.ListFromJson<CGamePlayerData>(cloudDataString)[0];
-
-
-				//player.Init (cInvetoryInfo, playerData);
-
+				//SaveLocal
+				DataSave ();
+				SceneManager.LoadScene (0);
 			}
-			//getting local data (if we've never played before on this device, localData is already
-			//"0", so there's no need for checking as with cloudDataString)
-			//string localDataString = PlayerPrefs.GetString(SAVE_NAME);
 
-			//StartCoroutine(playerDataLoad(cloudDataString));
-
-		
-			//this method will compare cloud and local data
-			//StringToGameData(cloudDataString, localDataString);
 		}
 
 
@@ -2273,6 +2305,9 @@ public class CGamePlayerData
 	public bool bIsBossFirePackageBuy;
 	public bool bIsBossMusicPackageBuy;
 	public float fGoblinSecond;				//고블린 초
+	public bool bIsGoogleLogin;	
+	public bool bIsGusetLogin;
+	public bool bIsTutorial;				//튜토리얼을 했는지 않했는지
 
 
 	public CGamePlayerData(CGamePlayerData playerData)
@@ -2327,6 +2362,9 @@ public class CGamePlayerData
 		bIsBossFirePackageBuy = playerData.bIsBossFirePackageBuy;
 		bIsBossMusicPackageBuy = playerData.bIsBossMusicPackageBuy;
 		fGoblinSecond = playerData.fGoblinSecond;
+		bIsTutorial = playerData.bIsTutorial;
+		bIsGoogleLogin = playerData.bIsGoogleLogin;
+		bIsGusetLogin = playerData.bIsGusetLogin;
 	}
 }
 

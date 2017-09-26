@@ -37,6 +37,8 @@ public class ScoreManager : MonoBehaviour
 
 	public Text SuccessedGuestCount;
 
+
+
 	private double m_dGetGold = 0;
 	private double m_dGetHonor = 0;
 	private int m_nGetRuby = 0;
@@ -173,6 +175,11 @@ public class ScoreManager : MonoBehaviour
 	{
 		playerDaysInfo.CurrentDaysText.text = string.Format ("{0}", _Days);
 		GameManager.Instance.player.SetDay (_Days);
+		if (_Days >= 100)
+			playerDaysInfo.RefreshDayText ();
+		else if (_Days >= 1000)
+			playerDaysInfo.RefreshDayText ();
+		
 	}
 		
 	public void SetMaxDays(int _Days)

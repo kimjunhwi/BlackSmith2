@@ -153,25 +153,25 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 			//CashShop Booster Load
 			//저장된 시간이 1초 라도 있으면 부스터 생성
-			if (GameManager.Instance.GetPlayer ().changeStats.fGoldPlusBuffSecond > 0) 
+			if (GameManager.Instance.GetPlayer ().changeStats.fGoldPlusBuffSecond > 0 || GameManager.Instance.GetPlayer ().changeStats.nGoldPlusBuffMinutes > 0) 
 			{
 				shopCash.LoadBooster (E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD, GameManager.Instance.GetPlayer ().changeStats.nGoldPlusBuffMinutes,
 					GameManager.Instance.GetPlayer ().changeStats.fGoldPlusBuffSecond);
 			}
 
-			if (GameManager.Instance.GetPlayer ().changeStats.fHonorPlusBuffSecond > 0) 
+			if (GameManager.Instance.GetPlayer ().changeStats.fHonorPlusBuffSecond > 0 || GameManager.Instance.GetPlayer ().changeStats.nHonorPlusBuffMinutes > 0) 
 			{
 				shopCash.LoadBooster (E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR, GameManager.Instance.GetPlayer ().changeStats.nHonorPlusBuffMinutes,
 					GameManager.Instance.GetPlayer ().changeStats.fHonorPlusBuffSecond);
 			}
 
-			if (GameManager.Instance.GetPlayer ().changeStats.fGuestBuffSecond > 0) 
+			if (GameManager.Instance.GetPlayer ().changeStats.fGuestBuffSecond > 0 || GameManager.Instance.GetPlayer ().changeStats.nGuestBuffMinutes > 0) 
 			{
 				shopCash.LoadBooster (E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF, GameManager.Instance.GetPlayer ().changeStats.nGuestBuffMinutes,
 					GameManager.Instance.GetPlayer ().changeStats.fGuestBuffSecond);
 			}
 
-			if (GameManager.Instance.GetPlayer ().changeStats.fAttackBuffSecond > 0) 
+			if (GameManager.Instance.GetPlayer ().changeStats.fAttackBuffSecond > 0 || GameManager.Instance.GetPlayer ().changeStats.nAttackBuffMinutes > 0) 
 			{
 				shopCash.LoadBooster (E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK, GameManager.Instance.GetPlayer ().changeStats.nAttackBuffMinutes,
 					GameManager.Instance.GetPlayer ().changeStats.fAttackBuffSecond);

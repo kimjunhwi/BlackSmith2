@@ -360,6 +360,7 @@ public class MakingUI : MonoBehaviour {
 		if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_SHOWCONSTRUCT)
 		{
 			SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
+			ScoreManager.ScoreInstance.SetSuccessedGuestCount (0);
 			GameManager.Instance.GetPlayer ().changeStats.bIsTutorial = true;
 		}
 

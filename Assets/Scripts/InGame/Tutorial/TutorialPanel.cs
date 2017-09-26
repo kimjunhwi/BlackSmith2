@@ -63,7 +63,7 @@ public class TutorialPanel : MonoBehaviour
 	private const string strText03 = "언제나 평화로운 대장간이였다.";
 	private const string strText04 = "하지만..."; 
 	private const string strText05 = "모든걸 잃은 나는...";
-	private const string strText06 = "처음부터 시작하는 대장간 라이프";
+	private const string strText06 = "처음부터 시작하는 대장간 라이프!";
 
 	private bool bTextEnd = false;
 

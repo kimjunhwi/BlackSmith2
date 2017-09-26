@@ -2316,6 +2316,10 @@ public class CGameQuestSaveInfo
 	public int nQuestIndex03_ProgressValue;
 	public int nQuestIndex03_MultiplyValue;
 	public int nCurLeftMin;
+	public int nCurMileValue;
+	public bool isMileReward01;
+	public bool isMileReward02;
+	public bool isMileReward03;
 	public float fCurLeftSec;
 
 	public CGameQuestSaveInfo()
@@ -2331,6 +2335,10 @@ public class CGameQuestSaveInfo
 		nQuestIndex03_ProgressValue = -1;
 		nCurLeftMin = -1;
 		fCurLeftSec = -1.0f;
+		nCurMileValue = -1;
+		isMileReward01 = false;
+		isMileReward02 = false;
+		isMileReward03 = false;
 	}
 }
 
@@ -2559,7 +2567,7 @@ public class BossPanelInfo
 		isFirstFightToFireBoss = false;
 		isFirstFightToMusicBoss = false;
 
-		nBossInviteMentCount = 10;
+		nBossInviteMentCount = 5;
 		nBossPotionCount = 0;
 
 		nBossSasinLeftCount = 3;

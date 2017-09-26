@@ -237,37 +237,21 @@ public class Goblin_Guest : Character {
 						break;
 					case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_GODL:
 
-						if(SpawnManager.Instance.shopCash.isConumeBuff_Gold)
-						{
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD,SpawnManager.Instance.shopCash.shopCashBuffSlots[0].curMin + 4,SpawnManager.Instance.shopCash.shopCashBuffSlots[0].fCurSec + 59);
-						}
-						else
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD,4,59);
+						SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD,4,59);
+							
 						break;
 
 					case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_HONOR:
-						if(SpawnManager.Instance.shopCash.isConumeBuff_Honor)
-						{
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR,SpawnManager.Instance.shopCash.shopCashBuffSlots[1].curMin + 4,SpawnManager.Instance.shopCash.shopCashBuffSlots[1].fCurSec + 59);
-						}
-						else
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR,4,59);
+						SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR,4,59);
+							
 						break;
 					case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_ARBAIT:
-						if(SpawnManager.Instance.shopCash.isConumeBuff_Honor)
-						{
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF,SpawnManager.Instance.shopCash.shopCashBuffSlots[2].curMin + 4,SpawnManager.Instance.shopCash.shopCashBuffSlots[2].fCurSec + 59);
-						}
-						else
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF,4,59);
+						SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF,4,59);
+							
 						break;
 					case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_TOUCH:
-						if(SpawnManager.Instance.shopCash.isConumeBuff_Attack)
-						{
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK,SpawnManager.Instance.shopCash.shopCashBuffSlots[3].curMin + 4,SpawnManager.Instance.shopCash.shopCashBuffSlots[3].fCurSec + 59);
-						}
-						else
-							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK,4,59);
+						SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK,4,59);
+							
 						break;
 					}
 
@@ -295,37 +279,18 @@ public class Goblin_Guest : Character {
 			break;
 		case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_GODL:
 
-			if(SpawnManager.Instance.shopCash.isConumeBuff_Gold)
-			{
-				SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD,SpawnManager.Instance.shopCash.shopCashBuffSlots[0].curMin + 9,SpawnManager.Instance.shopCash.shopCashBuffSlots[0].fCurSec + 59);
-			}
-			else
-				SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD,9,59);
+			SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD,4,59);
+
 			break;
 
 		case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_HONOR:
-			if(SpawnManager.Instance.shopCash.isConumeBuff_Honor)
-			{
-				SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR,SpawnManager.Instance.shopCash.shopCashBuffSlots[1].curMin + 9,SpawnManager.Instance.shopCash.shopCashBuffSlots[1].fCurSec + 59);
-			}
-			else
-				SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR,9,59);
+			SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR,4,59);
 			break;
 		case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_ARBAIT:
-			if(SpawnManager.Instance.shopCash.isConumeBuff_Honor)
-			{
-				SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF,SpawnManager.Instance.shopCash.shopCashBuffSlots[2].curMin + 9,SpawnManager.Instance.shopCash.shopCashBuffSlots[2].fCurSec + 59);
-			}
-			else
-				SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF,9,59);
+			SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF,4,59);
 			break;
 		case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_TOUCH:
-			if(SpawnManager.Instance.shopCash.isConumeBuff_Attack)
-			{
-				SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK,SpawnManager.Instance.shopCash.shopCashBuffSlots[3].curMin + 9,SpawnManager.Instance.shopCash.shopCashBuffSlots[3].fCurSec + 59);
-			}
-			else
-				SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK,9,59);
+			SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK,4,59);
 			break;
 		}
 

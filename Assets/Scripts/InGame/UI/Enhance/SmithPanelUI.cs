@@ -47,9 +47,12 @@ public class SmithPanelUI : EnhanceUI {
 	{
 		fCostHonor = nBasicHonor + (nPlusPercent * nLevel - 1);
 
-		if (fCostHonor <= ScoreManager.ScoreInstance.GetHonor () && cPlayer.GetSmithLevel() < nMaxLevel) {
-
+		if (fCostHonor <= ScoreManager.ScoreInstance.GetHonor () && cPlayer.GetSmithLevel() < nMaxLevel) 
+		{
+			
 			double dEnhanceValue = 0;
+		
+			SoundManager.instance.PlaySound (eSoundArray.ES_BlackSmithRankUp);
 
 			nLevel++;
 

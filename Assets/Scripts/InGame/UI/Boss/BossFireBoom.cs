@@ -18,13 +18,14 @@ public class BossFireBoom : MonoBehaviour
 	public void StartBoolFireSmall()
 	{
 		Debug.Log ("Boom Active");
+	
 		gameObject.SetActive (true);
 		StartCoroutine (BoomFireSmall ());
 	}
 
 	public IEnumerator BoomFireSmall()
 	{	
-
+		SoundManager.instance.PlaySound (eSoundArray.ES_BossFireExplosion);
 		FireBoomAnimator.SetBool ("isBoom", true);
 	
 

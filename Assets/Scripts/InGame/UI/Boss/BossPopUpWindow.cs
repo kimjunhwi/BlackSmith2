@@ -367,6 +367,7 @@ public class BossPopUpWindow : MonoBehaviour
 
 		ScoreManager.ScoreInstance.GoldPlus (goldValue);
 
+		//{(기본값)+2.4*(현재일차-1)}
 
 
 		//Honor
@@ -377,17 +378,23 @@ public class BossPopUpWindow : MonoBehaviour
 
 		Image HonorRewardImage = Honor.transform.GetChild(1).GetComponent<Image> ();
 		HonorRewardImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache (strHonorImagePath);
-		ScoreManager.ScoreInstance.HonorPlus (bossCharacter.bossInfo.nHonor);
-		HonorText.text = string.Format("{0}", bossCharacter.bossInfo.nHonor);
-
-
-		if (nCurBossLevel <= 1) {
-			ScoreManager.ScoreInstance.HonorPlus (GameManager.Instance.bossInfo [nBossIndex].nHonor);
-		} else {
-			ScoreManager.ScoreInstance.HonorPlus (GameManager.Instance.bossInfo [nBossIndex].nHonor * ((nCurBossLevel -1) * 2));
-		}
 	
 
+		double nHonor = 0;
+
+		if (nCurBossLevel <= 1) 
+		{
+			nHonor = GameManager.Instance.bossInfo [nBossIndex].nHonor + (2.4f);
+			ScoreManager.ScoreInstance.HonorPlus (nHonor);
+			HonorText.text = string.Format("{0}", GameManager.Instance.bossInfo [nBossIndex].nHonor + (2.4f));
+		} 
+		else 
+		{
+			nHonor = (double) Mathf.RoundToInt (GameManager.Instance.bossInfo [nBossIndex].nHonor + (2.4f * (nCurBossLevel -1)));
+			ScoreManager.ScoreInstance.HonorPlus (nHonor);
+			HonorText.text = string.Format("{0}",nHonor);
+		}
+	
 
 		//Dia
 		/*

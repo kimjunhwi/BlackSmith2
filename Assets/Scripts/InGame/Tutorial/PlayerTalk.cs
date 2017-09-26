@@ -23,14 +23,14 @@ public class PlayerTalk : MonoBehaviour ,IPointerDownHandler
 	{
 		isTextShowAll = false;
 		isPlayerText01AndGuestShow = false;
-		m_sPlayerText[0] = "으아아..\n일 하기 싫어 ㅠㅠ";
-		m_sPlayerText[1] = "다했다!!!!\n게임해야지 개꿀";
-		m_sPlayerText[2] = "응?\n(어떡하지...)";
-		m_sPlayerText[3] = "예?";
-		m_sPlayerText[4] = "어이쿠ㅎㅎ";
-		m_sPlayerText[5] = "^^"; 
-		m_sPlayerText[6] =  "허으엉어엉어어ㅠㅠ";
-		m_sPlayerText[7] = "용 죽여버릴거야ㅠ";
+		m_sPlayerText[0] = "어서오세요!";
+		m_sPlayerText[1] = "다했다!!!!\n밥 먹어야지~";
+		m_sPlayerText[2] = "아조씨 영업시간 끝났어요...";
+		m_sPlayerText[3] = "ㅠㅠ\n끝났어요..";
+		m_sPlayerText[4] = "어이쿠...";
+		m_sPlayerText[5] = "^_^"; 
+		m_sPlayerText[6] = "부들부들...";
+		m_sPlayerText[7] = "기억해두겠어!!";
 		gameObject.SetActive (false);
 	}
 
@@ -53,8 +53,6 @@ public class PlayerTalk : MonoBehaviour ,IPointerDownHandler
 		{
 			if (isTextShowAll == true)
 			{
-
-
 				m_fContinueTextTime -= Time.deltaTime;
 
 				//일정시간이 지나면 다음 껄로 넘어간다
@@ -75,6 +73,7 @@ public class PlayerTalk : MonoBehaviour ,IPointerDownHandler
 					{
 						TalkBoxOnOff (false);
 						tutorialPanel.DeActiveObj.SetActive (true);
+						SpawnManager.Instance.repairObject.AllDebuffIconInit ();
 						tutorialPanel.StartTutorialFullScreenTextPanelAlpha (TutorialOption.E_TUTORIAL_OPTION_FADEIN);
 						tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_START_FULLSCREENTALK02;
 					

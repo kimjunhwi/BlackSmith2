@@ -145,7 +145,7 @@ public class QuestTimer : MonoBehaviour
 		QuestTimer_Text.enabled = false;
 		isTimeOn = false;
 		gameObject.SetActive (false);
-		addQuestToEmptySpace.SetActive (false);
+		//addQuestToEmptySpace.SetActive (false);
 		StartQuestTimer ();
 	}
 

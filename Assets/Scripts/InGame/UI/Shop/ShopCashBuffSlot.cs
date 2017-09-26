@@ -107,6 +107,21 @@ public class ShopCashBuffSlot : MonoBehaviour {
 	{
 		curMin += _Min;
 		fCurSec += _Sec;
+		if (fCurSec >= 60) {
+			while (true) 
+			{
+				if (fCurSec < 60) {
+					fCurSec = fCurSec;
+					break;
+				}
+				else {
+
+					curMin++;
+					fCurSec -= 60;
+				}
+			}
+		}
+
 	}
 
 	public IEnumerator Timer(int _curMin, int _curSec)

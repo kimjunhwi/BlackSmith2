@@ -7,7 +7,7 @@ public class BossRegenTimer : MonoBehaviour
 {
 	public Text bossRegenTimerText;
 
-	private bool isTimeOn;
+	private bool isTimeOn = false;
 	private string strTime ="";
 
 	System.DateTime StartedTime = new System.DateTime();				//시작일 
@@ -31,7 +31,13 @@ public class BossRegenTimer : MonoBehaviour
 		GameManager.Instance.cBossPanelListInfo [0].fBossRegenCurSec = fCurSec;
 		Debug.Log ("BossRegen Time Save : " + EndData.ToString ());
 	}
-
+	void Update()
+	{
+		if (isTimeOn == true) {
+			StartTimer (nInitTime_Min, nInitTime_sec);
+			isTimeOn = false;
+		}
+	}
 
 	public void BossRegenTimeLoad()
 	{
@@ -50,7 +56,7 @@ public class BossRegenTimer : MonoBehaviour
 			EndData = System.DateTime.Now;
 			PlayerPrefs.SetString ("BossRegenTime", EndData.ToString ());
 			Debug.Log ("BossRegen init Time : " + EndData.ToString ());
-			StartCoroutine (Timer (119, 59)); 
+			StartTimer(nInitTime_Min,  nInitTime_sec);
 			return;
 		}
 
@@ -66,7 +72,7 @@ public class BossRegenTimer : MonoBehaviour
 		{
 			Debug.Log ("BossChanllege ReFill");
 			//남은시간을 계산해서 계속 해서 흐른다
-			bossRegenTimerText.enabled = false;
+			bossRegenTimerText.enabled = true;
 			//지난 분에서 전체 분을 나머지 계산해서 구한다
 			int nPassedTime_Min = (int)timeCal.TotalMinutes;		//전체 분
 			nPassedTime_Min -= nInitTime_Min;
@@ -76,7 +82,7 @@ public class BossRegenTimer : MonoBehaviour
 
 			//bossCreator.BossChanllengeCountToMax ();
 			//시간은 다 지나도 계속해서 흐른다
-			StartCoroutine (Timer ( nPassedTime_Min,  nPassedTime_Sec));
+			StartTimer(nInitTime_Min,  nInitTime_sec);
 
 		}
 		//
@@ -89,13 +95,15 @@ public class BossRegenTimer : MonoBehaviour
 			if (nPassedTime_Min < 119) 
 			{
 				int ResultTime_Min = GameManager.Instance.cBossPanelListInfo [0].nBossRegenCurMin - nPassedTime_Min;
+				if (ResultTime_Min < 0)
+					ResultTime_Min = -ResultTime_Min;
 
 				int ResultTime_Sec = (int)GameManager.Instance.cBossPanelListInfo [0].fBossRegenCurSec - nPassedTime_Sec;
 				if (ResultTime_Sec < 0)
 					ResultTime_Sec = -ResultTime_Sec;
 
 
-				StartCoroutine (Timer (ResultTime_Min, ResultTime_Sec));
+				StartTimer(ResultTime_Min, ResultTime_Sec);
 			} 
 			bossRegenTimerText.enabled = true;
 		
@@ -103,6 +111,10 @@ public class BossRegenTimer : MonoBehaviour
 	}
 
 
+	public void StartTimer(int _Min, int _Sec)
+	{
+		StartCoroutine (Timer(_Min, _Sec));
+	}
 
 	public IEnumerator Timer(int _curMin, int _curSec)
 	{
@@ -129,10 +141,10 @@ public class BossRegenTimer : MonoBehaviour
 
 			if (curMin == 0 && second == 0f)
 			{
-				//isTimeOn = true;
+				isTimeOn = true;
 				//break;
 
-				nInitTime_Min = 19;
+				nInitTime_Min = 119;
 				nInitTime_sec = 59;
 				break;
 			}

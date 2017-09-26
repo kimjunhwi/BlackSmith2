@@ -21,6 +21,7 @@ public class QuestPanel : MonoBehaviour
 	public GameObject completeButton;
 	public Text completeText;
 	public Button sButton;
+	public Image potionImage;
 
 	public int nQuestPanelIndex = 0;
 	public int nQuestIndex =0;
@@ -67,6 +68,7 @@ public class QuestPanel : MonoBehaviour
 
     private void Start()
     {
+		bIsQuest = false;
 		bIsCheckComplete = false;
 		giveUpButton.onClick.RemoveAllListeners();
 		giveUpButton.onClick.AddListener(GiveUpActive);
@@ -74,10 +76,11 @@ public class QuestPanel : MonoBehaviour
 
 	void Update()
 	{
-		if (nCompareCondition >= nCompleteCondition && bIsCheckComplete == false) 
+		if (nCompareCondition >= nCompleteCondition && bIsCheckComplete == false && bIsQuest == true) 
 		{
 			QuestCompleteActive ();
 			textProgressValue.text = string.Format ("{0}", nCompleteCondition)  +"/" + string.Format ("{0}", nCompleteCondition);
+			questManager.expressionMark.SetActive (true);
 			bIsCheckComplete = true;
 		}
 	}
@@ -90,7 +93,7 @@ public class QuestPanel : MonoBehaviour
 
 	public void GetQuest(CGameQuestInfo _quest, QusetManager _questManager)
     {
-        bIsQuest = true;
+      
 		//1~5배 만큼 곱해준다
 		int randomRange = Random.Range (1, 5);
 
@@ -109,6 +112,11 @@ public class QuestPanel : MonoBehaviour
 		textProgressValue.text = string.Format ("{0}", nCompareCondition)  +"/" + string.Format ("{0}", nCompleteCondition);
 		textQuestUpValue.text = string.Format ("{0}" , nMutiplyValue) + " pt";
 
+		if (nMutiplyValue >= 3) {
+			potionImage.enabled = true;
+		} else {
+			potionImage.enabled = false;
+		}
 
 		if (questData.nRewardHonor != 0)
 		{
@@ -127,7 +135,7 @@ public class QuestPanel : MonoBehaviour
 			//textReward.text = questData.nRewardBossPotion.ToString ();
 		}
 			
-
+		bIsQuest = true;
     }
 	//저장된 데이터 불러올떄
 	public void GetQuest(CGameQuestInfo _quest, QusetManager _questManager , int _compareValue , int _multiplyValue)
@@ -147,7 +155,12 @@ public class QuestPanel : MonoBehaviour
 		//1~5배 만큼 곱해준다
 		textProgressValue.text = string.Format ("{0}", nCompareCondition)  +"/" + string.Format ("{0}", nCompleteCondition);
 		textQuestUpValue.text = string.Format ("{0}" , nMutiplyValue) + " pt";
-			
+
+		if (nMutiplyValue >= 3) {
+			potionImage.enabled = true;
+		} else {
+			potionImage.enabled = false;
+		}
 
 		if (questData.nRewardHonor != 0)
 		{
@@ -192,7 +205,7 @@ public class QuestPanel : MonoBehaviour
 				{
 					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
 				}
-				else if (nMutiplyValue <= 4)
+				else if (nMutiplyValue <= 3)
 				{
 					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
 					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
@@ -212,7 +225,7 @@ public class QuestPanel : MonoBehaviour
 				{
 					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
 				}
-				else if (nMutiplyValue <= 4)
+				else if (nMutiplyValue <= 3)
 				{
 					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
 					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
@@ -231,7 +244,7 @@ public class QuestPanel : MonoBehaviour
 				{
 					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
 				}
-				else if (nMutiplyValue <= 4)
+				else if (nMutiplyValue <= 3)
 				{
 					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
 					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
@@ -249,7 +262,7 @@ public class QuestPanel : MonoBehaviour
 		//마일리지 체크
 		questManager.nQuestMileCount += nMutiplyValue;
 
-
+		questManager.expressionMark.SetActive (false);
 		//꽉차면 마일리지
 		if (questManager.silder.value >= (float)questManager.nQeustMaxMileCount)
 		{

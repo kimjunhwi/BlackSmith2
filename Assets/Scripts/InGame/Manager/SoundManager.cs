@@ -140,8 +140,8 @@ public class SoundManager : MonoBehaviour
 		AddSource((int)eSound.TempratureExplosion, "Sound_ES_WeaponExplosion");
 		AddSource((int)eSound.WaterActiveSound, "Sound_ES_WaterActive");
 		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon00");
-		AddSource((int)eSound.TouchSoundWeapon01, "Sound_ES_TouchWeapon01");
-		AddSource((int)eSound.TouchSoundWeapon02, "Sound_ES_TouchWeapon02");
+		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon01");
+		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon02");
 		AddSource((int)eSound.TouchSound_Cri, "Sound_ES_TouchCri");
 		AddSource((int)eSound.TouchSound_Miss, "Sound_ES_TouchMiss");
 		AddSource((int)eSound.TouchSound_Menu, "Sound_ES_TouchMenu");
@@ -171,7 +171,7 @@ public class SoundManager : MonoBehaviour
 		AddSource((int)eSound.BossIceTouch, "Sound_ES_BossIceTouch");
 		AddSource((int)eSound.BossIceTouch, "Sound_ES_BossIceTouch");
 		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon00");
-		AddSource((int)eSound.TouchSoundWeapon01, "Sound_ES_TouchWeapon01");
+		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon01");
 		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon02");
 		AddSource((int)eSound.FeverTouch1, "Sound_ES_FeverTouch1");
 		AddSource((int)eSound.FeverTouch2, "Sound_ES_FeverTouch2");
@@ -187,10 +187,10 @@ public class SoundManager : MonoBehaviour
 		AddSource((int)eSound.BossIceTouch, "Sound_ES_BossIceTouch");
 		AddSource((int)eSound.BossIceTouch, "Sound_ES_BossIceTouch");
 		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon00");
-		AddSource((int)eSound.TouchSoundWeapon01, "Sound_ES_TouchWeapon01");
+		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon01");
 		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon02");
 		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon00");
-		AddSource((int)eSound.TouchSoundWeapon01, "Sound_ES_TouchWeapon01");
+		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon01");
 		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon02");
 
 

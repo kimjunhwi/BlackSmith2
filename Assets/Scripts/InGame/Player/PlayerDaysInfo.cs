@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,7 +23,24 @@ public class PlayerDaysInfo : MonoBehaviour , IPointerDownHandler
 
 		if (CurrentDaysText.text == "")
 			CurrentDaysText.text = player.GetDay ().ToString();
-	
+
+	}
+	public void RefreshDayText()
+	{
+		if (GameManager.Instance.GetPlayer ().GetMaxDay() < 100)
+			MaxDaysText.fontSize = 30;
+		else if(GameManager.Instance.GetPlayer ().GetMaxDay() < 1000)
+			MaxDaysText.fontSize = 25;
+		else
+			MaxDaysText.fontSize = 20;
+
+
+		if (GameManager.Instance.GetPlayer ().GetDay() < 100)
+			CurrentDaysText.fontSize = 30;
+		else if(GameManager.Instance.GetPlayer ().GetDay() < 1000)
+			CurrentDaysText.fontSize = 25;
+		else
+			CurrentDaysText.fontSize = 20;
 	}
 
 	public void OnPointerDown (PointerEventData eventData)
@@ -47,7 +64,7 @@ public class PlayerDaysInfo : MonoBehaviour , IPointerDownHandler
 				MaxDaysText.fontSize = 25;
 			else
 				MaxDaysText.fontSize = 20;
-			
+
 
 			CurrentDaysText.text = "";
 			MaxDaysText.text = player.GetMaxDay ().ToString ();
@@ -71,7 +88,7 @@ public class PlayerDaysInfo : MonoBehaviour , IPointerDownHandler
 				CurrentDaysText.fontSize = 25;
 			else
 				CurrentDaysText.fontSize = 20;
-			
+
 
 			CurrentDaysText.text = player.GetDay ().ToString ();
 			MaxDaysText.text = "";

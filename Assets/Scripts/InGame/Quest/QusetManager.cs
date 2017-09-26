@@ -73,6 +73,8 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 	public SimpleObjectPool questObjectPool;
 
+	public GameObject expressionMark;
+
 	Color CheckColor;
 
 	//Timer
@@ -104,6 +106,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		rewardMile2_Text.text = string.Format ("{0}",nSecondReward );
 		rewardMile3_Text.text = string.Format ("{0}",nThirdReward );
 
+		nQuestMileCount = GameManager.Instance.cQuestSaveListInfo [0].nCurMileValue;
 
 		//처음 실행시
 		if (GameManager.Instance.cQuestSaveListInfo[0].bIsGoogleSave == false &&
@@ -158,11 +161,11 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			silder.value += ((float)nQuestMileCount / (float)nQeustMaxMileCount) * sliderSpeed * Time.deltaTime;
 
 			//해당 포인트 이상이면 적용
-			if (silder.value >= nFirstReward)
+			if (silder.value >= nFirstReward && GameManager.Instance.cQuestSaveListInfo[0].isMileReward01 == false)
 				rewardCheckImage01.SetActive (true);
-			else if (silder.value >= nFirstReward)
+			if (silder.value >= nSecondReward && GameManager.Instance.cQuestSaveListInfo[0].isMileReward02 == false)
 				rewardCheckImage02.SetActive (true);
-			else
+			if (silder.value >= nThirdReward && GameManager.Instance.cQuestSaveListInfo[0].isMileReward03 == false)
 				rewardCheckImage03.SetActive (true);
 
 			rewardCurMile_Text.text = string.Format("{0}", nQuestMileCount ) + " pt";
@@ -354,9 +357,6 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 				QuestPanel questPanel = quest.gameObject.GetComponent<QuestPanel> ();
 				questPanel.nQuestPanelIndex = i;
 				questObjects.Add (questPanel);
-
-
-
 			}
 
 			QuestDataDispatch ();	//Data Dispatch
@@ -364,6 +364,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			questTimer.isTimeOn = false;
 			questTimer.isTimeEnd = false;
 			questTimer.InitQuestTimer ();
+			questTimer.addQuestToEmptySpace.SetActive (false);
 			return;
 		}
 
@@ -471,13 +472,18 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 					GameManager.Instance.cQuestSaveListInfo[0].nQuestIndex03_ProgressValue,
 					GameManager.Instance.cQuestSaveListInfo[0].nQuestIndex01_MultiplyValue);
 		} 
+
+		if (GameManager.Instance.cQuestSaveListInfo [0].nCurMileValue != 0)
+		{
+			nQuestMileCount = GameManager.Instance.cQuestSaveListInfo [0].nCurMileValue;
+		}
+
 		SaveQuestData ();
 	}
 
 	//Data 할당
 	public void QuestDataDispatch()
     {
-		
 		nQuestTotalCount = GameManager.Instance.cQusetInfo.Length;
 
 
@@ -501,18 +507,24 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		
 
 		int RepeatCount = questObjects.Count;
-
-		for(int i = 0 ; i< RepeatCount; i++)
+		int index = 2;
+	
+		for(int i = 0 ; i< nQuestCount; i++)
 		{
-			QuestPanel questPanel = questObjects[i].gameObject.GetComponent<QuestPanel> ();
+			
+			QuestPanel questPanel = questObjects[index].gameObject.GetComponent<QuestPanel> ();
 				
 			int random = Random.Range (0, nQuestTotalCount - 1 );
 
 
 			questPanel.GetQuest (questDatas [random], this);
-			questPanel.InitQuestValue ();
+			//questPanel.InitQuestValue ();
 			questPanel.questTypeIndex = (QuestType)questDatas [random].nType;
 
+			if(nQuestCount < 3)
+				index--;
+			
+		
 		}
 
 		SaveQuestData ();
@@ -649,6 +661,8 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 					}
 				}
 			}
+			GameManager.Instance.cQuestSaveListInfo [0].nCurMileValue = nQuestMileCount;
+
 			GameManager.Instance.SaveQuestList ();
 		} else 
 		{
@@ -704,18 +718,28 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	public void AddMileReward01()
 	{
 		GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += 1;
+		GameManager.Instance.cQuestSaveListInfo [0].isMileReward01 = true;
+
 		rewardCheckImage01.SetActive (false);
+
+		SaveQuestData ();
+		GameManager.Instance.SaveBossPanelInfoList ();
 	}
 	public void AddMileReward02()
 	{
-		ScoreManager.ScoreInstance.RubyPlus (5);
+		ScoreManager.ScoreInstance.RubyPlus (10);
+		GameManager.Instance.cQuestSaveListInfo [0].isMileReward02 = true;
 		rewardCheckImage02.SetActive (false);
+		SaveQuestData ();
 	}
 
 	public void AddMileReward03()
 	{
 		GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += 1;
-		ScoreManager.ScoreInstance.RubyPlus (10);
+		GameManager.Instance.cQuestSaveListInfo [0].isMileReward02 = true;
+		ScoreManager.ScoreInstance.RubyPlus (20);
 		rewardCheckImage03.SetActive (false);
+		SaveQuestData ();
+		GameManager.Instance.SaveBossPanelInfoList ();
 	}
 }

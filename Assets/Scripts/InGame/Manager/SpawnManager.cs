@@ -469,6 +469,9 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
     //무기가 완성이 됐는지 확인을 해주는 함수 이다.
 	public bool CheckComplateWeapon(GameObject _obj, double _dComplate,float _fTemperator)
 	{
+		if (_dComplate < 0)
+			_dComplate = 0;
+
 		GameObject tempObject = null;
 
 		tempObject = SearchCharacter(_obj);

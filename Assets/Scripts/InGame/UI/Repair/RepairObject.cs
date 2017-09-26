@@ -536,7 +536,7 @@ public class RepairObject : MonoBehaviour
 		BoomObject.GetComponent<TemperatureBoomParticle> ().Play ();
 
 
-		SpawnManager.Instance.CheckComplateWeapon(AfootObject, dCurrentComplate, fCurrentTemperature);
+		SpawnManager.Instance.CheckComplateWeapon(AfootObject, 0, 0);
 	}
 
 	IEnumerator OneSecondPlay()

@@ -66,22 +66,16 @@ public class QuestPanel : MonoBehaviour
 
 	private bool bIsCheckComplete;
 
-    private void Start()
-    {
-		bIsQuest = false;
-		bIsCheckComplete = false;
-		giveUpButton.onClick.RemoveAllListeners();
-		giveUpButton.onClick.AddListener(GiveUpActive);
-    }
-
 	void Update()
 	{
 		if (nCompareCondition >= nCompleteCondition && bIsCheckComplete == false && bIsQuest == true) 
 		{
+			Debug.Log ("Quest Panel Update");
 			QuestCompleteActive ();
 			textProgressValue.text = string.Format ("{0}", nCompleteCondition)  +"/" + string.Format ("{0}", nCompleteCondition);
 			questManager.expressionMark.SetActive (true);
 			bIsCheckComplete = true;
+			bIsQuest = false;
 		}
 	}
 
@@ -93,7 +87,12 @@ public class QuestPanel : MonoBehaviour
 
 	public void GetQuest(CGameQuestInfo _quest, QusetManager _questManager)
     {
-      
+		bIsQuest = true;
+		bIsCheckComplete = false;
+		giveUpButton.onClick.RemoveAllListeners();
+		giveUpButton.onClick.AddListener(GiveUpActive);
+
+		Debug.Log ("GetQuest!" +bIsQuest );
 		//1~5배 만큼 곱해준다
 		int randomRange = Random.Range (1, 5);
 
@@ -135,12 +134,14 @@ public class QuestPanel : MonoBehaviour
 			//textReward.text = questData.nRewardBossPotion.ToString ();
 		}
 			
-		bIsQuest = true;
     }
 	//저장된 데이터 불러올떄
 	public void GetQuest(CGameQuestInfo _quest, QusetManager _questManager , int _compareValue , int _multiplyValue)
 	{
 		bIsQuest = true;
+		bIsCheckComplete = false;
+		giveUpButton.onClick.RemoveAllListeners();
+		giveUpButton.onClick.AddListener(GiveUpActive);
 	
 		nQuestIndex = _quest.nIndex;			//index
 		questData = _quest;						//퀘스트 정보
@@ -182,7 +183,7 @@ public class QuestPanel : MonoBehaviour
 
 	public void QuestCompleteActive()
 	{
-
+		Debug.Log ("CompleteActive");
 		bIsQuest = false;
 		completeButton.SetActive (true);
 		sButton = completeButton.GetComponent<Button> ();
@@ -294,23 +295,18 @@ public class QuestPanel : MonoBehaviour
 
 	public void InitQuestValue()
 	{
-		nCustomCount = 0;
-		nDayCount = 0;
-     	nWaterUseCount = 0;
-		nRepairMissCount = 0;
-		nCriticalSuccessCount = 0;
-		nArbaitRepairSuccessCount = 0;
-		nBigSuccessCount = 0;
-		nBigSuccessCustomSuccessCount = 0;
-		nCreateHammerCount = 0;
-		nInTimeCustomerSuccessCount = 0;
-		nNoRepairMissCount = 0;
-		nNoWaterUseCount = 0;
-		nAnyBossSuccessCount = 0;
-		nBossIceSuccessCount = 0;
-		nBossSasinSuccessCount = 0;
-		nBossFireSuccessCount = 0;
-		nBossMusicSuccessCount = 0;
-		nConstantAccessCount = 0;
+		nCost = 0;
+
+		bIsQuest = true;
+		bIsBuy  = false;
+
+		nQuestPanelIndex = 0;
+		nQuestIndex =0;
+		getGold =0;
+		nCompareCondition = 0;			//현재 퀘스트의 변하는 값
+		nCompleteCondition = 0;			//퀘스트 완료 조건
+		nMutiplyValue = 0;				//배수 조건
+
+		questTypeIndex = QuestType.E_QUESTTYPE_NONE;
 	}
 }

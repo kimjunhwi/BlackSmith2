@@ -51,6 +51,7 @@ public class ArbaitCharacter : MonoBehaviour {
 	public Text PurchasingText;
 	public Text BuyText;
 
+	public GameObject BossNameObject;
 	public GameObject PurchasingNameObject;
 	public Text CharacterNameText;
 	public Text EnhaceText;
@@ -114,7 +115,10 @@ public class ArbaitCharacter : MonoBehaviour {
 
         CheckBuyCharacter();
 
+		CharacterNameText.text = m_CharacterData.name;
+		SkillExplainText.text = m_CharacterData.strExplains;
 		PurchasingText.text = m_CharacterData.strPurchasing;
+		NameText.text = m_CharacterData.name;
 
 		if (m_CharacterData.nScoutGold != 0) 
 		{
@@ -126,15 +130,17 @@ public class ArbaitCharacter : MonoBehaviour {
 		}
 
 		BuyText.text = (m_CharacterData.nScoutGold != 0) ? m_CharacterData.nScoutGold.ToString() : m_CharacterData.nScoutHonor.ToString();
-		GoldText.text =  (m_CharacterData.nBasicHonor * (m_CharacterData.level * 0.5 * m_CharacterData.nBasicHonor)).ToString();
+		GoldText.text =  (m_CharacterData.nBasicHonor + ((m_CharacterData.level - 1) * 0.4 * m_CharacterData.nBasicHonor)).ToString();
 
 		spawnManager.array_ArbaitData [nIndex].Purchasing ();
 
 		if (m_CharacterData.index >= 10) {
 			PurchasingNameObject.SetActive (true);
 			CharacterNameText.text = m_CharacterData.name;
+			BossNameObject.SetActive (true);
 		} else {
 			PurchasingNameObject.SetActive (false);
+			BossNameObject.SetActive (false);
 		}
 
 	}
@@ -205,6 +211,7 @@ public class ArbaitCharacter : MonoBehaviour {
 			m_BuyButton.SetActive (false);
 			m_SettingPanel.SetActive (false);
 			PurchasingObject.SetActive (true);
+			BossNameObject.SetActive (true);
 
 			gameObject.GetComponent<Image> ().sprite = m_NoneActiveSprite;
 		}
@@ -213,6 +220,7 @@ public class ArbaitCharacter : MonoBehaviour {
             m_BuyButton.SetActive(true);
             m_SettingPanel.SetActive(false);
 			PurchasingObject.SetActive (false);
+			BossNameObject.SetActive (false);
 
 			gameObject.GetComponent<Image>().sprite = m_ActiveSprite;
 
@@ -226,6 +234,7 @@ public class ArbaitCharacter : MonoBehaviour {
             m_BuyButton.SetActive(false);
             m_SettingPanel.SetActive(true);
 			PurchasingObject.SetActive (false);
+			BossNameObject.SetActive (false);
 
             gameObject.GetComponent<Image>().sprite = m_ActiveSprite;
 
@@ -242,7 +251,7 @@ public class ArbaitCharacter : MonoBehaviour {
             else
                 m_SettingToggle.isOn = false;
 
-			GoldText.text =  (m_CharacterData.nBasicHonor * (m_CharacterData.level * 0.5 * m_CharacterData.nBasicHonor)).ToString();
+			GoldText.text =  (m_CharacterData.nBasicHonor + ((m_CharacterData.level - 1) * 0.4 * m_CharacterData.nBasicHonor)).ToString();
         }
     }
 
@@ -292,7 +301,7 @@ public class ArbaitCharacter : MonoBehaviour {
 
     public void EnhanceEvent()
     {
-		if (m_CharacterData.nBasicHonor * (m_CharacterData.level * 0.4 * m_CharacterData.nBasicHonor) <= ScoreManager.ScoreInstance.GetHonor ()) 
+		if (m_CharacterData.nBasicHonor + ((m_CharacterData.level - 1) * 0.4 * m_CharacterData.nBasicHonor) <= ScoreManager.ScoreInstance.GetHonor ()) 
 		{
 			m_CharacterData.fAttackSpeed -= m_CharacterData.fAttackSpeed * 1 * 0.01f;
 			m_CharacterData.fCritical += m_CharacterData.fCritical * 1 * 0.01f;
@@ -304,7 +313,7 @@ public class ArbaitCharacter : MonoBehaviour {
 
 			ChangeArbaitText ();
 
-			GoldText.text =  (m_CharacterData.nBasicHonor * (m_CharacterData.level * 0.4 * m_CharacterData.nBasicHonor)).ToString();
+			GoldText.text =  (m_CharacterData.nBasicHonor + ((m_CharacterData.level - 1) * 0.4 * m_CharacterData.nBasicHonor)).ToString();
 		}
     }
 

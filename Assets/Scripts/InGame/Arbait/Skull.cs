@@ -81,7 +81,7 @@ public class Skull : ArbaitBatch {
 
 	public override void EnhacneArbait ()
 	{
-		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 5 * 0.01f;
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
 
 		m_CharacterChangeData.strExplains = string.Format ("온도 1%당 직원 크리확률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
@@ -187,6 +187,7 @@ public class Skull : ArbaitBatch {
 			if (fTime >= m_CharacterChangeData.fAttackSpeed)
 			{
 				fTime = 0.0f;
+				m_dComplate = 0;
 
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 
@@ -231,7 +232,32 @@ public class Skull : ArbaitBatch {
 			{
 				fTime = 0.0f;
 
-				RepairShowObject.SetCurCompletion(m_CharacterChangeData.dRepairPower );
+				m_dComplate = 0;
+
+				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
+
+				if (playerData.AccessoryEquipmnet != null) {
+					if (playerData.AccessoryEquipmnet.nIndex == (int)E_BOSS_ITEM.DODOM_GLASS) {
+						fBossRepairPercent = playerData.AccessoryEquipmnet.fBossOptionValue;
+						fBossCriticalPercent = playerData.AccessoryEquipmnet.fBossOptionValue;
+					} else {
+						fBossRepairPercent = 0;
+						fBossCriticalPercent = 0;
+					}
+				}
+
+
+				//크리티컬 확률 
+				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) {
+					RepairParticle (true);
+					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
+				} else {
+					RepairParticle (false);
+					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
+				}
+				m_dComplate += m_dComplate * fBossRepairPercent * 0.01f;
+
+				RepairShowObject.SetCurCompletion(m_dComplate);
 			}
 
 			break;

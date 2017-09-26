@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ReadOnlys;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class Player 
@@ -28,7 +29,7 @@ public class Player
 	//플레이어 정보 표시 스크 
 	public PlayerSpecificInfo PlayerInfo = null;
 
-
+	public SpriteRenderer MoruImage = null;
 
 	public int GetSmithLevel() { return changeStats.nBlackSmithLevel; }
 	public void SetSmithLevel(int _nValue) { changeStats.nBlackSmithLevel = _nValue; }
@@ -174,7 +175,15 @@ public class Player
 
 		epicOpion = _EpicOption;
 
-		double dCurComplete = _weapon.dRepair *  Mathf.Pow (1.022f, Mathf.Floor((changeStats.nEnhanceRepaireLevel - 1) * 0.1f)) * (1 + (changeStats.nEnhanceRepaireLevel * 0.03f));
+		double dCurComplete;
+
+		if (changeStats.nEnhanceRepaireLevel <= 10) {
+			dCurComplete = _weapon.dRepair + changeStats.nEnhanceRepaireLevel;
+		} else {
+			dCurComplete = _weapon.dRepair * Mathf.Pow (1.022f, (Mathf.Floor ((changeStats.nEnhanceRepaireLevel - 11) * 0.1f))) * (1 + ((changeStats.nEnhanceRepaireLevel - 10) * 0.03f));
+
+			dCurComplete += changeStats.nEnhanceRepaireLevel;
+		}
 
 		SetBasicRepairPower (dCurComplete);
 
@@ -352,7 +361,7 @@ public class Player
 		if (creatorWeapon != null)
 			dResultGoldPlusPercent += creatorWeapon.fPlusGoldPercent;
 
-		m_dGoldPlusPercent = changeStats.dGoldPlusPercent + (changeStats.dGoldPlusPercent * dResultGoldPlusPercent * 0.01);
+		m_dGoldPlusPercent = changeStats.dGoldPlusPercent + dResultGoldPlusPercent;
 
 		if (PlayerInfo != null)
 			PlayerInfo.SetGoldPlusText ();
@@ -367,7 +376,7 @@ public class Player
 		if (AccessoryEquipmnet != null) dResultHonorPlusPercent += AccessoryEquipmnet.fHonorPlus;
 		if (creatorWeapon != null) 		dResultHonorPlusPercent += creatorWeapon.fPlusHonorPercent;
 
-		m_dHonorPlusPercent = changeStats.dHornorPlusPercent + (changeStats.dHornorPlusPercent * dResultHonorPlusPercent * 0.01);
+		m_dHonorPlusPercent = changeStats.dHornorPlusPercent + dResultHonorPlusPercent;
 
 		if (PlayerInfo != null)
 			PlayerInfo.SetHonorPlusText ();
@@ -518,8 +527,10 @@ public class Player
 		changeStats = new CGamePlayerData(_defaultStats);
     }
 
-    public void SetInventroy(Inventory _inventory)
+	public void SetInventroy(Inventory _inventory,SpriteRenderer _image)
     {
+		MoruImage = _image;
+
         inventory = _inventory;
 
         inventory.SetInventory(this, List_items);
@@ -563,28 +574,32 @@ public class Player
         //아이템이 어디 부위인지 확인한다.
         switch (_item.nSlotIndex)
         {
-            case (int)E_EQUIMNET_INDEX.E_WEAPON:
+		case (int)E_EQUIMNET_INDEX.E_WEAPON:
 
                 //만약 무기가 있을 경우 그 무기가 현재 플레이어에 적용되는 값을 빼고 아이템을 넣어줌
                 //그 후 다시 아이템 효과를 플레이어에게 적용한다.
-                if (WeaponEquipment == _item)
-                {
+			if (WeaponEquipment == _item) {
 
-                    WeaponEquipment.bIsEquip = false;
+				WeaponEquipment.bIsEquip = false;
 
-                    WeaponEquipment = null;
+				WeaponEquipment = null;
 
-                    PlayerStatsSetting();
+				MoruImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("ShopItem/0");
 
-                    return;
-                }
-                else if (WeaponEquipment != null)
-                    WeaponEquipment.bIsEquip = false;
+				PlayerStatsSetting ();
 
+				return;
+			} else if (WeaponEquipment != null) {
+				WeaponEquipment.bIsEquip = false;
 
-                WeaponEquipment = _item;
+			}
 
-                WeaponEquipment.bIsEquip = true;
+			WeaponEquipment = _item;
+
+			MoruImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache (WeaponEquipment.strResource);
+
+			WeaponEquipment.bIsEquip = true;
+
                 break;
             case (int)E_EQUIMNET_INDEX.E_WEAR:
 

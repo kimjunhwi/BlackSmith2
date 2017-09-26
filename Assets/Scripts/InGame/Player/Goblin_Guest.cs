@@ -254,7 +254,7 @@ public class Goblin_Guest : Character {
 							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR,4,59);
 						break;
 					case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_ARBAIT:
-						if(SpawnManager.Instance.shopCash.isConumeBuff_Honor)
+						if(SpawnManager.Instance.shopCash.isConumeBuff_Staff)
 						{
 							SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF,SpawnManager.Instance.shopCash.shopCashBuffSlots[2].curMin + 4,SpawnManager.Instance.shopCash.shopCashBuffSlots[2].fCurSec + 59);
 						}
@@ -312,7 +312,7 @@ public class Goblin_Guest : Character {
 				SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR,9,59);
 			break;
 		case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_ARBAIT:
-			if(SpawnManager.Instance.shopCash.isConumeBuff_Honor)
+			if(SpawnManager.Instance.shopCash.isConumeBuff_Staff)
 			{
 				SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF,SpawnManager.Instance.shopCash.shopCashBuffSlots[2].curMin + 9,SpawnManager.Instance.shopCash.shopCashBuffSlots[2].fCurSec + 59);
 			}

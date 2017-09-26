@@ -84,7 +84,7 @@ public class Dodomchit : ArbaitBatch {
 
 	public override void EnhacneArbait ()
 	{
-		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 5 * 0.01f;
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
 
 		m_CharacterChangeData.strExplains = string.Format ("공격시 모든 직원 수리력 {0}% 증가 (50%) 물 사용시 초기화", m_CharacterChangeData.fSkillPercent);
 	}
@@ -191,6 +191,7 @@ public class Dodomchit : ArbaitBatch {
 			if (fTime >= m_CharacterChangeData.fAttackSpeed)
 			{
 				fTime = 0.0f;
+				m_dComplate = 0;
 
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 
@@ -213,6 +214,11 @@ public class Dodomchit : ArbaitBatch {
 					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
 				}
 				m_dComplate += m_dComplate * fBossRepairPercent * 0.01f;
+
+				if (spawnManager.shopCash.isConumeBuff_Staff)
+					m_dComplate *= 2;
+
+
 				//완성 됐을 경우
 				if (m_dComplate >= weaponData.dMaxComplate)
 				{
@@ -233,8 +239,34 @@ public class Dodomchit : ArbaitBatch {
 			if(fTime >= m_fRepairTime)
 			{
 				fTime = 0.0f;
+				m_dComplate = 0;
 
-				RepairShowObject.SetCurCompletion(m_CharacterChangeData.dRepairPower );
+				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
+
+				if (playerData.AccessoryEquipmnet != null) {
+					if (playerData.AccessoryEquipmnet.nIndex == (int)E_BOSS_ITEM.DODOM_GLASS) {
+						fBossRepairPercent = playerData.AccessoryEquipmnet.fBossOptionValue;
+						fBossCriticalPercent = playerData.AccessoryEquipmnet.fBossOptionValue;
+					} else {
+						fBossRepairPercent = 0;
+						fBossCriticalPercent = 0;
+					}
+				}
+
+				//크리티컬 확률 
+				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) {
+					RepairParticle (true);
+					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
+				} else {
+					RepairParticle (false);
+					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
+				}
+				m_dComplate += m_dComplate * fBossRepairPercent * 0.01f;
+
+				if (spawnManager.shopCash.isConumeBuff_Staff)
+					m_dComplate *= 2;
+
+				RepairShowObject.SetCurCompletion(m_dComplate );
 			}
 
 			break;

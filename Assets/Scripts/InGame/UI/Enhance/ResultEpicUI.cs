@@ -19,16 +19,16 @@ public class ResultEpicUI : MonoBehaviour {
 	const int m_nBasicHonor = 300;
 	const int m_nBasicMinRepair = 6;
 	const int m_nBasicMaxRepair = 10;
-	const int m_nBasicMinOption = 1;
-	const int m_nBasicMaxOption = 3;
+	const int m_nBasicMinOption = 3;
+	const int m_nBasicMaxOption = 5;
 
 	//일차 별로 증가하는 값, 단 추가옵션과 보스옵션 같은 경우 10 레벨 마다 증가 한다.
 	const int m_nPlusGoldPercent = 20;
 	const int m_nPlusHonorPercent = 10;
 	const int m_nPlusRepairMinPercent = 10;
 	const int m_nPlusRepairMaxPercent = 10;
-	const int m_nPlusOptionMinPercent = 10;
-	const int m_nPlusOptionMaxPercent = 10;
+	const int m_nPlusOptionMinPercent = 100;
+	const int m_nPlusOptionMaxPercent = 100;
 
 	//Calc Data
 	int nCalcGoldCost = 0;
@@ -125,9 +125,9 @@ public class ResultEpicUI : MonoBehaviour {
 
 		float fCostDay = (float)nDightCost;
 
-		while (fCostDay >= 1) 
+		while (fCostDay > 10) 
 		{
-			fCostDay *= 0.1f;
+			fCostDay -= 10;
 			nDight++;
 		}
 
@@ -205,6 +205,8 @@ public class ResultEpicUI : MonoBehaviour {
 					createWeapon.fRusiuBossValue = nInsertValue;
 					playerData.changeStats.nRusiuMaterial--;
 				}
+
+				BossSoulSlots [nIndex].ReSetting ();
 
 				CGameMainWeaponOption plusItem = new CGameMainWeaponOption ();
 

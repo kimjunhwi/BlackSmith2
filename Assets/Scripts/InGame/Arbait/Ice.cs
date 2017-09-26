@@ -9,11 +9,17 @@ public class Ice : ArbaitBatch {
 	{
 		base.Awake();
 
+		AuraObject.SetActive (false);
+
 		nIndex = (int)E_ARBAIT.E_ICE;
 
 		string name = "얼음 골렘";
 
 		m_CharacterChangeData.name = name;
+
+		normalParticlePool = GameObject.Find ("IceNormalRepairPool").GetComponent<SimpleObjectPool> ();
+
+		CriticalParticlePool = GameObject.Find ("IceCriticalRepairPool").GetComponent<SimpleObjectPool> ();
 
 		strSkillExplain = string.Format ("물 Plus {0}%, 크리데미지 {1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
 	
@@ -21,6 +27,8 @@ public class Ice : ArbaitBatch {
 
 		m_CharacterChangeData.strPurchasing = string.Format ("{0} / 20 이상 클리어", m_CharacterChangeData.nScoutCount);
 	}
+
+
 
 	public override void Purchasing ()
 	{
@@ -73,44 +81,9 @@ public class Ice : ArbaitBatch {
 
 	public override void EnhacneArbait ()
 	{
-		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 5 * 0.01f;
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
 
 		m_CharacterChangeData.strExplains = string.Format ("물 Plus {0}%, 크리데미지 {1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
-	}
-
-	public override void StartAura (float _fTime)
-	{
-		if (bIsAura)
-			fAuraTime = 0;
-
-		else
-			StartCoroutine (AuraParticle ());
-	}
-
-	public override IEnumerator AuraParticle ()
-	{
-		yield return new WaitForSeconds(0.1f);
-
-		AuraObject.SetActive (true);
-
-		bIsAura = true;
-
-		while (true)
-		{
-			yield return null;
-
-			fAuraTime += Time.deltaTime;
-
-			if (fAuraTime > 3.0f)
-				break;
-		}
-
-		if (bIsAura == false)
-			yield break;
-
-		fAuraTime = 0.0f;
-
-		bIsAura = false;
 	}
 
 	public override void CheckCharacterState(E_ArbaitState _E_STATE)
@@ -195,6 +168,8 @@ public class Ice : ArbaitBatch {
 			{
 				fTime = 0.0f;
 
+				m_dComplate = 0;
+
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 
 				if (playerData.AccessoryEquipmnet != null) {
@@ -238,8 +213,38 @@ public class Ice : ArbaitBatch {
 			if(fTime >= m_fRepairTime)
 			{
 				fTime = 0.0f;
+				m_dComplate = 0;
 
-				RepairShowObject.SetCurCompletion(m_CharacterChangeData.dRepairPower );
+				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
+
+				if (playerData.AccessoryEquipmnet != null) {
+					if (playerData.AccessoryEquipmnet.nIndex == (int)E_BOSS_ITEM.DODOM_GLASS) {
+						fBossRepairPercent = playerData.AccessoryEquipmnet.fBossOptionValue;
+						fBossCriticalPercent = playerData.AccessoryEquipmnet.fBossOptionValue;
+					} else {
+						fBossRepairPercent = 0;
+						fBossCriticalPercent = 0;
+					}
+				}
+
+
+				//크리티컬 확률 
+				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) {
+					animator.SetTrigger ("bIsCriticalRepair");
+					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
+				} else {
+					animator.SetTrigger ("bIsNormalRepair");
+					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
+				}
+
+				m_dComplate += m_dComplate * fBossRepairPercent * 0.01f;
+
+				m_dComplate += m_dComplate * playerData.changeStats.fArbaitsPower * 0.01f;
+
+				if (spawnManager.shopCash.isConumeBuff_Staff)
+					m_dComplate *= 2;
+
+				RepairShowObject.SetCurCompletion(m_dComplate );
 			}
 
 			break;

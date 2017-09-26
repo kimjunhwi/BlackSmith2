@@ -544,6 +544,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
         playerData = player.changeStats;
 
+		playerData.nShopMinutes = shop.nCurMin;
+		playerData.fShopSecond = shop.fCurSec;
 		playerData.dGold = ScoreManager.ScoreInstance.GetGold ();
 		playerData.dHonor = ScoreManager.ScoreInstance.GetHonor ();
 		playerData.nRuby = ScoreManager.ScoreInstance.GetRuby ();

@@ -247,6 +247,8 @@ public class ArbaitBatch : MonoBehaviour {
 
 	public virtual void StartAura(float _fTime){ }
 
+	public virtual void Setting(){ }
+
 	public virtual IEnumerator AuraParticle(){ yield return null; }
 
     //캐릭터 스테이트가 바뀌었을때 초기화를 위함

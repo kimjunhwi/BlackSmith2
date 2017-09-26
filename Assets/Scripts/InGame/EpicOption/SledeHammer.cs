@@ -33,8 +33,8 @@ public class SledeHammer : EpicOption {
 
 	public override bool CheckOption ()
 	{
-		fSledeAccuracyRate += fSledeAccuracyRate;
-		fSledeCriticalDamage += fSledeCriticalDamage;
+		fSledeAccuracyRate -= m_fBasicPlusDamage;
+		fSledeCriticalDamage += m_fBasicPlusAccuracy;
 
 		cPlayerData.SetAccuracyRate ();
 		cPlayerData.SetCriticalDamage ();

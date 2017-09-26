@@ -18,6 +18,9 @@ public class BossSoul : MonoBehaviour {
 
 	public Button insertButton;
 
+	public Text ExplainText;
+	public Text AmountText;
+
 	protected MakingUI MakingUI;
 
 	protected Player playerData;

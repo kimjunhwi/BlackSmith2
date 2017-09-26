@@ -7,8 +7,8 @@ using ReadOnlys;
 public class MakingUI : MonoBehaviour {
 
 	public Image WeaponImage;
-	public Image BossSlotOne;
-	public Image BossSlotTwo;
+	public Image BossSlotOne = null;
+	public Image BossSlotTwo = null;
 
 	public Text WeaponNameText;
 	public Text NowRepairPower;
@@ -75,6 +75,9 @@ public class MakingUI : MonoBehaviour {
 		} 
 		else 
 		{
+			BossSlotOne.sprite = null;
+			BossSlotTwo.sprite = null;
+
 			CreatorWeapon createWeapon = new CreatorWeapon();
 
 			//저장 된 데이터를 미리 캐싱해 둔다 
@@ -122,6 +125,9 @@ public class MakingUI : MonoBehaviour {
 				plusItem.nValue =  (int)LoadCreateWeapon.fIceBossValue;
 				plusItem.bIsLock = false;
 
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
+
+
 				LIST_OPTION.Add (plusItem);
 			}
 
@@ -133,6 +139,9 @@ public class MakingUI : MonoBehaviour {
 				plusItem.strOptionName = strBossExplains [1];
 				plusItem.nValue =  (int)LoadCreateWeapon.fRusiuBossValue;
 				plusItem.bIsLock = false;
+
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
+
 
 				LIST_OPTION.Add (plusItem);
 			}
@@ -146,6 +155,8 @@ public class MakingUI : MonoBehaviour {
 				plusItem.nValue =  (int)LoadCreateWeapon.fSasinBossValue;
 				plusItem.bIsLock = false;
 
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
+
 				LIST_OPTION.Add (plusItem);
 			}
 
@@ -158,8 +169,50 @@ public class MakingUI : MonoBehaviour {
 				plusItem.nValue =  (int)LoadCreateWeapon.fFireBossValue;
 				plusItem.bIsLock = false;
 
+				plusItem.strOptionExplain = string.Format ("{0} : {1}%", plusItem.strOptionName, plusItem.nValue);
+
 				LIST_OPTION.Add (plusItem);
 			}
+
+			if (LoadCreateWeapon.fIceBossValue != 0) {
+				BossSlotOne.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/IceSoul");
+			}
+
+			if (LoadCreateWeapon.fSasinBossValue != 0) {
+
+				if (BossSlotOne != null) {
+					BossSlotTwo.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/SasinSoul");
+
+				} else {
+					BossSlotOne.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/SasinSoul");
+				}
+
+			}
+
+			if (LoadCreateWeapon.fRusiuBossValue != 0) {
+				if (BossSlotOne != null) {
+					BossSlotTwo.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/DodomSoul");
+
+				} else {
+					BossSlotOne.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/DodomSoul");
+				}
+			}
+
+			if (LoadCreateWeapon.fFireBossValue != 0) {
+				if (BossSlotOne != null) {
+					BossSlotTwo.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/SkullSoul");
+
+				} else {
+					BossSlotOne.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/SkullSoul");
+				}
+			}
+
+			if(BossSlotOne.sprite == null)
+				BossSlotOne.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/crafts_bosssoul_slot_check_unactive");
+
+			if(BossSlotTwo.sprite == null)
+				BossSlotTwo.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/crafts_bosssoul_slot_check_unactive");
+
 
 			if( LoadCreateWeapon.nEpicIndex != (int)E_EPIC_INDEX.E_EPIC_FAIEL)
 			{
@@ -258,6 +311,42 @@ public class MakingUI : MonoBehaviour {
 	public void OnEnable()
 	{
 		SetShowText ();
+
+		int nDightCost = playerData.GetDay ();
+
+		int nDight = 0;
+
+		float fCostDay = (float)nDightCost;
+
+		while (fCostDay >= 1) 
+		{
+			fCostDay *= 0.1f;
+			nDight++;
+		}
+
+		//추가 옵션 범위 
+		nCalcAddMinOption = Mathf.RoundToInt(m_nBasicMinOption + (float)(m_nBasicMinOption *(m_nPlusOptionMinPercent * nDight * 0.01f)));
+		nCalcAddMaxOption = Mathf.RoundToInt(m_nBasicMaxOption + (float)(m_nBasicMaxOption *(m_nPlusOptionMaxPercent * nDight * 0.01f)));
+
+		for (int nIndex = 0; nIndex < 4; nIndex++) 
+		{
+			if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_ICE) {
+				BossSoulSlots [nIndex].ExplainText.text = string.Format ("{0} ~ {1}", nCalcAddMinOption, nCalcAddMaxOption);
+				BossSoulSlots [nIndex].AmountText.text = string.Format ("x {0}", playerData.changeStats.nIceMaterial);
+			}
+			else if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_SASIN) {
+				BossSoulSlots [nIndex].ExplainText.text = string.Format ("{0} ~ {1}", nCalcAddMinOption, nCalcAddMaxOption);
+				BossSoulSlots [nIndex].AmountText.text = string.Format ("x {0}", playerData.changeStats.nSasinMaterial);
+			}
+			else if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_MUSIC) {
+				BossSoulSlots [nIndex].ExplainText.text = string.Format ("{0} ~ {1}", nCalcAddMinOption, nCalcAddMaxOption);
+				BossSoulSlots [nIndex].AmountText.text = string.Format ("x {0}", playerData.changeStats.nRusiuMaterial);
+			}
+			else if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_FIRE) {
+				BossSoulSlots [nIndex].ExplainText.text = string.Format ("{0} ~ {1}", nCalcAddMinOption, nCalcAddMaxOption);
+				BossSoulSlots [nIndex].AmountText.text = string.Format ("x {0}", playerData.changeStats.nFireMaterial);
+			}
+		}
 	}
 
 	public void MakeWeapon()
@@ -302,6 +391,9 @@ public class MakingUI : MonoBehaviour {
 
 	public void CreateWeapon(CreatorWeapon _weapon,EpicOption _epicOption, List<CGameMainWeaponOption> _List_Option)
 	{
+		BossSlotOne.sprite = null;
+		BossSlotTwo.sprite = null;
+
 		LIST_OPTION = _List_Option;
 
 		WeaponNameText.text = _weapon.strName;
@@ -311,6 +403,47 @@ public class MakingUI : MonoBehaviour {
 		PlayerWeaponImage.sprite = _weapon.WeaponSprite;
 	
 		playerData.SetCreatorWeapon (_weapon, _epicOption);
+
+		if (_weapon.fIceBossValue != 0) {
+			BossSlotOne.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/IceSoul");
+		}
+
+		if (_weapon.fSasinBossValue != 0) {
+
+			if (BossSlotOne != null) {
+				BossSlotTwo.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/SasinSoul");
+
+			} else {
+				BossSlotOne.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/SasinSoul");
+			}
+
+		}
+
+		if (_weapon.fRusiuBossValue != 0) {
+			if (BossSlotOne != null) {
+				BossSlotTwo.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/DodomSoul");
+
+			} else {
+				BossSlotOne.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/DodomSoul");
+			}
+		}
+
+		if (_weapon.fFireBossValue != 0) {
+			if (BossSlotOne != null) {
+				BossSlotTwo.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/SkullSoul");
+
+			} else {
+				BossSlotOne.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/SkullSoul");
+			}
+		}
+
+		if(BossSlotOne.sprite == null)
+			BossSlotOne.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/crafts_bosssoul_slot_check_unactive");
+
+		if(BossSlotTwo.sprite == null)
+			BossSlotTwo.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/crafts_bosssoul_slot_check_unactive");
+		
+
 	
 		SpawnManager.Instance.SetDayInitInfo (playerData.GetDay ());
 	

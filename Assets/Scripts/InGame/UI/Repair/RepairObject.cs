@@ -770,6 +770,7 @@ public class RepairObject : MonoBehaviour
 	{
         if (weaponData == null)
 			return;
+		
 		if (tutorialPanel == null)
 			tutorialPanel = SpawnManager.Instance.tutorialPanel;
 
@@ -793,6 +794,57 @@ public class RepairObject : MonoBehaviour
 				}	
 			}
 		}
+
+
+
+		if (player.GearEquipmnet != null) {
+			if (player.GearEquipmnet.nIndex == (int)E_BOSS_ITEM.SASIN_CLOAK) {
+				if (dCurrentComplate * 2 < weaponData.dMaxComplate) {
+					fPlusItemDamage = player.GearEquipmnet.fBossOptionValue;
+				}
+			} else
+				fPlusItemDamage = 0;
+
+			if (player.GearEquipmnet.nIndex == (int)E_BOSS_ITEM.FIRE_CLOAK && _bIsDoubleCheck != false) {
+				if (Random.Range (0, 100) <= player.GearEquipmnet.fBossOptionValue)
+					TouchWeapon (_position, true);
+			}
+		}
+
+		if (player.WeaponEquipment != null) {
+
+			if (player.WeaponEquipment.nIndex == (int)E_BOSS_ITEM.ICE_MORU) {
+				if (Random.Range (0, 100) <= 20) {
+					fCurrentTemperature -= player.WeaponEquipment.fBossOptionValue;
+
+					if (fCurrentTemperature < 0)
+						fCurrentTemperature = 0;
+				}
+			}
+
+			if (player.WeaponEquipment.nIndex == (int)E_BOSS_ITEM.FIRE_MORU)
+				fFireCritical = (int)fCurrentTemperature * player.WeaponEquipment.fBossOptionValue;
+			else
+				fFireCritical = 0;
+
+		}
+
+		normalWeaponShake.Shake (12.0f, 0.12f);
+        fComplateSlideTime = 0.0f;
+
+		if (player.GetEpicOption () != null) {
+
+			if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_GOBLIN_HAMMER) {
+				player.GetEpicOption ().CheckOption ();
+
+				dGoblinRepair = player.GetEpicOption ().fValue;
+			} else if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_SLEDE_HAMMER)
+				player.GetEpicOption ().CheckOption ();
+				
+		} else
+			dGoblinRepair = 0;
+
+
 
 		//피버일경우 크리 데미지로 완성도를 증가시킴
 		if (m_bIsFever)
@@ -838,43 +890,7 @@ public class RepairObject : MonoBehaviour
 			return;
 		}
 
-		if (player.GearEquipmnet != null) {
-			if (player.GearEquipmnet.nIndex == (int)E_BOSS_ITEM.SASIN_CLOAK) {
-				if (dCurrentComplate * 2 < weaponData.dMaxComplate) {
-					fPlusItemDamage = player.GearEquipmnet.fBossOptionValue;
-				}
-			} else
-				fPlusItemDamage = 0;
-
-			if (player.GearEquipmnet.nIndex == (int)E_BOSS_ITEM.FIRE_CLOAK && _bIsDoubleCheck != false) {
-				if (Random.Range (0, 100) <= player.GearEquipmnet.fBossOptionValue)
-					TouchWeapon (_position, true);
-			}
-		}
-
-		if (player.WeaponEquipment != null) {
-
-			if (player.WeaponEquipment.nIndex == (int)E_BOSS_ITEM.ICE_MORU) {
-				if (Random.Range (0, 100) <= 20) {
-					fCurrentTemperature -= player.WeaponEquipment.fBossOptionValue;
-
-					if (fCurrentTemperature < 0)
-						fCurrentTemperature = 0;
-				}
-			}
-
-			if (player.WeaponEquipment.nIndex == (int)E_BOSS_ITEM.FIRE_MORU)
-				fFireCritical = (int)fCurrentTemperature * player.WeaponEquipment.fBossOptionValue;
-			else
-				fFireCritical = 0;
-
-		}
-
-		normalWeaponShake.Shake (12.0f, 0.12f);
-        fComplateSlideTime = 0.0f;
-
 		if (player.GetEpicOption () != null) {
-
 			if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_KO_HAMMER) {
 				if (player.GetEpicOption ().CheckOption ()) {
 					GameObject obj = CriticalTouchPool.Instance.GetObject ();
@@ -931,15 +947,8 @@ public class RepairObject : MonoBehaviour
 					}
 					return;
 				}
-			} else if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_GOBLIN_HAMMER) {
-				player.GetEpicOption ().CheckOption ();
-
-				dGoblinRepair = player.GetEpicOption ().fValue;
-			} else if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_SLEDE_HAMMER)
-				player.GetEpicOption ().CheckOption ();
-				
-		} else
-			dGoblinRepair = 0;
+			}
+		}
 
 		//터치시 체크
 		spawnManager.DodomchitArbaitCheck ();
@@ -1033,21 +1042,32 @@ public class RepairObject : MonoBehaviour
 
 		fCurrentTemperature += fMaxTemperature * 0.06f;
 
+		int nPlusTouchCount = 0;
+
 		if (player.GetEpicOption () != null) {
 
 			//배개 
 			if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_MAGIC) {
 				if (player.GetEpicOption ().CheckOption ()) {
-					for (int nIndex = 0; nIndex < 2; nIndex++) {
+					for ( nPlusTouchCount = 0; nPlusTouchCount < 2; nPlusTouchCount++) {
 
 						TouchPosition = _position;
 
-						float fValue = (nIndex + 1) * 0.2f;
+						float fValue = (nPlusTouchCount + 1) * 0.2f;
 
 						Invoke ("NormalTouch", fValue );
 					}
 				}
 			} 
+		}
+
+		if (spawnManager.shopCash.isConumeBuff_Attack) 
+		{
+			TouchPosition = _position;
+
+			float fValue = (nPlusTouchCount + 1) * 0.2f;
+
+			Invoke ("NormalTouch", fValue );
 		}
 
 

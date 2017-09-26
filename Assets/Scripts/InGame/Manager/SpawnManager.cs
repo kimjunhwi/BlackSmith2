@@ -86,6 +86,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	public MakingUI makingUI;
 
+	public Scrolling scrolling;
+
 
 	///Goblin...
 	System.DateTime StartDate = new System.DateTime();
@@ -223,6 +225,10 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 				m_bIsGoblinCreate = true;
 
 				fCurSec = 0;
+
+				m_fCreatePlusTime = 0;
+
+				return;
 			}
 
 			//만들 수 있는 시간이 지났거나, 현재 손님이 없을경우,

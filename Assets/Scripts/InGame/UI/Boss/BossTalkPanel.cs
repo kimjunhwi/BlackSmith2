@@ -187,7 +187,6 @@ public class BossTalkPanel : MonoBehaviour  , IPointerDownHandler
 			if (fTime <= 0) 
 			{
 				
-
 				//ChangeState
 				if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_DRAGONTALKBOX01) 
 				{
@@ -242,7 +241,7 @@ public class BossTalkPanel : MonoBehaviour  , IPointerDownHandler
 					yield break;
 				}
 			}
-			yield return null;
+			yield return new WaitForSeconds(0.1f);
 		}
 
 	}

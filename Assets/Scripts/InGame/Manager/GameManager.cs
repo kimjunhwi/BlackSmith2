@@ -559,9 +559,16 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
         SaveEquiment();
 
+		//Quest
         SaveQuestList();
 
+		//Boss
 		SaveBossPanelInfoList ();
+		//BossInviteMentTimeSave
+		SpawnManager.Instance.bossCreator.bossConsumeItemInfo.BossInviteMentSaveTime ();
+		//BossChangllenCountTimeSave
+		SpawnManager.Instance.bossCreator.bossRegenTimer.BossRegenTimeSave();
+
 
 		if (player.GetEpicOption () != null)
 			player.GetEpicOption ().Load ();
@@ -1264,6 +1271,24 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	#region GooglePlayCloud
 
+	public void LoginGuestToGoogle()
+	{
+		Social.localUser.Authenticate((bool success) =>
+			{
+				if (success){
+					Debug.Log("You've successfully logged in");
+					GameManager.Instance.GetPlayer().changeStats.bIsGoogleLogin = true;
+					GameManager.Instance.GetPlayer().changeStats.bIsGusetLogin = false;
+					SpawnManager.Instance.option.optionGusetLoginToGoogleLogin.SetActive(false);
+
+				}
+				else
+				{
+					Debug.Log("Login failed for some reason");
+				}
+			});
+	}
+
 	public void DeleteData()
 	{
 		string dataAsString = "";
@@ -1833,7 +1858,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			{
 				isQuestAdsOn = false;
 				if (questManager.questObjects.Count == questManager.nQuestMaxHaveCount) {
-					questManager.ShowEmptyQuestFull ();
+					//questManager.ShowEmptyQuestFull ();
 					return;
 				}
 				else

@@ -45,7 +45,8 @@ public class BossIceWall : MonoBehaviour , IPointerDownHandler
 		{
 			nCountBreakWall--;
 			if (nCountBreakWall > 0)
-				SoundManager.instance.PlaySound (eSoundArray.ES_BossIceTouch);
+				SoundManager.instance.StartPlayIceTouchSound ();
+			
 			Debug.Log(getInfoGameObject.gameObject.name + " = " + nCountBreakWall);
 			if (nCountBreakWall == 10) {
 				animator_IceWallRepair.SetBool ("isBreak01", true);
@@ -67,7 +68,7 @@ public class BossIceWall : MonoBehaviour , IPointerDownHandler
 		{
 			nCountBreakWall--;
 			if (nCountBreakWall > 0)
-				SoundManager.instance.PlaySound (eSoundArray.ES_BossIceTouch);
+				SoundManager.instance.StartPlayIceTouchSound ();
 			Debug.Log(getInfoGameObject.gameObject.name + " = " + nCountBreakWall);
 			if (nCountBreakWall == 7) {
 				animator_IceWallArbait.SetBool ("isBreak01", true);
@@ -87,7 +88,7 @@ public class BossIceWall : MonoBehaviour , IPointerDownHandler
 		{
 			nCountBreakWall--;
 			if (nCountBreakWall > 0)
-				SoundManager.instance.PlaySound (eSoundArray.ES_BossIceTouch);
+				SoundManager.instance.StartPlayIceTouchSound ();
 			if (nCountBreakWall == 7) {
 				animator_IceWallArbait.SetBool ("isBreak01", true);
 			}
@@ -106,7 +107,7 @@ public class BossIceWall : MonoBehaviour , IPointerDownHandler
 		{
 			nCountBreakWall--;
 			if (nCountBreakWall > 0)
-				SoundManager.instance.PlaySound (eSoundArray.ES_BossIceTouch);
+				SoundManager.instance.StartPlayIceTouchSound ();
 			if (nCountBreakWall == 7) {
 				animator_IceWallArbait.SetBool ("isBreak01", true);
 			}

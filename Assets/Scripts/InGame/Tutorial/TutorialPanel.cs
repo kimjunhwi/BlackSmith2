@@ -268,6 +268,7 @@ public class TutorialPanel : MonoBehaviour
 					text01.text = "";
 					text02.text = "";
 					eTutorialState = TutorialOrder.E_TUTORIAL_START_DRAGONSHOW;
+					SpawnManager.Instance.StartBossCreate(4);
 					StartTutorialFullScreenTextPanelAlpha (TutorialOption.E_TUTORIAL_OPTION_FADEOUT);
 
 
@@ -277,7 +278,6 @@ public class TutorialPanel : MonoBehaviour
 
 			yield return null;
 		}
-		yield return null;
 	}
 
 	public void StartDays10()
@@ -362,7 +362,7 @@ public class TutorialPanel : MonoBehaviour
 					playerTalk.TalkBoxOnOff (false);
 					DeActiveObj.SetActive (false);
 
-					SpawnManager.Instance.StartBossCreate(4);
+
 					eTutorialState = TutorialOrder.E_TUTORIAL_START_DRAGONTALKBOX01;
 					yield break;
 				}

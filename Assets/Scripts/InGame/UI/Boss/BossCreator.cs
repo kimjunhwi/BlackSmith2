@@ -641,6 +641,9 @@ public class BossCreator : MonoBehaviour
 				string.Format ("{0} / {0}", nBossIceLeftCount, nBossMaxLeftCount);
 			bossElementList [_index].ReloadButton_Obj.SetActive (false);
 		}
+
+		bossConsumeItemInfo.nPotionCount -= 1;
+		bossConsumeItemInfo.positionCount_Text.text = string.Format ("{0}",	bossConsumeItemInfo.nPotionCount );
 		BossPanelInfoSave ();
 	}
 

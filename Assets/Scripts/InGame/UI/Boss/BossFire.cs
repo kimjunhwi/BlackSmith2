@@ -218,7 +218,7 @@ public class BossFire : BossCharacter
 				CreateSmallFire ();
 
 			//불씨 개수 10개 일시 터진다
-			if (nCurFireCount >= 10)
+			if (nCurFireCount >= 5)
 			{
 				bossFireBoom.StartBoolFireSmall ();
 			}
@@ -427,7 +427,7 @@ public class BossFire : BossCharacter
 	{
 		Debug.Log ("SmallFire Count = " + nCurFireCount);
 		smallFire = smallFirePool.GetObject ();
-		smallFire.transform.SetParent (smallFireRespawnPoint.transform,false);
+		smallFire.transform.SetParent (smallFireRespawnPoint.transform, false);
 		smallFire.transform.localScale = Vector3.one;
 		smallFire.transform.position = new Vector3 (fRandomXPos, fRandomYPos, smallFire.transform.position.z);
 		smallFire.name = "SmallFireTouch";
@@ -443,6 +443,7 @@ public class BossFire : BossCharacter
 		smallFireObj.nTouchCount = 3;
 		smallFireObj.parentTransform = smallFireRespawnPoint;
 		smallFireObj.bossfire = this;
+		smallFireObj.rectTrasform.sizeDelta = new Vector2 (512f, 512f);
 
 		Debug.Log ("CurFireMinusWater : " + repairObj.fSmallFireMinusWater + "/ CurPlusTemperatrue : " +  repairObj.fSmallFirePlusTemperatrue);
 		fTime = 0f;

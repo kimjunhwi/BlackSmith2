@@ -164,6 +164,7 @@ public class BossConsumeItemInfo : MonoBehaviour
 				isTimeOn_BossInviteMentTimer = true;
 				//break;
 				nInviteMentCurCount++;
+				inviteMentCount_Text.text = nInviteMentCurCount.ToString () + " / " + nInviteMentMaxCount.ToString ();
 				nInitTime_Min = 19;
 				nInitTime_sec = 59;
 

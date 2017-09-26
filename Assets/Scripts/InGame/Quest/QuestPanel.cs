@@ -33,6 +33,7 @@ public class QuestPanel : MonoBehaviour
 	public Text textReward_Ruby;
 	public Text textProgressValue;
 	public Text textQuestContents;
+	public Text textQuestUpValue;
 
 	public QuestType questTypeIndex;
 
@@ -76,6 +77,7 @@ public class QuestPanel : MonoBehaviour
 		if (nCompareCondition >= nCompleteCondition && bIsCheckComplete == false) 
 		{
 			QuestCompleteActive ();
+			textProgressValue.text = string.Format ("{0}", nCompleteCondition)  +"/" + string.Format ("{0}", nCompleteCondition);
 			bIsCheckComplete = true;
 		}
 	}
@@ -105,6 +107,8 @@ public class QuestPanel : MonoBehaviour
 		nMutiplyValue = randomRange;
 
 		textProgressValue.text = string.Format ("{0}", nCompareCondition)  +"/" + string.Format ("{0}", nCompleteCondition);
+		textQuestUpValue.text = string.Format ("{0}" , nMutiplyValue) + " pt";
+
 
 		if (questData.nRewardHonor != 0)
 		{
@@ -139,10 +143,11 @@ public class QuestPanel : MonoBehaviour
 		nCompareCondition = _compareValue;
 		nCompleteCondition = 0;
 		nCompleteCondition = questData.nCompleteCondition * _multiplyValue;
+		nMutiplyValue = _multiplyValue;
 		//1~5배 만큼 곱해준다
 		textProgressValue.text = string.Format ("{0}", nCompareCondition)  +"/" + string.Format ("{0}", nCompleteCondition);
-
-
+		textQuestUpValue.text = string.Format ("{0}" , nMutiplyValue) + " pt";
+			
 
 		if (questData.nRewardHonor != 0)
 		{
@@ -178,25 +183,24 @@ public class QuestPanel : MonoBehaviour
 	}
 	public void GetQuestCompleteReward()
 	{
-		int randomRange = 0;
+		
 		for (int i = 0; i < 3; i++)
 		{
-			randomRange = Random.Range (1, 5);
 			if (i == 0) 
 			{
-				if (randomRange <= 2) 
+				if (nMutiplyValue <= 2) 
 				{
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * randomRange);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
 				}
-				else if (randomRange <= 4)
+				else if (nMutiplyValue <= 4)
 				{
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * randomRange);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
 					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
 				} 
 				else
 				{
-					ScoreManager.ScoreInstance.RubyPlus (questData.nRewardRuby * randomRange);
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * randomRange);
+					ScoreManager.ScoreInstance.RubyPlus (questData.nRewardRuby * nMutiplyValue);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
 					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
 
 				}
@@ -204,38 +208,38 @@ public class QuestPanel : MonoBehaviour
 			}
 			else if (i == 1) 
 			{
-				if (randomRange <= 2) 
+				if (nMutiplyValue <= 2) 
 				{
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * randomRange);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
 				}
-				else if (randomRange <= 4)
+				else if (nMutiplyValue <= 4)
 				{
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * randomRange);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
 					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
 				} 
 				else
 				{
-					ScoreManager.ScoreInstance.RubyPlus (questData.nRewardRuby * randomRange);
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * randomRange);
+					ScoreManager.ScoreInstance.RubyPlus (questData.nRewardRuby * nMutiplyValue);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
 					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
 
 				}
 			} 
 			else 
 			{
-				if (randomRange <= 2) 
+				if (nMutiplyValue <= 2) 
 				{
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * randomRange);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
 				}
-				else if (randomRange <= 4)
+				else if (nMutiplyValue <= 4)
 				{
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * randomRange);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
 					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
 				} 
 				else
 				{
-					ScoreManager.ScoreInstance.RubyPlus (questData.nRewardRuby * randomRange);
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * randomRange);
+					ScoreManager.ScoreInstance.RubyPlus (questData.nRewardRuby * nMutiplyValue);
+					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
 					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
 
 				}
@@ -243,7 +247,7 @@ public class QuestPanel : MonoBehaviour
 		}
 
 		//마일리지 체크
-		questManager.nQuestMileCount += randomRange;
+		questManager.nQuestMileCount += nMutiplyValue;
 
 
 		//꽉차면 마일리지

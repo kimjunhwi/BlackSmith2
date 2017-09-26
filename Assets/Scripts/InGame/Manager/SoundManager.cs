@@ -76,6 +76,7 @@ public enum eSoundArray
 	ES_BossMusicDJScratch,
 	ES_BossDragonAppear,
 	ES_BossDragonDisappear,
+	ES_BigSuccess
 }
 
 public class SoundManager : MonoBehaviour 
@@ -94,6 +95,18 @@ public class SoundManager : MonoBehaviour
 	ArrayList CooltimeArray = new ArrayList();
 
 	public List<GameObject> SoundArray = new List<GameObject>();
+	//FeverSound Array 소리 중복 안되게
+	public List<GameObject> FeverSoundArray_Obj = new List<GameObject>();
+	int curFeverIndex= 0;
+	//IceSound Array
+	public List<GameObject> IceTouchArray_Obj = new List<GameObject>();
+	int curIceTouchIndex = 0;
+	//NormalTouch
+	public List<GameObject> NormalTouch_Obj = new List<GameObject>();
+	int curNormalTouchIndex = 0;
+	//Critical Touch
+
+	public List<GameObject> Critical_Obj = new List<GameObject> ();
 
 	public SimpleObjectPool simpleSoundObjPool;
 
@@ -128,7 +141,7 @@ public class SoundManager : MonoBehaviour
 		AddSource((int)eSound.WaterActiveSound, "Sound_ES_WaterActive");
 		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon00");
 		AddSource((int)eSound.TouchSoundWeapon01, "Sound_ES_TouchWeapon01");
-		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon02");
+		AddSource((int)eSound.TouchSoundWeapon02, "Sound_ES_TouchWeapon02");
 		AddSource((int)eSound.TouchSound_Cri, "Sound_ES_TouchCri");
 		AddSource((int)eSound.TouchSound_Miss, "Sound_ES_TouchMiss");
 		AddSource((int)eSound.TouchSound_Menu, "Sound_ES_TouchMenu");
@@ -152,6 +165,72 @@ public class SoundManager : MonoBehaviour
 		AddSource((int)eSound.BossMusicDJScratch, "Sound_ES_BossMusicDJScratch");
 		AddSource((int)eSound.BossDragonAppear, "Sound_ES_BossDragonAppear");
 		AddSource((int)eSound.BossDragonDisappear, "Sound_ES_BossDragonDisappear");
+		AddSource((int)eSound.BossIceTouch, "Sound_ES_BossIceTouch");
+		AddSource((int)eSound.BossIceTouch, "Sound_ES_BossIceTouch");
+		AddSource((int)eSound.BossIceTouch, "Sound_ES_BossIceTouch");
+		AddSource((int)eSound.BossIceTouch, "Sound_ES_BossIceTouch");
+		AddSource((int)eSound.BossIceTouch, "Sound_ES_BossIceTouch");
+		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon00");
+		AddSource((int)eSound.TouchSoundWeapon01, "Sound_ES_TouchWeapon01");
+		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon02");
+		AddSource((int)eSound.FeverTouch1, "Sound_ES_FeverTouch1");
+		AddSource((int)eSound.FeverTouch2, "Sound_ES_FeverTouch2");
+		AddSource((int)eSound.FeverTouch1, "Sound_ES_FeverTouch1");
+		AddSource((int)eSound.FeverTouch2, "Sound_ES_FeverTouch2");
+		AddSource((int)eSound.FeverTouch1, "Sound_ES_FeverTouch1");
+		AddSource((int)eSound.FeverTouch2, "Sound_ES_FeverTouch2");
+		AddSource((int)eSound.FeverTouch1, "Sound_ES_FeverTouch1");
+		AddSource((int)eSound.FeverTouch2, "Sound_ES_FeverTouch2");
+		AddSource((int)eSound.BossIceTouch, "Sound_ES_BossIceTouch");
+		AddSource((int)eSound.BossIceTouch, "Sound_ES_BossIceTouch");
+		AddSource((int)eSound.BossIceTouch, "Sound_ES_BossIceTouch");
+		AddSource((int)eSound.BossIceTouch, "Sound_ES_BossIceTouch");
+		AddSource((int)eSound.BossIceTouch, "Sound_ES_BossIceTouch");
+		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon00");
+		AddSource((int)eSound.TouchSoundWeapon01, "Sound_ES_TouchWeapon01");
+		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon02");
+		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon00");
+		AddSource((int)eSound.TouchSoundWeapon01, "Sound_ES_TouchWeapon01");
+		AddSource((int)eSound.TouchSoundWeapon00, "Sound_ES_TouchWeapon02");
+
+
+		FeverSoundArray_Obj.Add (SoundArray [13]);
+		FeverSoundArray_Obj.Add (SoundArray [14]);
+		FeverSoundArray_Obj.Add (SoundArray [38]);
+		FeverSoundArray_Obj.Add (SoundArray [39]);
+		FeverSoundArray_Obj.Add (SoundArray [40]);
+		FeverSoundArray_Obj.Add (SoundArray [41]);
+		FeverSoundArray_Obj.Add (SoundArray [42]);
+		FeverSoundArray_Obj.Add (SoundArray [43]);
+		FeverSoundArray_Obj.Add (SoundArray [44]);
+		FeverSoundArray_Obj.Add (SoundArray [45]);
+	
+		IceTouchArray_Obj.Add (SoundArray [19]);
+		IceTouchArray_Obj.Add (SoundArray [30]);
+		IceTouchArray_Obj.Add (SoundArray [31]);
+		IceTouchArray_Obj.Add (SoundArray [32]);
+		IceTouchArray_Obj.Add (SoundArray [33]);
+		IceTouchArray_Obj.Add (SoundArray [34]);
+		IceTouchArray_Obj.Add (SoundArray [46]);
+		IceTouchArray_Obj.Add (SoundArray [47]);
+		IceTouchArray_Obj.Add (SoundArray [48]);
+		IceTouchArray_Obj.Add (SoundArray [49]);
+		IceTouchArray_Obj.Add (SoundArray [50]);
+
+		//456 
+		NormalTouch_Obj.Add (SoundArray [4]);
+		NormalTouch_Obj.Add (SoundArray [5]);
+		NormalTouch_Obj.Add (SoundArray [6]);
+		NormalTouch_Obj.Add (SoundArray [35]);
+		NormalTouch_Obj.Add (SoundArray [36]);
+		NormalTouch_Obj.Add (SoundArray [37]);
+		NormalTouch_Obj.Add (SoundArray [51]);
+		NormalTouch_Obj.Add (SoundArray [52]);
+		NormalTouch_Obj.Add (SoundArray [53]);
+		NormalTouch_Obj.Add (SoundArray [54]);
+		NormalTouch_Obj.Add (SoundArray [55]);
+		NormalTouch_Obj.Add (SoundArray [56]);
+	
 	}   
 
 	// Add Source ----------------------------------------------------------------
@@ -188,6 +267,7 @@ public class SoundManager : MonoBehaviour
 		soundInfo.nType = kTableInfo_sound.nType;
 		soundInfo._index     = (int)_sound_index;
 
+		//Add List
 		SoundArray.Add (soundObj);
 
 
@@ -259,6 +339,10 @@ public class SoundManager : MonoBehaviour
 	public void StopSound(eSoundArray _index)
 	{
 		AudioSource aSource = SoundManager.instance.SoundArray [(int)_index].gameObject.GetComponent<AudioSource> ();
+		if (_index == eSoundArray.BGM_BossBattle)
+			aSource.volume = 0.8f;
+		else
+			aSource.volume = 1.0f;
 		aSource.Stop ();
 	}
 	//BGM Change
@@ -267,16 +351,23 @@ public class SoundManager : MonoBehaviour
 		SoundInfo soundInfo_Stop = SoundArray [(int)_StopIndex].gameObject.GetComponent<SoundInfo> ();
 		SoundInfo soundInfo_Start = SoundArray [(int)_StartIndex].gameObject.GetComponent<SoundInfo> ();
 
+
+
 		//1이면  BGM  _ 2이면 한번 소리 나는 사운드들
 		if (soundInfo_Stop.nType == 1) 
 		{
 			AudioSource aSource = SoundArray [(int)_StopIndex].gameObject.GetComponent<AudioSource> ();
+
 			aSource.Stop ();
 		}
 
 		if (soundInfo_Start.nType == 1) 
 		{
 			AudioSource sSource = SoundArray [(int)_StartIndex].gameObject.GetComponent<AudioSource> ();
+			if (_StartIndex == eSoundArray.BGM_BossBattle)
+				sSource.volume = 0.8f;
+			else
+				sSource.volume = 1.0f;
 			sSource.Play ();
 		}
 	}
@@ -566,15 +657,73 @@ public class SoundManager : MonoBehaviour
 
 	public void PlayTouchNormalWeapon()
 	{
-		int randomIndex = Random.Range ((int)eSoundArray.ES_TouchWeapon00, (int)eSoundArray.ES_TouchWeapon02);
-		AudioSource aSource = SoundManager.instance.SoundArray [randomIndex].gameObject.GetComponent<AudioSource> ();
-		aSource.Play ();
+
+		AudioSource aSource = SoundManager.instance.NormalTouch_Obj [curNormalTouchIndex].gameObject.GetComponent<AudioSource> ();
+
+		//사운드가 실행중이면 다른 인덱스를 가져온다
+		if (aSource.isPlaying == true) {
+			curNormalTouchIndex++;
+			if (curNormalTouchIndex >= 11)
+				curNormalTouchIndex = 0;
+			aSource = SoundManager.instance.NormalTouch_Obj [curNormalTouchIndex].gameObject.GetComponent<AudioSource> ();
+			aSource.Play ();
+			return;
+
+		}
+		else 
+		{
+			aSource.Play ();
+		}
 	}
-	public void PlayTouchFeverSound()
+
+	public void StartPlayTouchFeverSound()
 	{
-		int randomIndex = Random.Range ((int)eSoundArray.ES_FeverTouch1, (int)eSoundArray.ES_FeverTouch2);
-		AudioSource aSource = SoundManager.instance.SoundArray [randomIndex].gameObject.GetComponent<AudioSource> ();
-		aSource.Play ();
+		
+
+		AudioSource aSource = SoundManager.instance.FeverSoundArray_Obj [curFeverIndex].gameObject.GetComponent<AudioSource> ();
+
+		//사운드가 실행중이면 다른 인덱스를 가져온다
+		if (aSource.isPlaying == true) {
+			curFeverIndex++;
+			if (curFeverIndex >= 10)
+				curFeverIndex = 0;
+			aSource = SoundManager.instance.FeverSoundArray_Obj [curFeverIndex].gameObject.GetComponent<AudioSource> ();
+			aSource.Play ();
+			return;
+
+		}
+		else 
+		{
+			aSource.Play ();
+		}
+	}
+
+	public void StartPlayIceTouchSound()
+	{
+		int randomIndex = 0;
+
+		AudioSource aSource = SoundManager.instance.IceTouchArray_Obj [curIceTouchIndex].gameObject.GetComponent<AudioSource> ();
+
+		//사운드가 실행중이면 다른 인덱스를 가져온다
+		if (aSource.isPlaying == true)
+		{
+			curIceTouchIndex++;
+			if (curIceTouchIndex >= 11)
+				curIceTouchIndex = 0;
+			aSource = SoundManager.instance.IceTouchArray_Obj [curIceTouchIndex].gameObject.GetComponent<AudioSource> ();
+			aSource.Play ();
+			return;
+
+		}
+		else 
+		{
+			aSource.Play ();
+		}
+	}
+
+	public IEnumerator PlayIceTouchSound()
+	{
+		yield return null;
 	}
 
 	public void PlayTouchMusicNoteSound()
@@ -583,6 +732,8 @@ public class SoundManager : MonoBehaviour
 		AudioSource aSource = SoundManager.instance.SoundArray [randomIndex].gameObject.GetComponent<AudioSource> ();
 		aSource.Play ();
 	}
+
+
 
 }
 

@@ -88,6 +88,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	public Scrolling scrolling;
 
+	public OptionController option;
+
 
 	///Goblin...
 	System.DateTime StartDate = new System.DateTime();

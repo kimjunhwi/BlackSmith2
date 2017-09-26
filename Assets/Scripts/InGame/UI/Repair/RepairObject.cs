@@ -850,7 +850,7 @@ public class RepairObject : MonoBehaviour
 		if (m_bIsFever)
 		{
 			//Sound
-			SoundManager.instance.PlayTouchFeverSound ();
+			SoundManager.instance.StartPlayTouchFeverSound ();
 
 			m_PlayerAnimationController.UserBigSuccessedRepair ();
 
@@ -1072,12 +1072,14 @@ public class RepairObject : MonoBehaviour
 
 
         //완성이 됐는지 확인 밑 오브젝트에 진행사항 전달
-		if (SpawnManager.Instance.CheckComplateWeapon (AfootObject, dCurrentComplate,fCurrentTemperature)) {
+		if (SpawnManager.Instance.CheckComplateWeapon (AfootObject, dCurrentComplate,fCurrentTemperature))
+		{
 
 
             //만약 완성됐을때 빅 성공인지를 체크
             if (Random.Range(0.0f, 100.0f) <= Mathf.Round(player.GetBigSuccessed()) && m_bIsFever == false)
 			{
+				SoundManager.instance.PlaySound (eSoundArray.ES_Fever);
 
                 m_bIsFever = true;
 

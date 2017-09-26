@@ -165,7 +165,10 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			else
 				rewardCheckImage03.SetActive (true);
 
-			rewardCurMile_Text.text = string.Format("{0}", nQuestMileCount );
+			rewardCurMile_Text.text = string.Format("{0}", nQuestMileCount ) + " pt";
+		}
+		else{
+			rewardCurMile_Text.text = string.Format("{0}", 0 ) + " pt";
 		}
 	}
 
@@ -270,6 +273,13 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		{
 			//추후 루비 추가 해야됨 ,광고 추가 
 			questAdsPopUpWindow_YesNo.SetActive (true);
+
+			if (questObjects.Count == nQuestMaxHaveCount) 
+			{
+				questAdsPopUpWindow_YesNo.SetActive (false);
+				ShowEmptyQuestFull ();
+			}
+
 			//questAdsPopUpWindowYesNo_Text.text = "퀘스트를 초기화 하기위해 광고나 루비 무엇을 쓰시겠습니까?";
 			questAdsPopUpWindow_AdsButton.onClick.RemoveAllListeners(); 
 			questAdsPopUpWindow_RubyButton.onClick.RemoveAllListeners ();
@@ -362,9 +372,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		{
 			Debug.Log ("NoTime And Init Call!");
 			nQuestCount = 0;
-			//AllDestroyQuest ();
-			//questObjects.Clear ();
-			//Add
+
 
 			//개수가 최대 개수와 같으면 경고창을 띄운다
 			if (questObjects.Count == nQuestMaxHaveCount) 
@@ -402,11 +410,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		if(isInitConfirm == true && questTimer.isTimeEnd == true) 
 		{
 			nQuestCount = 0;
-			//AllDestroyQuest ();
-			//questObjects.Clear ();
-			//Add
-
-
+		
 			isInitConfirm = false;
 			questTimer.isTimeOn = false;
 			questTimer.InitQuestTimer ();
@@ -444,7 +448,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	public void ShowEmptyQuestFull()
 	{
 		questYesAndExitPopUpWindow_Yes.SetActive (true);
-		questYesAndExitPopUpWindow_Yes_Text.text = "주의 : 빈칸의 퀘스트를 채움니다.";
+		questYesAndExitPopUpWindow_Yes_Text.text = "퀘스트가 가득 차 있습니다.";
 
 	}
 
@@ -467,6 +471,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 					GameManager.Instance.cQuestSaveListInfo[0].nQuestIndex03_ProgressValue,
 					GameManager.Instance.cQuestSaveListInfo[0].nQuestIndex01_MultiplyValue);
 		} 
+		SaveQuestData ();
 	}
 
 	//Data 할당
@@ -508,7 +513,9 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			questPanel.InitQuestValue ();
 			questPanel.questTypeIndex = (QuestType)questDatas [random].nType;
 
-		} 
+		}
+
+		SaveQuestData ();
     }
 	//Saved Quest Data 할당
 	public void QuestDataDispatch(int _index)
@@ -643,7 +650,8 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 				}
 			}
 			GameManager.Instance.SaveQuestList ();
-		} else {
+		} else 
+		{
 			Debug.Log ("Not Save Data");
 		}
 

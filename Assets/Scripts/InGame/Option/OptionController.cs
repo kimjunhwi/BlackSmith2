@@ -15,6 +15,8 @@ public class OptionController : MonoBehaviour {
 	public GameObject optionCloudSaveData_Obj;
 	public GameObject optionCloudLoadData_Obj;
 
+	public GameObject optionGusetLoginToGoogleLogin;
+
 
 
 	public void Start()
@@ -22,6 +24,12 @@ public class OptionController : MonoBehaviour {
 		optionPopUpWindow.SetActive (false);
 		optionCloudSaveData_Obj.GetComponent<Button> ().onClick.AddListener (GameManager.Instance.SaveCloudData);
 		optionCloudLoadData_Obj.GetComponent<Button> ().onClick.AddListener (GameManager.Instance.LoadCloudData);
+		optionGusetLoginToGoogleLogin.GetComponent<Button> ().onClick.AddListener (GameManager.Instance.LoginGuestToGoogle);
+
+		if (GameManager.Instance.GetPlayer ().changeStats.bIsGusetLogin == true)
+			optionGusetLoginToGoogleLogin.SetActive (true);
+		else
+			optionGusetLoginToGoogleLogin.SetActive (false);
 	}
 
 	public void OptionWindowActive()

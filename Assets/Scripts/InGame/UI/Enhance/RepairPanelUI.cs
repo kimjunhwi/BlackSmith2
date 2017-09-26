@@ -64,7 +64,7 @@ public class RepairPanelUI : EnhanceUI {
 			if (nLevel <= 10) {
 				dCurComplete = cPlayer.GetCreatorWeapon ().dRepair + nLevel;
 			} else {
-				dCurComplete = cPlayer.GetCreatorWeapon ().dRepair * Mathf.Pow (1.022f, (Mathf.Floor ((nLevel - 11) * 0.1f))) * (1 + (nLevel - 10 * 0.03f));
+				dCurComplete = cPlayer.GetCreatorWeapon ().dRepair * Mathf.Pow (1.022f, (Mathf.Floor ((nLevel - 11) * 0.1f))) * (1 + ((nLevel - 10) * 0.03f));
 
 				dCurComplete += nLevel;
 			}

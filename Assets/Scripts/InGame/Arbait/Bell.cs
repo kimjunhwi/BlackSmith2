@@ -71,7 +71,7 @@ public class Bell : ArbaitBatch {
 
 	public override void EnhacneArbait ()
 	{
-		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 5 * 0.01f;
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
 
 		m_CharacterChangeData.strExplains = string.Format ("물 게이지 70%이상 일 때 모든 직원 수리력, 크리 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
@@ -192,6 +192,7 @@ public class Bell : ArbaitBatch {
 			if (fTime >= m_CharacterChangeData.fAttackSpeed)
 			{
 				fTime = 0.0f;
+				m_dComplate = 0;
 
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 
@@ -230,6 +231,8 @@ public class Bell : ArbaitBatch {
 					ComplateWeapon();
 				}
 
+
+
 				SpawnManager.Instance.CheckComplateWeapon(AfootOjbect, m_dComplate,m_fTemperator);
 			}
 			break;
@@ -242,6 +245,7 @@ public class Bell : ArbaitBatch {
 			if(fTime >= m_fRepairTime)
 			{
 				fTime = 0.0f;
+				m_dComplate = 0;
 
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 

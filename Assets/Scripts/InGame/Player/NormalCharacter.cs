@@ -93,14 +93,6 @@ public class NormalCharacter : Character {
 			double dCurComplete = 500 * Mathf.Max( Mathf.Pow (2, (Mathf.Floor((nDay - 1) * 0.1f))),1) * (0.5 + (result) * 0.08f);
 
 			weaponData.dMaxComplate = dCurComplete; 
-			weaponData.dMinusRepair = weaponData.dMinusRepair + (weaponData.dMinusRepair * nDay * 0.03f);
-			weaponData.fMinusChargingWater = weaponData.fMinusChargingWater + (weaponData.fMinusChargingWater * nDay * 0.03f);
-			weaponData.dMinusCriticalDamage = weaponData.dMinusCriticalDamage + (weaponData.dMinusCriticalDamage * nDay * 0.03f);
-			weaponData.fMinusUseWater = weaponData.fMinusUseWater + (weaponData.fMinusUseWater * nDay * 0.03f);
-			weaponData.fMinusCriticalChance = weaponData.fMinusCriticalChance + (weaponData.fMinusCriticalChance * nDay * 0.03f);
-			weaponData.fMinusAccuracy = weaponData.fMinusAccuracy + (weaponData.fMinusAccuracy * nDay * 0.03f);
-			weaponData.dGold = weaponData.dGold + (weaponData.dGold * nDay * 0.03f);
-			weaponData.dHonor = weaponData.dHonor + (weaponData.dHonor * nDay * 0.03f);
 		}
 
 
@@ -433,7 +425,7 @@ public class NormalCharacter : Character {
 
 			playerController.GuestSuccessed ();
 
-			dGold = 250 * Mathf.Pow (1.09f, nDay - 1);
+			dGold = weaponData.dGold * Mathf.Pow (1.09f, nDay - 1);
 
 			if (cPlayerData.GearEquipmnet != null)
 			{
@@ -445,7 +437,6 @@ public class NormalCharacter : Character {
 							nValue++;
 					}
 					dGold += dGold * cPlayerData.GearEquipmnet.fBossOptionValue * nValue * 0.01f;
-
 				}
 			}
 

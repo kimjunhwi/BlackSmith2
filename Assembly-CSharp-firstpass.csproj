@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{9D1AD331-F560-ACE4-162A-5BBCD303572B}</ProjectGuid>
+    <ProjectGuid>{F49E9064-2226-82A2-D42C-2BF833439C58}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
@@ -54,17 +54,17 @@
      <Compile Include="Assets\Plugins\UnityPurchasing\script\IAPDemo.cs" />
      <Compile Include="Assets\Plugins\UnityPurchasing\script\PurchasingCheck.cs" />
      <None Include="Assets\Resources\Data\HammerEpic.txt" />
-     <None Include="Assets\Resources\Data\Shop.txt" />
      <None Include="Assets\Resources\Data\BossWeapon.txt" />
      <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver_v1.2.37.0.txt" />
      <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />
      <None Include="Assets\Resources\Data\Character.txt" />
      <None Include="Assets\Resources\Data\HammerName.txt" />
-     <None Include="Assets\Resources\Data\Weapon.txt" />
      <None Include="Assets\GooglePlayGames\Editor\template-AndroidManifest.txt" />
+     <None Include="Assets\Resources\Data\Weapon.txt" />
      <None Include="Assets\Boomlagoon\JSON\Readme.txt" />
      <None Include="Assets\Resources\Data\Arbait.txt" />
      <None Include="Assets\PlayServicesResolver\proguard-unity.txt" />
+     <None Include="Assets\Resources\Data\Shop.txt" />
      <None Include="Assets\Plugins\UnityPurchasing\script\link.xml" />
      <None Include="Assets\Resources\Data\ArbaitEnhance2.txt" />
      <None Include="Assets\GooglePlayGames\Editor\template-Constants.txt" />
@@ -78,7 +78,7 @@
      <None Include="Assets\StreamingAssets\build_info.txt" />
      <None Include="Assets\Resources\Data\EquimpentEnhance2.txt" />
  <Reference Include="Facebook.Unity.Settings">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Advertisements">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
@@ -108,37 +108,37 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
  </Reference>
  <Reference Include="LitJson">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/LitJson.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/LitJson.dll</HintPath>
  </Reference>
  <Reference Include="ChannelPurchase">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityChannel/ChannelPurchase.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityChannel/ChannelPurchase.dll</HintPath>
  </Reference>
  <Reference Include="UnityStore">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityChannel/UnityStore.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityChannel/UnityStore.dll</HintPath>
  </Reference>
  <Reference Include="Editor">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityPurchasing/Bin/Editor.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityPurchasing/Bin/Editor.dll</HintPath>
  </Reference>
  <Reference Include="Purchasing.Common">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityPurchasing/Bin/Purchasing.Common.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityPurchasing/Bin/Purchasing.Common.dll</HintPath>
  </Reference>
  <Reference Include="Stores">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityPurchasing/Bin/Stores.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityPurchasing/Bin/Stores.dll</HintPath>
  </Reference>
  <Reference Include="Apple">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityPurchasing/Bin/Apple/Apple.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityPurchasing/Bin/Apple/Apple.dll</HintPath>
  </Reference>
  <Reference Include="FacebookStore">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityPurchasing/Bin/Facebook/FacebookStore.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityPurchasing/Bin/Facebook/FacebookStore.dll</HintPath>
  </Reference>
  <Reference Include="Security">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityPurchasing/Bin/Security/live/Security.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityPurchasing/Bin/Security/live/Security.dll</HintPath>
  </Reference>
  <Reference Include="Tizen">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityPurchasing/Bin/Tizen/Tizen.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityPurchasing/Bin/Tizen/Tizen.dll</HintPath>
  </Reference>
  <Reference Include="winrt">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityPurchasing/winrt/winrt.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityPurchasing/winrt/winrt.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

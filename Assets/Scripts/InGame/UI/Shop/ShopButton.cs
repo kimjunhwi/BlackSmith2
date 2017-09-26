@@ -27,6 +27,7 @@ public class ShopButton : MonoBehaviour {
     public Button buttonCheck;
     public Text EquitName;
     public Text EquitGold;
+	public Text PurchaingText;
     public Image EquitImage;
 
     public Inventory inventory;
@@ -46,6 +47,28 @@ public class ShopButton : MonoBehaviour {
 
 		NoneItemImage.sprite = LockSprite;
     }
+
+	public void SetUp(int _nIndex)
+	{
+		if (_nIndex < GameManager.Instance.GetPlayer ().changeStats.nShopMaxCount) {
+			return;
+		} else 
+		{
+			if (_nIndex == 2) {
+				PurchaingText.text = "대장간 레벨 4";
+
+				NoneItemObject.SetActive (true);
+			} else if (_nIndex == 3) {
+				PurchaingText.text = "대장간 레벨 7";
+
+				NoneItemObject.SetActive (true);
+			} else if (_nIndex == 4) {
+				PurchaingText.text = "대장간 레벨 10";
+
+				NoneItemObject.SetActive (true);
+			}
+		}
+	}
 
 
 	public void GetEquiment(Shop _shop, Inventory _inventory,ShopShowPanel _showPanel, CGameEquiment _equimnet)
@@ -104,9 +127,12 @@ public class ShopButton : MonoBehaviour {
 
 		equitMent.bIsBuy = true;
 
+		PurchaingText.text = null;
+
 		NoneItemImage.sprite = BuySprite;
 
 		NoneItemObject.SetActive (true);
+		PurchaingText.text = null;
 
 		shop.SaveShopList ();
 

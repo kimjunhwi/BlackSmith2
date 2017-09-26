@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using ReadOnlys;
 
 public class InventoryShowPanel : MonoBehaviour {
 
 	public Text NameText;
 	public Text GradeText;
 	public Image WeaponImage;
+	public SpriteRenderer MoruImage;
 	public Text EnhanceCostText;
 
 	public Button SellButton;
@@ -57,7 +59,7 @@ public class InventoryShowPanel : MonoBehaviour {
 
 			Debug.Log ("강화 성공!!");
 
-			if (ItemData.fReapirPower 		!= 0) ItemData.fReapirPower 	+= ItemData.fOptionPlus;
+			if (ItemData.fReapirPower 		!= 0) ItemData.fReapirPower 	+= ItemData.fReapirPower;
 			if (ItemData.fArbaitRepair      != 0) ItemData.fArbaitRepair 	+= ItemData.fOptionPlus;
 			if (ItemData.fHonorPlus         != 0) ItemData.fHonorPlus 		+= ItemData.fOptionPlus;
 			if (ItemData.fGoldPlus          != 0) ItemData.fGoldPlus 		+= ItemData.fOptionPlus;
@@ -68,7 +70,7 @@ public class InventoryShowPanel : MonoBehaviour {
 			if (ItemData.fAccuracyRate      != 0) ItemData.fAccuracyRate 	+= ItemData.fOptionPlus;
 
 			if (ItemData.bIsBoss)
-				ItemData.fBossOptionValue += ItemData.fOptionPlus;
+				ItemData.fBossOptionValue += ItemData.fBossOptionValue * ItemData.fOptionPlus * 0.1f;
 
 			ItemData.nStrenthCount++;
 
@@ -91,6 +93,11 @@ public class InventoryShowPanel : MonoBehaviour {
 	{
         player.EquipItem(ItemData);
 
+		if (ItemData.nSlotIndex == (int)E_EQUIMNET_INDEX.E_WEAPON) 
+		{
+			MoruImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache( ItemData.strResource);
+		}
+
 		EquipObject.SetActive (false);
 		NoneEquipObject.SetActive (true);
 	}
@@ -100,6 +107,10 @@ public class InventoryShowPanel : MonoBehaviour {
 		ItemData.bIsEquip = false;
 
 		player.NoneEquipItem (ItemData);
+
+		if (ItemData.nSlotIndex == (int)E_EQUIMNET_INDEX.E_WEAPON) {
+			MoruImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache( "ShopItem/0");
+		}
 
 		EquipObject.SetActive (true);
 		NoneEquipObject.SetActive (false);
@@ -143,6 +154,9 @@ public class InventoryShowPanel : MonoBehaviour {
 
 		if (_equiment.bIsEquip == true) 
 		{
+			if(ItemData.nSlotIndex == (int)E_EQUIMNET_INDEX.E_WEAPON) 
+				MoruImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache( _equiment.strResource);
+			
 			EquipObject.SetActive (false);
 			NoneEquipObject.SetActive (true);
 		}

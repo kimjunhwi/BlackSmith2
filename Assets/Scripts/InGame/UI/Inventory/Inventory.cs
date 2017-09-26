@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour {
 
     Player player;
+
+	public SpriteRenderer moruImage;
 
     private List<CGameEquiment> List_Equiments;
 
@@ -15,7 +18,7 @@ public class Inventory : MonoBehaviour {
 		if (GameManager.Instance.player == null)
 			return;
 
-        GameManager.Instance.player.SetInventroy(this);
+		GameManager.Instance.player.SetInventroy(this,moruImage);
     }
 
 

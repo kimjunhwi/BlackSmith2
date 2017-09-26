@@ -72,7 +72,7 @@ public class Knight : ArbaitBatch {
 
 	public override void EnhacneArbait ()
 	{
-		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 5 * 0.01f;
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
 
 		strSkillExplain = string.Format ("대장장이 크리시 대장장이, 모든 직원 명중률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
@@ -261,6 +261,8 @@ public class Knight : ArbaitBatch {
 			{
 				fTime = 0.0f;
 
+				m_dComplate = 0;
+
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 
 				if (playerData.AccessoryEquipmnet != null) {
@@ -310,6 +312,8 @@ public class Knight : ArbaitBatch {
 			if(fTime >= m_fRepairTime)
 			{
 				fTime = 0.0f;
+
+				m_dComplate = 0;
 
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 

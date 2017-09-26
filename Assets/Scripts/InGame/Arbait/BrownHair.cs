@@ -69,7 +69,7 @@ public class BrownHair : ArbaitBatch {
 
 	public override void EnhacneArbait ()
 	{
-		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 5 * 0.01f;
+		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
 
 		m_CharacterChangeData.strExplains = string.Format ("물 사용시 모든 직원 크리확률 {0} 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
 	}
@@ -189,6 +189,7 @@ public class BrownHair : ArbaitBatch {
 			if (fTime >= m_CharacterChangeData.fAttackSpeed)
 			{
 				fTime = 0.0f;
+				m_dComplate = 0;
 
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 
@@ -239,6 +240,7 @@ public class BrownHair : ArbaitBatch {
 			if(fTime >= m_fRepairTime)
 			{
 				fTime = 0.0f;
+				m_dComplate = 0;
 
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 

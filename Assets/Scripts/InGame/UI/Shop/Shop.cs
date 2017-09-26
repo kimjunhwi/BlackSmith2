@@ -56,6 +56,8 @@ public class Shop : MonoBehaviour {
 			obj.transform.localScale = Vector3.one;
 
 			ShopList [nIndex] = shopScript;
+
+			ShopList [nIndex].SetUp (nIndex);
         }
 
         nEquimentLength = GameManager.Instance.GetEquimentLength();
@@ -91,6 +93,10 @@ public class Shop : MonoBehaviour {
             PlayerPrefs.SetString("NowTime", EndData.ToString());
 
             EquimentList.Clear();
+
+			for (int nIndex = 0; nIndex < nShopMaxLength; nIndex++) {
+				ShopList [nIndex].SetUp (nIndex);
+			}
 
 			for (int nIndex = 0; nIndex < playerData.GetShopMaxCount(); nIndex++)
             {
@@ -294,6 +300,10 @@ public class Shop : MonoBehaviour {
 
 						EquimentList.Clear();
 
+						for (int nIndex = 0; nIndex < nShopMaxLength; nIndex++) {
+							ShopList [nIndex].SetUp (nIndex);
+						}
+
 						for (int nIndex = 0; nIndex < playerData.GetShopMaxCount(); nIndex++)
 						{
 							CGameEquiment cGameEquiment = GetEquiment();
@@ -324,6 +334,10 @@ public class Shop : MonoBehaviour {
 		PlayerPrefs.SetString("NowTime", EndData.ToString());
 
 		EquimentList.Clear();
+
+		for (int nIndex = 0; nIndex < nShopMaxLength; nIndex++) {
+			ShopList [nIndex].SetUp (nIndex);
+		}
 
 		for (int nIndex = 0; nIndex < playerData.GetShopMaxCount(); nIndex++)
 		{

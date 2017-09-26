@@ -523,17 +523,20 @@ public class RepairObject : MonoBehaviour
 		//터지는 파티클
 		//SoundManager.instance.PlaySound (eSoundArray.ES_TempratureExplosion);
 		GameObject obj = BreakBoomPool.Instance.GetObject ();
-		obj.transform.SetParent (weaponBoomTransform.transform, false);
+
+		obj.transform.SetParent (CanvasTransform, false);
 
 		obj.GetComponent<BreakBoomParticle> ().Play ();
 
+
 		GameObject BoomObject = TemperatureBoomPool.Instance.GetObject ();
 
-		BoomObject.transform.SetParent (weaponBoomTransform.transform, false);
+		BoomObject.transform.SetParent (CanvasTransform, false);
 
 		BoomObject.GetComponent<TemperatureBoomParticle> ().Play ();
 
-		SpawnManager.Instance.ComplateCharacter (AfootObject, dCurrentComplate);
+
+		SpawnManager.Instance.CheckComplateWeapon(AfootObject, dCurrentComplate, fCurrentTemperature);
 	}
 
 	IEnumerator OneSecondPlay()
@@ -808,14 +811,23 @@ public class RepairObject : MonoBehaviour
 			} else
 				fPlusItemDamage = 0;
 
-			if (player.GearEquipmnet.nIndex == (int)E_BOSS_ITEM.FIRE_CLOAK && _bIsDoubleCheck != false) {
-				if (Random.Range (0, 100) <= player.GearEquipmnet.fBossOptionValue)
-					TouchWeapon (_position, true);
+			//더블 터치 
+			if (player.GearEquipmnet.nIndex == (int)E_BOSS_ITEM.FIRE_CLOAK) {
+				if (Random.Range (0, 100) <= player.GearEquipmnet.fBossOptionValue) {
+
+					TouchPosition = _position;
+
+					float fValue = 0.2f;
+
+					Invoke ("NormalTouch", fValue );
+
+				}
 			}
 		}
 
 		if (player.WeaponEquipment != null) {
 
+			//온도 감소 
 			if (player.WeaponEquipment.nIndex == (int)E_BOSS_ITEM.ICE_MORU) {
 				if (Random.Range (0, 100) <= 20) {
 					fCurrentTemperature -= player.WeaponEquipment.fBossOptionValue;
@@ -825,11 +837,11 @@ public class RepairObject : MonoBehaviour
 				}
 			}
 
+			//크리 추가 데미지
 			if (player.WeaponEquipment.nIndex == (int)E_BOSS_ITEM.FIRE_MORU)
 				fFireCritical = (int)fCurrentTemperature * player.WeaponEquipment.fBossOptionValue;
 			else
 				fFireCritical = 0;
-
 		}
 
 		normalWeaponShake.Shake (12.0f, 0.12f);
@@ -1112,7 +1124,66 @@ public class RepairObject : MonoBehaviour
 		if (bossCharacter == null)
 			return;
 
+		int nPlusTouchCount = 0;
 		bossWeaponShake.Shake (12.0f, 0.12f);
+
+		if (player.GearEquipmnet != null) {
+			if (player.GearEquipmnet.nIndex == (int)E_BOSS_ITEM.SASIN_CLOAK) {
+				if (dCurrentComplate * 2 < weaponData.dMaxComplate) {
+					fPlusItemDamage = player.GearEquipmnet.fBossOptionValue;
+				}
+			} else
+				fPlusItemDamage = 0;
+
+			//더블 터치 
+			if (player.GearEquipmnet.nIndex == (int)E_BOSS_ITEM.FIRE_CLOAK) {
+				if (Random.Range (0, 100) <= player.GearEquipmnet.fBossOptionValue) {
+
+					TouchPosition = _position;
+
+					float fValue = 0.2f;
+
+					Invoke ("NormalTouch", fValue );
+
+				}
+			}
+		}
+
+		if (player.WeaponEquipment != null) {
+
+			//온도 감소 
+			if (player.WeaponEquipment.nIndex == (int)E_BOSS_ITEM.ICE_MORU) {
+				if (Random.Range (0, 100) <= 20) {
+					fCurrentTemperature -= player.WeaponEquipment.fBossOptionValue;
+
+					if (fCurrentTemperature < 0)
+						fCurrentTemperature = 0;
+				}
+			}
+
+			//크리 추가 데미지
+			if (player.WeaponEquipment.nIndex == (int)E_BOSS_ITEM.FIRE_MORU)
+				fFireCritical = (int)fCurrentTemperature * player.WeaponEquipment.fBossOptionValue;
+			else
+				fFireCritical = 0;
+		}
+
+		fComplateSlideTime = 0.0f;
+
+		if (player.GetEpicOption () != null) {
+
+			if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_GOBLIN_HAMMER) {
+				player.GetEpicOption ().CheckOption ();
+
+				dGoblinRepair = player.GetEpicOption ().fValue;
+			} else if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_SLEDE_HAMMER)
+				player.GetEpicOption ().CheckOption ();
+
+		} else
+			dGoblinRepair = 0;
+		
+
+
 
 		//Ice
 		if (bossCharacter.nIndex == 0)
@@ -1123,7 +1194,37 @@ public class RepairObject : MonoBehaviour
 			}
 			else if (bossCharacter.eCureentBossState >= Character.EBOSS_STATE.PHASE_01 && bossCharacter.eCureentBossState < Character.EBOSS_STATE.PHASE_02)
 			{
-				
+				if (player.GetEpicOption () != null) {
+					if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_KO_HAMMER) {
+						if (player.GetEpicOption ().CheckOption ()) {
+							GameObject obj = CriticalTouchPool.Instance.GetObject ();
+
+							obj.transform.SetParent (CanvasTransform, false);
+
+							obj.transform.position = _position;
+
+							obj.GetComponent<CriticalTouchParticle> ().Play ();
+
+							m_PlayerAnimationController.UserCriticalRepair ();
+
+							SpawnManager.Instance.PlayerCritical ();
+
+							dCalcValue = (player.GetRepairPower () + (player.GetRepairPower () * weaponData.dMinusRepair * 0.01));
+
+							dCalcValue *= (player.GetCriticalDamage () + fPlusItemDamage + fFireCritical) * 0.01;
+
+							ShowDamage (dCalcValue, _position);
+
+							dCurrentComplate += dCalcValue;
+
+							fCurrentTemperature += fMaxTemperature * 0.06f;
+
+							return;
+						}
+					}
+				}
+
+
 				//크리티컬 확률 감소o
 				if (Random.Range (1, 100) <= Mathf.Round (player.GetCriticalChance () - 30.0f)) {
 					
@@ -1137,9 +1238,17 @@ public class RepairObject : MonoBehaviour
 
 					SpawnManager.Instance.PlayerCritical ();
 
-					dCurrentComplate = dCurrentComplate + player.GetRepairPower ();
 
-					ShowDamage (player.GetRepairPower (),_position);
+					dCalcValue = player.GetRepairPower ();
+
+					dCalcValue *= (player.GetCriticalDamage() + fPlusItemDamage + fFireCritical) * 0.01;
+
+					if(dGoblinRepair != 0)
+						dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
+					dCurrentComplate += dCalcValue;
+
+					ShowDamage (dCalcValue,_position);
 
 					m_PlayerAnimationController.UserCriticalRepair ();
 
@@ -1159,14 +1268,37 @@ public class RepairObject : MonoBehaviour
 
 					m_PlayerAnimationController.UserNormalRepair();
 
-				
-					dCurrentComplate = dCurrentComplate + player.GetRepairPower ();
+					dCalcValue = player.GetRepairPower ();
 
-					ShowDamage (player.GetRepairPower (),_position);
+					dCalcValue += (dCalcValue * fPlusItemDamage * 0.01f);
+
+					if(dGoblinRepair != 0)
+						dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
+					dCurrentComplate += dCalcValue;
+
+					ShowDamage (dCalcValue,_position);
 
 
 					m_PlayerAnimationController.UserNormalRepair ();
 				
+				}
+
+				if (player.GetEpicOption () != null) {
+
+					//배개 
+					if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_MAGIC) {
+						if (player.GetEpicOption ().CheckOption ()) {
+							for ( nPlusTouchCount = 0; nPlusTouchCount < 2; nPlusTouchCount++) {
+
+								TouchPosition = _position;
+
+								float fValue = (nPlusTouchCount + 1) * 0.2f;
+
+								Invoke ("BossNormalTouch", fValue );
+							}
+						}
+					} 
 				}
 
 				fCurrentTemperature += fMaxTemperature * 0.08f;
@@ -1186,6 +1318,39 @@ public class RepairObject : MonoBehaviour
 					isBossIcePassive01Active = true;
 				}
 
+				if (player.GetEpicOption () != null) {
+					if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_KO_HAMMER) {
+						if (player.GetEpicOption ().CheckOption ()) {
+							GameObject obj = CriticalTouchPool.Instance.GetObject ();
+
+							obj.transform.SetParent (CanvasTransform, false);
+
+							obj.transform.position = _position;
+
+							obj.GetComponent<CriticalTouchParticle> ().Play ();
+
+							m_PlayerAnimationController.UserCriticalRepair ();
+
+							SpawnManager.Instance.PlayerCritical ();
+
+							dCalcValue = player.GetRepairPower ();
+
+							dCalcValue *= (player.GetCriticalDamage() + fPlusItemDamage + fFireCritical) * 0.01;
+
+							if(dGoblinRepair != 0)
+								dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
+							dCurrentComplate += dCalcValue;
+
+							ShowDamage (dCalcValue,_position);
+
+							fCurrentTemperature += fMaxTemperature * 0.06f;
+
+							return;
+						}
+					}
+				}
+
 				//크리티컬 확률 감소o
 				if (Random.Range (1, 100) <= Mathf.Round (player.GetCriticalChance () - 30.0f)) {
 					
@@ -1199,9 +1364,16 @@ public class RepairObject : MonoBehaviour
 
 					SpawnManager.Instance.PlayerCritical ();
 
-					dCurrentComplate = dCurrentComplate + player.GetRepairPower ();
+					dCalcValue = player.GetRepairPower ();
 
-					ShowDamage (player.GetRepairPower (),_position);
+					dCalcValue *= (player.GetCriticalDamage() + fPlusItemDamage + fFireCritical) * 0.01;
+
+					if(dGoblinRepair != 0)
+						dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
+					dCurrentComplate += dCalcValue;
+
+					ShowDamage (dCalcValue,_position);
 
 					m_PlayerAnimationController.UserCriticalRepair ();
 
@@ -1221,12 +1393,36 @@ public class RepairObject : MonoBehaviour
 
 					m_PlayerAnimationController.UserNormalRepair();
 
-					dCurrentComplate =  dCurrentComplate + player.GetRepairPower ();
+					dCalcValue = player.GetRepairPower ();
 
-					ShowDamage (player.GetRepairPower (),_position);
+					dCalcValue += (dCalcValue * fPlusItemDamage * 0.01f);
+
+					if(dGoblinRepair != 0)
+						dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
+					dCurrentComplate += dCalcValue;
+
+					ShowDamage (dCalcValue,_position);
 
 					m_PlayerAnimationController.UserNormalRepair ();
 
+				}
+
+				if (player.GetEpicOption () != null) {
+
+					//배개 
+					if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_MAGIC) {
+						if (player.GetEpicOption ().CheckOption ()) {
+							for ( nPlusTouchCount = 0; nPlusTouchCount < 2; nPlusTouchCount++) {
+
+								TouchPosition = _position;
+
+								float fValue = (nPlusTouchCount + 1) * 0.2f;
+
+								Invoke ("BossNormalTouch", fValue );
+							}
+						}
+					} 
 				}
 
 				fCurrentTemperature += fMaxTemperature * 0.08f;
@@ -1247,14 +1443,30 @@ public class RepairObject : MonoBehaviour
 			 
 			else if (bossCharacter.eCureentBossState >= Character.EBOSS_STATE.PHASE_01 && bossCharacter.eCureentBossState < Character.EBOSS_STATE.PHASE_02)
 			{
-				
+
+
 				//명중률 50% 감소
 				if (nRandom <= nChancePercent) {
 
 				}
 				else
 				{
-					
+					if (player.GetEpicOption () != null) {
+
+						//배개 
+						if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_MAGIC) {
+							if (player.GetEpicOption ().CheckOption ()) {
+								for ( nPlusTouchCount = 0; nPlusTouchCount < 2; nPlusTouchCount++) {
+
+									TouchPosition = _position;
+
+									float fValue = (nPlusTouchCount + 1) * 0.2f;
+
+									Invoke ("BossNormalTouch", fValue );
+								}
+							}
+						} 
+					}
 
 					SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Miss);
 
@@ -1276,10 +1488,59 @@ public class RepairObject : MonoBehaviour
 			} 
 			else if (bossCharacter.eCureentBossState >= Character.EBOSS_STATE.PHASE_02) 
 			{
-				
+				if (player.GetEpicOption () != null) {
+
+					//배개 
+					if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_MAGIC) {
+						if (player.GetEpicOption ().CheckOption ()) {
+							for ( nPlusTouchCount = 0; nPlusTouchCount < 2; nPlusTouchCount++) {
+
+								TouchPosition = _position;
+
+								float fValue = (nPlusTouchCount + 1) * 0.2f;
+
+								Invoke ("BossNormalTouch", fValue );
+							}
+						}
+					} 
+				}
+
 				//수리력 30% 감소
 				if (nRandom <= nChancePercent) 
 				{
+					if (player.GetEpicOption () != null) {
+						if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_KO_HAMMER) {
+							if (player.GetEpicOption ().CheckOption ()) {
+								GameObject obj = CriticalTouchPool.Instance.GetObject ();
+
+								obj.transform.SetParent (CanvasTransform, false);
+
+								obj.transform.position = _position;
+
+								obj.GetComponent<CriticalTouchParticle> ().Play ();
+
+								m_PlayerAnimationController.UserCriticalRepair ();
+
+								SpawnManager.Instance.PlayerCritical ();
+
+								dCalcValue = player.GetRepairPower ();
+
+								dCalcValue *= (player.GetCriticalDamage() + fPlusItemDamage + fFireCritical) * 0.01;
+
+								if(dGoblinRepair != 0)
+									dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
+								dCurrentComplate += dCalcValue;
+
+								ShowDamage (dCalcValue,_position);
+
+								fCurrentTemperature += fMaxTemperature * 0.06f;
+
+								return;
+							}
+						}
+					}
+
 					//크리티컬 확률 
 					if (Random.Range (1, 100) <= Mathf.Round (player.GetCriticalChance ())) {
 						
@@ -1293,9 +1554,16 @@ public class RepairObject : MonoBehaviour
 
 						SpawnManager.Instance.PlayerCritical ();
 
-						dCurrentComplate = dCurrentComplate + ((player.GetRepairPower () * 1.5f) * 0.7f);
+						dCalcValue = player.GetRepairPower ();
 
-						ShowDamage (((player.GetRepairPower () * 1.5f) * 0.7f),_position);
+						dCalcValue *= (player.GetCriticalDamage() + fPlusItemDamage + fFireCritical) * 0.01;
+
+						if(dGoblinRepair != 0)
+							dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
+						dCurrentComplate += dCalcValue *0.7;
+
+						ShowDamage (dCalcValue,_position);
 
 						m_PlayerAnimationController.UserCriticalRepair ();
 
@@ -1317,9 +1585,16 @@ public class RepairObject : MonoBehaviour
 						m_PlayerAnimationController.UserNormalRepair(); 
 
 					
-						dCurrentComplate = dCurrentComplate + (player.GetRepairPower () * 0.7f);
+						dCalcValue = player.GetRepairPower ();
 
-						ShowDamage ((player.GetRepairPower () * 0.7f),_position);
+						dCalcValue += (dCalcValue * fPlusItemDamage * 0.01f);
+
+						if(dGoblinRepair != 0)
+							dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
+						dCurrentComplate += dCalcValue * 0.7f;
+
+						ShowDamage (dCalcValue,_position);
 
 
 						m_PlayerAnimationController.UserNormalRepair ();
@@ -1364,6 +1639,39 @@ public class RepairObject : MonoBehaviour
 			//Phase01
 			else if (bossCharacter.eCureentBossState >= Character.EBOSS_STATE.PHASE_01 && bossCharacter.eCureentBossState < Character.EBOSS_STATE.PHASE_02) 
 			{
+				if (player.GetEpicOption () != null) {
+					if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_KO_HAMMER) {
+						if (player.GetEpicOption ().CheckOption ()) {
+							GameObject obj = CriticalTouchPool.Instance.GetObject ();
+
+							obj.transform.SetParent (CanvasTransform, false);
+
+							obj.transform.position = _position;
+
+							obj.GetComponent<CriticalTouchParticle> ().Play ();
+
+							m_PlayerAnimationController.UserCriticalRepair ();
+
+							SpawnManager.Instance.PlayerCritical ();
+
+							dCalcValue = player.GetRepairPower ();
+
+							dCalcValue *= (player.GetCriticalDamage() + fPlusItemDamage + fFireCritical) * 0.01;
+
+							if(dGoblinRepair != 0)
+								dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
+							dCurrentComplate += dCalcValue;
+
+							ShowDamage (dCalcValue,_position);
+
+							fCurrentTemperature += fMaxTemperature * 0.06f;
+
+							return;
+						}
+					}
+				}
+
 				//크리데미지 50% 감소
 				//Player의 기본 능력치에 따른 크리 and 노말 평타
 				if (Random.Range (1, 100) <= Mathf.Round (player.GetCriticalChance ())) 
@@ -1379,9 +1687,16 @@ public class RepairObject : MonoBehaviour
 
 					SpawnManager.Instance.PlayerCritical ();
 
-					dCurrentComplate = dCurrentComplate + ((player.GetRepairPower () * 0.75f) * 0.5f  );
+					dCalcValue = player.GetRepairPower ();
 
-					ShowDamage ((player.GetRepairPower () * 1.5f),_position);
+					dCalcValue *= (player.GetCriticalDamage() + fPlusItemDamage + fFireCritical) * 0.01;
+
+					if(dGoblinRepair != 0)
+						dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
+					dCurrentComplate += dCalcValue * 0.5f;
+
+					ShowDamage (dCalcValue,_position);
 
 					m_PlayerAnimationController.UserCriticalRepair ();
 
@@ -1389,7 +1704,6 @@ public class RepairObject : MonoBehaviour
 				}
 				else 
 				{
-					
 					GameObject obj = NormalTouchPool.Instance.GetObject();
 
 					obj.transform.SetParent(CanvasTransform, false);
@@ -1400,12 +1714,36 @@ public class RepairObject : MonoBehaviour
 
 					m_PlayerAnimationController.UserNormalRepair();
 
-					dCurrentComplate =  dCurrentComplate + player.GetRepairPower ();
+					dCalcValue = player.GetRepairPower ();
 
-					ShowDamage (player.GetRepairPower (),_position);
+					dCalcValue += (dCalcValue * fPlusItemDamage * 0.01f);
+
+					if(dGoblinRepair != 0)
+						dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
+					dCurrentComplate += dCalcValue;
+
+					ShowDamage (dCalcValue,_position);
 
 
 					m_PlayerAnimationController.UserNormalRepair ();
+				}
+
+				if (player.GetEpicOption () != null) {
+
+					//배개 
+					if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_MAGIC) {
+						if (player.GetEpicOption ().CheckOption ()) {
+							for ( nPlusTouchCount = 0; nPlusTouchCount < 2; nPlusTouchCount++) {
+
+								TouchPosition = _position;
+
+								float fValue = (nPlusTouchCount + 1) * 0.2f;
+
+								Invoke ("BossNormalTouch", fValue );
+							}
+						}
+					} 
 				}
 
 				//불씨에 따른 온도 상승량
@@ -1476,9 +1814,16 @@ public class RepairObject : MonoBehaviour
 
 					SpawnManager.Instance.PlayerCritical ();
 
-					dCurrentComplate = dCurrentComplate - (player.GetRepairPower () * 1.5f);
+					dCalcValue = player.GetRepairPower ();
 
-					ShowDamage ((player.GetRepairPower () * 1.5f),_position);
+					dCalcValue *= (player.GetCriticalDamage() + fPlusItemDamage + fFireCritical) * 0.01;
+
+					if(dGoblinRepair != 0)
+						dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
+					dCurrentComplate -= dCalcValue;
+
+					ShowDamage (dCalcValue,_position);
 
 					m_PlayerAnimationController.UserCriticalRepair ();
 
@@ -1495,18 +1840,75 @@ public class RepairObject : MonoBehaviour
 
 					m_PlayerAnimationController.UserNormalRepair();
 
-					dCurrentComplate =  dCurrentComplate - player.GetRepairPower ();
+					dCalcValue = player.GetRepairPower ();
 
-					ShowDamage (player.GetRepairPower (),_position);
+					dCalcValue += (dCalcValue * fPlusItemDamage * 0.01f);
+
+					if(dGoblinRepair != 0)
+						dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
+					dCurrentComplate -= dCalcValue;
+
+					ShowDamage (dCalcValue,_position);
 
 
 					m_PlayerAnimationController.UserNormalRepair ();
+				}
+
+				if (player.GetEpicOption () != null) {
+
+					//배개 
+					if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_MAGIC) {
+						if (player.GetEpicOption ().CheckOption ()) {
+							for ( nPlusTouchCount = 0; nPlusTouchCount < 2; nPlusTouchCount++) {
+
+								TouchPosition = _position;
+
+								float fValue = (nPlusTouchCount + 1) * 0.2f;
+
+								Invoke ("BossNormalTouch", fValue );
+							}
+						}
+					} 
 				}
 			}
 
 			//반사 상태x
 			if (bossMusic.isReflect == false && bossMusic.isSwitch == false)
 			{
+				if (player.GetEpicOption () != null) {
+					if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_KO_HAMMER) {
+						if (player.GetEpicOption ().CheckOption ()) {
+							GameObject obj = CriticalTouchPool.Instance.GetObject ();
+
+							obj.transform.SetParent (CanvasTransform, false);
+
+							obj.transform.position = _position;
+
+							obj.GetComponent<CriticalTouchParticle> ().Play ();
+
+							m_PlayerAnimationController.UserCriticalRepair ();
+
+							SpawnManager.Instance.PlayerCritical ();
+
+							dCalcValue = player.GetRepairPower ();
+
+							dCalcValue *= (player.GetCriticalDamage() + fPlusItemDamage + fFireCritical) * 0.01;
+
+							if(dGoblinRepair != 0)
+								dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
+							dCurrentComplate += dCalcValue;
+
+							ShowDamage (dCalcValue,_position);
+
+							fCurrentTemperature += fMaxTemperature * 0.06f;
+
+							return;
+						}
+					}
+				}
+
 				if (Random.Range (1, 100) <= Mathf.Round (player.GetCriticalChance ()))
 				{
 					
@@ -1520,9 +1922,16 @@ public class RepairObject : MonoBehaviour
 
 					SpawnManager.Instance.PlayerCritical ();
 
-					dCurrentComplate = dCurrentComplate + (player.GetRepairPower ()  * 1.5f);
+					dCalcValue = player.GetRepairPower ();
 
-					ShowDamage (player.GetRepairPower (),_position);
+					dCalcValue *= (player.GetCriticalDamage() + fPlusItemDamage + fFireCritical) * 0.01;
+
+					if(dGoblinRepair != 0)
+						dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
+					dCurrentComplate += dCalcValue;
+
+					ShowDamage (dCalcValue,_position);
 
 
 					m_PlayerAnimationController.UserCriticalRepair ();
@@ -1543,24 +1952,106 @@ public class RepairObject : MonoBehaviour
 
 					m_PlayerAnimationController.UserNormalRepair();
 
-					dCurrentComplate = dCurrentComplate + player.GetRepairPower ();
+					dCalcValue = player.GetRepairPower ();
 
-					ShowDamage (player.GetRepairPower (),_position);
+					dCalcValue += (dCalcValue * fPlusItemDamage * 0.01f);
+
+					if(dGoblinRepair != 0)
+						dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
+					dCurrentComplate += dCalcValue;
+
+					ShowDamage (dCalcValue,_position);
 
 
 					m_PlayerAnimationController.UserNormalRepair ();
 				}
+			}
+
+			if (player.GetEpicOption () != null) {
+
+				//배개 
+				if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_MAGIC) {
+					if (player.GetEpicOption ().CheckOption ()) {
+						for ( nPlusTouchCount = 0; nPlusTouchCount < 2; nPlusTouchCount++) {
+
+							TouchPosition = _position;
+
+							float fValue = (nPlusTouchCount + 1) * 0.2f;
+
+							Invoke ("BossNormalTouch", fValue );
+						}
+					}
+				} 
 			}
 				
 			fCurrentTemperature += fMaxTemperature * 0.08f;
 			return;
 		}
 
+		if (player.GetEpicOption () != null) {
+			if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_KO_HAMMER) {
+				if (player.GetEpicOption ().CheckOption ()) {
+					GameObject obj = CriticalTouchPool.Instance.GetObject ();
+
+					obj.transform.SetParent (CanvasTransform, false);
+
+					obj.transform.position = _position;
+
+					obj.GetComponent<CriticalTouchParticle> ().Play ();
+
+					m_PlayerAnimationController.UserCriticalRepair ();
+
+					SpawnManager.Instance.PlayerCritical ();
+
+					dCalcValue = player.GetRepairPower ();
+
+					dCalcValue *= (player.GetCriticalDamage() + fPlusItemDamage + fFireCritical) * 0.01;
+
+					if(dGoblinRepair != 0)
+						dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
+					dCurrentComplate += dCalcValue;
+
+					ShowDamage (dCalcValue,_position);
+
+					fCurrentTemperature += fMaxTemperature * 0.06f;
+
+					return;
+				}
+			}
+		}
+
+		if (player.GetEpicOption () != null) {
+
+			//배개 
+			if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_MAGIC) {
+				if (player.GetEpicOption ().CheckOption ()) {
+					for ( nPlusTouchCount = 0; nPlusTouchCount < 2; nPlusTouchCount++) {
+
+						TouchPosition = _position;
+
+						float fValue = (nPlusTouchCount + 1) * 0.2f;
+
+						Invoke ("BossNormalTouch", fValue );
+					}
+				}
+			} 
+		}
+
+		if (spawnManager.shopCash.isConumeBuff_Attack) 
+		{
+			TouchPosition = _position;
+
+			float fValue = (nPlusTouchCount + 1) * 0.2f;
+
+			Invoke ("BossNormalTouch", fValue );
+		}
+
 
 		//Player의 기본 능력치에 따른 크리 and 노말 평타
 		if (Random.Range (1, 100) <= Mathf.Round (player.GetCriticalChance ())) 
 		{
-			
 			GameObject obj = CriticalTouchPool.Instance.GetObject ();
 
 			obj.transform.SetParent (CanvasTransform, false);
@@ -1571,9 +2062,16 @@ public class RepairObject : MonoBehaviour
 
 			SpawnManager.Instance.PlayerCritical ();
 
-			dCurrentComplate = dCurrentComplate + (player.GetRepairPower () * 1.5f);
+			dCalcValue = player.GetRepairPower ();
 
-			ShowDamage ((player.GetRepairPower () * 1.5f),_position);
+			dCalcValue *= (player.GetCriticalDamage() + fPlusItemDamage + fFireCritical) * 0.01;
+
+			if(dGoblinRepair != 0)
+				dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
+			dCurrentComplate += dCalcValue;
+
+			ShowDamage (dCalcValue,_position);
 
 			m_PlayerAnimationController.UserCriticalRepair ();
 
@@ -1593,9 +2091,16 @@ public class RepairObject : MonoBehaviour
 			m_PlayerAnimationController.UserNormalRepair();
 
 
-			dCurrentComplate = dCurrentComplate + player.GetRepairPower ();
+			dCalcValue = player.GetRepairPower ();
 
-			ShowDamage (player.GetRepairPower (),_position);
+			dCalcValue += (dCalcValue * fPlusItemDamage * 0.01f);
+
+			if(dGoblinRepair != 0)
+				dCalcValue = dCalcValue * dGoblinRepair * 0.01;
+
+			dCurrentComplate += dCalcValue;
+
+			ShowDamage (dCalcValue,_position);
 
 
 			m_PlayerAnimationController.UserNormalRepair ();
@@ -1628,8 +2133,7 @@ public class RepairObject : MonoBehaviour
 			fWeaponDownTemperature = fMaxTemperature * 0.3f;
 		
 			// 수리력 = 수리력 * ( 현재온도 * 11 * 0.00556) * ( 1 - 물수치(플레이어의 무기 + 장비의 물수치))
-			dCurrentComplate += GameManager.Instance.player.GetRepairPower() * (fCurrentTemperature  * 11f * 0.00556f) * 
-				(1f + (weaponData.fMinusUseWater * 0.05f));
+			dCurrentComplate += GameManager.Instance.player.GetRepairPower() * (fCurrentTemperature  * 11f * 0.00556f);
 
 
 			
@@ -2127,5 +2631,75 @@ public class RepairObject : MonoBehaviour
 
 			return;
 		}
+	}
+
+	public void BossNormalTouch()
+	{
+		if (bossCharacter == null)
+			return;
+
+		if (Random.Range (0, 100) >= Mathf.Round (player.GetAccuracyRate () - player.GetAccuracyRate () * 0.01f)) {
+
+			GameObject damageText = damageTextPool.GetObject ();
+
+			damageText.transform.SetParent (textParent.transform, false);
+			damageText.transform.localScale = Vector3.one;
+			damageText.transform.position = TouchPosition;
+			damageText.name = "Damage";
+
+			DamageTextPool damagePool = damageText.GetComponent<DamageTextPool> ();
+			damagePool.Damage ("Miss");
+			damagePool.textObjPool = damageTextPool;
+			damagePool.leftSecond = nEnableTime;
+			//Quest
+			SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_MISS, 1);
+			bIsMissShowUp = true;
+			return;
+		}
+
+
+		//크리티컬 확률 
+		if (Random.Range (0, 100) <= Mathf.Round (player.GetCriticalChance () + (player.GetCriticalChance ()  * 0.01f))) {
+
+			GameObject obj = CriticalTouchPool.Instance.GetObject ();
+
+			obj.transform.SetParent (CanvasTransform, false);
+
+			obj.transform.position = TouchPosition;
+
+			obj.GetComponent<CriticalTouchParticle> ().Play ();
+
+			m_PlayerAnimationController.UserCriticalRepair ();
+
+			SpawnManager.Instance.PlayerCritical ();
+
+			dCalcValue = player.GetRepairPower ();
+
+			dCalcValue *= player.GetCriticalDamage() * 0.01f;
+
+			dCurrentComplate += dCalcValue;
+
+			ShowDamage (dCalcValue,TouchPosition);
+		} else {
+
+			GameObject obj = NormalTouchPool.Instance.GetObject ();
+
+			obj.transform.SetParent (CanvasTransform, false);
+
+			obj.transform.position = TouchPosition;
+
+			obj.GetComponent<NormalTouchParticle> ().Play ();
+
+			m_PlayerAnimationController.UserNormalRepair ();
+
+			dCalcValue = player.GetRepairPower ();
+
+			dCurrentComplate += dCalcValue;
+
+			ShowDamage (dCalcValue,TouchPosition);
+
+		}
+
+		fCurrentTemperature += fMaxTemperature * 0.06f;
 	}
 }

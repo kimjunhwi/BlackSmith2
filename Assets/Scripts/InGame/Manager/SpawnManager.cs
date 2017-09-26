@@ -133,7 +133,6 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			DeBuffParticlePool.Init ();
 
 			//터치 오브젝트들을 초기화 밑 할당 해줌 (추후 텍스트 추가)
-
 			BreakBoomPool.Instance.Init ();
 
 			TemperatureBoomPool.Instance.Init ();
@@ -684,6 +683,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		for (int nIndex = 0; nIndex < array_ArbaitData.Length; nIndex++) 
 		{
 			array_ArbaitData [nIndex].m_CharacterChangeData.dRepairPower = _dValue * array_ArbaitData [nIndex].m_CharacterChangeData.nPlayerGetRepair * 0.01f;
+			list_ArbaitUI [nIndex].ChangeArbaitText ();
 		}
 	}
 

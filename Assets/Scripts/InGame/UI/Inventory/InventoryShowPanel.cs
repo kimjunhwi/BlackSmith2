@@ -152,7 +152,7 @@ public class InventoryShowPanel : MonoBehaviour {
 
 		NameText.text = string.Format("{0} +{1}", ItemData.strName , ItemData.nStrenthCount);
 
-		GradeText.text = ItemData.sGrade;
+		GradeText.text = ItemData.sGrade + "등급";
 
 		WeaponImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache(ItemData.strResource);
 	

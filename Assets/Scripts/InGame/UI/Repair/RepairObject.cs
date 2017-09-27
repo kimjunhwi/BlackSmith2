@@ -457,8 +457,12 @@ public class RepairObject : MonoBehaviour
 
                     else
                     {
+						
+
 						if (bossCharacter == null)
 						{
+							dCurrentComplate = 0;
+
 							//터지는 파티클
 							ShowBreakWeapon ();
 							SoundManager.instance.PlaySound (eSoundArray.ES_TempratureExplosion);

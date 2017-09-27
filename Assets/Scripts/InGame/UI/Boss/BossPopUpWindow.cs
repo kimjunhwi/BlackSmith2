@@ -380,19 +380,19 @@ public class BossPopUpWindow : MonoBehaviour
 		HonorRewardImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache (strHonorImagePath);
 	
 
-		double nHonor = 0;
+		double dHonor = 0;
 
 		if (nCurBossLevel <= 1) 
 		{
-			nHonor = (double) Mathf.RoundToInt(GameManager.Instance.bossInfo [nBossIndex].nHonor + (2.4f));
-			ScoreManager.ScoreInstance.HonorPlus (nHonor);
-			HonorText.text = string.Format("{0}", Honor);
+			dHonor = (double) Mathf.RoundToInt(GameManager.Instance.bossInfo [nBossIndex].nHonor + (2.4f));
+			ScoreManager.ScoreInstance.HonorPlus (dHonor);
+			HonorText.text = string.Format("{0}", dHonor);
 		} 
 		else 
 		{
-			nHonor = (double) Mathf.RoundToInt (GameManager.Instance.bossInfo [nBossIndex].nHonor + (2.4f * (nCurBossLevel -1)));
-			ScoreManager.ScoreInstance.HonorPlus (nHonor);
-			HonorText.text = string.Format("{0}",nHonor);
+			dHonor = (double) Mathf.RoundToInt (GameManager.Instance.bossInfo [nBossIndex].nHonor + (2.4f * (nCurBossLevel -1)));
+			ScoreManager.ScoreInstance.HonorPlus (dHonor);
+			HonorText.text = string.Format("{0}",dHonor);
 		}
 	
 

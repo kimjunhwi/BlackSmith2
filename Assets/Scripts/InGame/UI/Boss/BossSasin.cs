@@ -230,7 +230,10 @@ public class BossSasin : BossCharacter
 			bossTalkPanel.StartShowBossTalkWindow (2f, bossWord [(int)E_BOSSWORD.E_BOSSWORD_END]);
 		else
 			bossTalkPanel.StartShowBossTalkWindow (2f, "노오력이 부족하군");
-		
+
+		repairObj.SetFinishBoss ();									//수리 패널 초기화
+
+
 		animator.SetBool ("isDisappear", true);
 
 
@@ -257,8 +260,7 @@ public class BossSasin : BossCharacter
 
 			//Weapon 터지는 효과
 			repairObj.ShowBreakWeapon ();
-			repairObj.SetFinishBoss ();									//수리 패널 초기화
-
+		
 		}
 		StartCoroutine (BossResult ());
 		yield break;

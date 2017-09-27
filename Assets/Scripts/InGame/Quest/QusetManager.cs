@@ -87,6 +87,26 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		isInGameOnOff = false;
 	}
 
+	public void StartCheckExpreesion()
+	{
+		StartCoroutine (CheckExpression ());
+	}
+
+	public IEnumerator CheckExpression()
+	{
+		QuestPanel questPanel;
+		while (true) 
+		{
+			for (int i = 0; i < questObjects.Count; i++)
+			{
+				questPanel = questObjects [i].GetComponent<QuestPanel> ();
+				if (questPanel.nCompareCondition >= questPanel.nCompleteCondition)
+					expressionMark.SetActive (true);
+			}
+			yield return new WaitForSeconds (1.0f);
+		}
+	}
+
 	public void SetUp()
 	{
 		//gameObject.transform.GetChild(0).gameObject.SetActive (true);
@@ -113,6 +133,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			Debug.Log ("Quest first Active");
 			QuestInitStart ();
 			GameManager.Instance.SaveQuestList ();
+			StartCheckExpreesion ();
 			return;
 		}
 	
@@ -152,6 +173,8 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 	void Update()
 	{
+
+
 		//마일리지 슬라이더
 		if (silder.value < ((float)nQuestMileCount / (float)nQeustMaxMileCount)) 
 		{
@@ -254,6 +277,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			{
 				SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
 				deleteQuestPanel.bIsQuest = true;
+				deleteQuestPanel.nCompareCondition = 0;
 				deleteQuestPanel.completeButton.SetActive (false);
 				questObjectPool.ReturnObject (go);
 				questObjects.Remove (deleteQuestPanel);

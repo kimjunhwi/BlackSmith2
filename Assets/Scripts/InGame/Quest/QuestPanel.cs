@@ -73,7 +73,7 @@ public class QuestPanel : MonoBehaviour
 			Debug.Log ("Quest Panel Update");
 			QuestCompleteActive ();
 			textProgressValue.text = string.Format ("{0}", nCompleteCondition)  +"/" + string.Format ("{0}", nCompleteCondition);
-			questManager.expressionMark.SetActive (true);
+			//questManager.expressionMark.SetActive (true);
 			bIsCheckComplete = true;
 			bIsQuest = false;
 		}
@@ -198,66 +198,21 @@ public class QuestPanel : MonoBehaviour
 	public void GetQuestCompleteReward()
 	{
 		
-		for (int i = 0; i < 3; i++)
+		if (nMutiplyValue <= 2) 
 		{
-			if (i == 0) 
-			{
-				if (nMutiplyValue <= 2) 
-				{
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
-				}
-				else if (nMutiplyValue <= 3)
-				{
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
-					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
-				} 
-				else
-				{
-					ScoreManager.ScoreInstance.RubyPlus (questData.nRewardRuby * nMutiplyValue);
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
-					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
+			ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
+		}
+		else if (nMutiplyValue <= 3)
+		{
+			ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
+			GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
+		} 
+		else
+		{
+			ScoreManager.ScoreInstance.RubyPlus (questData.nRewardRuby * nMutiplyValue);
+			ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
+			GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
 
-				}
-
-			}
-			else if (i == 1) 
-			{
-				if (nMutiplyValue <= 2) 
-				{
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
-				}
-				else if (nMutiplyValue <= 3)
-				{
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
-					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
-				} 
-				else
-				{
-					ScoreManager.ScoreInstance.RubyPlus (questData.nRewardRuby * nMutiplyValue);
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
-					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
-
-				}
-			} 
-			else 
-			{
-				if (nMutiplyValue <= 2) 
-				{
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
-				}
-				else if (nMutiplyValue <= 3)
-				{
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
-					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
-				} 
-				else
-				{
-					ScoreManager.ScoreInstance.RubyPlus (questData.nRewardRuby * nMutiplyValue);
-					ScoreManager.ScoreInstance.HonorPlus (questData.nRewardHonor * nMutiplyValue);
-					GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += questData.nRewardBossPotion;
-
-				}
-			}
 		}
 
 		//마일리지 체크

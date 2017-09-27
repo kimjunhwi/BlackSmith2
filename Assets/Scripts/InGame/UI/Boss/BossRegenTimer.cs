@@ -33,7 +33,8 @@ public class BossRegenTimer : MonoBehaviour
 	}
 	void Update()
 	{
-		if (isTimeOn == true) {
+		if (isTimeOn == true) 
+		{
 			StartTimer (nInitTime_Min, nInitTime_sec);
 			isTimeOn = false;
 		}

@@ -203,7 +203,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 				fCurSec = playerData.changeStats.fGoblinSecond;
 			}
 
-
+			//QuestSetUp
+			questManager.SetUp();
 
 		}
 	}
@@ -807,37 +808,38 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		float fTime = 0.0f;
 		float fValue = 0.0f;
 
-		if (m_BatchArbait[(int)E_ARBAIT.E_GLAUS].activeSelf)
-		{
-			fTime = array_ArbaitData [(int)E_ARBAIT.E_GLAUS].m_CharacterChangeData.fCurrentFloat;
-			fValue = array_ArbaitData [(int)E_ARBAIT.E_GLAUS].m_CharacterChangeData.fSkillPercent;
+		if (Random.Range (0, 100) <= 20) {
 
-			array_ArbaitData [(int)E_ARBAIT.E_GLAUS].StartAura (fTime);
+			if (m_BatchArbait [(int)E_ARBAIT.E_GLAUS].activeSelf) {
+				fTime = array_ArbaitData [(int)E_ARBAIT.E_GLAUS].m_CharacterChangeData.fCurrentFloat;
+				fValue = array_ArbaitData [(int)E_ARBAIT.E_GLAUS].m_CharacterChangeData.fSkillPercent;
 
-			for (int nIndex = 0; nIndex < array_ArbaitData.Length; nIndex++) 
-				if(m_BatchArbait[nIndex].activeSelf)
-					StartCoroutine(array_ArbaitData[nIndex].ApplySmithCriticalBuffAccuracy(fValue,fTime));
+				array_ArbaitData [(int)E_ARBAIT.E_GLAUS].StartAura (fTime);
 
-			array_ArbaitData [(int)E_ARBAIT.E_GLAUS].ApplySkill ();
-		}
+				for (int nIndex = 0; nIndex < array_ArbaitData.Length; nIndex++)
+					if (m_BatchArbait [nIndex].activeSelf)
+						StartCoroutine (array_ArbaitData [nIndex].ApplySmithCriticalBuffAccuracy (fValue, fTime));
 
-		if (m_BatchArbait[(int)E_ARBAIT.E_ELLIE].activeSelf)
-        {
-			fTime = array_ArbaitData [(int)E_ARBAIT.E_ELLIE].m_CharacterChangeData.fCurrentFloat;
-			fValue = array_ArbaitData [(int)E_ARBAIT.E_ELLIE].m_CharacterChangeData.fSkillPercent;
+				array_ArbaitData [(int)E_ARBAIT.E_GLAUS].ApplySkill ();
+			}
 
-			array_ArbaitData [(int)E_ARBAIT.E_ELLIE].StartAura (fTime);
+			if (m_BatchArbait [(int)E_ARBAIT.E_ELLIE].activeSelf) {
+				fTime = array_ArbaitData [(int)E_ARBAIT.E_ELLIE].m_CharacterChangeData.fCurrentFloat;
+				fValue = array_ArbaitData [(int)E_ARBAIT.E_ELLIE].m_CharacterChangeData.fSkillPercent;
 
-			for (int nIndex = 0; nIndex < array_ArbaitData.Length; nIndex++) 
-				if(m_BatchArbait[nIndex].activeSelf)
-					array_ArbaitData[nIndex].ApplyCriticalArbaitBuffAttackSpeed(fValue,fTime);
-        }
+				array_ArbaitData [(int)E_ARBAIT.E_ELLIE].StartAura (fTime);
 
-		if (m_BatchArbait [(int)E_ARBAIT.E_MICHEAL].activeSelf) {
+				for (int nIndex = 0; nIndex < array_ArbaitData.Length; nIndex++)
+					if (m_BatchArbait [nIndex].activeSelf)
+						array_ArbaitData [nIndex].ApplyCriticalArbaitBuffAttackSpeed (fValue, fTime);
+			}
 
-			array_ArbaitData [(int)E_ARBAIT.E_MICHEAL].StartAura (3);
+			if (m_BatchArbait [(int)E_ARBAIT.E_MICHEAL].activeSelf) {
 
-			array_ArbaitData [(int)E_ARBAIT.E_MICHEAL].ApplySkill ();
+				array_ArbaitData [(int)E_ARBAIT.E_MICHEAL].StartAura (3);
+
+				array_ArbaitData [(int)E_ARBAIT.E_MICHEAL].ApplySkill ();
+			}
 		}
     }
 
@@ -1092,6 +1094,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			SpawnManager.Instance.bossCreator.bossConsumeItemInfo.nInviteMentCurCount = GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCount;
 			bossCreator.bossConsumeItemInfo.inviteMentCount_Text.text = string.Format ("{0}/{1}",SpawnManager.Instance.bossCreator.bossConsumeItemInfo.nInviteMentCurCount, 
 				SpawnManager.Instance.bossCreator.bossConsumeItemInfo .nInviteMentMaxCount);
+
+			bossCreator.bossConsumeItemInfo.inviteMentTimer_Text.enabled = false;
 			return;
 		}
 		GameManager.Instance.ShowRewardAdd_Boss (bossCreator);

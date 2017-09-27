@@ -348,7 +348,9 @@ public class BossMusic : BossCharacter
 			bossTalkPanel.StartShowBossTalkWindow (2f, bossWord[(int)E_BOSSWORD.E_BOSSWORD_END]);
 		else
 			bossTalkPanel.StartShowBossTalkWindow (2f, "시무룩...");
-		
+		repairObj.SetFinishBoss ();									//수리 패널 초기화
+
+
 		animator.SetBool ("isDisappear", true);
 
 
@@ -390,7 +392,7 @@ public class BossMusic : BossCharacter
 
 
 					repairObj.ShowBreakWeapon ();
-					repairObj.SetFinishBoss ();									//수리 패널 초기화
+				
 					
 					break;
 				}

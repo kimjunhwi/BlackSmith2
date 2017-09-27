@@ -43,7 +43,8 @@ public class QuestTimer : MonoBehaviour
 	//초기화 시간이 지났는지
 	public bool checkIsTimeGone()
 	{
-		if (PlayerPrefs.HasKey ("EndSaveTime")) {
+		if (PlayerPrefs.HasKey ("EndSaveTime")) 
+		{
 			strTime = PlayerPrefs.GetString ("EndSaveTime");
 			EndData = System.Convert.ToDateTime (strTime);
 		}
@@ -51,6 +52,8 @@ public class QuestTimer : MonoBehaviour
 		{
 			EndData = System.DateTime.Now;
 		}
+
+
 		StartedTime = System.DateTime.Now;
 		Debug.Log ("StartTime :"+ StartedTime + " / EndTime :" + EndData);
 		timeCal = StartedTime - EndData;
@@ -71,12 +74,19 @@ public class QuestTimer : MonoBehaviour
 
 	public void LoadTimeAndCheckTimeEnd()
 	{
-		if (PlayerPrefs.HasKey ("EndSaveTime"))
+		//gameObject.SetActive (true);
+
+		if (PlayerPrefs.HasKey ("EndSaveTime")) 
 		{
 			strTime = PlayerPrefs.GetString ("EndSaveTime");
 			EndData = System.Convert.ToDateTime (strTime);
 		}
-			
+		else
+		{
+			Debug.Log ("init Time");
+			InitQuestTimer ();
+			return;
+		}
 		StartedTime = System.DateTime.Now;
 		Debug.Log ("StartTime :"+ StartedTime + " / EndTime :" + EndData);
 		timeCal = StartedTime - EndData;
@@ -98,34 +108,57 @@ public class QuestTimer : MonoBehaviour
 		{
 			int nPassedTime_Min = (int)timeCal.TotalMinutes;
 			int nPassedTime_Sec = (int)timeCal.TotalSeconds % 60;
-			isTimeOn = true;
 
 			//60분이 지나지 않았으면 현재까지 지난 시간을 띄워준다
 			//Local Load
 			if (nPassedTime_Min < 60 && GameManager.Instance.cQuestSaveListInfo [0].bIsGoogleLoad == false)
 			{
+				Debug.Log ("Local Load");
+
 				int ResultTime_Min = nInitTime_Min - nPassedTime_Min;
+				if (ResultTime_Min < 0)
+					ResultTime_Min = -ResultTime_Min;
 
 				int ResultTime_Sec = nInitTime_sec - nPassedTime_Sec;
 				if (ResultTime_Sec < 0)
 					ResultTime_Sec = -ResultTime_Sec;
 
-				StartCoroutine (Timer (ResultTime_Min, ResultTime_Sec));
+				if (isTimeOn != true)
+					StartQuestTimer (ResultTime_Min, ResultTime_Sec);
+				else
+				{
+					curMin = ResultTime_Min;
+					fCurSec = ResultTime_Sec;
+				}
 			}
 			//Google Saved Load
 			else 
 			{
+				Debug.Log ("Cloud Load");
 				int ResultTime_Min =  nInitTime_Min - GameManager.Instance.cQuestSaveListInfo [0].nCurLeftMin;
-
+				if (ResultTime_Min < 0)
+					ResultTime_Min = -ResultTime_Min;
+				
 				int ResultTime_Sec =  nInitTime_sec - (int)GameManager.Instance.cQuestSaveListInfo [0].fCurLeftSec;
 				if (ResultTime_Sec < 0)
 					ResultTime_Sec = -ResultTime_Sec;
 
-				StartCoroutine (Timer (ResultTime_Min, ResultTime_Sec));
+				GameManager.Instance.cQuestSaveListInfo [0].bIsGoogleLoad = false;
+				GameManager.Instance.SaveQuestList ();
+
+				if (isTimeOn != true)
+					StartQuestTimer (ResultTime_Min, ResultTime_Sec);
+				else
+				{
+					curMin = ResultTime_Min;
+					fCurSec = ResultTime_Sec;
+				}
 			}
-			QuestTimer_Text.enabled = true;
+			//QuestTimer_Text.enabled = true;
 		}
 	}
+
+
 
 	public void StartQuestTimer()
 	{
@@ -134,14 +167,23 @@ public class QuestTimer : MonoBehaviour
 		isTimeOn = true;
 		nInitTime_Min = 59;
 		nInitTime_sec = 59;
-		Debug.Log ("QuestTimer is On : " + isTimeOn + " Start Timer !");
+
 		StartCoroutine (Timer (nInitTime_Min, nInitTime_sec));
+	}
+
+	public void StartQuestTimer(int _min , int _sec)
+	{
+		gameObject.SetActive (true);
+		QuestTimer_Text.enabled = true;
+		isTimeOn = true;
+
+		StartCoroutine (Timer (_min, _sec));
 	}
 	public void InitQuestTimer()
 	{
 		nInitTime_Min = 59;
 		nInitTime_sec = 59;
-		Debug.Log ("QuestTimer is On : " + isTimeOn + " Start Timer !");
+	
 		QuestTimer_Text.enabled = false;
 		isTimeOn = false;
 		gameObject.SetActive (false);

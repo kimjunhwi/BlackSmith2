@@ -36,7 +36,6 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	public int nQuestMileCount = 0;
 	public int nQeustMaxMileCount = 0;				
 	private int nQuestTotalCount = 0;						//전체 퀘스트 개수
-	private int nQuestTypeTotalCount = 18;
 
 	public GameObject questAdsPopUpWindow_YesNo;			//Yes or No
 	public Button questAdsPopUpWindow_AdsButton;			//Yes or No가 있는 창에서의 YesButton
@@ -75,30 +74,48 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 	public GameObject expressionMark;
 
-	Color CheckColor;
 
 	//Timer
 	public 	Text timerText;
 	public QuestTimer questTimer;
 
-	private bool isLoginAndFirstActive = false;
 	private bool isInGameOnOff = false;
+
 
 	void Awake()
 	{
 		isInGameOnOff = false;
 	}
 
+	public void StartCheckExpreesion()
+	{
+		StartCoroutine (CheckExpression ());
+	}
+
+	public IEnumerator CheckExpression()
+	{
+		QuestPanel questPanel;
+		while (true) 
+		{
+			for (int i = 0; i < questObjects.Count; i++)
+			{
+				questPanel = questObjects [i].GetComponent<QuestPanel> ();
+				if (questPanel.nCompareCondition >= questPanel.nCompleteCondition)
+					expressionMark.SetActive (true);
+			}
+			yield return new WaitForSeconds (1.0f);
+		}
+	}
+
 	public void SetUp()
 	{
-		gameObject.SetActive (true);
+		//gameObject.transform.GetChild(0).gameObject.SetActive (true);
 
 		questObjectPool.PreloadPool ();
 		questDatas = GameManager.Instance.cQusetInfo;	//data push
 		nQuestMaxCount = questDatas.Length;
 		nQeustMaxMileCount = 40;
 
-		CheckColor = new Color (255.0f, 0, 0, 255.0f);
 
 		//rewardCurMile_Text = string.Format ("{0}", 0);
 		//마일리지 포인트 
@@ -116,6 +133,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			Debug.Log ("Quest first Active");
 			QuestInitStart ();
 			GameManager.Instance.SaveQuestList ();
+			StartCheckExpreesion ();
 			return;
 		}
 	
@@ -155,6 +173,8 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 	void Update()
 	{
+
+
 		//마일리지 슬라이더
 		if (silder.value < ((float)nQuestMileCount / (float)nQeustMaxMileCount)) 
 		{
@@ -188,6 +208,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		{
 			SaveQuestData ();
 			questTimer.SaveTime ();
+			questTimer.isTimeOn = false;
 			getInfoGameObject.SetActive (false);
 		}
 	}
@@ -256,6 +277,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			{
 				SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
 				deleteQuestPanel.bIsQuest = true;
+				deleteQuestPanel.nCompareCondition = 0;
 				deleteQuestPanel.completeButton.SetActive (false);
 				questObjectPool.ReturnObject (go);
 				questObjects.Remove (deleteQuestPanel);
@@ -335,6 +357,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 		QuestSaveDataDispatch ();	//Data Dispatch
 
+		questTimer.LoadTimeAndCheckTimeEnd ();
 		isInitConfirm = false;
 
 	}
@@ -372,8 +395,9 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 			questTimer.isTimeOn = false;
 			questTimer.isTimeEnd = false;
-			questTimer.InitQuestTimer ();
+			questTimer.InitQuestTimer (); //Timer On
 			questTimer.addQuestToEmptySpace.SetActive (false);
+			questTimer.SaveTime ();		//Save Time
 			return;
 		}
 

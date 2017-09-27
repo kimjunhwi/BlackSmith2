@@ -267,6 +267,9 @@ public class BossFire : BossCharacter
 		else
 			bossTalkPanel.StartShowBossTalkWindow (2f, "흥. 기대를 하다니 어리석었군");
 		//Animator Bool change
+		repairObj.SetFinishBoss ();									//수리 패널 초기화
+
+
 		animator.SetBool ("isDisappear", true);
 
 	
@@ -304,7 +307,6 @@ public class BossFire : BossCharacter
 				
 					//Weapon 터지는 효과
 					repairObj.ShowBreakWeapon ();
-					repairObj.SetFinishBoss ();									//수리 패널 초기화
 
 
 					break;

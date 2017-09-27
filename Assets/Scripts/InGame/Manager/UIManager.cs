@@ -77,6 +77,8 @@ public class UIManager : MonoBehaviour
 		else
 		{
 			AllDisable ();
+			questManager.questTimer.isTimeOn = false;
+
 			uiPanels [nIndex].SetActive (true);
 			if (nIndex != 5 && nIndex != 6)
 			{

@@ -142,28 +142,28 @@ public class ShopCash : MonoBehaviour , IStoreListener
 				if (addSlotObjs [_index].transform.GetChild (1) && GameManager.Instance.GetPlayer ().changeStats.bIsBossIcePackageBuy == true) 
 				{
 					Debug.Log ("보스 아이스 패키지 블록");
-					ShopCashSlot shopCashSlot = addSlotObjs [_index].transform.GetChild (0).GetComponent<ShopCashSlot> ();
+					ShopCashSlot shopCashSlot = addSlotObjs [_index].transform.GetChild (1).GetComponent<ShopCashSlot> ();
 					shopCashSlot.BlockImage_Obj.SetActive (true);
 				}
 
 				if (addSlotObjs [_index].transform.GetChild (2) && GameManager.Instance.GetPlayer ().changeStats.bIsBossSasinPackageBuy == true) 
 				{
 					Debug.Log ("보스 사신 패키지 블록");
-					ShopCashSlot shopCashSlot = addSlotObjs [_index].transform.GetChild (0).GetComponent<ShopCashSlot> ();
+					ShopCashSlot shopCashSlot = addSlotObjs [_index].transform.GetChild (2).GetComponent<ShopCashSlot> ();
 					shopCashSlot.BlockImage_Obj.SetActive (true);
 				}
 
 				if (addSlotObjs [_index].transform.GetChild (3) && GameManager.Instance.GetPlayer ().changeStats.bIsBossFirePackageBuy == true) 
 				{
 					Debug.Log ("보스 불 패키지 블록");
-					ShopCashSlot shopCashSlot = addSlotObjs [_index].transform.GetChild (0).GetComponent<ShopCashSlot> ();
+					ShopCashSlot shopCashSlot = addSlotObjs [_index].transform.GetChild (3).GetComponent<ShopCashSlot> ();
 					shopCashSlot.BlockImage_Obj.SetActive (true);
 				}
 
 				if (addSlotObjs [_index].transform.GetChild (4) && GameManager.Instance.GetPlayer ().changeStats.bIsBossMusicPackageBuy == true) 
 				{
 					Debug.Log ("보스 음악 패키지 블록");
-					ShopCashSlot shopCashSlot = addSlotObjs [_index].transform.GetChild (0).GetComponent<ShopCashSlot> ();
+					ShopCashSlot shopCashSlot = addSlotObjs [_index].transform.GetChild (4).GetComponent<ShopCashSlot> ();
 					shopCashSlot.BlockImage_Obj.SetActive (true);
 				}
 			}
@@ -586,7 +586,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			itemBuy_Text.text = string.Format("{0}",nHonor) + "명예를 구입 하시겠습니까?";
 
 			itemBuy_YesButton.onClick.RemoveAllListeners ();
-			itemBuy_YesButton.onClick.AddListener (() => AddResource (nIndex, 300, getCashItemInfo [nIndex].fRuby, GameManager.Instance.player.GetDay()  , 0f));
+			itemBuy_YesButton.onClick.AddListener (() => AddResource (nIndex, nHonor, getCashItemInfo [nIndex].fRuby, GameManager.Instance.player.GetDay()  , 0f));
 			GameObjectActive (YesNoPopUp_Obj);
 		}
 
@@ -597,7 +597,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			itemBuy_Text.text = string.Format("{0}",nHonor) + "명예를 구입 하시겠습니까?";
 
 			itemBuy_YesButton.onClick.RemoveAllListeners ();
-			itemBuy_YesButton.onClick.AddListener (() => AddResource (nIndex, 500, getCashItemInfo [nIndex].fRuby, GameManager.Instance.player.GetDay(), 0f ));
+			itemBuy_YesButton.onClick.AddListener (() => AddResource (nIndex, nHonor, getCashItemInfo [nIndex].fRuby, GameManager.Instance.player.GetDay(), 0f ));
 			GameObjectActive (YesNoPopUp_Obj);
 		}
 

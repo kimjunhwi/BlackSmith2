@@ -262,7 +262,7 @@ public class OrangeHair : ArbaitBatch {
 				if (m_dComplate >= weaponData.dMaxComplate)
 				{
 					ScoreManager.ScoreInstance.GoldPlus(100);
-
+					SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ARBAITSUCCESS, 1);
 					ComplateWeapon();
 				}
 

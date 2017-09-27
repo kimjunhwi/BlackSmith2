@@ -272,7 +272,7 @@ public class BossIce : BossCharacter
 			bossTalkPanel.StartShowBossTalkWindow (2f, "올해도 혼자구나...");
 		animator.SetBool ("isDisappear", true);
 
-	
+		repairObj.SetFinishBoss ();		//수리 패널 초기화
 
 		while (true)
 		{
@@ -310,7 +310,7 @@ public class BossIce : BossCharacter
 
 				//Weapon 터지는 효과
 				repairObj.ShowBreakWeapon ();
-				repairObj.SetFinishBoss ();		//수리 패널 초기화
+		
 
 				break;
 			}

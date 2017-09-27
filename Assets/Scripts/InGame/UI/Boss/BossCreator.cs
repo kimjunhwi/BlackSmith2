@@ -300,7 +300,7 @@ public class BossCreator : MonoBehaviour
 			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_BEGIN] = "여자친구를 조각해줘...";
 			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE01] = "날이 좀 추워진 거 같지 않아?";
 			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE02] = "나도 이젠 솔로 탈출인거임?";
-			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "그럼 이만!";
+			bossIce.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "고마워!!";
 
 			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToIceBoss == false )
 			{
@@ -343,10 +343,10 @@ public class BossCreator : MonoBehaviour
 			bossSasin.GuestPanel = GuestPanel;
 			bossSasin.qusetManager = questManager;
 
-			bossSasin.bossWord [(int)E_BOSSWORD.E_BOSSWORD_BEGIN] = "내가 사신이지롱";
-			bossSasin.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE01] = "나 화났어 ㅡ,ㅡ";
-			bossSasin.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE02] = "뿌우우우우우!!!";
-			bossSasin.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "꾸앙 ㅇㅁㅇ...";
+			bossSasin.bossWord [(int)E_BOSSWORD.E_BOSSWORD_BEGIN] = "시련을 시작하지...";
+			bossSasin.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE01] =  "지금부터 시작이다!!";
+			bossSasin.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE02] = "꽤 잘 버티는군";
+			bossSasin.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "인간치곤 대단하군";
 
 			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToSasinBoss == false)
 			{
@@ -390,10 +390,10 @@ public class BossCreator : MonoBehaviour
 			bossFire.GuestPanel = GuestPanel;
 			bossFire.qusetManager = questManager;
 
-			bossFire.bossWord [(int)E_BOSSWORD.E_BOSSWORD_BEGIN] = "Fire~~~";
-			bossFire.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE01] = "흐으음~~~";
-			bossFire.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE02] = "파이어 ~~~!";
-			bossFire.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "Bye~~~!";
+			bossFire.bossWord [(int)E_BOSSWORD.E_BOSSWORD_BEGIN] = "왕관을 고칠 기회를 주지!";
+			bossFire.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE01] = "벌써 지친건가?";
+			bossFire.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE02] = "고작 이정도로 힘들어 하다니";
+			bossFire.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "인간치곤 괜찮은 실력이었다.";
 
 			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToFireBoss == false)
 			{
@@ -440,10 +440,10 @@ public class BossCreator : MonoBehaviour
 			bossMusic.GuestPanel = GuestPanel;
 			bossMusic.qusetManager = questManager;
 
-			bossMusic.bossWord [(int)E_BOSSWORD.E_BOSSWORD_BEGIN] = "소리 질러~!";
-			bossMusic.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE01] = "Whoh~";
-			bossMusic.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE02] = "Drop the beat~!";
-			bossMusic.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "SeeYa!";
+			bossMusic.bossWord [(int)E_BOSSWORD.E_BOSSWORD_BEGIN] = "흥이 나질않아..";
+			bossMusic.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE01] = "바로 그거야!!";
+			bossMusic.bossWord [(int)E_BOSSWORD.E_BOSSWORD_PHASE02] = "제대로 놀아보자!!";
+			bossMusic.bossWord [(int)E_BOSSWORD.E_BOSSWORD_END] = "휴우 좋은 파티였어 브로~!";
 
 			if (GameManager.Instance.cBossPanelListInfo [0].isFirstFightToMusicBoss == false)
 			{

@@ -266,8 +266,10 @@ public class BossIce : BossCharacter
 
 	protected override IEnumerator BossDie ()
 	{
-
-		bossTalkPanel.StartShowBossTalkWindow (2f, bossWord[(int)E_BOSSWORD.E_BOSSWORD_END]);
+		if(isFailed == false)
+			bossTalkPanel.StartShowBossTalkWindow (2f, bossWord[(int)E_BOSSWORD.E_BOSSWORD_END]);
+		else
+			bossTalkPanel.StartShowBossTalkWindow (2f, "올해도 혼자구나...");
 		animator.SetBool ("isDisappear", true);
 
 	

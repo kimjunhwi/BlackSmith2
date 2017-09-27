@@ -226,7 +226,11 @@ public class BossSasin : BossCharacter
 	{
 		yield return null;
 		ActiveTimer ();
-		bossTalkPanel.StartShowBossTalkWindow (2f, bossWord[(int)E_BOSSWORD.E_BOSSWORD_END]);
+		if (isFailed == false)
+			bossTalkPanel.StartShowBossTalkWindow (2f, bossWord [(int)E_BOSSWORD.E_BOSSWORD_END]);
+		else
+			bossTalkPanel.StartShowBossTalkWindow (2f, "노오력이 부족하군");
+		
 		animator.SetBool ("isDisappear", true);
 
 
@@ -262,12 +266,14 @@ public class BossSasin : BossCharacter
 
 	protected override IEnumerator BossResult ()
 	{
+		
 		//ChangeSound
 		//SoundManager.instance.ChangeBGM(eSoundArray.BGM_BossBattle, eSoundArray.BGM_Main);
 		while (true)
 		{
 			//확인버튼을 누르면 피니쉬로 넘어간다
-			if (eCureentBossState == EBOSS_STATE.FINISH) {
+			if (eCureentBossState == EBOSS_STATE.FINISH) 
+			{
 				StartCoroutine (BossFinish ());
 				yield break;
 			}

@@ -344,7 +344,11 @@ public class BossMusic : BossCharacter
 
 	protected override IEnumerator BossDie ()
 	{
-		bossTalkPanel.StartShowBossTalkWindow (2f, bossWord[(int)E_BOSSWORD.E_BOSSWORD_END]);
+		if(isFailed == false)
+			bossTalkPanel.StartShowBossTalkWindow (2f, bossWord[(int)E_BOSSWORD.E_BOSSWORD_END]);
+		else
+			bossTalkPanel.StartShowBossTalkWindow (2f, "시무룩...");
+		
 		animator.SetBool ("isDisappear", true);
 
 

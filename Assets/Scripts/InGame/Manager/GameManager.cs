@@ -2023,6 +2023,7 @@ public class CGameEquiment
 	public int nBasicGold = 1000;
 	public string strWeaponExplain ="";
 	public float fBossOptionValue = 0.0f;
+	public float fBasicOptionValue = 0.0f;
 	public bool bIsBoss = false;
 
 	public CGameEquiment(){}
@@ -2046,6 +2047,8 @@ public class CGameEquiment
 		nStrenthCount = _equimentData.nStrenthCount;
 		bIsEquip = _equimentData.bIsEquip;
 		fOptionPlus = _equimentData.fOptionPlus;
+		fBossOptionValue = _equimentData.fBossOptionValue;
+		fBasicOptionValue = _equimentData.fBossOptionValue;
 		nBasicGold = _equimentData.nBasicGold;
 		strWeaponExplain = _equimentData.strWeaponExplain;
 		bIsBoss = _equimentData.bIsBoss;

@@ -83,14 +83,14 @@ public class Ice : ArbaitBatch {
 	{
 		m_CharacterChangeData.name = name;
 
-		m_CharacterChangeData.strExplains = string.Format ("물 Plus {0}%, 크리데미지 {1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
+		m_CharacterChangeData.strExplains = string.Format ("물 Plus {0:F1}%, 크리데미지 {1:F1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
 	}
 
 	public override void EnhacneArbait ()
 	{
 		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
 
-		m_CharacterChangeData.strExplains = string.Format ("물 Plus {0}%, 크리데미지 {1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
+		m_CharacterChangeData.strExplains = string.Format ("물 Plus {0:F1}%, 크리데미지 {1:F1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
 	}
 
 	public override void CheckCharacterState(E_ArbaitState _E_STATE)

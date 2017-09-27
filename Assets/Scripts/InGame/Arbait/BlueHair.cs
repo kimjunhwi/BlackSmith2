@@ -33,7 +33,7 @@ public class BlueHair : ArbaitBatch {
 	public override void Setting ()
 	{
 		m_CharacterChangeData.name = name;
-		m_CharacterChangeData.strExplains = string.Format ("대장장이 수리력 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+		m_CharacterChangeData.strExplains = string.Format ("대장장이 수리력 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
 
 	}
 
@@ -81,7 +81,7 @@ public class BlueHair : ArbaitBatch {
 	{
 		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
 
-		m_CharacterChangeData.strExplains = string.Format ("대장장이 수리력 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+		m_CharacterChangeData.strExplains = string.Format ("대장장이 수리력 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
 
     public override void ApplySkill()
@@ -198,6 +198,7 @@ public class BlueHair : ArbaitBatch {
 			if (fTime >= m_CharacterChangeData.fAttackSpeed)
 			{
 				fTime = 0.0f;
+				m_dCalComaplete = 0;
 
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 

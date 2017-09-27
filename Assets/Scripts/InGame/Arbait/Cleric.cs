@@ -93,13 +93,13 @@ public class Cleric : ArbaitBatch {
 	{
 		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
 
-		strSkillExplain = string.Format ("본인 크리시 대장장이 수리력, 크리확률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+		strSkillExplain = string.Format ("본인 크리시 대장장이 수리력, 크리확률 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
 
 	public override void Setting ()
 	{
 		m_CharacterChangeData.name = name;
-		m_CharacterChangeData.strExplains = string.Format ("본인 크리시 대장장이 수리력, 크리확률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+		m_CharacterChangeData.strExplains = string.Format ("본인 크리시 대장장이 수리력, 크리확률 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
 
 	}
 
@@ -303,6 +303,7 @@ public class Cleric : ArbaitBatch {
 			if (fTime >= m_CharacterChangeData.fAttackSpeed)
 			{
 				fTime = 0.0f;
+				m_dCalComaplete = 0;
 
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 

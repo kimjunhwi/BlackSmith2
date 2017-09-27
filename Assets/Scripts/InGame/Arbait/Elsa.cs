@@ -56,7 +56,7 @@ public class Elsa : ArbaitBatch {
 	public override void Setting ()
 	{
 		m_CharacterChangeData.name = name;
-		m_CharacterChangeData.strExplains = string.Format ("물 사용시 모든 직원 공격속도 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+		m_CharacterChangeData.strExplains = string.Format ("물 사용시 모든 직원 공격속도 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
 
 	}
 
@@ -82,7 +82,7 @@ public class Elsa : ArbaitBatch {
 	{
 		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
 
-		m_CharacterChangeData.strExplains = string.Format ("물 사용시 모든 직원 공격속도 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+		m_CharacterChangeData.strExplains = string.Format ("물 사용시 모든 직원 공격속도 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
 
 	public override IEnumerator AuraParticle ()
@@ -198,6 +198,7 @@ public class Elsa : ArbaitBatch {
 			if (fTime >= m_CharacterChangeData.fAttackSpeed)
 			{
 				fTime = 0.0f;
+				m_dCalComaplete = 0;
 
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 

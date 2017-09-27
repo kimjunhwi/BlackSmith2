@@ -84,7 +84,7 @@ public class Sasin : ArbaitBatch {
 	public override void Setting ()
 	{
 		m_CharacterChangeData.name = name;
-		m_CharacterChangeData.strExplains = string.Format ("현재 완성도 50% 이하 일 때 사신 공격력, 공격속도 {0}% 상승, 대장장이 수리력 {1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
+		m_CharacterChangeData.strExplains = string.Format ("현재 완성도 50% 이하 일 때 사신 공격력, 공격속도 {0:F1}% 상승, 대장장이 수리력 {1:F1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
 
 	}
 
@@ -92,7 +92,7 @@ public class Sasin : ArbaitBatch {
 	{
 		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
 
-		m_CharacterChangeData.strExplains = string.Format ("현재 완성도 50% 이하 일 때 사신 공격력, 공격속도 {0}% 상승, 대장장이 수리력 {1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
+		m_CharacterChangeData.strExplains = string.Format ("현재 완성도 50% 이하 일 때 사신 공격력, 공격속도 {0:F1}% 상승, 대장장이 수리력 {1:F1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
 	}
 
 	public override void StartAura (float _fTime)
@@ -198,7 +198,7 @@ public class Sasin : ArbaitBatch {
 			if (fTime >= m_CharacterChangeData.fAttackSpeed - m_dMinusAttackSpeed)
 			{
 				fTime = 0.0f;
-				m_dComplate = 0;
+				m_dCalComaplete = 0;
 
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 
@@ -225,16 +225,23 @@ public class Sasin : ArbaitBatch {
 				//크리티컬 확률 
 				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) 
 				{
-					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
+					m_dCalComaplete += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
 
 					RepairParticle (true);
 
 				} else 
 				{
 					RepairParticle (false);
-					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
+					m_dCalComaplete += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
 				}
-				m_dComplate += m_dComplate * fBossRepairPercent * 0.01f;
+
+				m_dCalComaplete += m_dCalComaplete * fBossRepairPercent * 0.01f;
+
+				if (spawnManager.shopCash.isConumeBuff_Staff)
+					m_dCalComaplete *= 2;
+
+				m_dComplate += m_dCalComaplete;
+
 				//완성 됐을 경우
 				if (m_dComplate >= weaponData.dMaxComplate)
 				{
@@ -255,7 +262,7 @@ public class Sasin : ArbaitBatch {
 			if(fTime >= m_fRepairTime)
 			{
 				fTime = 0.0f;
-				m_dComplate = 0;
+				m_dCalComaplete = 0;
 
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 
@@ -282,16 +289,20 @@ public class Sasin : ArbaitBatch {
 				//크리티컬 확률 
 				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) 
 				{
-					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
+					m_dCalComaplete += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
 
 					RepairParticle (true);
 
 				} else 
 				{
 					RepairParticle (false);
-					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
+					m_dCalComaplete += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
 				}
-				m_dComplate += m_dComplate * fBossRepairPercent * 0.01f;
+
+				m_dCalComaplete += m_dCalComaplete * fBossRepairPercent * 0.01f;
+
+				if (spawnManager.shopCash.isConumeBuff_Staff)
+					m_dCalComaplete *= 2;
 
 				RepairShowObject.SetCurCompletion(m_dComplate);
 			}

@@ -447,6 +447,24 @@ public class BossPopUpWindow : MonoBehaviour
 		resultEquiment.nSlotIndex = getEquiment.nSlotIndex;
 		resultEquiment.strResource = getEquiment.strResource;
 		resultEquiment.strWeaponExplain = getEquiment.strWeaponExplain;
+
+		if (getEquiment.nIndex == (int)E_BOSS_ITEM.ICE_MORU)
+			resultEquiment.fBossOptionValue = 3;
+		else if (getEquiment.nIndex == (int)E_BOSS_ITEM.ICE_RING)
+			resultEquiment.fBossOptionValue = 30;
+		else if (getEquiment.nIndex == (int)E_BOSS_ITEM.SASIN_MORU)
+			resultEquiment.fBossOptionValue = 30;
+		else if (getEquiment.nIndex == (int)E_BOSS_ITEM.SASIN_CLOAK)
+			resultEquiment.fBossOptionValue = 40;
+		else if (getEquiment.nIndex == (int)E_BOSS_ITEM.FIRE_CLOAK)
+			resultEquiment.fBossOptionValue = 10;
+		else if (getEquiment.nIndex == (int)E_BOSS_ITEM.FIRE_MORU)
+			resultEquiment.fBossOptionValue = 1;
+		else if (getEquiment.nIndex == (int)E_BOSS_ITEM.DODOM_GLASS)
+			resultEquiment.fBossOptionValue = 20;
+		else if (getEquiment.nIndex == (int)E_BOSS_ITEM.DODOM_FLOWER)
+			resultEquiment.fBossOptionValue = 20;
+
 		resultEquiment.bIsBoss = getEquiment.bIsBoss;
 
 		int nLength = int.Parse( resultEquiment.sGrade);

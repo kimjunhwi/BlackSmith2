@@ -59,7 +59,7 @@ public class InventoryShowPanel : MonoBehaviour {
 
 			Debug.Log ("강화 성공!!");
 
-			if (ItemData.fReapirPower 		!= 0) ItemData.fReapirPower 	+= ItemData.fReapirPower;
+			if (ItemData.fReapirPower 		!= 0) ItemData.fReapirPower 	+= ItemData.fOptionPlus;
 			if (ItemData.fArbaitRepair      != 0) ItemData.fArbaitRepair 	+= ItemData.fOptionPlus;
 			if (ItemData.fHonorPlus         != 0) ItemData.fHonorPlus 		+= ItemData.fOptionPlus;
 			if (ItemData.fGoldPlus          != 0) ItemData.fGoldPlus 		+= ItemData.fOptionPlus;
@@ -70,7 +70,7 @@ public class InventoryShowPanel : MonoBehaviour {
 			if (ItemData.fAccuracyRate      != 0) ItemData.fAccuracyRate 	+= ItemData.fOptionPlus;
 
 			if (ItemData.bIsBoss)
-				ItemData.fBossOptionValue += ItemData.fBossOptionValue * ItemData.fOptionPlus * 0.1f;
+				ItemData.fBossOptionValue += ItemData.fBasicOptionValue * ItemData.fOptionPlus * 0.1f;
 
 			ItemData.nStrenthCount++;
 
@@ -86,11 +86,18 @@ public class InventoryShowPanel : MonoBehaviour {
 
 	private void SellItem()
 	{
+		GameManager.Instance.GetPlayer ().inventory.inventorySlots [ItemData.nSlotIndex].RemoveItem (ItemData);
 
+		ItemData = null;
+
+		RemoveText ();
 	}
 
 	private void EquipItem()
 	{
+		if (ItemData == null)
+			return;
+
         player.EquipItem(ItemData);
 
 		if (ItemData.nSlotIndex == (int)E_EQUIMNET_INDEX.E_WEAPON) 
@@ -104,6 +111,9 @@ public class InventoryShowPanel : MonoBehaviour {
 
 	private void NoneEquipItem()
 	{
+		if (ItemData == null)
+			return;
+
 		ItemData.bIsEquip = false;
 
 		player.NoneEquipItem (ItemData);

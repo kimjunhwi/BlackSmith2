@@ -94,7 +94,7 @@ public class Nurse : ArbaitBatch {
 	public override void Setting ()
 	{
 		m_CharacterChangeData.name = name;
-		m_CharacterChangeData.strExplains = string.Format ("대장장이 크리확률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+		m_CharacterChangeData.strExplains = string.Format ("대장장이 크리확률 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
 
 	}
 
@@ -102,7 +102,7 @@ public class Nurse : ArbaitBatch {
 	{
 		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
 
-		m_CharacterChangeData.strExplains = string.Format ("대장장이 크리확률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+		m_CharacterChangeData.strExplains = string.Format ("대장장이 크리확률 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
 
     public override void CheckCharacterState(E_ArbaitState _E_STATE)
@@ -185,6 +185,7 @@ public class Nurse : ArbaitBatch {
 			if (fTime >= m_CharacterChangeData.fAttackSpeed)
 			{
 				fTime = 0.0f;
+				m_dCalComaplete = 0;
 
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 

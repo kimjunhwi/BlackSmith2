@@ -18,9 +18,9 @@ public class RepairPanelUI : EnhanceUI {
 		double dCurComplete;
 
 		if (nLevel <= 10) {
-			dCurComplete = cPlayer.GetCreatorWeapon ().dRepair + nLevel + 1;
+			dCurComplete = GameManager.Instance.GetPlayer().GetCreatorWeapon ().dRepair + nLevel + 1;
 		} else {
-			dCurComplete = cPlayer.GetCreatorWeapon ().dRepair * Mathf.Pow (1.022f, (Mathf.Floor ((nLevel - 10) * 0.1f))) * (1 + (nLevel - 19 * 0.03f));
+			dCurComplete = GameManager.Instance.GetPlayer().GetCreatorWeapon ().dRepair * Mathf.Pow (1.022f, (Mathf.Floor ((nLevel - 10) * 0.1f))) * (1 + (nLevel - 19 * 0.03f));
 
 			dCurComplete += nLevel + 1;
 		}
@@ -33,9 +33,9 @@ public class RepairPanelUI : EnhanceUI {
 		double dCurComplete;
 
 		if (nLevel <= 10) {
-			dCurComplete = cPlayer.changeStats.dRepairPower + nLevel + 1;
+			dCurComplete = GameManager.Instance.GetPlayer().GetCreatorWeapon().dRepair + nLevel + 1;
 		} else {
-			dCurComplete = cPlayer.changeStats.dRepairPower * Mathf.Pow (1.022f, (Mathf.Floor ((nLevel - 10) * 0.1f))) * (1 + (nLevel - 9 * 0.03f));
+			dCurComplete = GameManager.Instance.GetPlayer().GetCreatorWeapon().dRepair * Mathf.Pow (1.022f, (Mathf.Floor ((nLevel - 10) * 0.1f))) * (1 + (nLevel - 9 * 0.03f));
 
 			dCurComplete += nLevel + 1;
 		}

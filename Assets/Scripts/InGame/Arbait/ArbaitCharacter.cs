@@ -223,6 +223,7 @@ public class ArbaitCharacter : MonoBehaviour {
             m_SettingPanel.SetActive(false);
 			PurchasingObject.SetActive (false);
 			BossNameObject.SetActive (false);
+			PurchasingNameObject.SetActive (false);
 
 			gameObject.GetComponent<Image>().sprite = m_ActiveSprite;
 
@@ -237,6 +238,7 @@ public class ArbaitCharacter : MonoBehaviour {
             m_SettingPanel.SetActive(true);
 			PurchasingObject.SetActive (false);
 			BossNameObject.SetActive (false);
+			PurchasingNameObject.SetActive (false);
 
             gameObject.GetComponent<Image>().sprite = m_ActiveSprite;
 

@@ -63,7 +63,7 @@ public class Bell : ArbaitBatch {
 	public override void Setting ()
 	{
 		m_CharacterChangeData.name = name;
-		m_CharacterChangeData.strExplains = string.Format ("물 게이지 70%이상 일 때 모든 직원 수리력, 크리 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+		m_CharacterChangeData.strExplains = string.Format ("물 게이지 70%이상 일 때 모든 직원 수리력, 크리 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
 
 	}
 
@@ -81,7 +81,7 @@ public class Bell : ArbaitBatch {
 	{
 		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
 
-		m_CharacterChangeData.strExplains = string.Format ("물 게이지 70%이상 일 때 모든 직원 수리력, 크리 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+		m_CharacterChangeData.strExplains = string.Format ("물 게이지 70%이상 일 때 모든 직원 수리력, 크리 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
 
 	public override void StartAura (float _fTime)
@@ -200,6 +200,7 @@ public class Bell : ArbaitBatch {
 			if (fTime >= m_CharacterChangeData.fAttackSpeed)
 			{
 				fTime = 0.0f;
+				m_dCalComaplete = 0;
 
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 

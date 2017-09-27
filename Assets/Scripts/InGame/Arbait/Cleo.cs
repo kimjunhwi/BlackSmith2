@@ -44,7 +44,7 @@ public class Cleo : ArbaitBatch {
 
 		CheckCharacterState(E_STATE);
 
-        spawnManager.list_ArbaitUI[nIndex].ChangeArbaitText();
+        //spawnManager.list_ArbaitUI[nIndex].ChangeArbaitText();
 
         SpawnManager.Instance.InsertWeaponArbait(m_CharacterChangeData.index,nBatchIndex);
 		AuraObject.SetActive (false);

@@ -10,6 +10,8 @@ public class UIDisable : MonoBehaviour, IPointerDownHandler
 	public BossConsumeItemInfo bossConumeItemInfo;
 	public BossCreator bossCreator;
 	public GameObject yesNoButton;
+	public GameObject windowPopUp;
+	public GameObject windowPopUp2;
 
 	public void OnPointerDown (PointerEventData eventData)
 	{
@@ -20,9 +22,11 @@ public class UIDisable : MonoBehaviour, IPointerDownHandler
 		if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE04)
 			return;
 
-		if (getInfoGameObject.gameObject.name == "BackGroundPanel")
+		if (getInfoGameObject.gameObject.name == "BackGroundPanel") {
 			getInfoGameObject.transform.parent.gameObject.SetActive (false);
-
+			windowPopUp.SetActive (false);
+			windowPopUp2.SetActive (false);
+		}
 
 		if (getInfoGameObject.gameObject.name == "BossBackGround" && isBossSummon == false)
 		{

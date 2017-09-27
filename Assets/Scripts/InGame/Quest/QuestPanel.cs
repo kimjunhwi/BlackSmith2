@@ -87,6 +87,7 @@ public class QuestPanel : MonoBehaviour
 
 	public void GetQuest(CGameQuestInfo _quest, QusetManager _questManager)
     {
+		completeButton.SetActive (false);
 		bIsQuest = true;
 		bIsCheckComplete = false;
 		giveUpButton.onClick.RemoveAllListeners();
@@ -129,10 +130,6 @@ public class QuestPanel : MonoBehaviour
 			textReward_Ruby.text = string.Format ("{0}", getRuby);
 		}
 
-		if (questData.nRewardBossPotion != 0) 
-		{
-			//textReward.text = questData.nRewardBossPotion.ToString ();
-		}
 			
     }
 	//저장된 데이터 불러올떄
@@ -175,10 +172,7 @@ public class QuestPanel : MonoBehaviour
 			textReward_Ruby.text = string.Format ("{0}", getRuby);
 		}
 
-		if (questData.nRewardBossPotion != 0) 
-		{
-			//textReward.text = questData.nRewardBossPotion.ToString ();
-		}
+	
 	}
 
 	public void QuestCompleteActive()

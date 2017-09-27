@@ -46,6 +46,8 @@ public class ArbaitBatch : MonoBehaviour {
     //무기 완성도
 	protected double m_dComplate;
 
+	protected double m_dCalComaplete;
+
 	//무기 완성 맥스치
 	protected double m_dMaxComplate;
 
@@ -720,6 +722,12 @@ public class ArbaitBatch : MonoBehaviour {
         //수리중인 무기가없을것이므로 무기를 찾아 넣어준다.
 		SpawnManager.Instance.InsertWeaponArbait(m_CharacterChangeData.index,nBatchIndex);
     }
+
+	public void BuyCharacter()
+	{
+		m_CharacterChangeData.nScoutCount = m_CharacterChangeData.nMaxScoutCount;
+		m_CharacterChangeData.level = 1;
+	}
 
     //현재 수리중인 무기를 되돌려준다.
     public void ResetWeaponData()

@@ -7,11 +7,13 @@ public class BrownHair : ArbaitBatch {
 
 //	private float fChangeCritical = 0.0f;
 
+	string name = "세리";
+
 	protected override void Awake()
 	{
 		base.Awake();
 
-		string name = "세리";
+
 
 		m_CharacterChangeData.name = name;
 

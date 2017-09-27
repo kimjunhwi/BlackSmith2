@@ -84,6 +84,9 @@ public class ShopCash : MonoBehaviour , IStoreListener
 
 	public ShopCashBuffSlot[] shopCashBuffSlots = new ShopCashBuffSlot[4];
 
+	public GameObject shopCash_Obj;
+
+
 	public void InitShopIconData()
 	{
 
@@ -121,6 +124,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 
 	public void CallRubyCashShop()
 	{
+		shopCash_Obj.SetActive (true);
 		gameObject.SetActive (true);
 		StartSetUp ();
 		ShowPaenl (2);
@@ -655,6 +659,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		{
 			if (shopCashBuffSlots [_index] != null) {
 				shopCashBuffSlots [_index].AddTimer (30, 00f);
+				shopCashBuffSlots[_index].shopCash.isConumeBuff_Gold = true;
 				return;
 			}
 			AddCashBuffSlot (_index);
@@ -665,6 +670,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		if (getCashItemInfo [_index].sItemName == "명예부스터") {
 			if (shopCashBuffSlots [_index] != null) {
 				shopCashBuffSlots [_index].AddTimer (30, 00f);
+				shopCashBuffSlots[_index].shopCash.isConumeBuff_Honor = true;
 				return;
 			}
 			AddCashBuffSlot (_index);
@@ -674,6 +680,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		if (getCashItemInfo [_index].sItemName == "직원부스터") {
 			if (shopCashBuffSlots [_index] != null) {
 				shopCashBuffSlots [_index].AddTimer (30, 00f);
+				shopCashBuffSlots[_index].shopCash.isConumeBuff_Staff = true;
 				return;
 			}
 			AddCashBuffSlot (_index);
@@ -683,6 +690,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		if (getCashItemInfo [_index].sItemName == "터치부스터") {
 			if (shopCashBuffSlots [_index] != null) {
 				shopCashBuffSlots [_index].AddTimer (30, 00f);
+				shopCashBuffSlots[_index].shopCash.isConumeBuff_Attack = true;
 				return;
 			}
 			AddCashBuffSlot (_index);
@@ -701,6 +709,15 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		shopCashBuffSlot.icon_Image.sprite =  ObjectCashing.Instance.LoadSpriteFromCache (iconPaths[_index]);
 		shopCashBuffSlot.StartTimer ();
 		shopCashBuffSlot.shopCash = this;
+
+		if (_index == (int)E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD)
+			shopCashBuffSlot.shopCash.isConumeBuff_Gold = true;
+		if (_index == (int)E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK)
+			shopCashBuffSlot.shopCash.isConumeBuff_Attack = true;
+		if (_index == (int)E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR)
+			shopCashBuffSlot.shopCash.isConumeBuff_Honor = true;
+		if (_index == (int)E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF)
+			shopCashBuffSlot.shopCash.isConumeBuff_Staff = true;
 
 		shopCashBuffSlot.sSlotName = getCashItemInfo [_index].sItemName;
 		shopCashBuffSlot.pool_Obj = CashBuffSlotPool;
@@ -721,6 +738,17 @@ public class ShopCash : MonoBehaviour , IStoreListener
 				ShopCashBuffSlot shopCashBuffSlot = consumeSlot.GetComponent<ShopCashBuffSlot> ();
 				shopCashBuffSlot.icon_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (iconPaths [(int)_index]);
 				shopCashBuffSlot.shopCash = this;
+
+				if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD)
+					shopCashBuffSlot.shopCash.isConumeBuff_Gold = true;
+				if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK)
+					shopCashBuffSlot.shopCash.isConumeBuff_Attack = true;
+				if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR)
+					shopCashBuffSlot.shopCash.isConumeBuff_Honor = true;
+				if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF)
+					shopCashBuffSlot.shopCash.isConumeBuff_Staff = true;
+				
+
 				shopCashBuffSlot.sSlotName = getCashItemInfo [(int)_index].sItemName;
 				shopCashBuffSlot.LoadTimer (_CurMin, (int)_CurSec);
 
@@ -730,6 +758,17 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			else 
 			{
 				shopCashBuffSlots [(int)_index].AddTimer (_CurMin, _CurSec);
+
+				if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD)
+					shopCashBuffSlots[(int)_index].shopCash.isConumeBuff_Gold = true;
+				if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK)
+					shopCashBuffSlots[(int)_index].shopCash.isConumeBuff_Attack = true;
+				if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR)
+					shopCashBuffSlots[(int)_index].shopCash.isConumeBuff_Honor = true;
+				if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF)
+					shopCashBuffSlots[(int)_index].shopCash.isConumeBuff_Staff = true;
+				
+
 			}
 
 

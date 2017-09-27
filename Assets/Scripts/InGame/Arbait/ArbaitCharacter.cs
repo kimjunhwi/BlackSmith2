@@ -113,7 +113,7 @@ public class ArbaitCharacter : MonoBehaviour {
 
 		m_CharacterData = GameManager.Instance.GetArbaitData(nIndex);
 
-        CheckBuyCharacter();
+       
 
 		if (m_CharacterData.nScoutGold != 0) 
 		{
@@ -145,6 +145,8 @@ public class ArbaitCharacter : MonoBehaviour {
 		}
 
 		ChangeArbaitText ();
+
+		CheckBuyCharacter();
 	}
 
     public void BuyCharacter()

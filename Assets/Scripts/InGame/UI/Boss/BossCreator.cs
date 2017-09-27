@@ -500,9 +500,8 @@ public class BossCreator : MonoBehaviour
 			//Dragon Save Pass
 			yield break;
 
-
-
 		}
+		bossConsumeItemInfo.BossInviteMentSaveTime ();
 		BossPanelInfoSave ();
 	}
 

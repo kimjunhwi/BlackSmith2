@@ -155,7 +155,7 @@ public class LogoManager : MonoBehaviour
 		#elif UNITY_ANDROID
 		yield return new WaitForSeconds (0.3f);
 
-		ao = SceneManager.LoadSceneAsync (1);
+		ao = SceneManager.LoadSceneAsync (2);
 		ao.allowSceneActivation = false;
 	
 

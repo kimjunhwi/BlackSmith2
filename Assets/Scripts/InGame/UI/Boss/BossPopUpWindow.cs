@@ -315,7 +315,7 @@ public class BossPopUpWindow : MonoBehaviour
 
 
 		float nRandom_Weapon01 = Random.Range (0f, 1f);	
-		if (nRandom_Weapon01 <= 1) 
+		if (nRandom_Weapon01 <= bossCharacter.bossInfo.fDropPercent) 
 		{
 			GameObject Reward = rewardObjPool.GetObject ();
 			Reward.transform.SetParent (PopUpWindow_RewardPanel.transform, false);
@@ -384,9 +384,9 @@ public class BossPopUpWindow : MonoBehaviour
 
 		if (nCurBossLevel <= 1) 
 		{
-			nHonor = GameManager.Instance.bossInfo [nBossIndex].nHonor + (2.4f);
+			nHonor = (double) Mathf.RoundToInt(GameManager.Instance.bossInfo [nBossIndex].nHonor + (2.4f));
 			ScoreManager.ScoreInstance.HonorPlus (nHonor);
-			HonorText.text = string.Format("{0}", GameManager.Instance.bossInfo [nBossIndex].nHonor + (2.4f));
+			HonorText.text = string.Format("{0}", Honor);
 		} 
 		else 
 		{

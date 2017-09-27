@@ -36,7 +36,6 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	public int nQuestMileCount = 0;
 	public int nQeustMaxMileCount = 0;				
 	private int nQuestTotalCount = 0;						//전체 퀘스트 개수
-	private int nQuestTypeTotalCount = 18;
 
 	public GameObject questAdsPopUpWindow_YesNo;			//Yes or No
 	public Button questAdsPopUpWindow_AdsButton;			//Yes or No가 있는 창에서의 YesButton
@@ -75,14 +74,13 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 	public GameObject expressionMark;
 
-	Color CheckColor;
 
 	//Timer
 	public 	Text timerText;
 	public QuestTimer questTimer;
 
-	private bool isLoginAndFirstActive = false;
 	private bool isInGameOnOff = false;
+
 
 	void Awake()
 	{
@@ -91,14 +89,13 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 	public void SetUp()
 	{
-		gameObject.SetActive (true);
+		//gameObject.transform.GetChild(0).gameObject.SetActive (true);
 
 		questObjectPool.PreloadPool ();
 		questDatas = GameManager.Instance.cQusetInfo;	//data push
 		nQuestMaxCount = questDatas.Length;
 		nQeustMaxMileCount = 40;
 
-		CheckColor = new Color (255.0f, 0, 0, 255.0f);
 
 		//rewardCurMile_Text = string.Format ("{0}", 0);
 		//마일리지 포인트 
@@ -188,6 +185,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		{
 			SaveQuestData ();
 			questTimer.SaveTime ();
+			questTimer.isTimeOn = false;
 			getInfoGameObject.SetActive (false);
 		}
 	}
@@ -335,6 +333,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 		QuestSaveDataDispatch ();	//Data Dispatch
 
+		questTimer.LoadTimeAndCheckTimeEnd ();
 		isInitConfirm = false;
 
 	}
@@ -372,8 +371,9 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 			questTimer.isTimeOn = false;
 			questTimer.isTimeEnd = false;
-			questTimer.InitQuestTimer ();
+			questTimer.InitQuestTimer (); //Timer On
 			questTimer.addQuestToEmptySpace.SetActive (false);
+			questTimer.SaveTime ();		//Save Time
 			return;
 		}
 

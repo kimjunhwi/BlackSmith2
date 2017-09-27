@@ -118,6 +118,7 @@ public class BossConsumeItemInfo : MonoBehaviour
 					ResultTime_Sec = -ResultTime_Sec;
 
 				StartBossInviteMentTimer (ResultTime_Min, ResultTime_Sec);
+				return;
 			} else if (nPassedTime_Min < 40) {
 				nPassedTime_Min -= 20;
 				int ResultTime_Min = GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCurMin - nPassedTime_Min;
@@ -129,6 +130,7 @@ public class BossConsumeItemInfo : MonoBehaviour
 					ResultTime_Sec = -ResultTime_Sec;
 
 				StartBossInviteMentTimer (ResultTime_Min, ResultTime_Sec);
+				return;
 			} else if (nPassedTime_Min < 60) {
 				nPassedTime_Min -= 40;
 				int ResultTime_Min = GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCurMin - nPassedTime_Min;
@@ -140,6 +142,7 @@ public class BossConsumeItemInfo : MonoBehaviour
 					ResultTime_Sec = -ResultTime_Sec;
 
 				StartBossInviteMentTimer (ResultTime_Min, ResultTime_Sec);
+				return;
 			} else if (nPassedTime_Min < 80) {
 				nPassedTime_Min -= 60;
 				int ResultTime_Min = GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCurMin - nPassedTime_Min;
@@ -151,6 +154,7 @@ public class BossConsumeItemInfo : MonoBehaviour
 					ResultTime_Sec = -ResultTime_Sec;
 
 				StartBossInviteMentTimer (ResultTime_Min, ResultTime_Sec);
+				return;
 			}
 			else
 			{
@@ -164,6 +168,7 @@ public class BossConsumeItemInfo : MonoBehaviour
 					ResultTime_Sec = -ResultTime_Sec;
 
 				StartBossInviteMentTimer (ResultTime_Min, ResultTime_Sec);
+				return;
 			}
 			inviteMentTimer_Text.enabled = true;
 		}
@@ -173,7 +178,7 @@ public class BossConsumeItemInfo : MonoBehaviour
 	{
 		gameObject.SetActive (true);
 		inviteMentTimer_Text.enabled = true;
-		StartCoroutine (Timer (19, 59));
+		StartCoroutine (Timer (_Min, _sec));
 	}
 
 	public void InitBossInviteMentTimer()

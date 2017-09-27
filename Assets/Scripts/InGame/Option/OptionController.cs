@@ -16,6 +16,7 @@ public class OptionController : MonoBehaviour {
 	public GameObject optionCloudLoadData_Obj;
 
 	public GameObject optionGusetLoginToGoogleLogin;
+	public GameObject optionCloudSaveConfirm_Obj;
 
 
 
@@ -113,6 +114,16 @@ public class OptionController : MonoBehaviour {
 		optionBgmSwitch_Off.SetActive (true);
 		optionBgmSwitch_On.SetActive (false);
 		SoundManager.instance.MuteBGM ();
+	}
+
+	public void ShowCloudSaveWindow()
+	{
+		Debug.Log ("Show CloudSaveWindow");
+		SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
+		if (optionCloudSaveConfirm_Obj.activeSelf != true)
+			optionCloudSaveConfirm_Obj.SetActive (true);
+		else
+			optionCloudSaveConfirm_Obj.SetActive (false);
 	}
 
 }

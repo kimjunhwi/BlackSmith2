@@ -562,14 +562,15 @@ public class GameManager : GenericMonoSingleton<GameManager>
         SaveEquiment();
 
 		//Quest
+		//SpawnManager.Instance.questManager.questTimer.SaveTime();
         SaveQuestList();
 
 		//Boss
 		SaveBossPanelInfoList ();
 		//BossInviteMentTimeSave
-		SpawnManager.Instance.bossCreator.bossConsumeItemInfo.BossInviteMentSaveTime ();
+		//SpawnManager.Instance.bossCreator.bossConsumeItemInfo.BossInviteMentSaveTime ();
 		//BossChangllenCountTimeSave
-		SpawnManager.Instance.bossCreator.bossRegenTimer.BossRegenTimeSave();
+		//SpawnManager.Instance.bossCreator.bossRegenTimer.BossRegenTimeSave();
 
 
 		if (player.GetEpicOption () != null)
@@ -1385,7 +1386,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	private void SaveGame(ISavedGameMetadata game)
 	{
-		
+		SpawnManager.Instance.option.ShowCloudSaveWindow ();
 
 		Debug.Log ("GoogleGameSave Active");
 		string divideMark = "^";
@@ -1423,6 +1424,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			OnSavedGameDataWritten);
 
 		isGoogleClounSave = false;
+
 	}
 	//callback for CommitUpdate
 	private void OnSavedGameDataWritten(SavedGameRequestStatus status, ISavedGameMetadata game)
@@ -1437,7 +1439,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		if (status == SavedGameRequestStatus.Success)
 		{
 			Debug.Log ("Success To Connected Internet And SaveAndLoad Data");
-		
+
+
 
 			//if we're LOADING game data
 			if (!isGoogleClounSave)
@@ -1914,8 +1917,15 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			// YOUR CODE TO REWARD THE GAMER
 			// Give coins etc.
 
+
+			bossCreator.bossConsumeItemInfo.nInviteMentCurCount = 5;
 			cBossPanelListInfo [0].nBossInviteMentCount = 5;
 
+			bossCreator.bossConsumeItemInfo.nInviteMentCurCount = GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCount;
+			bossCreator.bossConsumeItemInfo.inviteMentCount_Text.text = string.Format ("{0}/{1}",SpawnManager.Instance.bossCreator.bossConsumeItemInfo.nInviteMentCurCount, 
+				SpawnManager.Instance.bossCreator.bossConsumeItemInfo.nInviteMentMaxCount);
+			
+			bossCreator.bossConsumeItemInfo.inviteMentTimer_Text.enabled = false;
 			break;
 
 		case ShowResult.Failed:
@@ -2583,10 +2593,10 @@ public class BossPanelInfo
 		nBossIceCurLevel = 1;
 		nBossFireCurLevel = 1;
 
-		nBossInviteMentCurMin = 0;
-		fBossInviteMentCurSec = 0f;
-		nBossRegenCurMin = 0;
-		fBossRegenCurSec = 0f;
+		nBossInviteMentCurMin = 19;
+		fBossInviteMentCurSec = 59f;
+		nBossRegenCurMin = 119;
+		fBossRegenCurSec = 59f;
 
 	}
 }

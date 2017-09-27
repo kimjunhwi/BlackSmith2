@@ -203,7 +203,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 				fCurSec = playerData.changeStats.fGoblinSecond;
 			}
 
-
+			//QuestSetUp
+			questManager.SetUp();
 
 		}
 	}
@@ -1093,6 +1094,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			SpawnManager.Instance.bossCreator.bossConsumeItemInfo.nInviteMentCurCount = GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCount;
 			bossCreator.bossConsumeItemInfo.inviteMentCount_Text.text = string.Format ("{0}/{1}",SpawnManager.Instance.bossCreator.bossConsumeItemInfo.nInviteMentCurCount, 
 				SpawnManager.Instance.bossCreator.bossConsumeItemInfo .nInviteMentMaxCount);
+
+			bossCreator.bossConsumeItemInfo.inviteMentTimer_Text.enabled = false;
 			return;
 		}
 		GameManager.Instance.ShowRewardAdd_Boss (bossCreator);

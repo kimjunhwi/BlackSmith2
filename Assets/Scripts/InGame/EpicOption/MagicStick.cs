@@ -7,7 +7,7 @@ public class MagicStick : EpicOption {
 
 	public override void Init (int _nDay,Player _player)
 	{
-		fValue = 100;
+		fValue = 1;
 
 		nCostDay = _nDay;
 

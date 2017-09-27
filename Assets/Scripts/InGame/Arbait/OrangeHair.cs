@@ -9,13 +9,15 @@ public class OrangeHair : ArbaitBatch {
 //    private float fMinusPlusWater = 0.0f;
 //    private float fChangePlusWater = 0.0f;
 
-    protected override void Awake()
+	string name = "에리";
+
+	protected override void Awake()
     {
         base.Awake();
 
         nIndex = (int)E_ARBAIT.E_MIA;
 
-		string name = "에리";
+
 
 		m_CharacterChangeData.name = name;
 
@@ -74,6 +76,12 @@ public class OrangeHair : ArbaitBatch {
 
 		else
 			StartCoroutine (AuraParticle ());
+	}
+
+	public override void Setting ()
+	{
+		m_CharacterChangeData.name = name;
+		m_CharacterChangeData.strExplains = string.Format ("대장장이 물 충전속도 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
 
 	public override void EnhacneArbait ()

@@ -7,12 +7,13 @@ public class Bell : ArbaitBatch {
 
 //	private bool m_bIsBuff = false;
 //	private float fChangeCritical = 0.0f;
+	string name = "클로스";
 
 	protected override void Awake()
 	{
 		base.Awake();
 
-		string name = "클로스";
+
 
 		m_CharacterChangeData.name = name;
 
@@ -57,6 +58,13 @@ public class Bell : ArbaitBatch {
 		ReliveSkill();
 
 		base.OnDisable();
+	}
+
+	public override void Setting ()
+	{
+		m_CharacterChangeData.name = name;
+		m_CharacterChangeData.strExplains = string.Format ("물 게이지 70%이상 일 때 모든 직원 수리력, 크리 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+
 	}
 
 	public override void ApplySkill ()

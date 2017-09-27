@@ -11,13 +11,15 @@ public class Knight : ArbaitBatch {
 
     private float m_fChangeAccuracy = 0;
 
+	string name = "오스만";
+
     protected override void Awake()
     {
         base.Awake();
 
         nIndex = (int)E_ARBAIT.E_GLAUS;
 
-		string name = "오스만";
+
 
 		m_CharacterChangeData.name = name;
 
@@ -55,6 +57,13 @@ public class Knight : ArbaitBatch {
 		AuraObject.SetActive (false);
 
     }
+
+	public override void Setting ()
+	{
+		m_CharacterChangeData.name = name;
+		m_CharacterChangeData.strExplains = string.Format ("대장장이 크리시 대장장이, 모든 직원 명중률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+
+	}
 
     protected override void OnDisable()
     {

@@ -5,6 +5,8 @@ using ReadOnlys;
 
 public class Ice : ArbaitBatch {
 
+	string name = "얼음 골렘";
+
 	protected override void Awake()
 	{
 		base.Awake();
@@ -12,8 +14,6 @@ public class Ice : ArbaitBatch {
 		AuraObject.SetActive (false);
 
 		nIndex = (int)E_ARBAIT.E_ICE;
-
-		string name = "얼음 골렘";
 
 		m_CharacterChangeData.name = name;
 
@@ -77,6 +77,13 @@ public class Ice : ArbaitBatch {
 	protected override void ReliveSkill()
 	{
 
+	}
+
+	public override void Setting ()
+	{
+		m_CharacterChangeData.name = name;
+
+		m_CharacterChangeData.strExplains = string.Format ("물 Plus {0}%, 크리데미지 {1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
 	}
 
 	public override void EnhacneArbait ()

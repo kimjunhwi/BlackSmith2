@@ -12,13 +12,13 @@ public class BlueHair : ArbaitBatch {
 //
 //    private float fMinusRepair = 0.0f;
 
+	string name = "클로스";
+
     protected override void Awake()
     {
         base.Awake();
 
         nIndex = (int)E_ARBAIT.E_ROY;
-
-		string name = "클로스";
 
 		m_CharacterChangeData.name = name;
 
@@ -29,6 +29,13 @@ public class BlueHair : ArbaitBatch {
 
 		m_CharacterChangeData.strExplains = string.Format ("대장장이 수리력 {0}% 증가", m_CharacterChangeData.fSkillPercent);
     }
+
+	public override void Setting ()
+	{
+		m_CharacterChangeData.name = name;
+		m_CharacterChangeData.strExplains = string.Format ("대장장이 수리력 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+
+	}
 
 
 
@@ -192,6 +199,8 @@ public class BlueHair : ArbaitBatch {
 			{
 				fTime = 0.0f;
 
+				m_dComplate = 0;
+
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 
 				if (playerData.AccessoryEquipmnet != null) {
@@ -241,6 +250,8 @@ public class BlueHair : ArbaitBatch {
 			if(fTime >= m_fRepairTime)
 			{
 				fTime = 0.0f;
+
+				m_dComplate = 0;
 
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 

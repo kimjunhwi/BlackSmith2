@@ -5,11 +5,11 @@ using ReadOnlys;
 
 public class Cleo : ArbaitBatch {
 
+	string name = "아이리";
+
 	protected override void Awake()
 	{
 		base.Awake();
-
-		string name = "아이리";
 
 		m_CharacterChangeData.name = name;
 
@@ -48,6 +48,12 @@ public class Cleo : ArbaitBatch {
 
         SpawnManager.Instance.InsertWeaponArbait(m_CharacterChangeData.index,nBatchIndex);
 		AuraObject.SetActive (false);
+	}
+
+	public override void Setting ()
+	{
+		m_CharacterChangeData.name = name;
+		m_CharacterChangeData.strExplains = string.Format ("물 사용시 모든 직원 공격속도 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 
 	}
 

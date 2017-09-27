@@ -87,25 +87,6 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		isInGameOnOff = false;
 	}
 
-	public void StartCheckExpreesion()
-	{
-		StartCoroutine (CheckExpression ());
-	}
-
-	public IEnumerator CheckExpression()
-	{
-		QuestPanel questPanel;
-		while (true) 
-		{
-			for (int i = 0; i < questObjects.Count; i++)
-			{
-				questPanel = questObjects [i].GetComponent<QuestPanel> ();
-				if (questPanel.nCompareCondition >= questPanel.nCompleteCondition)
-					expressionMark.SetActive (true);
-			}
-			yield return new WaitForSeconds (1.0f);
-		}
-	}
 
 	public void SetUp()
 	{
@@ -133,7 +114,6 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			Debug.Log ("Quest first Active");
 			QuestInitStart ();
 			GameManager.Instance.SaveQuestList ();
-			StartCheckExpreesion ();
 			return;
 		}
 	
@@ -640,6 +620,8 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			{
 				questPanel.nCompareCondition += _value;
 				questPanel.ShowProgress ();
+				if (questPanel.nCompareCondition >= questPanel.nCompleteCondition)
+					expressionMark.SetActive (true);
 			}
 		}
 

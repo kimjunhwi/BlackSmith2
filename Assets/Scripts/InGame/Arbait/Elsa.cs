@@ -7,11 +7,13 @@ public class Elsa : ArbaitBatch {
 
 //    private float fChangeCritical = 0.0f;
 
+	string name = "베리";
+
     protected override void Awake()
     {
         base.Awake();
 
-		string name = "베리";
+
 
 		m_CharacterChangeData.name = name;
 
@@ -51,6 +53,13 @@ public class Elsa : ArbaitBatch {
 
     }
 
+	public override void Setting ()
+	{
+		m_CharacterChangeData.name = name;
+		m_CharacterChangeData.strExplains = string.Format ("물 사용시 모든 직원 공격속도 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+
+	}
+
     protected override void OnDisable()
     {
         ReliveSkill();
@@ -73,7 +82,7 @@ public class Elsa : ArbaitBatch {
 	{
 		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
 
-		m_CharacterChangeData.strExplains = string.Format ("물 사용시 모든 직원 수리력 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+		m_CharacterChangeData.strExplains = string.Format ("물 사용시 모든 직원 공격속도 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
 
 	public override IEnumerator AuraParticle ()

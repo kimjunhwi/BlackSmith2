@@ -49,6 +49,13 @@ public class BrownHair : ArbaitBatch {
 
 	}
 
+	public override void Setting ()
+	{
+		m_CharacterChangeData.name = name;
+		m_CharacterChangeData.strExplains = string.Format ("물 사용시 모든 직원 크리확률 {0} 증가", m_CharacterChangeData.fSkillPercent);
+
+	}
+
 	protected override void OnDisable()
 	{
 		ReliveSkill();

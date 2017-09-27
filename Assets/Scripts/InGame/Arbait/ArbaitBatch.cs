@@ -133,6 +133,8 @@ public class ArbaitBatch : MonoBehaviour {
 	// Use this for initialization
 	protected virtual void Awake()
     {
+
+
 		animator = gameObject.GetComponent<Animator>();
 
 		myCharacterSprite = gameObject.GetComponent<SpriteRenderer>();
@@ -758,8 +760,8 @@ public class ArbaitBatch : MonoBehaviour {
 		m_fWaterAttackSpeed = 0.0f;
 		m_dWaterRepairPower = 0.0f;
 
-		if (AfootOjbect != null) 
-			SpawnManager.Instance.ReturnInsertData (AfootOjbect,false,true, m_dComplate, m_fTemperator);
+		if (AfootOjbect != null && spawnManager != null) 
+			spawnManager.ReturnInsertData (AfootOjbect,false,true, m_dComplate, m_fTemperator);
 		
 		m_dComplate = 0.0f;
 

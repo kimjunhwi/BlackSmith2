@@ -5,6 +5,8 @@ using ReadOnlys;
 
 public class Druid : ArbaitBatch
 {
+	string name = "엘리아";
+
     private bool m_bIsApplyBuff = false;
     private float m_fBuffTime = 0.0f;
 
@@ -15,8 +17,6 @@ public class Druid : ArbaitBatch
     protected override void Awake()
     {
         base.Awake();
-
-		string name = "엘리아";
 
 		m_CharacterChangeData.name = name;
 
@@ -37,6 +37,12 @@ public class Druid : ArbaitBatch
         StartCoroutine(this.CharacterAction());
     }
 
+	public override void Setting ()
+	{
+		m_CharacterChangeData.name = name;
+		m_CharacterChangeData.strExplains = string.Format ("대장장이 크리시 모든 직원 공격속도 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+
+	}
 
     protected override void OnEnable()
     {

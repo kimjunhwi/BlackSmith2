@@ -13,6 +13,7 @@ public class Nurse : ArbaitBatch {
 //
 //    //크리확률증가를 위함
 //    private float fChangeCritical = 0.0f;
+	string name = "리니아";
 
     protected override void Awake()
     {
@@ -20,7 +21,7 @@ public class Nurse : ArbaitBatch {
 
         nIndex = (int)E_ARBAIT.E_NURSE;
 
-		string name = "리니아";
+
 
 		m_CharacterChangeData.name = name;
 
@@ -89,6 +90,13 @@ public class Nurse : ArbaitBatch {
         base.ApplyPauseSkill();
 
     }
+
+	public override void Setting ()
+	{
+		m_CharacterChangeData.name = name;
+		m_CharacterChangeData.strExplains = string.Format ("대장장이 크리확률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+
+	}
 
 	public override void EnhacneArbait ()
 	{

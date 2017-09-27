@@ -5,6 +5,7 @@ using ReadOnlys;
 
 public class Dodomchit : ArbaitBatch {
 
+	string name = "리듬타는 개구리";
 
 	private const float fNormalSize = 0.6f;
 	private const float fCriticalSize = 1.0f;
@@ -12,8 +13,6 @@ public class Dodomchit : ArbaitBatch {
 	protected override void Awake()
 	{
 		base.Awake();
-
-		string name = "리듬타는 개구리";
 
 		m_CharacterChangeData.name = name;
 
@@ -37,6 +36,13 @@ public class Dodomchit : ArbaitBatch {
 	public override void Purchasing ()
 	{
 		m_CharacterChangeData.strPurchasing = string.Format ("{0} / 20 이상 클리어", m_CharacterChangeData.nScoutCount);
+	}
+
+	public override void Setting ()
+	{
+		m_CharacterChangeData.name = name;
+		m_CharacterChangeData.strExplains = string.Format ("공격시 모든 직원 수리력 {0}% 증가 (50%) \n 물 사용시 초기화", m_CharacterChangeData.fSkillPercent);
+
 	}
 
 

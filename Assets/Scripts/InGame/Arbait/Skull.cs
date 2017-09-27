@@ -5,6 +5,7 @@ using ReadOnlys;
 
 public class Skull : ArbaitBatch {
 
+	string name = "불타는 해골왕";
 
 	private const float fNormalSize = 0.6f;
 	private const float fCriticalSize = 1.0f;
@@ -15,7 +16,7 @@ public class Skull : ArbaitBatch {
 
 		nIndex = (int)E_ARBAIT.E_SKULL;
 
-		string name = "불타는 해골왕";
+
 
 		m_CharacterChangeData.name = name;
 
@@ -76,6 +77,13 @@ public class Skull : ArbaitBatch {
 
 	protected override void ReliveSkill()
 	{
+
+	}
+
+	public override void Setting ()
+	{
+		m_CharacterChangeData.name = name;
+		m_CharacterChangeData.strExplains = string.Format ("온도 1%당 직원 크리확률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
 
 	}
 

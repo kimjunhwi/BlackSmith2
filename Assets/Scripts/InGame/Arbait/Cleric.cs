@@ -12,13 +12,15 @@ public class Cleric : ArbaitBatch {
 
     private float fChangeCritical = 0.0f;
 
+	string name = "바드하악";
+
     protected override void Awake()
     {
         base.Awake();
 
         nIndex = (int)E_ARBAIT.E_MICHEAL;
 
-		string name = "바드하악";
+
 
 		m_CharacterChangeData.name = name;
 
@@ -92,6 +94,13 @@ public class Cleric : ArbaitBatch {
 		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
 
 		strSkillExplain = string.Format ("본인 크리시 대장장이 수리력, 크리확률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+	}
+
+	public override void Setting ()
+	{
+		m_CharacterChangeData.name = name;
+		m_CharacterChangeData.strExplains = string.Format ("본인 크리시 대장장이 수리력, 크리확률 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+
 	}
 
 	public override void StartAura (float _fTime)

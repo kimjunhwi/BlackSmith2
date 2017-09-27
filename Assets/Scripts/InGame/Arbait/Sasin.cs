@@ -11,13 +11,15 @@ public class Sasin : ArbaitBatch {
 	private const float fNormalSize = 0.6f;
 	private const float fCriticalSize = 1.0f;
 
+	string name = "시련의 사신";
+
 	protected override void Awake()
 	{
 		base.Awake();
 
 		nIndex = (int)E_ARBAIT.E_SASIN;
 
-		string name = "시련의 사신";
+
 
 		m_CharacterChangeData.name = name;
 
@@ -76,6 +78,13 @@ public class Sasin : ArbaitBatch {
 
 	protected override void ReliveSkill()
 	{
+
+	}
+
+	public override void Setting ()
+	{
+		m_CharacterChangeData.name = name;
+		m_CharacterChangeData.strExplains = string.Format ("현재 완성도 50% 이하 일 때 사신 공격력, 공격속도 {0}% 상승, 대장장이 수리력 {1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
 
 	}
 

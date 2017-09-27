@@ -115,11 +115,6 @@ public class ArbaitCharacter : MonoBehaviour {
 
         CheckBuyCharacter();
 
-		CharacterNameText.text = m_CharacterData.name;
-		SkillExplainText.text = m_CharacterData.strExplains;
-		PurchasingText.text = m_CharacterData.strPurchasing;
-		NameText.text = m_CharacterData.name;
-
 		if (m_CharacterData.nScoutGold != 0) 
 		{
 			BuyImage.sprite = BuyGoldImage;
@@ -133,6 +128,12 @@ public class ArbaitCharacter : MonoBehaviour {
 		GoldText.text =  (m_CharacterData.nBasicHonor + ((m_CharacterData.level - 1) * 0.4 * m_CharacterData.nBasicHonor)).ToString();
 
 		spawnManager.array_ArbaitData [nIndex].Purchasing ();
+		spawnManager.array_ArbaitData [nIndex].Setting ();
+
+		CharacterNameText.text = m_CharacterData.name;
+		SkillExplainText.text = m_CharacterData.strExplains;
+		PurchasingText.text = m_CharacterData.strPurchasing;
+		NameText.text = m_CharacterData.name;
 
 		if (m_CharacterData.index >= 10) {
 			PurchasingNameObject.SetActive (true);
@@ -143,6 +144,7 @@ public class ArbaitCharacter : MonoBehaviour {
 			BossNameObject.SetActive (false);
 		}
 
+		ChangeArbaitText ();
 	}
 
     public void BuyCharacter()

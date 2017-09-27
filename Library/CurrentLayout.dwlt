@@ -137,7 +137,7 @@ MonoBehaviour:
     y: 30
     width: 1280
     height: 635
-  m_MinSize: {x: 711, y: 471}
+  m_MinSize: {x: 713, y: 471}
   m_MaxSize: {x: 18008, y: 14021}
   vertical: 0
   controlID: 90
@@ -181,7 +181,7 @@ MonoBehaviour:
     y: 0
     width: 585
     height: 635
-  m_MinSize: {x: 200, y: 321}
+  m_MinSize: {x: 202, y: 321}
   m_MaxSize: {x: 4002, y: 8021}
   vertical: 1
   controlID: 43
@@ -253,8 +253,8 @@ MonoBehaviour:
     y: 0
     width: 585
     height: 325
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
@@ -278,8 +278,8 @@ MonoBehaviour:
     y: 325
     width: 585
     height: 310
-  m_MinSize: {x: 102, y: 121}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 18}
@@ -367,29 +367,29 @@ MonoBehaviour:
     width: 303
     height: 301
   m_TreeViewState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 20340000
+    scrollPos: {x: 0, y: 420.0028}
+    m_SelectedIDs: 4e090000
     m_LastClickedID: 0
-    m_ExpandedIDs: 229afeffd4e6feff76e7feff5ae8feff70e8feffb4e8feff0ce9feff4ef0feff1cf3feff301fffff7a72ffffda8fffff8ae2ffff96f8ffffd8fbffff00000000be450000706a00006a7b00006480000024980000c69b00005e9e0000
+    m_ExpandedIDs: 64a9ffff6ca9ffffe4b7ffffe8b7ffff72f9ffffd8fbffff0000000026460000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: InvenShowPanel
-      m_OriginalName: InvenShowPanel
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 31118
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 9}
     m_SearchString: 
   m_ExpandedScenes:
-  - StartScene
+  - GameScene
   m_CurrenRootInstanceID: 0
   m_Locked: 0
   m_CurrentSortingName: TransformSorting
@@ -463,19 +463,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets
+    - Assets/Scripts/InGame/Arbait
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets
+  - Assets/Scripts/InGame/Arbait
   m_LastFoldersGridSize: 16
   m_LastProjectPath: /Users/ImaiDakaki/BlackSmith5
   m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 913}
-    m_SelectedIDs: 76280000
-    m_LastClickedID: 10358
-    m_ExpandedIDs: 0000000076280000302c0000482c00006c2d0000782d0000862e0000fc3000003433000048340000b83500002836000040380000363c0000a63c0000623f000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 785}
+    m_SelectedIDs: 302a0000
+    m_LastClickedID: 10800
+    m_ExpandedIDs: 0000000076280000302c0000482c00006c2d0000782d0000862e0000fc3000003433000048340000b83500002836000040380000a83c0000643f000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -503,7 +503,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 350.00214}
     m_SelectedIDs: 4c4f0000
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000076280000302c0000482c00006c2d0000782d0000862e0000fc3000003433000048340000b83500002836000040380000363c0000a63c0000623f0000
+    m_ExpandedIDs: 0000000076280000302c0000482c00006c2d0000782d0000862e0000fc3000003433000048340000b83500002836000040380000383c0000a83c0000643f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -555,7 +555,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 113}
+    m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 16
   m_DirectoriesAreaWidth: 141
 --- !u!114 &18
@@ -592,10 +592,10 @@ MonoBehaviour:
   m_ZoomArea:
     m_HRangeLocked: 0
     m_VRangeLocked: 0
-    m_HBaseRangeMin: -180
-    m_HBaseRangeMax: 180
-    m_VBaseRangeMin: -320
-    m_VBaseRangeMax: 320
+    m_HBaseRangeMin: -145.75
+    m_HBaseRangeMax: 145.75
+    m_VBaseRangeMin: -68
+    m_VBaseRangeMax: 68
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -661,14 +661,14 @@ MonoBehaviour:
     width: 583
     height: 304
   m_SceneLighting: 1
-  lastFramingTime: 653.185163974762
+  lastFramingTime: 199.5847550034523
   m_2DMode: 1
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 360, y: 98.46683, z: 0}
+    m_Target: {x: -360, y: -343, z: 0}
     speed: 2
-    m_Value: {x: 360, y: 98.46683, z: 0}
+    m_Value: {x: -360, y: -343, z: 0}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -695,9 +695,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 508.04034
+    m_Target: 1059.6405
     speed: 2
-    m_Value: 508.04034
+    m_Value: 1059.6405
   m_Ortho:
     m_Target: 1
     speed: 2

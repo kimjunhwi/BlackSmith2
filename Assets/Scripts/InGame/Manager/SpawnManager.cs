@@ -98,7 +98,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	System.TimeSpan timeCal;
 
-	private const int nInitTime_Sec = 59;
+	private const int nInitTime_Sec = 299;
 
 	public float fCurSec;
 

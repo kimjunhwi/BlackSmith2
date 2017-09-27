@@ -1015,7 +1015,11 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		case productId_packageForBeginner:
 			ScoreManager.ScoreInstance.RubyPlus (100);
 			ScoreManager.ScoreInstance.HonorPlus (200);
-			SpawnManager.Instance.list_ArbaitUI [(int)ReadOnlys.E_ARBAIT.E_CLEA].BuyCharacter ();
+
+			//캐릭터 
+			SpawnManager.Instance.array_ArbaitData[(int)ReadOnlys.E_ARBAIT.E_CLEA].BuyCharacter();
+			SpawnManager.Instance.list_ArbaitUI [(int)ReadOnlys.E_ARBAIT.E_CLEA].CheckBuyCharacter ();
+
 			GameManager.Instance.GetPlayer ().changeStats.bIsBeginnerPackageBuy = true;
 			ShopCashSlot shopCashSlot = addSlotObjs [(int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE].transform.GetChild (0).GetComponent<ShopCashSlot> ();
 			shopCashSlot.BlockImage_Obj.SetActive (true);
@@ -1024,6 +1028,10 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		case productId_packageIce:
 			ScoreManager.ScoreInstance.RubyPlus (200);
 			ScoreManager.ScoreInstance.HonorPlus (500);
+
+			SpawnManager.Instance.array_ArbaitData[(int)ReadOnlys.E_ARBAIT.E_ICE].BuyCharacter();
+			SpawnManager.Instance.list_ArbaitUI [(int)ReadOnlys.E_ARBAIT.E_ICE].CheckBuyCharacter ();
+
 			GameManager.Instance.GetPlayer ().changeStats.bIsBossIcePackageBuy = true;
 			ShopCashSlot shopCashSlot2 = addSlotObjs [(int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE].transform.GetChild (1).GetComponent<ShopCashSlot> ();
 			shopCashSlot2.BlockImage_Obj.SetActive (true);
@@ -1031,6 +1039,10 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		case productId_packageSasin:
 			ScoreManager.ScoreInstance.RubyPlus (200);
 			ScoreManager.ScoreInstance.HonorPlus (500);
+
+			SpawnManager.Instance.array_ArbaitData[(int)ReadOnlys.E_ARBAIT.E_SASIN].BuyCharacter();
+			SpawnManager.Instance.list_ArbaitUI [(int)ReadOnlys.E_ARBAIT.E_SASIN].CheckBuyCharacter ();
+
 			GameManager.Instance.GetPlayer ().changeStats.bIsBossSasinPackageBuy = true;
 			ShopCashSlot shopCashSlot3 = addSlotObjs [(int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE].transform.GetChild (2).GetComponent<ShopCashSlot> ();
 			shopCashSlot3.BlockImage_Obj.SetActive (true);
@@ -1038,6 +1050,10 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		case productId_packageFire:
 			ScoreManager.ScoreInstance.RubyPlus (200);
 			ScoreManager.ScoreInstance.HonorPlus (500);
+
+			SpawnManager.Instance.array_ArbaitData[(int)ReadOnlys.E_ARBAIT.E_SKULL].BuyCharacter();
+			SpawnManager.Instance.list_ArbaitUI [(int)ReadOnlys.E_ARBAIT.E_SKULL].CheckBuyCharacter ();
+
 			GameManager.Instance.GetPlayer ().changeStats.bIsBossFirePackageBuy = true;
 			ShopCashSlot shopCashSlot4 = addSlotObjs [(int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE].transform.GetChild (3).GetComponent<ShopCashSlot> ();
 			shopCashSlot4.BlockImage_Obj.SetActive (true);
@@ -1046,6 +1062,10 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		case productId_packageMusic:
 			ScoreManager.ScoreInstance.RubyPlus (200);
 			ScoreManager.ScoreInstance.HonorPlus (500);
+
+			SpawnManager.Instance.array_ArbaitData[(int)ReadOnlys.E_ARBAIT.E_DODOMCHIT].BuyCharacter();
+			SpawnManager.Instance.list_ArbaitUI [(int)ReadOnlys.E_ARBAIT.E_DODOMCHIT].CheckBuyCharacter ();
+
 			GameManager.Instance.GetPlayer ().changeStats.bIsBossMusicPackageBuy = true;
 			ShopCashSlot shopCashSlot5 = addSlotObjs [(int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE].transform.GetChild (4).GetComponent<ShopCashSlot> ();
 			shopCashSlot5.BlockImage_Obj.SetActive (true);

@@ -140,7 +140,7 @@ public class ArbaitCharacter : MonoBehaviour {
 			CharacterNameText.text = m_CharacterData.name;
 			BossNameObject.SetActive (true);
 		} else {
-			PurchasingNameObject.SetActive (false);
+			PurchasingNameObject.SetActive (true);
 			BossNameObject.SetActive (false);
 		}
 
@@ -305,8 +305,12 @@ public class ArbaitCharacter : MonoBehaviour {
     {
 		if (m_CharacterData.nBasicHonor + ((m_CharacterData.level - 1) * 0.4 * m_CharacterData.nBasicHonor) <= ScoreManager.ScoreInstance.GetHonor ()) 
 		{
-			m_CharacterData.fAttackSpeed -= m_CharacterData.fAttackSpeed * 1 * 0.01f;
-			m_CharacterData.fCritical += m_CharacterData.fCritical * 1 * 0.01f;
+			m_CharacterData.fAttackSpeed -=  0.005f;
+
+			if (m_CharacterData.fAttackSpeed <= 0.1f)
+				m_CharacterData.fAttackSpeed = 0.1f;
+			
+			m_CharacterData.fCritical +=  0.01f;
 
 			m_CharacterData.level++;
 			m_CharacterData.nPlayerGetRepair++;

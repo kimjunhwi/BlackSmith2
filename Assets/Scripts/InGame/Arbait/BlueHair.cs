@@ -199,8 +199,6 @@ public class BlueHair : ArbaitBatch {
 			{
 				fTime = 0.0f;
 
-				m_dComplate = 0;
-
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 
 				if (playerData.AccessoryEquipmnet != null) {
@@ -217,18 +215,20 @@ public class BlueHair : ArbaitBatch {
 				//크리티컬 확률 
 				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) {
 					animator.SetTrigger ("bIsCriticalRepair");
-					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
+					m_dCalComaplete += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
 				} else {
 					animator.SetTrigger ("bIsNormalRepair");
-					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
+					m_dCalComaplete += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
 				}
 
-				m_dComplate += m_dComplate * fBossRepairPercent * 0.01f;
+				m_dCalComaplete += m_dCalComaplete * fBossRepairPercent * 0.01f;
 
-				m_dComplate += m_dComplate * playerData.changeStats.fArbaitsPower * 0.01f;
+				m_dCalComaplete += m_dCalComaplete * playerData.changeStats.fArbaitsPower * 0.01f;
 
 				if (spawnManager.shopCash.isConumeBuff_Staff)
-					m_dComplate *= 2;
+					m_dCalComaplete *= 2;
+
+				m_dComplate += m_dCalComaplete;
 
 				//완성 됐을 경우
 				if (m_dComplate >= weaponData.dMaxComplate)
@@ -250,8 +250,7 @@ public class BlueHair : ArbaitBatch {
 			if(fTime >= m_fRepairTime)
 			{
 				fTime = 0.0f;
-
-				m_dComplate = 0;
+				m_dCalComaplete = 0;
 
 				dDodomchitRepair = m_CharacterChangeData.dRepairPower * fDodomchitRepairPercent * 0.01f;
 
@@ -269,20 +268,20 @@ public class BlueHair : ArbaitBatch {
 				//크리티컬 확률 
 				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) {
 					animator.SetTrigger ("bIsCriticalRepair");
-					m_dComplate += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
+					m_dCalComaplete += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
 				} else {
 					animator.SetTrigger ("bIsNormalRepair");
-					m_dComplate += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
+					m_dCalComaplete += m_CharacterChangeData.dRepairPower + dDodomchitRepair;
 				}
 
-				m_dComplate += m_dComplate * fBossRepairPercent * 0.01f;
+				m_dCalComaplete += m_dCalComaplete * fBossRepairPercent * 0.01f;
 
-				m_dComplate += m_dComplate * playerData.changeStats.fArbaitsPower * 0.01f;
+				m_dCalComaplete += m_dCalComaplete * playerData.changeStats.fArbaitsPower * 0.01f;
 
 				if (spawnManager.shopCash.isConumeBuff_Staff)
-					m_dComplate *= 2;
+					m_dCalComaplete *= 2;
 
-				RepairShowObject.SetCurCompletion(m_dComplate );
+				RepairShowObject.SetCurCompletion(m_dCalComaplete );
 			}
 
 			break;

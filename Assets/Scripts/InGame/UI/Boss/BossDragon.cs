@@ -14,7 +14,7 @@ public class BossDragon :  BossCharacter
 
 	private const string sTutorialDragonText01 = "크아아ㅏㅏ아ㅏㅏ!!";
 	private const string sTutorialDragonText02 = "너의 명성을 듣고 내 무기를 맡기러 왔다.";
-	private const string sTutorialDragonText03 = "시간이 없군 얼은 시작하지";
+	private const string sTutorialDragonText03 = "시간이 없군 얼른 시작하지";
 	private const string sTutorialDragonText04 = "....ㅎㅎ";
 	private const string sTutorialDragonText05 = "ㅡㅡ";
 

@@ -427,9 +427,10 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 				questPanel.nQuestPanelIndex = i;
 				questPanel.bIsQuest = true;
 				questObjects.Add (questPanel);
+				QuestDataDispatch (i);
 			}
 
-			QuestDataDispatch ();	//Data Dispatch
+			//QuestDataDispatch ();	//Data Dispatch
 
 			questTimer.isTimeOn = false;
 			questTimer.isTimeEnd = false;
@@ -639,7 +640,10 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 				questPanel.nCompareCondition += _value;
 				questPanel.ShowProgress ();
 				if (questPanel.nCompareCondition >= questPanel.nCompleteCondition)
+				{
 					expressionMark.SetActive (true);
+					questPanel.completeButton.SetActive (true);
+				}
 			}
 		}
 

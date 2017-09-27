@@ -90,6 +90,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 	public void SetUp()
 	{
+		expressionMark.SetActive (false);
 		//gameObject.transform.GetChild(0).gameObject.SetActive (true);
 
 		questObjectPool.PreloadPool ();
@@ -227,12 +228,19 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 			if (deleteQuestPanel.bIsQuest == false)
 			{
-				deleteQuestPanel.bIsQuest = false;
+				deleteQuestPanel.bIsQuest = true;
 				deleteQuestPanel.completeButton.SetActive (false);
-
-			
-
-
+				deleteQuestPanel.nCompareCondition = 0;
+				deleteQuestPanel.nCompleteCondition = 0;
+				deleteQuestPanel.nMutiplyValue = 0;
+				deleteQuestPanel.questTypeIndex = QuestType.E_QUESTTYPE_NONE;
+				deleteQuestPanel.questData = null;
+				deleteQuestPanel.nQuestIndex = -1;
+				deleteQuestPanel.textProgressValue.text = "";
+				deleteQuestPanel.textQuestUpValue.text = "";
+				deleteQuestPanel.textReward_Honor.text = "";
+				deleteQuestPanel.textReward_Ruby.text = "";;
+				deleteQuestPanel.textQuestContents.text = "";
 				questObjectPool.ReturnObject (go);
 				questObjects.Remove (deleteQuestPanel);
 			}
@@ -258,6 +266,16 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 				SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
 				deleteQuestPanel.bIsQuest = true;
 				deleteQuestPanel.nCompareCondition = 0;
+				deleteQuestPanel.nCompleteCondition = 0;
+				deleteQuestPanel.questTypeIndex = QuestType.E_QUESTTYPE_NONE;
+				deleteQuestPanel.nMutiplyValue = 0;
+				deleteQuestPanel.questData = null;
+				deleteQuestPanel.nQuestIndex = -1;
+				deleteQuestPanel.textProgressValue.text = "";
+				deleteQuestPanel.textQuestUpValue.text = "";
+				deleteQuestPanel.textReward_Honor.text = "";
+				deleteQuestPanel.textReward_Ruby.text = "";
+				deleteQuestPanel.textQuestContents.text = "";
 				deleteQuestPanel.completeButton.SetActive (false);
 				questObjectPool.ReturnObject (go);
 				questObjects.Remove (deleteQuestPanel);

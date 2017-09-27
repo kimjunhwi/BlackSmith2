@@ -258,7 +258,7 @@ public class Goblin_Guest : Character {
 					m_bIsBack = true;
 
 					BallonObject.SetActive(false);
-			}
+				}
 			}
 			);
 		}

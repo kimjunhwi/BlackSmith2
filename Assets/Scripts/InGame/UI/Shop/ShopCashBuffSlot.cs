@@ -110,7 +110,8 @@ public class ShopCashBuffSlot : MonoBehaviour {
 		if (fCurSec >= 60) {
 			while (true) 
 			{
-				if (fCurSec < 60) {
+				if (fCurSec < 60) 
+				{
 					fCurSec = fCurSec;
 					break;
 				}
@@ -167,6 +168,8 @@ public class ShopCashBuffSlot : MonoBehaviour {
 				if (sSlotName == "터치부스터")
 					shopCash.isConumeBuff_Attack = false;
 				
+				sSlotName = "";
+
 
 				pool_Obj.ReturnObject (gameObject);
 				

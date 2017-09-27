@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 Build from 김준휘의 MacBook Pro at 09/27/2017 20:21:14
+=======
+Build from 철승의 MacBook Pro at 09/27/2017 20:20:16
+>>>>>>> a047c6ef9660f1ee29112ebca010b2e0d6622405

@@ -90,6 +90,8 @@ public class BossCreator : MonoBehaviour
 
 	public void BossPanelSetUp()
 	{
+		uiManager.uiBossFirstFightMark.SetActive (false);
+
 		if (GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCount < 5)
 			bossInivteReFillButton_Obj.SetActive (true);
 		else

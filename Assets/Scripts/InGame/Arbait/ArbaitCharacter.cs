@@ -323,6 +323,8 @@ public class ArbaitCharacter : MonoBehaviour {
 
 			ChangeArbaitText ();
 
+			GameManager.Instance.GetPlayer ().PlayerStatsSetting ();
+
 			GoldText.text =  (m_CharacterData.nBasicHonor + ((m_CharacterData.level - 1) * 0.4 * m_CharacterData.nBasicHonor)).ToString();
 		}
     }

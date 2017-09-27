@@ -90,7 +90,8 @@ public class InventoryShowPanel : MonoBehaviour {
 
 		ItemData = null;
 
-		RemoveText ();
+		gameObject.SetActive (false);
+
 	}
 
 	private void EquipItem()

@@ -262,8 +262,10 @@ public class BossFire : BossCharacter
 		}
 
 		//사라질때의 말풍선
-		bossTalkPanel.StartShowBossTalkWindow (2f, bossWord[(int)E_BOSSWORD.E_BOSSWORD_END]);
-
+		if(isFailed == false)
+			bossTalkPanel.StartShowBossTalkWindow (2f, bossWord[(int)E_BOSSWORD.E_BOSSWORD_END]);
+		else
+			bossTalkPanel.StartShowBossTalkWindow (2f, "흥. 기대를 하다니 어리석었군");
 		//Animator Bool change
 		animator.SetBool ("isDisappear", true);
 

@@ -146,7 +146,7 @@ public class OptionItem : MonoBehaviour {
 			string strCostGold = ScoreManager.ScoreInstance.ChangeMoney (dCostGold);
 
 
-			GameManager.Instance.Window_yesno ("옵션을 잠금 하시겠습니까?", strCostGold, ObjectCashing.Instance.LoadSpriteFromCache ("Enhance/popup_or_gold"), rt => 
+			GameManager.Instance.Window_yesno ("옵션을 변경 하시겠습니까?", strCostGold, ObjectCashing.Instance.LoadSpriteFromCache ("Store/GoldShop/popup_or_gold"), rt => 
 				{
 					//광고
 					if(rt == "0")

@@ -49,6 +49,9 @@ public class ScoreManager : MonoBehaviour
     {
         scireInstance = this;
 
+		if (GameManager.Instance.GetPlayer () == null)
+			return;
+
 		m_dGetGold = GameManager.Instance.player.GetGold ();
 		m_dGetHonor = GameManager.Instance.player.GetHonor ();
 		m_nGetRuby = GameManager.Instance.player.GetRuby ();

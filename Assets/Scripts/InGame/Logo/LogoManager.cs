@@ -102,7 +102,7 @@ public class LogoManager : MonoBehaviour
 		#if UNITY_EDITOR
 		yield return new WaitForSeconds (0.3f);
 
-		ao = SceneManager.LoadSceneAsync (1);
+		ao = SceneManager.LoadSceneAsync (2);
 		ao.allowSceneActivation = false;
 
 		while (true) 

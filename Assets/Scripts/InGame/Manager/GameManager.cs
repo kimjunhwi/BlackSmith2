@@ -587,7 +587,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
     {
         if (bIsPause)
         {
-			if (player != null && SceneManager.GetActiveScene().buildIndex == 1)
+			if (player != null && SceneManager.GetActiveScene().buildIndex == 2)
             {
 				DataSave();
             }

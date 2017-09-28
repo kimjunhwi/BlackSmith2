@@ -15,7 +15,6 @@ public enum QuestType
 	E_QUESTTYPE_BIGSUCCESS,						//대성공
 	E_QUESTTYPE_BIGSUCCESSANDCUSTOMERSUCCESS,	//대성공중 손님 50명 성공
 	E_QUESTTYPE_CREATEHAMMER,					//x회 망치 제작
-	E_QUESTTYPE_INTIMECUTOMERSUCCESS,			//시간내에 x명 손님 성공
 	E_QUESTTYPE_NOMISSCUTOMERSUCCESS,			//수리시 빗나가지 않고 x명 성공
 	E_QUESTTYPE_NOWATERUSE,						//물 사용하지 않고 x명 성공
 	E_QUESTTYPE_ANYBOSSSUCCESS,					//아무 보스 x회 성공
@@ -74,29 +73,39 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 	public GameObject expressionMark;
 
+	public bool isQuestWindowOn = false;
 
 	//Timer
 	public 	Text timerText;
 	public QuestTimer questTimer;
 
-	private bool isInGameOnOff = false;
+	public bool isInGameOnOff = false;
+
+	public bool isMileOn01 = false;
+	public bool isMile01Get = false;
+	public bool isMileOn02 = false;
+	public bool isMile02Get = false;
+	public bool isMileOn03 = false;
+	public bool isMile03Get = false;
 
 
 	void Awake()
 	{
-		isInGameOnOff = false;
+		nQeustMaxMileCount = 10;
+	
 	}
 
 
 	public void SetUp()
 	{
 		expressionMark.SetActive (false);
+		isQuestWindowOn = true;
 		//gameObject.transform.GetChild(0).gameObject.SetActive (true);
 
 		questObjectPool.PreloadPool ();
 		questDatas = GameManager.Instance.cQusetInfo;	//data push
 		nQuestMaxCount = questDatas.Length;
-		nQeustMaxMileCount = 40;
+		nQeustMaxMileCount = 10;
 
 
 		//rewardCurMile_Text = string.Format ("{0}", 0);
@@ -105,16 +114,32 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		rewardMile2_Text.text = string.Format ("{0}",nSecondReward );
 		rewardMile3_Text.text = string.Format ("{0}",nThirdReward );
 
-		nQuestMileCount = GameManager.Instance.cQuestSaveListInfo [0].nCurMileValue;
+
+		//해당 포인트 이상이면 적용
+		if (nQuestMileCount >= nFirstReward && isMileOn01 == false) {
+			isMileOn01 = true;
+			rewardCheckImage01.SetActive (true);
+		}
+		if (nQuestMileCount >= nSecondReward && isMileOn02 == false) {
+			isMileOn02 = true;
+			rewardCheckImage02.SetActive (true);
+		}
+		if (nQuestMileCount >= nThirdReward && isMileOn03 == false) {
+			isMileOn03 = true;
+			rewardCheckImage03.SetActive (true);
+		}
+
 
 		//처음 실행시
 		if (GameManager.Instance.cQuestSaveListInfo[0].bIsGoogleSave == false &&
 			GameManager.Instance.cQuestSaveListInfo[0].bIsFirstActive == true && isInGameOnOff == false) 
 		{
-			isInGameOnOff = true;
+
+			nQuestMileCount = 0;
 			Debug.Log ("Quest first Active");
 			QuestInitStart ();
 			GameManager.Instance.SaveQuestList ();
+			isInGameOnOff = true;
 			return;
 		}
 	
@@ -122,39 +147,63 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		if (GameManager.Instance.cQuestSaveListInfo[0].bIsGoogleSave == false &&
 			GameManager.Instance.cQuestSaveListInfo[0].bIsFirstActive == false && isInGameOnOff == false) 
 		{
+			nQuestMileCount = GameManager.Instance.cQuestSaveListInfo [0].nCurMileValue;
 			isInGameOnOff = true;
 			Debug.Log ("Quest Load Data");
 			QuestSaveInitStart ();
+
+
+			//초기화 시간이 지나 있으면 추가하기 버튼이 활성화
+			if (questTimer.checkIsTimeGone() == true)
+			{
+				isInitConfirm = true;
+				questTimer.addQuestToEmptySpace.SetActive(true);
+			} 
+			else 
+			{
+				//시간이 지나있지 않다면 시간만 로드 한다
+				isInitConfirm = false;
+				questTimer.LoadTimeAndCheckTimeEnd();
+			}
+
+
+			GameManager.Instance.SaveQuestList ();
+
+			return;
 		}
 		//인게임에서 키고 끌시
 		if (GameManager.Instance.cQuestSaveListInfo[0].bIsGoogleSave == false &&
 			GameManager.Instance.cQuestSaveListInfo[0].bIsFirstActive == false && isInGameOnOff == true) 
 		{
 			Debug.Log ("Just Check Time");
+
+
+			//초기화 시간이 지나 있으면 추가하기 버튼이 활성화
+			if (questTimer.checkIsTimeGone() == true)
+			{
+				isInitConfirm = true;
+				questTimer.addQuestToEmptySpace.SetActive(true);
+			} 
+			else 
+			{
+				//시간이 지나있지 않다면 시간만 로드 한다
+				isInitConfirm = false;
+				questTimer.LoadTimeAndCheckTimeEnd();
+			}
+
+
+			GameManager.Instance.SaveQuestList ();
+
+			return;
 		}
 
-
-		//초기화 시간이 지나 있으면 추가하기 버튼이 활성화
-		if (questTimer.checkIsTimeGone() == true)
-		{
-			isInitConfirm = true;
-			questTimer.addQuestToEmptySpace.SetActive(true);
-		} 
-		else 
-		{
-			//시간이 지나있지 않다면 시간만 로드 한다
-			isInitConfirm = false;
-			questTimer.LoadTimeAndCheckTimeEnd();
-		}
-
-		GameManager.Instance.SaveQuestList ();
 
 	}
 
 
 	void Update()
 	{
-
+		
 
 		//마일리지 슬라이더
 		if (silder.value < ((float)nQuestMileCount / (float)nQeustMaxMileCount)) 
@@ -162,12 +211,20 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			silder.value += ((float)nQuestMileCount / (float)nQeustMaxMileCount) * sliderSpeed * Time.deltaTime;
 
 			//해당 포인트 이상이면 적용
-			if (nQuestMileCount >= nFirstReward && GameManager.Instance.cQuestSaveListInfo[0].isMileReward01 == false)
+			if (nQuestMileCount >= nFirstReward && isMileOn01 == false) {
+				isMileOn01 = true;
 				rewardCheckImage01.SetActive (true);
-			if (nQuestMileCount >= nSecondReward && GameManager.Instance.cQuestSaveListInfo[0].isMileReward02 == false)
+			}
+			if (nQuestMileCount >= nSecondReward && isMileOn02 == false) {
+				isMileOn02 = true;
 				rewardCheckImage02.SetActive (true);
-			if (nQuestMileCount >= nThirdReward && GameManager.Instance.cQuestSaveListInfo[0].isMileReward03 == false)
+			}
+			if (nQuestMileCount >= nThirdReward && isMileOn03 == false) {
+				isMileOn03 = true;
 				rewardCheckImage03.SetActive (true);
+			}
+
+
 			if(nQuestMileCount < 0)
 				rewardCurMile_Text.text = string.Format("{0}", 0 ) + " pt";
 			else
@@ -187,6 +244,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 		if (getInfoGameObject.gameObject.name == "QuestPanel")
 		{
+			isQuestWindowOn = false;
 			SaveQuestData ();
 			questTimer.SaveTime ();
 			questTimer.isTimeOn = false;
@@ -236,19 +294,14 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 				deleteQuestPanel.questTypeIndex = QuestType.E_QUESTTYPE_NONE;
 				deleteQuestPanel.questData = null;
 				deleteQuestPanel.nQuestIndex = -1;
-				/*
-				deleteQuestPanel.textProgressValue.text = "";
-				deleteQuestPanel.textQuestUpValue.text = "";
-				deleteQuestPanel.textReward_Honor.text = "";
-				deleteQuestPanel.textReward_Ruby.text = "";;
-				deleteQuestPanel.textQuestContents.text = "";
-				*/
+			
 				questObjectPool.ReturnObject (go);
 				questObjects.Remove (deleteQuestPanel);
 			}
 			deleteQuestPanel = null;
-		}
 
+		}
+		SaveQuestData ();
 		//퀘스트 타이머의 시간이 꺼져있을때
 		if (questTimer.isTimeOn == false)
 			questTimer.StartQuestTimer ();
@@ -288,6 +341,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 				deleteQuestPanel = null;
 			}
 		}
+		SaveQuestData ();
 	}
 
 
@@ -344,8 +398,19 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		nQuestCount = 0;
 		AllDestroyQuest ();
 		questObjects.Clear ();
+
+		int nCurSaveQuestCount = 0;
+
+		if (GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex01 >= 0)
+			nCurSaveQuestCount++;
+		if (GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02 >= 0)
+			nCurSaveQuestCount++;
+		if (GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03 >= 0)
+			nCurSaveQuestCount++;
+		
+		
 		//Add
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < nCurSaveQuestCount; i++)
 		{
 			nQuestCount++;
 			quest = questObjectPool.GetObject ();
@@ -375,6 +440,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		//처음 퀘스트 켜질시
 		if (GameManager.Instance.cQuestSaveListInfo [0].bIsFirstActive == true)
 		{
+			Debug.Log ("Quest Fire Dispatch");
 			GameManager.Instance.cQuestSaveListInfo [0].bIsFirstActive = false;
 
 			nQuestCount = 0;
@@ -390,11 +456,21 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 				QuestPanel questPanel = quest.gameObject.GetComponent<QuestPanel> ();
 				questPanel.nQuestPanelIndex = i;
+
+				questPanel.bIsQuest = true;
+
+				questPanel.nCompareCondition = 0;
+				questPanel.nCompleteCondition = 0;
+				questPanel.questTypeIndex = QuestType.E_QUESTTYPE_NONE;
+				questPanel.nMutiplyValue = 0;
+				questPanel.questData = null;
+				questPanel.nQuestIndex = -1;
+
 				questObjects.Add (questPanel);
 			}
 
 			QuestDataDispatchInit ();	//Data Dispatch
-
+			SaveQuestData();
 			questTimer.isTimeOn = false;
 			questTimer.isTimeEnd = false;
 			questTimer.InitQuestTimer (); //Timer On
@@ -515,18 +591,26 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		for(int i = 0 ; i< questObjects.Count; i++)
 		{
 			QuestPanel questPanel = questObjects[i].gameObject.GetComponent<QuestPanel> ();
-			if(i==0)
-				questPanel.GetQuest (questDatas[GameManager.Instance.cQuestSaveListInfo[0].nQuestIndex01] , this ,
-					GameManager.Instance.cQuestSaveListInfo[0].nQuestIndex01_ProgressValue , 
-					GameManager.Instance.cQuestSaveListInfo[0].nQuestIndex01_MultiplyValue);
-			if(i ==1)
-				questPanel.GetQuest (questDatas[GameManager.Instance.cQuestSaveListInfo[0].nQuestIndex02] , this ,
-					GameManager.Instance.cQuestSaveListInfo[0].nQuestIndex02_ProgressValue,
-					GameManager.Instance.cQuestSaveListInfo[0].nQuestIndex01_MultiplyValue);
-			if(i == 2)
-				questPanel.GetQuest (questDatas[GameManager.Instance.cQuestSaveListInfo[0].nQuestIndex03] , this ,
-					GameManager.Instance.cQuestSaveListInfo[0].nQuestIndex03_ProgressValue,
-					GameManager.Instance.cQuestSaveListInfo[0].nQuestIndex01_MultiplyValue);
+
+			if (i == 0) 
+			{
+				questPanel.GetQuest (questDatas [GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex01], this,
+					GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex01_ProgressValue, 
+					GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex01_MultiplyValue);
+			}
+			if (i == 1) 
+			{
+
+				questPanel.GetQuest (questDatas [GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02], this,
+					GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02_ProgressValue,
+					GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02_MultiplyValue);
+			}
+			if (i == 2) 
+			{
+				questPanel.GetQuest (questDatas [GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03], this,
+					GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03_ProgressValue,
+					GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03_MultiplyValue);
+			}
 		} 
 
 		if (GameManager.Instance.cQuestSaveListInfo [0].nCurMileValue != 0)
@@ -534,6 +618,16 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			nQuestMileCount = GameManager.Instance.cQuestSaveListInfo [0].nCurMileValue;
 		}
 
+		if (GameManager.Instance.cQuestSaveListInfo [0].isMileReward01 == true)
+		{
+			rewardCheckImage01.SetActive (true);
+		}
+		if (GameManager.Instance.cQuestSaveListInfo [0].isMileReward02 == true) {
+			rewardCheckImage02.SetActive (true);
+		}
+		if (GameManager.Instance.cQuestSaveListInfo [0].isMileReward03 == true) {
+			rewardCheckImage03.SetActive (true);
+		}
 		SaveQuestData ();
 	}
 
@@ -578,7 +672,8 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			questPanel.questTypeIndex = (QuestType)questDatas [random].nType;
 		}
 
-		SaveQuestData ();
+		isInGameOnOff = true;
+	
 	}
 
 	//Data 할당
@@ -650,7 +745,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	//퀘스트를 체크하는 곳에서 해당 퀘스트에 해당되는 enum 값을 넘겨서 퀘스트 목록중 해당되는 것을 찾아 값을 올린다
 	public void QuestSuccessCheck(QuestType _questTypeIndex, int _value)
 	{
-		if (questObjects[0] == null)
+		if (questObjects.Count == 0)
 			return;
 		
 		for (int i = 0; i < questObjects.Count; i++) 
@@ -659,14 +754,19 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 			if (questPanel.questTypeIndex == _questTypeIndex) 
 			{
-				questPanel.nCompareCondition += _value;
-				questPanel.ShowProgress ();
-				if (questPanel.nCompareCondition >= questPanel.nCompleteCondition && questPanel.bIsQuest == true)
+				if(questPanel.nCompareCondition < questPanel.nCompleteCondition && questPanel.bIsQuest == true)
 				{
+					questPanel.nCompareCondition += _value;
+					questPanel.ShowProgress ();	
+				}
+
+				else if(questPanel.nCompareCondition >= questPanel.nCompleteCondition && questPanel.bIsQuest == true) 
+				{
+					questPanel.bIsQuest = false;
 					expressionMark.SetActive (true);
 					questPanel.QuestCompleteActive ();
-
 				}
+			
 			}
 		}
 
@@ -677,7 +777,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	public void SaveQuestData()
 	{
 
-		if (GameManager.Instance.cQuestSaveListInfo [0].bIsFirstActive == false && questObjects.Count != 0)
+		if (questObjects.Count != 0)
 		{
 			Debug.Log ("Save Local Quest Data");
 
@@ -687,9 +787,10 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			{
 				if (questObjects.Count == 1) 
 				{
+					Debug.Log ("QuestObjetc Count : 1");
 					if (i == 0)
 					{
-						QuestPanel questPanel = questObjects [i].gameObject.GetComponent<QuestPanel> ();
+						QuestPanel questPanel = questObjects [0].gameObject.GetComponent<QuestPanel> ();
 						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex01 = questPanel.nQuestIndex;
 						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex01_ProgressValue = questPanel.nCompareCondition;
 						if(questPanel.nMutiplyValue <= 0)
@@ -698,21 +799,20 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 							GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex01_MultiplyValue = questPanel.nMutiplyValue;
 
 					}
-					if (i == 1) {
-						QuestPanel questPanel = questObjects [i].gameObject.GetComponent<QuestPanel> ();
-						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02 = -1;
-						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02_ProgressValue = -1;
-						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02_MultiplyValue = -1;
-					}
-					if (i == 2) {
-						QuestPanel questPanel = questObjects [i].gameObject.GetComponent<QuestPanel> ();
-						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03 = -1;
-						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03_ProgressValue = -1;
-						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02_MultiplyValue = -1;
-					}
-				} else if (questObjects.Count == 2) {
+					GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02 = -1;
+					GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02_ProgressValue = -1;
+					GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02_MultiplyValue = -1;
+
+					GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03 = -1;
+					GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03_ProgressValue = -1;
+					GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02_MultiplyValue = -1;
+				
+				} 
+				else if (questObjects.Count == 2) 
+				{
+					Debug.Log ("QuestObjetc Count : 2");
 					if (i == 0) {
-						QuestPanel questPanel = questObjects [i].gameObject.GetComponent<QuestPanel> ();
+						QuestPanel questPanel = questObjects [0].gameObject.GetComponent<QuestPanel> ();
 						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex01 = questPanel.nQuestIndex;
 						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex01_ProgressValue = questPanel.nCompareCondition;
 						if(questPanel.nMutiplyValue <= 0)
@@ -721,7 +821,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 							GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex01_MultiplyValue = questPanel.nMutiplyValue;
 					}
 					if (i == 1) {
-						QuestPanel questPanel = questObjects [i].gameObject.GetComponent<QuestPanel> ();
+						QuestPanel questPanel = questObjects [1].gameObject.GetComponent<QuestPanel> ();
 						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02 = questPanel.nQuestIndex;
 						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02_ProgressValue = questPanel.nCompareCondition;
 						if(questPanel.nMutiplyValue <= 0)
@@ -729,18 +829,18 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 						else
 							GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02_MultiplyValue = questPanel.nMutiplyValue;
 					}
-					if (i == 2) {
-						QuestPanel questPanel = questObjects [i].gameObject.GetComponent<QuestPanel> ();
-						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03 = -1;
-						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03_ProgressValue = -1;
-						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03_MultiplyValue = -1;
-					}
+
+					GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03 = -1;
+					GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03_ProgressValue = -1;
+					GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03_MultiplyValue = -1;
+
 				} 
 				else
 				{
+					Debug.Log ("QuestObjetc Count : 3");
 					if (i == 0) 
 					{
-						QuestPanel questPanel = questObjects [i].gameObject.GetComponent<QuestPanel> ();
+						QuestPanel questPanel = questObjects [0].gameObject.GetComponent<QuestPanel> ();
 						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex01 = questPanel.nQuestIndex;
 						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex01_ProgressValue = questPanel.nCompareCondition;
 						if(questPanel.nMutiplyValue <= 0)
@@ -750,7 +850,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 					}
 					if (i == 1)
 					{
-						QuestPanel questPanel = questObjects [i].gameObject.GetComponent<QuestPanel> ();
+						QuestPanel questPanel = questObjects [1].gameObject.GetComponent<QuestPanel> ();
 						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02 = questPanel.nQuestIndex;
 						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex02_ProgressValue = questPanel.nCompareCondition;
 						if(questPanel.nMutiplyValue <= 0)
@@ -760,7 +860,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 					}
 					if (i == 2) 
 					{
-						QuestPanel questPanel = questObjects [i].gameObject.GetComponent<QuestPanel> ();
+						QuestPanel questPanel = questObjects [2].gameObject.GetComponent<QuestPanel> ();
 						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03 = questPanel.nQuestIndex;
 						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex03_ProgressValue = questPanel.nCompareCondition;
 						if(questPanel.nMutiplyValue <= 0)
@@ -771,6 +871,12 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 				}
 			}
 			GameManager.Instance.cQuestSaveListInfo [0].nCurMileValue = nQuestMileCount;
+			GameManager.Instance.cQuestSaveListInfo [0].isMileReward01 = isMileOn01;
+			GameManager.Instance.cQuestSaveListInfo [0].isMileReward02 = isMileOn02;
+			GameManager.Instance.cQuestSaveListInfo [0].isMileReward03 = isMileOn03;
+			GameManager.Instance.cQuestSaveListInfo [0].isMileRewardGet01 = isMile01Get;
+			GameManager.Instance.cQuestSaveListInfo [0].isMileRewardGet02 = isMile02Get;
+			GameManager.Instance.cQuestSaveListInfo [0].isMileRewardGet03 = isMile03Get;
 
 			GameManager.Instance.SaveQuestList ();
 		} else 
@@ -801,8 +907,6 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			return QuestType.E_QUESTTYPE_BIGSUCCESSANDCUSTOMERSUCCESS;
 		else if (_index == (int)QuestType.E_QUESTTYPE_CREATEHAMMER)
 			return QuestType.E_QUESTTYPE_CREATEHAMMER;
-		else if (_index == (int)QuestType.E_QUESTTYPE_INTIMECUTOMERSUCCESS)
-			return QuestType.E_QUESTTYPE_INTIMECUTOMERSUCCESS;
 		else if (_index == (int)QuestType.E_QUESTTYPE_NOMISSCUTOMERSUCCESS)
 			return QuestType.E_QUESTTYPE_NOMISSCUTOMERSUCCESS;
 		else if (_index == (int)QuestType.E_QUESTTYPE_NOWATERUSE)
@@ -827,28 +931,72 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	public void AddMileReward01()
 	{
 		GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += 1;
-		GameManager.Instance.cQuestSaveListInfo [0].isMileReward01 = true;
 
 		rewardCheckImage01.SetActive (false);
 
+		isMile01Get = true;
+
+
 		SaveQuestData ();
 		GameManager.Instance.SaveBossPanelInfoList ();
+
+
+		if (isMile01Get == true && isMile02Get == true && isMile03Get == true)
+			LoopQuest ();
 	}
 	public void AddMileReward02()
 	{
 		ScoreManager.ScoreInstance.RubyPlus (10);
-		GameManager.Instance.cQuestSaveListInfo [0].isMileReward02 = true;
+
 		rewardCheckImage02.SetActive (false);
+
 		SaveQuestData ();
+		GameManager.Instance.SaveBossPanelInfoList ();
+
+		isMile02Get = true;
+		if (isMile01Get == true && isMile02Get == true && isMile03Get == true)
+			LoopQuest ();
 	}
 
 	public void AddMileReward03()
 	{
 		GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount += 1;
-		GameManager.Instance.cQuestSaveListInfo [0].isMileReward02 = true;
 		ScoreManager.ScoreInstance.RubyPlus (20);
+
+
 		rewardCheckImage03.SetActive (false);
+
+
+		isMile03Get = true;
+
 		SaveQuestData ();
 		GameManager.Instance.SaveBossPanelInfoList ();
+		if (isMile01Get == true && isMile02Get == true && isMile03Get == true)
+			LoopQuest ();
+
+	
+	}
+
+	public void LoopQuest()
+	{
+		isMileOn01 = false;
+		isMileOn02 = false;
+		isMileOn03 = false;
+
+		isMile01Get = false;
+		isMile02Get = false;
+		isMile03Get = false;
+
+
+		rewardCheckImage01.SetActive (false);
+		rewardCheckImage02.SetActive (false);
+		rewardCheckImage03.SetActive (false);
+
+
+		nQuestMileCount -= nThirdReward;
+
+		silder.value = 0;
+
+		SaveQuestData ();
 	}
 }

@@ -142,10 +142,19 @@ public class QuestPanel : MonoBehaviour
 		textProgressValue.text = string.Format ("{0}", nCompareCondition)  +"/" + string.Format ("{0}", nCompleteCondition);
 		textQuestUpValue.text = string.Format ("{0}" , nMutiplyValue) + " pt";
 
-		if (nMutiplyValue >= 3) {
+		if (nMutiplyValue >= 3) 
+		{
 			potionImage.enabled = true;
-		} else {
+			if (questData.nRewardRuby != 0) 
+			{
+				int getRuby = questData.nRewardRuby * _multiplyValue;
+				textReward_Ruby.text = string.Format ("{0}", getRuby);
+			}
+		} 
+		else 
+		{
 			potionImage.enabled = false;
+			textReward_Ruby.text = string.Format ("{0}", 0);
 		}
 
 		if (questData.nRewardHonor != 0)
@@ -153,26 +162,18 @@ public class QuestPanel : MonoBehaviour
 			int getHonor = questData.nRewardHonor * _multiplyValue;
 			textReward_Honor.text = string.Format ("{0}", getHonor);
 		}
-
-		if (questData.nRewardRuby != 0) 
-		{
-			int getRuby = questData.nRewardRuby * _multiplyValue;
-			textReward_Ruby.text = string.Format ("{0}", getRuby);
-		}
-
 	
 	}
+
 
 	public void QuestCompleteActive()
 	{
 		Debug.Log ("CompleteActive");
-		bIsQuest = false;
+
 		completeButton.SetActive (true);
 		sButton = completeButton.GetComponent<Button> ();
-		sButton.onClick.RemoveListener (GetQuestCompleteReward);
+		sButton.onClick.RemoveAllListeners ();
 		sButton.onClick.AddListener (GetQuestCompleteReward);
-
-		sButton.onClick.RemoveListener (questManager.CheckCompleteQuestDestroy);
 		sButton.onClick.AddListener (questManager.CheckCompleteQuestDestroy);
 
 
@@ -200,6 +201,7 @@ public class QuestPanel : MonoBehaviour
 		//마일리지 체크
 		questManager.nQuestMileCount += nMutiplyValue;
 
+
 		questManager.expressionMark.SetActive (false);
 		//꽉차면 마일리지
 		if (questManager.silder.value >= (float)questManager.nQeustMaxMileCount)
@@ -220,6 +222,8 @@ public class QuestPanel : MonoBehaviour
 			questManager.rewardCheckImage03.SetActive(true);
 	
 		completeButton.SetActive (false);
+
+
 
 	}
 

@@ -204,7 +204,8 @@ public class Goblin_Guest : Character {
 
 	void OnMouseDown()
 	{
-		if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE01 || SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE02)
+		if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE01 || SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_IMAGE02 ||
+			SpawnManager.Instance.questManager.isQuestWindowOn == true)
 			return;
 
 		if (Input.GetMouseButtonDown (0) && (E_STATE == ENORMAL_STATE.WAIT))

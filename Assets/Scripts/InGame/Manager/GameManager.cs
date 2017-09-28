@@ -563,6 +563,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		//Quest
 		//SpawnManager.Instance.questManager.questTimer.SaveTime();
+	
         SaveQuestList();
 
 		//Boss
@@ -2335,6 +2336,11 @@ public class CGameQuestSaveInfo
 	public bool isMileReward01;
 	public bool isMileReward02;
 	public bool isMileReward03;
+
+	public bool isMileRewardGet01;
+	public bool isMileRewardGet02;
+	public bool isMileRewardGet03;
+
 	public float fCurLeftSec;
 
 	public CGameQuestSaveInfo()
@@ -2354,6 +2360,9 @@ public class CGameQuestSaveInfo
 		isMileReward01 = false;
 		isMileReward02 = false;
 		isMileReward03 = false;
+		isMileRewardGet01 = false;
+		isMileRewardGet02 = false;
+		isMileRewardGet03 = false;
 	}
 }
 

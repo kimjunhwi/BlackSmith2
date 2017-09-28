@@ -386,19 +386,7 @@ public class NormalCharacter : Character {
         //뒤로 이동 후 true 반환
 		if (fCurCompletY >= 1.0f)
 		{
-			//Quest
-			if(	SpawnManager.Instance.repairObject.GetIsFever () == true)
-				SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_BIGSUCCESSANDCUSTOMERSUCCESS, 1);
 
-			if (SpawnManager.Instance.repairObject.bIsMissShowUp == false)
-				SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_NOMISSCUTOMERSUCCESS, 1);
-			else
-				SpawnManager.Instance.repairObject.bIsMissShowUp = false;
-
-			if (SpawnManager.Instance.repairObject.bIsWaterUse == false)
-				SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_NOWATERUSE, 1);
-			else
-				SpawnManager.Instance.repairObject.bIsWaterUse = false;
 
 
 			m_bIsBack = true;
@@ -415,6 +403,19 @@ public class NormalCharacter : Character {
 
 	public override void Complate(double _dComplate = 0.0f)
 	{
+		//Quest
+		if(	SpawnManager.Instance.repairObject.GetIsFever () == true)
+			SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_BIGSUCCESSANDCUSTOMERSUCCESS, 1);
+
+		if (SpawnManager.Instance.repairObject.bIsMissShowUp == false)
+			SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_NOMISSCUTOMERSUCCESS, 1);
+		else
+			SpawnManager.Instance.repairObject.bIsMissShowUp = false;
+
+		if (SpawnManager.Instance.repairObject.bIsWaterUse == false)
+			SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_NOWATERUSE, 1);
+		else
+			SpawnManager.Instance.repairObject.bIsWaterUse = false;
 		//Quest
 		SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_CUSTOMERSUCCESS, 1);
 

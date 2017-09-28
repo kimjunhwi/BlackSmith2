@@ -91,7 +91,7 @@ public class SkullObject : MonoBehaviour ,IPointerDownHandler
 
 			SoundManager.instance.PlaySound (eSoundArray.ES_BossSasinSkullTouch);
 
-			repairObj.SetCurCompletion (-dMaxComplete * 0.5f);
+			repairObj.SetCurCompletion (-dMaxComplete * 0.2f);
 			skullObjPull.ReturnObject (gameObject);
 		}
 			

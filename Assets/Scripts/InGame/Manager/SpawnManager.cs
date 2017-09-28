@@ -411,7 +411,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 		ScoreManager.ScoreInstance.SetSuccessedGuestCount (0);
 		ScoreManager.ScoreInstance.SetCurrentDays (m_nDay);
-		SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_DAYS, m_nDay);
+		if(questManager.isInGameOnOff == true)
+			SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_DAYS, m_nDay);
 	}
 
     //WeaponData

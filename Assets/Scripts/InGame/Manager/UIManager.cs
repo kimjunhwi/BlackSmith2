@@ -60,6 +60,7 @@ public class UIManager : MonoBehaviour
 			if(nIndex == 5)
 			{
 				questManager.SaveQuestData ();
+				questManager.isQuestWindowOn = false;
 			}
 
 			if (nIndex != 5 && nIndex != 6) 
@@ -80,6 +81,10 @@ public class UIManager : MonoBehaviour
 			questManager.questTimer.isTimeOn = false;
 
 			uiPanels [nIndex].SetActive (true);
+
+			if (nIndex == 5)
+				questManager.isQuestWindowOn = true;
+
 			if (nIndex != 5 && nIndex != 6)
 			{
 				

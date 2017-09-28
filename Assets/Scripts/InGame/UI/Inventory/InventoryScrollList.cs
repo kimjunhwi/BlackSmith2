@@ -54,6 +54,8 @@ public class InventoryScrollList : MonoBehaviour
     //추후 수정 예정
     private void AddButtons()
     {
+		
+
         //장착된것을 정렬
         for (int nIndex = 0; nIndex < itemList.Count; nIndex++)
         {
@@ -72,23 +74,33 @@ public class InventoryScrollList : MonoBehaviour
             }
         }
 
-		/*
-        //등급이 높은 것을 정렬
-        itemList.Sort(delegate(CGameEquiment A, CGameEquiment B)
-        {
-			if (A.sGrade < B.sGrade) return 1;
-				else if (A.sGrade > B.sGrade) return -1;
-            else return 0;
-        });
+		//강화가 높은것을 정렬
+		itemList.Sort(delegate(CGameEquiment A, CGameEquiment B)
+			{
+				if(itemList[0] == A || itemList[0] ==B)
+					if(itemList[0].bIsEquip == true)
+						return -1;
 
-        //강화가 높은것을 정렬
-        itemList.Sort(delegate(CGameEquiment A, CGameEquiment B)
-        {
-				if (A.sGrade == B.sGrade && A.nStrenthCount < B.nStrenthCount) return 1;
-				else if (A.sGrade != B.sGrade || A.nStrenthCount > B.nStrenthCount) return -1;
-            else return 0;
-        });
-		*/
+				if (A.nStrenthCount == B.nStrenthCount) return 0;
+				else if (A.nStrenthCount < B.nStrenthCount) return 1;
+				else return -1;
+			});
+			
+		//높은것을 정렬retur
+		itemList.Sort(delegate(CGameEquiment A, CGameEquiment B)
+			{
+				if(itemList[0] == A || itemList[0] ==B)
+					if(itemList[0].bIsEquip == true)
+						return 0;
+
+				if (A.nStrenthCount != B.nStrenthCount) return -1;
+
+				else if(A.nIndex > B.nIndex && A.nStrenthCount == B.nStrenthCount ) return 0;
+				else if (A.nIndex < B.nIndex && A.nStrenthCount == B.nStrenthCount) return 1;
+
+				else return 0;
+			});
+		
 
         for (int i = 0; i < nMaxItemList; i++)
         {

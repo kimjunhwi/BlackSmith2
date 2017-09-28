@@ -291,6 +291,17 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
         }
 		return null;
     }
+
+	public void SetGuestCreaetTime(float _fValue, float _fSpeed) {	
+		m_fCreateTime = _fValue; 
+	
+		for (int nIndex = 0; nIndex < m_CharicPool.Length; nIndex++) 
+		{
+			m_CharicPool [nIndex].GetComponent<Character> ().fSpeed = _fSpeed;
+		}
+
+	}
+
     
     //몬스터 오브젝트풀을 생성한다.
     private void CreateMonsterPool()

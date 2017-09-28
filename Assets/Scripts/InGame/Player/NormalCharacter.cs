@@ -19,6 +19,13 @@ public class NormalCharacter : Character {
 	//완성도 게이지
 	private Transform ComplateScale;
 
+	public Transform goldTextPosition;
+	public Transform goldParent;
+
+	public SimpleObjectPool showGoldPool;
+	public Camera cameraObj;
+
+
 	private SpriteRenderer backGround;
 
 	//돌아가는지
@@ -45,7 +52,15 @@ public class NormalCharacter : Character {
 
 		ComplateScale = WeaponBackground.transform.Find ("ComplateGaugeParent").GetComponent<Transform> ();
 
+		goldTextPosition = GameObject.Find ("Player").transform.Find ("CriticalHitPosition").GetComponent<Transform> ();
+
+		goldParent = GameObject.Find ("RepairPanel").transform.Find ("TextRespawnPoint").transform;
+
+		showGoldPool = GameObject.Find ("ShowGoldText").GetComponent<SimpleObjectPool> ();
+
 		ComplateScale.localScale = new Vector3 (1.0f, 0, 1.0f);
+
+		cameraObj = GameObject.Find ("Main Camera").GetComponent<Camera> ();
 
 		playerController = GameObject.Find ("PlayerRig").GetComponent<PlayerController> ();
     }
@@ -420,7 +435,7 @@ public class NormalCharacter : Character {
 
 		//70%이상
 		if ((weaponData.dMaxComplate * 0.7) < _dComplate) {
-
+			
 			nDay = cPlayerData.GetDay ();
 
 			playerController.GuestSuccessed ();
@@ -444,6 +459,18 @@ public class NormalCharacter : Character {
 
 			if (SpawnManager.Instance.shopCash.isConumeBuff_Gold)
 				dGold *= 2;
+
+			GameObject damageText = showGoldPool.GetObject ();
+
+			damageText.transform.SetParent (goldParent,false);
+			damageText.transform.localScale = Vector3.one;
+			damageText.transform.position = cameraObj.WorldToScreenPoint(goldTextPosition.position);
+			damageText.name = "Gold";
+
+			DamageTextPool damagePool = damageText.GetComponent<DamageTextPool> ();
+			damagePool.Damage ("+" + ScoreManager.ScoreInstance.ChangeMoney(dGold));
+			damagePool.textObjPool = showGoldPool;
+			damagePool.leftSecond = 0.6f;
 
 			if (cPlayerData.GetEpicOption () != null) 
 			{

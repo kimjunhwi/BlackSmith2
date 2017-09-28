@@ -2051,6 +2051,7 @@ public class CGameEquiment
 		fHonorPlus = _equimentData.fHonorPlus;
 		fGoldPlus = _equimentData.fGoldPlus;
 		fWaterChargePlus = _equimentData.fWaterChargePlus;
+		fCritical = _equimentData.fCritical;
 		fCriticalDamage = _equimentData.fCriticalDamage;
 		fBigCritical = _equimentData.fBigCritical;
 		fAccuracyRate = _equimentData.fAccuracyRate;

@@ -50,6 +50,7 @@ public class InventoryShowPanel : MonoBehaviour {
 		NoneEquipObject.SetActive (false);
 	}
 
+
 	private void EnhanceItem()
 	{
 
@@ -73,6 +74,8 @@ public class InventoryShowPanel : MonoBehaviour {
 				ItemData.fBossOptionValue += ItemData.fBasicOptionValue * ItemData.fOptionPlus * 0.1f;
 
 			ItemData.nStrenthCount++;
+
+			player.inventory.inventorySlots [ItemData.nSlotIndex].RefreshDisplay ();
 
 			EnhanceCostText.text = ChangeValue(ItemData.nBasicGold * Mathf.Pow(1.1f, ItemData.nStrenthCount - 1));
 

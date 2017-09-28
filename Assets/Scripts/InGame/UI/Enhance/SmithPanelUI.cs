@@ -8,7 +8,7 @@ public class SmithPanelUI : EnhanceUI {
 	const int nMaxLevel = 10;
 
 	const int nBasicHonor = 300;
-	const int nPlusPercent = 100;
+	const int nPlusPercent = 450;
 
 	public GameObject UpgradeEffectObject;
 	public HanabiTest Hanabi;
@@ -32,7 +32,7 @@ public class SmithPanelUI : EnhanceUI {
 			CostGoldText.text = "Max";
 		}
 
-		NextPercentText.text = (cPlayer.GetBasicGoldPlusPercent() + 50).ToString();
+		NextPercentText.text = (cPlayer.GetBasicGoldPlusPercent() + 10).ToString();
 	}
 
 	public void OnEnable()

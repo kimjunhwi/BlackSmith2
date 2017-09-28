@@ -457,8 +457,12 @@ public class RepairObject : MonoBehaviour
 
                     else
                     {
+						
+
 						if (bossCharacter == null)
 						{
+							dCurrentComplate = 0;
+
 							//터지는 파티클
 							ShowBreakWeapon ();
 							SoundManager.instance.PlaySound (eSoundArray.ES_TempratureExplosion);
@@ -1451,6 +1455,15 @@ public class RepairObject : MonoBehaviour
 				}
 				else
 				{
+					if (spawnManager.shopCash.isConumeBuff_Attack) 
+					{
+						TouchPosition = _position;
+
+						float fValue = (nPlusTouchCount + 1) * 0.2f;
+
+						Invoke ("BossNormalTouch", fValue );
+					}
+
 					if (player.GetEpicOption () != null) {
 
 						//배개 
@@ -1508,6 +1521,15 @@ public class RepairObject : MonoBehaviour
 				//수리력 30% 감소
 				if (nRandom <= nChancePercent) 
 				{
+					if (spawnManager.shopCash.isConumeBuff_Attack) 
+					{
+						TouchPosition = _position;
+
+						float fValue = (nPlusTouchCount + 1) * 0.2f;
+
+						Invoke ("BossNormalTouch", fValue );
+					}
+
 					if (player.GetEpicOption () != null) {
 						if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_KO_HAMMER) {
 							if (player.GetEpicOption ().CheckOption ()) {
@@ -1639,6 +1661,15 @@ public class RepairObject : MonoBehaviour
 			//Phase01
 			else if (bossCharacter.eCureentBossState >= Character.EBOSS_STATE.PHASE_01 && bossCharacter.eCureentBossState < Character.EBOSS_STATE.PHASE_02) 
 			{
+				if (spawnManager.shopCash.isConumeBuff_Attack) 
+				{
+					TouchPosition = _position;
+
+					float fValue = (nPlusTouchCount + 1) * 0.2f;
+
+					Invoke ("BossNormalTouch", fValue );
+				}
+
 				if (player.GetEpicOption () != null) {
 					if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_KO_HAMMER) {
 						if (player.GetEpicOption ().CheckOption ()) {
@@ -1801,6 +1832,15 @@ public class RepairObject : MonoBehaviour
 			//반사 상태
 			if (bossMusic.isReflect == true && bossMusic.isSwitch == true)
 			{
+				if (spawnManager.shopCash.isConumeBuff_Attack) 
+				{
+					TouchPosition = _position;
+
+					float fValue = (nPlusTouchCount + 1) * 0.2f;
+
+					Invoke ("BossNormalTouch", fValue );
+				}
+
 				if (Random.Range (1, 100) <= Mathf.Round (player.GetCriticalChance ()))
 				{
 					
@@ -1907,6 +1947,15 @@ public class RepairObject : MonoBehaviour
 							return;
 						}
 					}
+				}
+
+				if (spawnManager.shopCash.isConumeBuff_Attack) 
+				{
+					TouchPosition = _position;
+
+					float fValue = (nPlusTouchCount + 1) * 0.2f;
+
+					Invoke ("BossNormalTouch", fValue );
 				}
 
 				if (Random.Range (1, 100) <= Mathf.Round (player.GetCriticalChance ()))

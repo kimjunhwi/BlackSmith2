@@ -309,6 +309,8 @@ public class ArbaitCharacter : MonoBehaviour {
     {
 		if (m_CharacterData.nBasicHonor + ((m_CharacterData.level - 1) * 0.4 * m_CharacterData.nBasicHonor) <= ScoreManager.ScoreInstance.GetHonor ()) 
 		{
+			ScoreManager.ScoreInstance.HonorPlus (-(m_CharacterData.nBasicHonor + ((m_CharacterData.level - 1) * 0.4 * m_CharacterData.nBasicHonor)));
+
 			m_CharacterData.fAttackSpeed -=  0.005f;
 
 			if (m_CharacterData.fAttackSpeed <= 0.1f)

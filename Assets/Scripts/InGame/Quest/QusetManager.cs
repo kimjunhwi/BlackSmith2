@@ -66,9 +66,9 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	public Text rewardMile2_Text;
 	public Text rewardMile3_Text;
 
-	public int nFirstReward = 10;
-	public int nSecondReward = 25;
-	public int nThirdReward = 40;
+	public int nFirstReward = 3;
+	public int nSecondReward = 5;
+	public int nThirdReward = 10;
 
 	public SimpleObjectPool questObjectPool;
 
@@ -236,11 +236,13 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 				deleteQuestPanel.questTypeIndex = QuestType.E_QUESTTYPE_NONE;
 				deleteQuestPanel.questData = null;
 				deleteQuestPanel.nQuestIndex = -1;
+				/*
 				deleteQuestPanel.textProgressValue.text = "";
 				deleteQuestPanel.textQuestUpValue.text = "";
 				deleteQuestPanel.textReward_Honor.text = "";
 				deleteQuestPanel.textReward_Ruby.text = "";;
 				deleteQuestPanel.textQuestContents.text = "";
+				*/
 				questObjectPool.ReturnObject (go);
 				questObjects.Remove (deleteQuestPanel);
 			}
@@ -271,11 +273,13 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 				deleteQuestPanel.nMutiplyValue = 0;
 				deleteQuestPanel.questData = null;
 				deleteQuestPanel.nQuestIndex = -1;
+				/*
 				deleteQuestPanel.textProgressValue.text = "";
 				deleteQuestPanel.textQuestUpValue.text = "";
 				deleteQuestPanel.textReward_Honor.text = "";
 				deleteQuestPanel.textReward_Ruby.text = "";
 				deleteQuestPanel.textQuestContents.text = "";
+				*/
 				deleteQuestPanel.completeButton.SetActive (false);
 				questObjectPool.ReturnObject (go);
 				questObjects.Remove (deleteQuestPanel);
@@ -426,11 +430,19 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 				QuestPanel questPanel = quest.gameObject.GetComponent<QuestPanel> ();
 				questPanel.nQuestPanelIndex = i;
 				questPanel.bIsQuest = true;
+
+				questPanel.nCompareCondition = 0;
+				questPanel.nCompleteCondition = 0;
+				questPanel.questTypeIndex = QuestType.E_QUESTTYPE_NONE;
+				questPanel.nMutiplyValue = 0;
+				questPanel.questData = null;
+				questPanel.nQuestIndex = -1;
+
 				questObjects.Add (questPanel);
-				QuestDataDispatch (i);
+			
 			}
 
-			//QuestDataDispatch ();	//Data Dispatch
+			QuestDataDispatch ();	//Data Dispatch
 
 			questTimer.isTimeOn = false;
 			questTimer.isTimeEnd = false;
@@ -468,10 +480,20 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 				QuestPanel questPanel = quest.gameObject.GetComponent<QuestPanel> ();
 				questPanel.bIsQuest = true;
+
+				questPanel.nCompareCondition = 0;
+				questPanel.nCompleteCondition = 0;
+				questPanel.questTypeIndex = QuestType.E_QUESTTYPE_NONE;
+				questPanel.nMutiplyValue = 0;
+				questPanel.questData = null;
+				questPanel.nQuestIndex = -1;
+
+
 				questObjects.Add (questPanel);
-				QuestDataDispatch (i);
+
 			}
 
+			QuestDataDispatch ();	//Data Dispatch
 
 
 			return;
@@ -593,11 +615,11 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			
 			QuestPanel questPanel = questObjects[index].gameObject.GetComponent<QuestPanel> ();
 				
-			questPanel.InitQuestValue ();
+			//questPanel.InitQuestValue ();
 
 			int random = Random.Range (0, nQuestTotalCount - 1 );
 
-
+			//Data Input
 			questPanel.GetQuest (questDatas [random], this);
 			//questPanel.InitQuestValue ();
 			questPanel.questTypeIndex = (QuestType)questDatas [random].nType;
@@ -639,10 +661,11 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			{
 				questPanel.nCompareCondition += _value;
 				questPanel.ShowProgress ();
-				if (questPanel.nCompareCondition >= questPanel.nCompleteCondition)
+				if (questPanel.nCompareCondition >= questPanel.nCompleteCondition && questPanel.bIsQuest == true)
 				{
 					expressionMark.SetActive (true);
-					questPanel.completeButton.SetActive (true);
+					questPanel.QuestCompleteActive ();
+
 				}
 			}
 		}

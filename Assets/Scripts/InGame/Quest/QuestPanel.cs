@@ -66,18 +66,6 @@ public class QuestPanel : MonoBehaviour
 
 	private bool bIsCheckComplete;
 
-	void Update()
-	{
-		if (nCompareCondition >= nCompleteCondition && bIsCheckComplete == false && bIsQuest == true) 
-		{
-			Debug.Log ("Quest Panel Update");
-			QuestCompleteActive ();
-			textProgressValue.text = string.Format ("{0}", nCompleteCondition)  +"/" + string.Format ("{0}", nCompleteCondition);
-			//questManager.expressionMark.SetActive (true);
-			bIsCheckComplete = true;
-			bIsQuest = false;
-		}
-	}
 
 	public void GiveUpActive()
 	{

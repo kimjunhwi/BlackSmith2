@@ -589,6 +589,7 @@ public class RepairObject : MonoBehaviour
 
         m_bIsFever = false;
 		SucceessedObject.SetActive (false);
+		spawnManager.SetGuestCreaetTime (0.5f, 3f);
 
 		if (player.GetEpicOption () != null) {
 			if (player.GetEpicOption ().nIndex == (int)E_EPIC_INDEX.E_EPIC_RUBBER_CHICKEN) {
@@ -1104,6 +1105,8 @@ public class RepairObject : MonoBehaviour
 				SpawnManager.Instance.cameraShake.Shake (0.05f, 0.5f);
 
 				SucceessedObject.SetActive (true);
+
+				spawnManager.SetGuestCreaetTime (0.2f, 5f);
 
                 //SpawnManager.Instance.SettingFever(m_fFeverCreateTime, m_fFeverSpeed);
 				//Quest

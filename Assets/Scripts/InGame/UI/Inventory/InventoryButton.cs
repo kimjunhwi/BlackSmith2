@@ -9,7 +9,9 @@ public class InventoryButton : MonoBehaviour {
     private Button button;
 
 	public Image WeaponImage;
+	public Text EnhanceText;
 
+	public GameObject EnhanceObject;
 	public GameObject WeaponObject;
     public GameObject EquipWeapon;
 
@@ -33,6 +35,8 @@ public class InventoryButton : MonoBehaviour {
 	{
 		equimentData = null;
 
+		EnhanceObject.SetActive (false);
+
 		WeaponObject.SetActive (false);
 
 		EquipWeapon.SetActive (false);
@@ -44,9 +48,12 @@ public class InventoryButton : MonoBehaviour {
         
 		inventoryPanel = _inventoryPanel;
 
+		EnhanceText.text = string.Format ("+{0}", equimentData.nStrenthCount);
+
 		WeaponImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache(equimentData.strResource);
 
 		WeaponObject.SetActive (true);
+		EnhanceObject.SetActive (true);
 
         if (currentEquiment.bIsEquip)
             EquipWeapon.SetActive(true);

@@ -17,7 +17,7 @@ public class OptionController : MonoBehaviour {
 
 	public GameObject optionGusetLoginToGoogleLogin;
 	public GameObject optionCloudSaveConfirm_Obj;
-
+	public GameObject optionCloudLoadConfirm_Obj;
 
 
 	public void Start()

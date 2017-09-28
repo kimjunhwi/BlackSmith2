@@ -106,7 +106,7 @@ public class ShopButton : MonoBehaviour {
     public void ClickButton()
     {
         //옆에 설명창에 보내줌
-        Debug.Log("click");
+        //Debug.Log("click");
 
 		if (showPanel == null)
 			return;

@@ -21,7 +21,7 @@ public class LogoTextBlink : MonoBehaviour
 		while (true) 
 		{
 			yield return new WaitForSeconds (0.5f);
-			Debug.Log ("Blink Text!");
+			//Debug.Log ("Blink Text!");
 
 			if (text.isActiveAndEnabled == true)
 				text.enabled = false;

@@ -152,7 +152,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		cQuestSaveListInfo = ConstructString<CGameQuestSaveInfo>(strQuestPath);
 		if(cQuestSaveListInfo == null)
 		{
-			Debug.Log("Init QuestInfo");
+			//Debug.Log("Init QuestInfo");
 			cQuestSaveListInfo = new List<CGameQuestSaveInfo>();
 			CGameQuestSaveInfo tmpQuestSaveInfo = new CGameQuestSaveInfo();
 			cQuestSaveListInfo.Add(tmpQuestSaveInfo);
@@ -160,7 +160,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		if(ConstructString<BossPanelInfo> (strBossPanelInfoPath) == null)
 		{
-			Debug.Log("Init BossPanelInfo");
+			//Debug.Log("Init BossPanelInfo");
 			cBossPanelInfo = new BossPanelInfo();
 			cBossPanelListInfo.Add(cBossPanelInfo);
 		}
@@ -168,7 +168,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			cBossPanelListInfo = ConstructString<BossPanelInfo> (strBossPanelInfoPath);
 		
 	
-		Debug.Log(playerData.strName);
+		//Debug.Log(playerData.strName);
 	
 
 		player = new Player();
@@ -218,11 +218,11 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		//제작 무기 로드 
 		if(File.Exists(strCreate)) 
 		{
-			Debug.Log("Search CreateWeapon");
+			//Debug.Log("Search CreateWeapon");
 
 			string dataAsJson = File.ReadAllText (strCreate);
 
-			Debug.Log (dataAsJson);
+			//Debug.Log (dataAsJson);
 
 			if(dataAsJson == "")
 			{
@@ -235,86 +235,86 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		if(File.Exists(ArbaitFilePath)) 
 		{
-			Debug.Log("Search Arbait");
+			//Debug.Log("Search Arbait");
 		
 			string dataAsJson = File.ReadAllText (ArbaitFilePath);
 
-			Debug.Log (dataAsJson);
+			//Debug.Log (dataAsJson);
 
 			ArbaitDataBase = JsonHelper.ListFromJson<ArbaitData>(dataAsJson);
 		}
 		else 
 		{
-			Debug.Log("None Search Arbait");
+			//Debug.Log("None Search Arbait");
 
 			ArbaitFilePath = Path.Combine(Application.streamingAssetsPath, strArbaitPath);
 			
 			yield return StartCoroutine(LinkedArbaitAccess (ArbaitFilePath));
 		}
-		Debug.Log("1");
+		//Debug.Log("1");
 
 
 		if(File.Exists(InventoryFilePath)) 
 		{
-			Debug.Log("Inventory");
+			//Debug.Log("Inventory");
 
 			string dataAsJson = File.ReadAllText (InventoryFilePath);
 
-			Debug.Log(dataAsJson);
+			//Debug.Log(dataAsJson);
 
 			cInvetoryInfo = JsonHelper.ListFromJson<CGameEquiment>(dataAsJson);
 		}
 
 		if(File.Exists(EquimentFilePath)) 
 		{
-			Debug.Log("Shop");
+			//Debug.Log("Shop");
 
 			string dataAsJson = File.ReadAllText (EquimentFilePath);
 
-			Debug.Log(dataAsJson);
+			//Debug.Log(dataAsJson);
 
 			equimnetData = JsonHelper.ListFromJson<CGameEquiment>(dataAsJson);
 		}
 
 		if(File.Exists(PlayerFilePath)) 
 		{
-		Debug.Log("Search PlayerData");
+		//Debug.Log("Search PlayerData");
 
 		string dataAsJson = File.ReadAllText (PlayerFilePath);
 
-		Debug.Log (dataAsJson);
+		//Debug.Log (dataAsJson);
 
 		playerData = JsonHelper.ListFromJson<CGamePlayerData>(dataAsJson)[0];
 
 		}
 		else 
 		{
-			Debug.Log("No SearchPlayerData");
+			//Debug.Log("No SearchPlayerData");
 			PlayerFilePath = Path.Combine(Application.streamingAssetsPath, strPlayerPath);
 			yield return StartCoroutine(LinkedPlayerAccess (PlayerFilePath));
 		}
 
 		if(File.Exists(QuestFilePath))
 		{
-			Debug.Log("Search Quest");
+			//Debug.Log("Search Quest");
 			string dataAsJson = File.ReadAllText (QuestFilePath);
 			if(dataAsJson.Length <= 11)
 			{
-				Debug.Log("No SavedQuestData Create New ");
+				//Debug.Log("No SavedQuestData Create New ");
 				cQuestSaveListInfo = new List<CGameQuestSaveInfo>();
 				CGameQuestSaveInfo tmpQuestSaveInfo = new CGameQuestSaveInfo();
 				cQuestSaveListInfo.Add(tmpQuestSaveInfo);
-				Debug.Log (dataAsJson);
+				//Debug.Log (dataAsJson);
 			}
 			else
 			{
-				Debug.Log (dataAsJson);
+				//Debug.Log (dataAsJson);
 				cQuestSaveListInfo = JsonHelper.ListFromJson<CGameQuestSaveInfo>(dataAsJson);
 			}
 		}
 		else
 		{
-			Debug.Log("No SavedQuestData Create New ");
+			//Debug.Log("No SavedQuestData Create New ");
 			cQuestSaveListInfo = new List<CGameQuestSaveInfo>();
 			CGameQuestSaveInfo tmpQuestSaveInfo = new CGameQuestSaveInfo();
 			cQuestSaveListInfo.Add(tmpQuestSaveInfo);
@@ -323,25 +323,25 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	
 		if(File.Exists(BossFilePath)) 
 		{
-			Debug.Log("Search Boss");
+			//Debug.Log("Search Boss");
 
 			string dataAsJson = File.ReadAllText (BossFilePath);
 			if(dataAsJson.Length <= 11)
 			{
-				Debug.Log("No Saved Local BossPanel Info");
+				//Debug.Log("No Saved Local BossPanel Info");
 				cBossPanelInfo = new BossPanelInfo();
 				cBossPanelListInfo.Add(cBossPanelInfo);
-				Debug.Log (dataAsJson);
+				//Debug.Log (dataAsJson);
 			}
 			else
 			{
-				Debug.Log (dataAsJson);
+				//Debug.Log (dataAsJson);
 				cBossPanelListInfo = JsonHelper.ListFromJson<BossPanelInfo>(dataAsJson);
 			}
 		}
 		else
 		{
-			Debug.Log("No Saved Local BossPanel Info");
+			//Debug.Log("No Saved Local BossPanel Info");
 			cBossPanelInfo = new BossPanelInfo();
 			cBossPanelListInfo.Add(cBossPanelInfo);
 			Debug.Log(cBossPanelListInfo[0]);
@@ -362,7 +362,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
     IEnumerator LinkedArbaitAccess(string filePath)
     {
-		Debug.Log("2");
+		//Debug.Log("2");
 
         WWW www = new WWW(filePath);
 
@@ -372,25 +372,25 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		if (dataAsJson == "") 
 		{
-			Debug.Log ("NULL");
+			//Debug.Log ("NULL");
 
 			yield return StartCoroutine (LinkedArbaitAccess (Path.Combine(Application.streamingAssetsPath, strArbaitPath)));
 
-			Debug.Log ("None NULL");
+			//Debug.Log ("None NULL");
 
 			yield break;
 		}
 
         ArbaitDataBase = JsonHelper.ListFromJson<ArbaitData>(dataAsJson);
 
-		Debug.Log ("ArbaitData Count" + ArbaitDataBase.Count);
+		//Debug.Log ("ArbaitData Count" + ArbaitDataBase.Count);
 
-		Debug.Log("3");
+		//Debug.Log("3");
     }
 
 	IEnumerator LinkedInventoryAccess(string filePath)
 	{
-		Debug.Log("1");
+		//Debug.Log("1");
 
 		WWW www = new WWW(filePath);
 
@@ -398,7 +398,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		string dataAsJson = www.text.ToString();
 
-		Debug.Log (dataAsJson);
+		//Debug.Log (dataAsJson);
 
 		if (dataAsJson == "")
 			yield break;
@@ -408,7 +408,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	IEnumerator LinkedShopAccess(string filePath)
 	{
-		Debug.Log("8");
+		//Debug.Log("8");
 
 		WWW www = new WWW(filePath);
 
@@ -416,16 +416,16 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	
 		string dataAsJson = www.text.ToString();
 
-		Debug.Log (dataAsJson);
+		//Debug.Log (dataAsJson);
 
 		if (dataAsJson == "")
 			yield break;
 
 		equimnetData = JsonHelper.ListFromJson<CGameEquiment>(dataAsJson);
 
-		Debug.Log ("equimnetData Count" + equimnetData.Count);
+		//Debug.Log ("equimnetData Count" + equimnetData.Count);
 
-		Debug.Log("9");
+		//Debug.Log("9");
 	}
 
 	IEnumerator LinkedPlayerAccess(string filePath)
@@ -438,13 +438,13 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		if (dataAsJson == "") 
 		{
-			Debug.Log ("No Search");
+			//Debug.Log ("No Search");
 			yield return StartCoroutine( LinkedPlayerAccess( Path.Combine(Application.streamingAssetsPath, strPlayerPath)));
 
 			yield break;
 		}
 
-		Debug.Log (dataAsJson);
+		//Debug.Log (dataAsJson);
 
 		playerData = JsonHelper.ListFromJson<CGamePlayerData>(dataAsJson)[0];
 	}
@@ -457,7 +457,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		string dataAsJson = www.text.ToString();
 
-		Debug.Log (dataAsJson);
+		//Debug.Log (dataAsJson);
 
 		if (dataAsJson == "")
 			yield break;
@@ -468,7 +468,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	IEnumerator LinkedQuestAccess(string filePath)
 	{
-		Debug.Log ("Quest Loaded");
+		//Debug.Log ("Quest Loaded");
 		
 		WWW www = new WWW(filePath);
 
@@ -484,7 +484,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	IEnumerator LinkedBossPanelInfoAccess(string filePath)
 	{
-		Debug.Log ("BossPanel Loaded");
+		//Debug.Log ("BossPanel Loaded");
 
 		WWW www = new WWW(filePath);
 
@@ -526,7 +526,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
     //저장이 되는 부분은 OnApplicationPuase가 TRUE 이고 플레이어가 존재할시 호출
     void DataSave()
     {
-        Debug.Log("Quit And Local Save....");
+       // Debug.Log("Quit And Local Save....");
 
         if (player == null)
             return;
@@ -581,7 +581,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
         PlayerPrefs.Save();
 
-		Debug.Log("Save Complete!!");
+		//Debug.Log("Save Complete!!");
         //StopAllCoroutines();
     }
 
@@ -600,7 +600,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
     public void SavePlayerData()
 	{
 
-		Debug.Log ("nMaxDays ; " + playerData.nMaxDay);
+		//Debug.Log ("nMaxDays ; " + playerData.nMaxDay);
 		#if UNITY_EDITOR
 		string filePath = Path.Combine(Application.streamingAssetsPath, strPlayerPath);
 

@@ -78,7 +78,7 @@ public class Shop : MonoBehaviour {
 		playerData.changeStats.nShopMinutes = nCurMin;
 		playerData.changeStats.fShopSecond = fCurSec;
 
-		Debug.Log ("EndTime :" + EndData.ToString ());
+		//Debug.Log ("EndTime :" + EndData.ToString ());
 	}
 
     void OnEnable()

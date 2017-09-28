@@ -379,7 +379,7 @@ public class ArbaitBatch : MonoBehaviour {
                 break;
         }
 
-        Debug.Log("Remove");
+        //Debug.Log("Remove");
 
 		if (!m_bIsWaterAttackSpeed)
 			yield break;

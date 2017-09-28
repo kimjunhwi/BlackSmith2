@@ -246,7 +246,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			//처음 시작 설명 텍스트 
 			if (tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_NONE) 
 			{
-				Debug.Log ("Tuto1 Start");
+				//Debug.Log ("Tuto1 Start");
 				tutorialPanel.StartContent ();
 			}
 

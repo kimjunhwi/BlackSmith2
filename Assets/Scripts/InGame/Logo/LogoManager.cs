@@ -56,7 +56,7 @@ public class LogoManager : MonoBehaviour
 		#if UNITY_EDITOR
         if(bIsSuccessed == true)
         {
-			Debug.Log("Successed");
+			//Debug.Log("Successed");
 			StartLoadScene();
 			bIsSuccessed = false;
 		}
@@ -120,7 +120,7 @@ public class LogoManager : MonoBehaviour
 			if (GameManager.Instance.GetPlayer().changeStats.bIsGoogleLogin == true || 
 				GameManager.Instance.GetPlayer().changeStats.bIsGusetLogin == true)
 			{
-				Debug.Log ("Loading...");
+				//Debug.Log ("Loading...");
 				if(GameManager.Instance.GetPlayer().changeStats.bIsGoogleLogin == true && bIsGoogleLoginComplete==false )
 				{
 					bIsLoginWindowOn = true;
@@ -223,13 +223,13 @@ public class LogoManager : MonoBehaviour
 				if (success)
 				{
 
-					Debug.Log("You've successfully logged in");
+					//Debug.Log("You've successfully logged in");
 
 					LoginWindow_Active(false);
 
 					if(GameManager.Instance.GetPlayer().changeStats.strName == "player")
 					{
-						Debug.Log("Google Login First Login Set Nick");
+						//Debug.Log("Google Login First Login Set Nick");
 						bIsGoogleLoginComplete = true;
 						//nickInputFieldWindow_Obj.SetActive(true);
 						GameManager.Instance.GetPlayer().changeStats.bIsGoogleLogin = true;
@@ -238,7 +238,7 @@ public class LogoManager : MonoBehaviour
 					else
 					{
 						#if UNITY_EDITOR
-						Debug.Log("Google Login Skip Login");
+						//Debug.Log("Google Login Skip Login");
 						bIsUnityEditorComplete = true;
 						bIsGoogleLoginComplete = true;
 						#elif UNITY_ANDROID
@@ -249,7 +249,7 @@ public class LogoManager : MonoBehaviour
 				}
 				else
 				{
-					Debug.Log("Login failed for some reason");
+					//Debug.Log("Login failed for some reason");
 					return;
 				}
 			});
@@ -268,13 +268,13 @@ public class LogoManager : MonoBehaviour
 		//처음실행시 닉x 로그인후
 		if(GameManager.Instance.GetPlayer().changeStats.strName == "player")
 		{
-			Debug.Log("GuestLogin First Login Set Nick");
+			//Debug.Log("GuestLogin First Login Set Nick");
 			nickInputFieldWindow_Obj.SetActive(true);
 
 		}
 		else
 		{
-			Debug.Log("GuestLogin Nick Skip");
+			//Debug.Log("GuestLogin Nick Skip");
 			bIsUnityEditorComplete = true;
 			bIsGuestLoginComplete = true;
 		}
@@ -314,14 +314,14 @@ public class LogoManager : MonoBehaviour
 		#if UNITY_EDITOR
 		if(bIsGoogleLoginComplete == true)
 		{
-			Debug.Log("Nick Google Login");
+			//Debug.Log("Nick Google Login");
 			bIsUnityEditorComplete = true;			//Loading Complete
 			bIsGuestLoginComplete = false;
 			GameManager.Instance.GetPlayer().changeStats.bIsGoogleLogin = true;
 		}
 		else
 		{
-			Debug.Log("Guset Google Login");
+			//Debug.Log("Guset Google Login");
 			bIsUnityEditorComplete = true;			//Loading Complete
 			bIsGuestLoginComplete = true;
 			GameManager.Instance.GetPlayer().changeStats.bIsGusetLogin = true;

@@ -65,9 +65,9 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	public Text rewardMile2_Text;
 	public Text rewardMile3_Text;
 
-	public int nFirstReward = 3;
-	public int nSecondReward = 5;
-	public int nThirdReward = 10;
+	public int nFirstReward = 10;
+	public int nSecondReward = 25;
+	public int nThirdReward = 40;
 
 	public SimpleObjectPool questObjectPool;
 
@@ -91,7 +91,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 	void Awake()
 	{
-		nQeustMaxMileCount = 10;
+		nQeustMaxMileCount = 40;
 	
 	}
 
@@ -105,7 +105,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		questObjectPool.PreloadPool ();
 		questDatas = GameManager.Instance.cQusetInfo;	//data push
 		nQuestMaxCount = questDatas.Length;
-		nQeustMaxMileCount = 10;
+		nQeustMaxMileCount = 40;
 
 
 		//rewardCurMile_Text = string.Format ("{0}", 0);

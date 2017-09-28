@@ -56,7 +56,7 @@ public class PlayerDaysInfo : MonoBehaviour , IPointerDownHandler
 		if (getInfoGameObject.gameObject.name == "CurrentDaysText" || 
 			getInfoGameObject.gameObject.name == "DayText") 
 		{
-			Debug.Log ("Touched : " + getInfoGameObject.name);
+			//Debug.Log ("Touched : " + getInfoGameObject.name);
 
 			if (player.GetMaxDay () < 100)
 				MaxDaysText.fontSize = 30;
@@ -80,7 +80,7 @@ public class PlayerDaysInfo : MonoBehaviour , IPointerDownHandler
 		if (getInfoGameObject.gameObject.name == "MaxDaysText"|| 
 			getInfoGameObject.gameObject.name == "DayText") 
 		{
-			Debug.Log ("Touched : " + getInfoGameObject.name);
+			//Debug.Log ("Touched : " + getInfoGameObject.name);
 
 			if (player.GetDay () < 100)
 				CurrentDaysText.fontSize = 30;

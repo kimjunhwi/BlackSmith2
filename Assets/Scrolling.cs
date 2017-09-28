@@ -38,7 +38,7 @@ public class Scrolling : MonoBehaviour
 	{
 		startPos = transform.position;
 		fAlphaMax = backGroundMaterials [0].color.a;
-		Debug.Log ("Max Alpha = " + fAlphaMax);
+		//Debug.Log ("Max Alpha = " + fAlphaMax);
 
 		isQuadBack = false;
 		isQuadChangeFinsihed = true;
@@ -165,7 +165,7 @@ public class Scrolling : MonoBehaviour
 
 			if (fQuadFrontAlpha <= 0) 
 			{
-				Debug.Log ("배경바꾸기 완료");
+				//Debug.Log ("배경바꾸기 완료");
 				//앞뒤 바뀐다
 				bIsPlay = false;
 

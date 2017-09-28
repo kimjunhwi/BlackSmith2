@@ -269,7 +269,7 @@ public class ArbaitCharacter : MonoBehaviour {
 
         bool bIsToggle = _bIsToggle;
 
-        Debug.Log(m_SettingToggle.isOn);
+        //Debug.Log(m_SettingToggle.isOn);
 
         //만약 배치를 해야하고 배치상태가 아니라면
         if (bIsToggle && m_bIsBatch == false)
@@ -302,7 +302,7 @@ public class ArbaitCharacter : MonoBehaviour {
             m_bIsBatch = false;
         }
 
-        Debug.Log(m_SettingToggle.isOn);
+        //Debug.Log(m_SettingToggle.isOn);
     }
 
     public void EnhanceEvent()

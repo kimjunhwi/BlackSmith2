@@ -100,7 +100,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	private const int nInitTime_Sec = 299;
 
-	public float fCurSec;
+	public float fCurSec = 0;
 
 	private string strTime ="";
 
@@ -116,7 +116,6 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
     {
 		if (bIsFirst == false) 
 		{
-			
 			//게임매니저에서 아르바이트 수치를 받아옴
 			m_nMaxArbaitAmount = GameManager.Instance.ArbaitLength (); 
 
@@ -148,7 +147,15 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			SoundManager.instance.LoadSource ();
 			SoundManager.instance.PlaySound (eSoundArray.BGM_Main);
 
+			//ShopInit
 			shopCash.InitShopIconData ();
+			shopCash.SetUpItemList ((int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_CONSUME);
+			shopCash.SetUpItemList ((int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_HONOR);
+			shopCash.SetUpItemList ((int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_RUBY);
+			shopCash.SetUpItemList ((int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE);
+
+			shopCash.InitializePurchasing ();
+			shopCash.gameObject.SetActive (false);
 
 			//CashShop Booster Load
 			//저장된 시간이 1초 라도 있으면 부스터 생성
@@ -175,7 +182,6 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 				shopCash.LoadBooster (E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK, GameManager.Instance.GetPlayer ().changeStats.nAttackBuffMinutes,
 					GameManager.Instance.GetPlayer ().changeStats.fAttackBuffSecond);
 			}
-			bIsFirst = true;
 
 			if (GameManager.Instance.GetPlayer ().changeStats.bIsTutorial == true) {
 				//2개를 주석하면 튜토리얼 On
@@ -192,19 +198,18 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			}
 
 
-
-
-			if (CheckIsTimer ()) {
-				fCurSec = nInitTime_Sec;
-			
-			} 
-			else 
-			{
-				fCurSec = playerData.changeStats.fGoblinSecond;
-			}
-
 			//QuestSetUp
 			questManager.SetUp();
+
+
+			bIsFirst = true;
+
+			//Debug.Log ("BeginnerPackage : " + GameManager.Instance.GetPlayer().changeStats.bIsBeginnerPackageBuy + "\n");
+			//Debug.Log ("IcePackage : " + GameManager.Instance.GetPlayer().changeStats.bIsBossIcePackageBuy + "\n");
+			//Debug.Log ("SasinPackage : " + GameManager.Instance.GetPlayer().changeStats.bIsBossSasinPackageBuy + "\n");
+			//Debug.Log ("FirePackage : " + GameManager.Instance.GetPlayer().changeStats.bIsBossFirePackageBuy + "\n");
+			//Debug.Log ("MusicPackage : " + GameManager.Instance.GetPlayer().changeStats.bIsBossMusicPackageBuy + "\n");
+
 
 		}
 	}
@@ -317,7 +322,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
         for (int nIndex = 0; nIndex < m_BatchArbait.Length; nIndex++)
         {
-			Debug.Log (nIndex);
+			//Debug.Log (nIndex);
 
             //화면에 보이는 배치 오브젝트
             m_BatchArbait[nIndex] = Instantiate(m_BatchArbait[nIndex]);
@@ -373,7 +378,11 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 		m_fCreatePlusTime = 0.0f;
 		m_fLevelTime = 0.0f;
+	
 
+		if(questManager.isInGameOnOff == true && m_nDay < _nDay)
+			SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_DAYS, _nDay);
+		
 		m_nDay = _nDay;
 
 		//손님을 전부 되돌림
@@ -389,8 +398,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 
 
-
-			if (m_nDay > GameManager.Instance.player.GetMaxDay ()) {
+			if (m_nDay > GameManager.Instance.player.GetMaxDay ()) 
+			{
 				ScoreManager.ScoreInstance.SetMaxDays (m_nDay);
 			}
 
@@ -422,8 +431,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 		ScoreManager.ScoreInstance.SetSuccessedGuestCount (0);
 		ScoreManager.ScoreInstance.SetCurrentDays (m_nDay);
-		if(questManager.isInGameOnOff == true)
-			SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_DAYS, m_nDay);
+
 	}
 
     //WeaponData
@@ -909,7 +917,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	public void Active_IcePassive02()
 	{
-		Debug.Log ("Active_IcePassive02");
+		//Debug.Log ("Active_IcePassive02");
 		for (int i = 0; i < m_BatchArbait.Length; i++)
 		{
 			if (m_BatchArbait [i].activeSelf) 
@@ -920,7 +928,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	public void DeActive_IcePassive02()
 	{
-		Debug.Log ("DeActive_IcePassive02");
+		//Debug.Log ("DeActive_IcePassive02");
 		for (int i = 0; i < m_BatchArbait.Length; i++)
 		{
 			if (m_BatchArbait [i].activeSelf) 
@@ -930,7 +938,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	public void Active_MusicPassive01()
 	{
-		Debug.Log ("Active_MusicPassive02");
+		//Debug.Log ("Active_MusicPassive02");
 		for (int i = 0; i < m_BatchArbait.Length; i++)
 		{
 			if (m_BatchArbait [i].activeSelf) 
@@ -940,7 +948,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	public void DeActive_MusicPassive01()
 	{
-		Debug.Log ("DeActive_MusicPassive02");
+		//Debug.Log ("DeActive_MusicPassive02");
 		for (int i = 0; i < m_BatchArbait.Length; i++)
 		{
 			if (m_BatchArbait [i].activeSelf) 
@@ -968,11 +976,11 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 	{
 		for (int i = 0; i < 10; i++)
 		{
-			Debug.Log ("ChangeState");
+			//Debug.Log ("ChangeState");
 			if (array_ArbaitData [i].nBatchIndex == _nIndex) 
 			{
 				array_ArbaitData[i].CheckCharacterState (E_ArbaitState.E_BOSSREPAIR);
-				Debug.Log (array_ArbaitData [i].name + " curState = " + array_ArbaitData [i].E_STATE);
+				//Debug.Log (array_ArbaitData [i].name + " curState = " + array_ArbaitData [i].E_STATE);
 				return;
 			}
 		}

@@ -64,7 +64,7 @@ public class Bell : ArbaitBatch {
 	{
 		m_CharacterChangeData.name = name;
 		m_CharacterChangeData.strExplains = string.Format ("물 게이지 70%이상 일 때 모든 직원 수리력, 크리 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
-
+		m_CharacterChangeData.strPurchasing = string.Format ("대장간 등급 6");
 	}
 
 	public override void ApplySkill ()

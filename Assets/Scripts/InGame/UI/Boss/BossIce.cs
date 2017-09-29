@@ -272,6 +272,8 @@ public class BossIce : BossCharacter
 			bossTalkPanel.StartShowBossTalkWindow (2f, "올해도 혼자구나...");
 		animator.SetBool ("isDisappear", true);
 
+		//Weapon 터지는 효과
+		repairObj.ShowBreakWeapon ();
 		repairObj.SetFinishBoss ();		//수리 패널 초기화
 
 		while (true)
@@ -308,10 +310,7 @@ public class BossIce : BossCharacter
 				repairObj.bossWeaponAnimator.SetBool ("isPhase02", false);
 				repairObj.bossWeaponAnimator.Play ("IceWeapon");
 
-				//Weapon 터지는 효과
-				repairObj.ShowBreakWeapon ();
-		
-
+			
 				break;
 			}
 			else
@@ -350,6 +349,14 @@ public class BossIce : BossCharacter
 				//Quest Check
 				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSICESUCCESS, 1);
 				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ANYBOSSSUCCESS, 1);
+
+				if (GameManager.Instance.cBossPanelListInfo [0].nBossIceCurLevel <= nCurLevel) 
+				{
+					GameManager.Instance.cBossPanelListInfo [0].nBossIceCurLevel = nCurLevel + 1;
+					GameManager.Instance.SaveBossPanelInfoList ();
+				}
+
+
 			} 
 			//실패시
 			if(isFailed == true && bossPopUpWindow.isRewardPanelOn_Fail == false)

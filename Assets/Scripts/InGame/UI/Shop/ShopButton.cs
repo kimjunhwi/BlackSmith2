@@ -43,7 +43,7 @@ public class ShopButton : MonoBehaviour {
         buttonCheck.onClick.AddListener(ClickButton);
 
 		ItemButton.SetActive (false);
-		NoneItemObject.SetActive (true);
+		NoneItemObject.SetActive (false);
 
 		NoneItemImage.sprite = LockSprite;
     }
@@ -51,6 +51,7 @@ public class ShopButton : MonoBehaviour {
 	public void SetUp(int _nIndex)
 	{
 		if (_nIndex < GameManager.Instance.GetPlayer ().changeStats.nShopMaxCount) {
+			NoneItemObject.SetActive (false);
 			return;
 		} else 
 		{

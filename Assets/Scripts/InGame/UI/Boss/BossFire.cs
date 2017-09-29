@@ -347,6 +347,12 @@ public class BossFire : BossCharacter
 				//Quest Check
 				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSFIRESUCCESS, 1);
 				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ANYBOSSSUCCESS, 1);
+
+				if (GameManager.Instance.cBossPanelListInfo [0].nBossFireCurLevel <= nCurLevel) 
+				{
+					GameManager.Instance.cBossPanelListInfo [0].nBossFireCurLevel = nCurLevel + 1;
+					GameManager.Instance.SaveBossPanelInfoList ();
+				}
 			} 
 			//실패시
 			if (isFailed == true && bossPopUpWindow.isRewardPanelOn_Fail == false) {

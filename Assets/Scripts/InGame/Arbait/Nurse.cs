@@ -95,7 +95,7 @@ public class Nurse : ArbaitBatch {
 	{
 		m_CharacterChangeData.name = name;
 		m_CharacterChangeData.strExplains = string.Format ("대장장이 크리확률 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
-
+		m_CharacterChangeData.strPurchasing = string.Format ("대장간 등급 3");
 	}
 
 	public override void EnhacneArbait ()

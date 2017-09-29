@@ -91,7 +91,7 @@ public class InventoryScrollList : MonoBehaviour
 			{
 				if(itemList[0] == A || itemList[0] ==B)
 					if(itemList[0].bIsEquip == true)
-						return 0;
+						return -1;
 
 				if (A.nStrenthCount != B.nStrenthCount) return -1;
 

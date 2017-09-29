@@ -1593,6 +1593,15 @@ public class GameManager : GenericMonoSingleton<GameManager>
 						
 				}
 
+				player.changeStats.nGoldPlusBuffMinutes = 0;
+				player.changeStats.fGoldPlusBuffSecond = 0f;
+				player.changeStats.nGuestBuffMinutes = 0;
+				player.changeStats.fGuestBuffSecond = 0f;
+				player.changeStats.nAttackBuffMinutes = 0;
+				player.changeStats.fAttackBuffSecond = 0f;
+				player.changeStats.nHonorPlusBuffMinutes = 0;
+				player.changeStats.fHonorPlusBuffSecond = 0f;
+
 				//SaveLocal
 				DataSave ();
 				SceneManager.LoadScene (0);

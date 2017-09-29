@@ -100,7 +100,7 @@ public class Cleric : ArbaitBatch {
 	{
 		m_CharacterChangeData.name = name;
 		m_CharacterChangeData.strExplains = string.Format ("본인 크리시 대장장이 수리력, 크리확률 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
-
+		m_CharacterChangeData.strPurchasing = string.Format ("대장간 등급 6");
 	}
 
 	public override void StartAura (float _fTime)

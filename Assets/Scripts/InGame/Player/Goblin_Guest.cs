@@ -280,18 +280,18 @@ public class Goblin_Guest : Character {
 			break;
 		case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_GODL:
 
-			SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD,5,0);
+			SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD,10,0);
 
 			break;
 
 		case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_HONOR:
-			SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR,5,0);
+			SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR,10,0);
 			break;
 		case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_ARBAIT:
-			SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF,5,0);
+			SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF,10,0);
 			break;
 		case (int)E_GOBLIN_INDEX.E_GOBLIN_BUFF_TOUCH:
-			SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK,5,0);
+			SpawnManager.Instance.shopCash.LoadBooster(E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK,10,0);
 			break;
 		}
 

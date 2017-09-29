@@ -435,8 +435,10 @@ public class RepairObject : MonoBehaviour
 
 						if (dCurrentComplate <= 0) 
 						{
-							if(bossCharacter == null)
+							if (bossCharacter == null) {
 								SpawnManager.Instance.bIsBossCreate = false;
+
+							}
 							else
 								continue;
 						}
@@ -457,7 +459,7 @@ public class RepairObject : MonoBehaviour
 
                     else
                     {
-						
+						dCurrentComplate = 0;
 
 						if (bossCharacter == null)
 						{
@@ -532,15 +534,13 @@ public class RepairObject : MonoBehaviour
 
 		obj.GetComponent<BreakBoomParticle> ().Play ();
 
-
 		GameObject BoomObject = TemperatureBoomPool.Instance.GetObject ();
 
 		BoomObject.transform.SetParent (CanvasTransform, false);
 
 		BoomObject.GetComponent<TemperatureBoomParticle> ().Play ();
 
-
-		SpawnManager.Instance.CheckComplateWeapon(AfootObject, 0, 0);
+		SpawnManager.Instance.CheckComplateWeapon(AfootObject, 1, 1);
 	}
 
 	IEnumerator OneSecondPlay()

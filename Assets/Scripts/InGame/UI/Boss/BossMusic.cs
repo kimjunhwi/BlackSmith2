@@ -5,8 +5,6 @@ using UnityEngine;
 public class BossMusic : BossCharacter 
 {
 	public RectTransform bossNoteRespawnPoint;
-	private float fXPos;
-	private float fYPos;
 	private float fRandomXPos;
 	private float fRandomYPos;
 	public SimpleObjectPool noteObjectPool;
@@ -15,8 +13,6 @@ public class BossMusic : BossCharacter
 	private int nNoteMaxCount = 4;				  //노트 최대 개수
 	private float nBossGenerateTime = 2.0f;		  //노트 생성 주기(X초마다)
 	private float nContinueTime = 10f;			  //노트 지속 시간
-	private float nBossSpeedIncreaseValue =0f;    //보스 무기 속도 증가량
-	private float nBossSpeedIncreaseRate = 0.1f;  //보스 무기 속도 증가비율
 	//임시 변수
 	private float fTime = 0f;					  //보스 리젠 시간
 	GameObject Note;							  //노트 변수
@@ -38,8 +34,6 @@ public class BossMusic : BossCharacter
 	{
 		noteObjectPool = GameObject.Find ("NotePool").GetComponent<SimpleObjectPool> ();
 
-		fXPos = bossNoteRespawnPoint.position.x;
-		fYPos = bossNoteRespawnPoint.position.y;
 		animator = gameObject.GetComponent<Animator> ();
 		noteObjectPool.PreloadPool ();
 		gameObject.SetActive (false);
@@ -430,6 +424,13 @@ public class BossMusic : BossCharacter
 				//Quest Check
 				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSFIRESUCCESS, 1);
 				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ANYBOSSSUCCESS, 1);
+
+
+				if (GameManager.Instance.cBossPanelListInfo [0].nBossMusicCurLevel <= nCurLevel) 
+				{
+					GameManager.Instance.cBossPanelListInfo [0].nBossMusicCurLevel = nCurLevel + 1;
+					GameManager.Instance.SaveBossPanelInfoList ();
+				}
 			} 
 			//실패시
 			if(isFailed == true && bossPopUpWindow.isRewardPanelOn_Fail == false)

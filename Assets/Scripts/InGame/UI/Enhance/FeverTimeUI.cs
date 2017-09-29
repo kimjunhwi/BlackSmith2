@@ -17,7 +17,7 @@ public class FeverTimeUI : EnhanceUI{
 
 		EnhanceText.text = string.Format("{0} {1}", strEnhanceName ,nLevel);
 
-		fCostHonor = nBasicHonor + (nPlusPercent * nLevel - 1);
+		fCostHonor = nBasicHonor + (nPlusPercent * (nLevel - 1));
 
 		CostGoldText.text = ChangeValue(fCostHonor);
 
@@ -26,7 +26,7 @@ public class FeverTimeUI : EnhanceUI{
 
 	protected override void EnhanceButtonClick ()
 	{
-		fCostHonor = nBasicHonor + (nPlusPercent * nLevel - 1);
+		fCostHonor = nBasicHonor + (nPlusPercent * (nLevel - 1));
 
 		if (fCostHonor <= ScoreManager.ScoreInstance.GetHonor ()) {
 
@@ -44,7 +44,7 @@ public class FeverTimeUI : EnhanceUI{
 
 			ScoreManager.ScoreInstance.HonorPlus (-fCostHonor);
 
-			CostGoldText.text  = ChangeValue((float)(nBasicHonor + (nPlusPercent * nLevel-1)));
+			CostGoldText.text  = ChangeValue((float)(nBasicHonor + (nPlusPercent * (nLevel-1))));
 		}
 	}
 }

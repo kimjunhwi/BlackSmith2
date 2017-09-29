@@ -324,12 +324,11 @@ public class BossDragon :  BossCharacter
 		Debug.Log ("Boss Die");
 		ActiveTimer ();
 		SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_END_DRAGONREPAIR;
-		//화면에 남아있는 불씨들을 없앤다
-		//while (smallFireRespawnPoint.childCount != 0) 
-		//{
-		//	GameObject go = smallFireRespawnPoint.GetChild (0).gameObject;
-		//	smallFirePool.ReturnObject(go);
-		//}
+	
+		//Weapon 터지는 효과
+		repairObj.ShowBreakWeapon ();
+		repairObj.SetFinishBoss ();		//수리 패널 초기화
+
 		while (true) 
 		{
 			if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_DRAGONBREATH) {
@@ -424,9 +423,8 @@ public class BossDragon :  BossCharacter
 					//bossBackGround.StartReturnBossBackGroundToBackGround ();	//배경 초기화
 					backGroundScolling.StartChangeBackground(eBackgroundMat.E_BackgroundMat_Main);
 					SpawnManager.Instance.bIsBossCreate = false;
-					//Weapon 터지는 효과
-					repairObj.ShowBreakWeapon ();
-					repairObj.SetFinishBoss ();									//수리 패널 초기화
+
+
 				
 					break;
 				}

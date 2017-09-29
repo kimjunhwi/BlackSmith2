@@ -103,7 +103,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 	//캐시 상점 실행에 호출
 	public void StartSetUp()
 	{
-		InitializePurchasing();
+		Debug.Log ("StartChasShop");
 		SetUpItemList ((int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_CONSUME);
 	}
 
@@ -137,39 +137,40 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			if (_index == (int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE)
 			{
 				Debug.Log ("패키지 블록 체크");
-				if (addSlotObjs [_index].transform.GetChild (0) && GameManager.Instance.GetPlayer ().changeStats.bIsBeginnerPackageBuy == true) 
+				if (GameManager.Instance.GetPlayer ().changeStats.bIsBeginnerPackageBuy == true) 
 				{
 					Debug.Log ("초보자 패키지 블록");
 					ShopCashSlot shopCashSlot = addSlotObjs [_index].transform.GetChild (0).GetComponent<ShopCashSlot> ();
 					shopCashSlot.BlockImage_Obj.SetActive (true);
 				}
-				if (addSlotObjs [_index].transform.GetChild (1) && GameManager.Instance.GetPlayer ().changeStats.bIsBossIcePackageBuy == true) 
+				if (GameManager.Instance.GetPlayer ().changeStats.bIsBossIcePackageBuy == true) 
 				{
 					Debug.Log ("보스 아이스 패키지 블록");
 					ShopCashSlot shopCashSlot = addSlotObjs [_index].transform.GetChild (1).GetComponent<ShopCashSlot> ();
 					shopCashSlot.BlockImage_Obj.SetActive (true);
 				}
 
-				if (addSlotObjs [_index].transform.GetChild (2) && GameManager.Instance.GetPlayer ().changeStats.bIsBossSasinPackageBuy == true) 
+				if (GameManager.Instance.GetPlayer ().changeStats.bIsBossSasinPackageBuy == true) 
 				{
 					Debug.Log ("보스 사신 패키지 블록");
 					ShopCashSlot shopCashSlot = addSlotObjs [_index].transform.GetChild (2).GetComponent<ShopCashSlot> ();
 					shopCashSlot.BlockImage_Obj.SetActive (true);
 				}
 
-				if (addSlotObjs [_index].transform.GetChild (3) && GameManager.Instance.GetPlayer ().changeStats.bIsBossFirePackageBuy == true) 
+				if (GameManager.Instance.GetPlayer ().changeStats.bIsBossFirePackageBuy == true) 
 				{
 					Debug.Log ("보스 불 패키지 블록");
 					ShopCashSlot shopCashSlot = addSlotObjs [_index].transform.GetChild (3).GetComponent<ShopCashSlot> ();
 					shopCashSlot.BlockImage_Obj.SetActive (true);
 				}
 
-				if (addSlotObjs [_index].transform.GetChild (4) && GameManager.Instance.GetPlayer ().changeStats.bIsBossMusicPackageBuy == true) 
+				if (GameManager.Instance.GetPlayer ().changeStats.bIsBossMusicPackageBuy == true) 
 				{
 					Debug.Log ("보스 음악 패키지 블록");
 					ShopCashSlot shopCashSlot = addSlotObjs [_index].transform.GetChild (4).GetComponent<ShopCashSlot> ();
 					shopCashSlot.BlockImage_Obj.SetActive (true);
 				}
+				return;
 			}
 			if (_index == (int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_HONOR) 
 			{
@@ -188,7 +189,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 
 					shopCashSlot.itemConstents_Text.text = string.Format("{0}",nHonor) + "명예 획득";
 				}
-					
+				return;
 			}
 
 			if (_index == (int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_RUBY) 
@@ -209,7 +210,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 
 					shopCashSlot.itemConstents_Text.text = strGold + " 획득";
 				}
-			
+				return;
 			}
 
 			Debug.Log ("이미 상점 생성되어있음");
@@ -222,72 +223,95 @@ public class ShopCash : MonoBehaviour , IStoreListener
 				//아이템 추가
 				if (getCashItemInfo [i].nType == _index)
 				{
-					Debug.Log ("AddConsumeItem");
-					//isSetUpConsume = true;
-					GameObject consumeSlot = cashItemSlotPool.GetObject ();
-					consumeSlot.transform.SetParent (addSlotObjs [_index].transform, false);
-					consumeSlot.transform.localScale = Vector3.one;
-
-
-
-					ShopCashSlot shopCashSlot = consumeSlot.GetComponent<ShopCashSlot> ();
-					shopCashSlot.itemName_Text.text = getCashItemInfo [i].sItemName;
-					shopCashSlot.itemConstents_Text.text = getCashItemInfo [i].sItemContents;
-					shopCashSlot.item_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_01);
-					shopCashSlot.itemTag_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_02);
-					shopCashSlot.itemBuy_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_03);
-
-
 					//명예와 소모성 아이템은 루비로 나머지는 현금으로
-					if (getCashItemInfo [i].nType == (int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_CONSUME || getCashItemInfo [i].nType == (int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_HONOR )
+					if (getCashItemInfo [i].nType == (int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_CONSUME )
 					{
+						Debug.Log ("AddConsumeItem :" + getCashItemInfo [i].sItemName);
+				
+						GameObject consumeSlot = cashItemSlotPool.GetObject ();
+						consumeSlot.transform.SetParent (addSlotObjs [_index].transform, false);
+						consumeSlot.transform.localScale = Vector3.one;
+
+
+
+						ShopCashSlot shopCashSlot = consumeSlot.GetComponent<ShopCashSlot> ();
+						shopCashSlot.itemName_Text.text = getCashItemInfo [i].sItemName;
+						shopCashSlot.itemConstents_Text.text = getCashItemInfo [i].sItemContents;
+						shopCashSlot.item_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_01);
+						shopCashSlot.itemTag_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_02);
+						shopCashSlot.itemBuy_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_03);
+
+
 						//값 표현
 						shopCashSlot.itemBuyValue_Text.text = string.Format ("{0}", getCashItemInfo [i].fRuby);
 						shopCashSlot.itemBuyValue_Text.alignment = TextAnchor.MiddleCenter;
 
 						if (getCashItemInfo [i].sItemName == "골드부스터")
 						{
-							//Debug.Log ("Add 골드부스터 Index : " + i);
+							Debug.Log ("Add 골드부스터 Index : " + i);
 							shopCashSlot.itemBuy_Button.onClick.AddListener (() => buyProductByRuby("골드부스터"));
 						}
 
 						if (getCashItemInfo [i].sItemName == "명예부스터") 
 						{
-							//Debug.Log ("Add 명예부스터 Index : " + i);
+							Debug.Log ("Add 명예부스터 Index : " + i);
 							shopCashSlot.itemBuy_Button.onClick.AddListener (() => buyProductByRuby("명예부스터"));
 						}
 
 						if (getCashItemInfo [i].sItemName == "직원부스터") 
 						{
-							//Debug.Log ("Add 직원부스터 Index : " + i);
+							Debug.Log ("Add 직원부스터 Index : " + i);
 							shopCashSlot.itemBuy_Button.onClick.AddListener (() => buyProductByRuby("직원부스터"));
 						}
 
 						if (getCashItemInfo [i].sItemName == "터치부스터") 
 						{
-							//Debug.Log ("Add 직원부스터 Index : " + i);
+							Debug.Log ("Add 직원부스터 Index : " + i);
 							shopCashSlot.itemBuy_Button.onClick.AddListener (() => buyProductByRuby("터치부스터"));
 						}
 
 						if (getCashItemInfo [i].sItemName == "프리패스") 
 						{
-							//Debug.Log ("Add 프리패스 Index : " + i);
+							Debug.Log ("Add 프리패스 Index : " + i);
 							shopCashSlot.itemBuy_Button.onClick.AddListener (() => buyProductByRuby("프리패스"));
 						}
 						if (getCashItemInfo [i].sItemName == "프리패스5") 
 						{
-							//Debug.Log ("Add 프리패스 Index : " + i);
+							Debug.Log ("Add 프리패스 Index : " + i);
 							shopCashSlot.itemBuy_Button.onClick.AddListener (() => buyProductByRuby("프리패스5"));
 						}
 						if (getCashItemInfo [i].sItemName == "프리패스10") 
 						{
-							//Debug.Log ("Add 프리패스 Index : " + i);
+							Debug.Log ("Add 프리패스 Index : " + i);
 							shopCashSlot.itemBuy_Button.onClick.AddListener (() => buyProductByRuby("프리패스10"));
 						}
 
 
+					}
+
+					if (getCashItemInfo [i].nType == (int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_HONOR)
+					{
+
+						Debug.Log ("AddConsumeItem :" + getCashItemInfo [i].sItemName);
+
+						GameObject consumeSlot = cashItemSlotPool.GetObject ();
+						consumeSlot.transform.SetParent (addSlotObjs [_index].transform, false);
+						consumeSlot.transform.localScale = Vector3.one;
+
+
+
+						ShopCashSlot shopCashSlot = consumeSlot.GetComponent<ShopCashSlot> ();
+						shopCashSlot.itemName_Text.text = getCashItemInfo [i].sItemName;
+						shopCashSlot.itemConstents_Text.text = getCashItemInfo [i].sItemContents;
+						shopCashSlot.item_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_01);
+						shopCashSlot.itemTag_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_02);
+						shopCashSlot.itemBuy_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_03);
+
+
 						if (getCashItemInfo [i].sItemName == "200명예") 
 						{
+							Debug.Log ("200명예 Index : " + i);
+
 							int nHonor = Mathf.RoundToInt( 200 + (4.4f * (GameManager.Instance.GetPlayer ().GetDay () - 1)));
 
 							shopCashSlot.itemConstents_Text.text = string.Format("{0}",nHonor) + "명예 획득";
@@ -298,6 +322,8 @@ public class ShopCash : MonoBehaviour , IStoreListener
 
 						if (getCashItemInfo [i].sItemName == "500명예") 
 						{
+							Debug.Log ("200명예 Index : " + i);
+
 							int nHonor = Mathf.RoundToInt( 500 + (4.4f * (GameManager.Instance.GetPlayer ().GetDay () - 1)));
 
 							shopCashSlot.itemConstents_Text.text = string.Format("{0}",nHonor) + "명예 획득";
@@ -316,40 +342,47 @@ public class ShopCash : MonoBehaviour , IStoreListener
 							shopCashSlot.itemBuy_Button.onClick.AddListener (() => buyProductByRuby("1000명예"));
 						}
 
-
-
-
 					}
 					
-					if( getCashItemInfo [i].nType == (int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_RUBY ||  getCashItemInfo [i].nType == (int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE )
+					if( getCashItemInfo [i].nType == (int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_RUBY)
 					{
+						Debug.Log ("AddConsumeItem :" + getCashItemInfo [i].sItemName);
 						//값 표현
+						GameObject consumeSlot = cashItemSlotPool.GetObject ();
+						consumeSlot.transform.SetParent (addSlotObjs [_index].transform, false);
+						consumeSlot.transform.localScale = Vector3.one;
 
+						ShopCashSlot shopCashSlot = consumeSlot.GetComponent<ShopCashSlot> ();
+						shopCashSlot.itemName_Text.text = getCashItemInfo [i].sItemName;
+						shopCashSlot.itemConstents_Text.text = getCashItemInfo [i].sItemContents;
+						shopCashSlot.item_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_01);
+						shopCashSlot.itemTag_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_02);
+						shopCashSlot.itemBuy_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_03);
 
 						if (getCashItemInfo [i].sItemName == "100보석")
 						{
 							shopCashSlot.itemBuyValue_Text.text = string.Format ("{0:#,###}", getCashItemInfo [i].fCash);
-							shopCashSlot.itemBuy_Button.onClick.RemoveListener (() => BuyProductID (productId_ruby100));
+						
 							shopCashSlot.itemBuy_Button.onClick.AddListener (() => BuyProductID (productId_ruby100));
 						}
 						if (getCashItemInfo [i].sItemName == "400보석")
 						{
 							shopCashSlot.itemBuyValue_Text.text = string.Format ("{0:#,###}", getCashItemInfo [i].fCash);
-							shopCashSlot.itemBuy_Button.onClick.RemoveListener (() => BuyProductID (productId_ruby400));
+						
 							shopCashSlot.itemBuy_Button.onClick.AddListener (() => BuyProductID (productId_ruby400));
 						}
 
 						if (getCashItemInfo [i].sItemName == "700보석")
 						{
 							shopCashSlot.itemBuyValue_Text.text = string.Format ("{0:#,###}", getCashItemInfo [i].fCash);
-							shopCashSlot.itemBuy_Button.onClick.RemoveListener (() => BuyProductID (productId_ruby700));
+				
 							shopCashSlot.itemBuy_Button.onClick.AddListener (() => BuyProductID (productId_ruby700));
 						}
 
 						if (getCashItemInfo [i].sItemName == "1500보석")
 						{
 							shopCashSlot.itemBuyValue_Text.text = string.Format ("{0:#,###}", getCashItemInfo [i].fCash);
-							shopCashSlot.itemBuy_Button.onClick.RemoveListener (() => BuyProductID (productId_ruby1500));
+						
 							shopCashSlot.itemBuy_Button.onClick.AddListener (() => BuyProductID (productId_ruby1500));
 						}
 
@@ -357,7 +390,6 @@ public class ShopCash : MonoBehaviour , IStoreListener
 						if (getCashItemInfo [i].sItemName == "골드20배") 
 						{
 							double freeGold = ScoreManager.ScoreInstance.GetFreePassGold () * 20;
-
 							string strGold = ScoreManager.ScoreInstance.ChangeMoney (freeGold);
 
 							shopCashSlot.itemConstents_Text.text = strGold + " 획득";
@@ -370,7 +402,6 @@ public class ShopCash : MonoBehaviour , IStoreListener
 						if (getCashItemInfo [i].sItemName == "골드50배") 
 						{
 							double freeGold = ScoreManager.ScoreInstance.GetFreePassGold () * 50;
-
 							string strGold = ScoreManager.ScoreInstance.ChangeMoney (freeGold);
 
 							shopCashSlot.itemConstents_Text.text = strGold + " 획득";
@@ -383,7 +414,6 @@ public class ShopCash : MonoBehaviour , IStoreListener
 						if (getCashItemInfo [i].sItemName == "골드100배") 
 						{
 							double freeGold = ScoreManager.ScoreInstance.GetFreePassGold () * 100;
-
 							string strGold = ScoreManager.ScoreInstance.ChangeMoney (freeGold);
 
 							shopCashSlot.itemConstents_Text.text = strGold + " 획득";
@@ -392,71 +422,100 @@ public class ShopCash : MonoBehaviour , IStoreListener
 							shopCashSlot.itemBuy_Button.onClick.RemoveAllListeners ();
 							shopCashSlot.itemBuy_Button.onClick.AddListener (() => buyProductByRuby("골드100배"));
 						}
+					}
+
+					if (getCashItemInfo [i].nType == (int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE)
+					{
+						Debug.Log ("AddConsumeItem :" + getCashItemInfo [i].sItemName);
+						//값 표현
+						GameObject consumeSlot = cashItemSlotPool.GetObject ();
+						consumeSlot.transform.SetParent (addSlotObjs [_index].transform, false);
+						consumeSlot.transform.localScale = Vector3.one;
+
+						ShopCashSlot shopCashSlot = consumeSlot.GetComponent<ShopCashSlot> ();
+						shopCashSlot.itemName_Text.text = getCashItemInfo [i].sItemName;
+						shopCashSlot.itemConstents_Text.text = getCashItemInfo [i].sItemContents;
+						shopCashSlot.item_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_01);
+						shopCashSlot.itemTag_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_02);
+						shopCashSlot.itemBuy_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_03);
 
 						if (getCashItemInfo [i].sItemName == "스타터패키지")
 						{
 							shopCashSlot.itemBuyValue_Text.text = string.Format ("{0:#,###}", getCashItemInfo [i].fCash);
-							Debug.Log ("패키지 블록 체크");
-							if (GameManager.Instance.GetPlayer ().changeStats.bIsBeginnerPackageBuy == true) {
-								Debug.Log ("초보자 패키지 블록");
+							Debug.Log ("처음 패키지 블록 체크");
+							if (GameManager.Instance.GetPlayer ().changeStats.bIsBeginnerPackageBuy == true) 
+							{
+								Debug.Log ("처음 초보자 패키지 블록");
 								ShopCashSlot shopCashSlot_CheckBlock = addSlotObjs [(int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE].transform.GetChild (0).GetComponent<ShopCashSlot> ();
 								shopCashSlot_CheckBlock.BlockImage_Obj.SetActive (true);
-
+							} 
+							else 
+							{
+								shopCashSlot.itemBuy_Button.onClick.AddListener (() => BuyProductID (productId_packageForBeginner));
 							}
-
-							shopCashSlot.itemBuy_Button.onClick.RemoveListener (() => BuyProductID (productId_packageForBeginner));
-							shopCashSlot.itemBuy_Button.onClick.AddListener (() => BuyProductID (productId_packageForBeginner));
 						}
 
 						if (getCashItemInfo [i].sItemName == "보스패키지1")
 						{
+							Debug.Log ("처음 패키지 블록 체크");
 							shopCashSlot.itemBuyValue_Text.text = string.Format ("{0:#,###}", getCashItemInfo [i].fCash);
-							if (GameManager.Instance.GetPlayer ().changeStats.bIsBeginnerPackageBuy == true) {
-								Debug.Log ("얼음 보스 블록");
+							if (GameManager.Instance.GetPlayer ().changeStats.bIsBossIcePackageBuy == true) 
+							{
+								Debug.Log ("처음 얼음 보스 블록");
 								ShopCashSlot shopCashSlot_CheckBlock = addSlotObjs [(int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE].transform.GetChild (1).GetComponent<ShopCashSlot> ();
 								shopCashSlot_CheckBlock.BlockImage_Obj.SetActive (true);
-							
+
 							}
-							shopCashSlot.itemBuy_Button.onClick.RemoveListener (() => BuyProductID (productId_packageIce));
-							shopCashSlot.itemBuy_Button.onClick.AddListener (() => BuyProductID (productId_packageIce));
+							else
+							{
+
+								shopCashSlot.itemBuy_Button.onClick.AddListener (() => BuyProductID (productId_packageIce));
+							}
 						}
 
 						if (getCashItemInfo [i].sItemName == "보스패키지2")
 						{
+							Debug.Log ("처음 패키지 블록 체크");
 							shopCashSlot.itemBuyValue_Text.text = string.Format ("{0:#,###}", getCashItemInfo [i].fCash);
-							if (GameManager.Instance.GetPlayer ().changeStats.bIsBossIcePackageBuy == true) {
-								Debug.Log ("사신 보스 패키지 블록");
+							if (GameManager.Instance.GetPlayer ().changeStats.bIsBossSasinPackageBuy == true) 
+							{
+								Debug.Log ("처음 사신 보스 패키지 블록");
 								ShopCashSlot shopCashSlot_CheckBlock = addSlotObjs [(int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE].transform.GetChild (2).GetComponent<ShopCashSlot> ();
 								shopCashSlot_CheckBlock.BlockImage_Obj.SetActive (true);
 
 							}
-							shopCashSlot.itemBuy_Button.onClick.RemoveListener (() => BuyProductID (productId_packageSasin));
-							shopCashSlot.itemBuy_Button.onClick.AddListener (() => BuyProductID (productId_packageSasin));
+							else
+							{
+
+								shopCashSlot.itemBuy_Button.onClick.AddListener (() => BuyProductID (productId_packageSasin));
+							}
 						}
 
 						if (getCashItemInfo [i].sItemName == "보스패키지3")
 						{
+							Debug.Log ("처음 패키지 블록 체크");
 							shopCashSlot.itemBuyValue_Text.text = string.Format ("{0:#,###}", getCashItemInfo [i].fCash);
-							if (GameManager.Instance.GetPlayer ().changeStats.bIsBossSasinPackageBuy == true) {
-								Debug.Log ("불 보스 패키지 블록");
+							if (GameManager.Instance.GetPlayer ().changeStats.bIsBossFirePackageBuy == true) {
+								Debug.Log ("처음 불 보스 패키지 블록");
 								ShopCashSlot shopCashSlot_CheckBlock = addSlotObjs [(int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE].transform.GetChild (3).GetComponent<ShopCashSlot> ();
 								shopCashSlot_CheckBlock.BlockImage_Obj.SetActive (true);
-	
+
 							}
-							shopCashSlot.itemBuy_Button.onClick.RemoveListener (() => BuyProductID (productId_packageFire));
+						
 							shopCashSlot.itemBuy_Button.onClick.AddListener (() => BuyProductID (productId_packageFire));
 						}
 
 						if (getCashItemInfo [i].sItemName == "보스패키지4")
 						{
+							Debug.Log ("처음 패키지 블록 체크");
 							shopCashSlot.itemBuyValue_Text.text = string.Format ("{0:#,###}", getCashItemInfo [i].fCash);
-							if (GameManager.Instance.GetPlayer ().changeStats.bIsBeginnerPackageBuy == true) {
-								Debug.Log ("음악 보스 패키지 블록");
+							if (GameManager.Instance.GetPlayer ().changeStats.bIsBossMusicPackageBuy == true) {
+								Debug.Log ("처음 음악 보스 패키지 블록");
 								ShopCashSlot shopCashSlot_CheckBlock = addSlotObjs [(int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE].transform.GetChild (4).GetComponent<ShopCashSlot> ();
 								shopCashSlot_CheckBlock.BlockImage_Obj.SetActive (true);
 
 							}
-							shopCashSlot.itemBuy_Button.onClick.RemoveListener (() => BuyProductID (productId_packageMusic));
+						
 							shopCashSlot.itemBuy_Button.onClick.AddListener (() => BuyProductID (productId_packageMusic));
 						}
 					}
@@ -967,6 +1026,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 				if (p != null && p.availableToPurchase)
 				{
 					Debug.Log(string.Format("Purchasing product asychronously: '{0}'", p.definition.id));
+
 					storeController.InitiatePurchase(p);
 				}
 				else
@@ -1060,9 +1120,9 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			SpawnManager.Instance.list_ArbaitUI [(int)ReadOnlys.E_ARBAIT.E_CLEA].CheckBuyCharacter ();
 
 			GameManager.Instance.GetPlayer ().changeStats.bIsBeginnerPackageBuy = true;
+
 			ShopCashSlot shopCashSlot = addSlotObjs [(int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE].transform.GetChild (0).GetComponent<ShopCashSlot> ();
 			shopCashSlot.BlockImage_Obj.SetActive (true);
-
 			break;
 		case productId_packageIce:
 			ScoreManager.ScoreInstance.RubyPlus (200);
@@ -1071,8 +1131,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			SpawnManager.Instance.array_ArbaitData[(int)ReadOnlys.E_ARBAIT.E_SASIN].BuyCharacter();
 			SpawnManager.Instance.list_ArbaitUI [(int)ReadOnlys.E_ARBAIT.E_SASIN].CheckBuyCharacter ();
 
-
-			GameManager.Instance.GetPlayer ().changeStats.bIsBossIcePackageBuy = true;
+			GameManager.Instance.GetPlayer ().changeStats.bIsBossSasinPackageBuy = true;
 			ShopCashSlot shopCashSlot2 = addSlotObjs [(int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE].transform.GetChild (1).GetComponent<ShopCashSlot> ();
 			shopCashSlot2.BlockImage_Obj.SetActive (true);
 			break;
@@ -1083,9 +1142,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			SpawnManager.Instance.array_ArbaitData[(int)ReadOnlys.E_ARBAIT.E_ICE].BuyCharacter();
 			SpawnManager.Instance.list_ArbaitUI [(int)ReadOnlys.E_ARBAIT.E_ICE].CheckBuyCharacter ();
 
-
-
-			GameManager.Instance.GetPlayer ().changeStats.bIsBossSasinPackageBuy = true;
+			GameManager.Instance.GetPlayer ().changeStats.bIsBossIcePackageBuy = true;
 			ShopCashSlot shopCashSlot3 = addSlotObjs [(int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE].transform.GetChild (2).GetComponent<ShopCashSlot> ();
 			shopCashSlot3.BlockImage_Obj.SetActive (true);
 			break;

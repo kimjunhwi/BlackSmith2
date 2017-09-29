@@ -209,6 +209,123 @@ public class ArbaitCharacter : MonoBehaviour {
 
     public void CheckBuyCharacter()
     {
+		if (m_CharacterData.index == (int)E_ARBAIT.E_ICE) {
+
+			if (playerData.changeStats.bIsBossIcePackageBuy) {
+				m_BuyButton.SetActive(false);
+				m_SettingPanel.SetActive(true);
+				PurchasingObject.SetActive (false);
+				BossNameObject.SetActive (false);
+				PurchasingNameObject.SetActive (false);
+
+				gameObject.GetComponent<Image>().sprite = m_ActiveSprite;
+
+				ChangeArbaitText();
+
+				if (m_CharacterData.batch != -1)
+				{
+					m_SettingToggle.isOn = true;
+
+					spawnManager.AddArbait(m_CharacterData.index, m_CharacterData.batch, gameObject, m_CharacterData);
+
+					m_bIsBatch = true;
+				}
+				else
+					m_SettingToggle.isOn = false;
+
+				GoldText.text =  (m_CharacterData.nBasicHonor + ((m_CharacterData.level - 1) * 0.4 * m_CharacterData.nBasicHonor)).ToString();
+
+				return;
+			}
+		}
+
+		if (m_CharacterData.index == (int)E_ARBAIT.E_SASIN) {
+			if (playerData.changeStats.bIsBossSasinPackageBuy) {
+				m_BuyButton.SetActive(false);
+				m_SettingPanel.SetActive(true);
+				PurchasingObject.SetActive (false);
+				BossNameObject.SetActive (false);
+				PurchasingNameObject.SetActive (false);
+
+				gameObject.GetComponent<Image>().sprite = m_ActiveSprite;
+
+				ChangeArbaitText();
+
+				if (m_CharacterData.batch != -1)
+				{
+					m_SettingToggle.isOn = true;
+
+					spawnManager.AddArbait(m_CharacterData.index, m_CharacterData.batch, gameObject, m_CharacterData);
+
+					m_bIsBatch = true;
+				}
+				else
+					m_SettingToggle.isOn = false;
+
+				GoldText.text =  (m_CharacterData.nBasicHonor + ((m_CharacterData.level - 1) * 0.4 * m_CharacterData.nBasicHonor)).ToString();
+
+				return;
+			}
+		}
+
+		if (m_CharacterData.index == (int)E_ARBAIT.E_SKULL) {
+			if (playerData.changeStats.bIsBossFirePackageBuy) {
+				m_BuyButton.SetActive(false);
+				m_SettingPanel.SetActive(true);
+				PurchasingObject.SetActive (false);
+				BossNameObject.SetActive (false);
+				PurchasingNameObject.SetActive (false);
+
+				gameObject.GetComponent<Image>().sprite = m_ActiveSprite;
+
+				ChangeArbaitText();
+
+				if (m_CharacterData.batch != -1)
+				{
+					m_SettingToggle.isOn = true;
+
+					spawnManager.AddArbait(m_CharacterData.index, m_CharacterData.batch, gameObject, m_CharacterData);
+
+					m_bIsBatch = true;
+				}
+				else
+					m_SettingToggle.isOn = false;
+
+				GoldText.text =  (m_CharacterData.nBasicHonor + ((m_CharacterData.level - 1) * 0.4 * m_CharacterData.nBasicHonor)).ToString();
+
+				return;
+			}
+		}
+
+		if (m_CharacterData.index == (int)E_ARBAIT.E_DODOMCHIT) {
+			if (playerData.changeStats.bIsBossMusicPackageBuy) {
+				m_BuyButton.SetActive(false);
+				m_SettingPanel.SetActive(true);
+				PurchasingObject.SetActive (false);
+				BossNameObject.SetActive (false);
+				PurchasingNameObject.SetActive (false);
+
+				gameObject.GetComponent<Image>().sprite = m_ActiveSprite;
+
+				ChangeArbaitText();
+
+				if (m_CharacterData.batch != -1)
+				{
+					m_SettingToggle.isOn = true;
+
+					spawnManager.AddArbait(m_CharacterData.index, m_CharacterData.batch, gameObject, m_CharacterData);
+
+					m_bIsBatch = true;
+				}
+				else
+					m_SettingToggle.isOn = false;
+
+				GoldText.text =  (m_CharacterData.nBasicHonor + ((m_CharacterData.level - 1) * 0.4 * m_CharacterData.nBasicHonor)).ToString();
+
+				return;
+			}
+		}
+
         //구매하지 않았을 경우
 		if (m_CharacterData.nScoutCount < m_CharacterData.nMaxScoutCount) 
 		{

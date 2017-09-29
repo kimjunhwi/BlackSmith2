@@ -82,6 +82,7 @@ public class OrangeHair : ArbaitBatch {
 	{
 		m_CharacterChangeData.name = name;
 		m_CharacterChangeData.strExplains = string.Format ("대장장이 물 충전속도 {0}% 증가", m_CharacterChangeData.fSkillPercent);
+		m_CharacterChangeData.strPurchasing = string.Format ("대장간 등급 3");
 	}
 
 	public override void EnhacneArbait ()

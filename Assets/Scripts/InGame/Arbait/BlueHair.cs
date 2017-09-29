@@ -34,7 +34,6 @@ public class BlueHair : ArbaitBatch {
 	{
 		m_CharacterChangeData.name = name;
 		m_CharacterChangeData.strExplains = string.Format ("대장장이 수리력 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
-
 	}
 
 

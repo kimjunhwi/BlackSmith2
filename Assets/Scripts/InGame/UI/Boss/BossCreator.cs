@@ -67,9 +67,6 @@ public class BossCreator : MonoBehaviour
 
 	public int nBossMaxLeftCount = 3;
 
-	private int curLevel = 1;	//현재래벨
-	private int maxLevel = 100;	//최대래벨
-	private int minLevel = 1;	//최소래벨
 
 	//보스와 처음 싸울때 확인 
 	private bool m_bIsFirstFightToIceBoss;
@@ -90,6 +87,8 @@ public class BossCreator : MonoBehaviour
 
 	public void BossPanelSetUp()
 	{
+
+		
 		uiManager.uiBossFirstFightMark.SetActive (false);
 
 		if (GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCount < 5)
@@ -101,8 +100,6 @@ public class BossCreator : MonoBehaviour
 			bossConsumeItemInfo.bossCreator = this;
 		if (bossRegenTimer.bossCreator == null)
 			bossRegenTimer.bossCreator = this;
-		//if (bossBackGround.bossCreator == null)
-		//	bossBackGround.bossCreator = this;
 
 		//결과창에 쓰임
 		if (bossPopUpWindow.bossIce == null)

@@ -23,7 +23,7 @@ public class SmithPanelUI : EnhanceUI {
 
 			EnhanceText.text = string.Format("{0} : {1}", strEnhanceName ,nLevel);
 
-			fCostHonor = nBasicHonor + (nPlusPercent * nLevel - 1);
+			fCostHonor = nBasicHonor + (nPlusPercent * (nLevel - 1));
 
 			CostGoldText.text = ChangeValue(fCostHonor);
 		} else {
@@ -45,7 +45,7 @@ public class SmithPanelUI : EnhanceUI {
 
 	protected override void EnhanceButtonClick ()
 	{
-		fCostHonor = nBasicHonor + (nPlusPercent * nLevel - 1);
+		fCostHonor = nBasicHonor + (nPlusPercent * (nLevel - 1));
 
 		if (fCostHonor <= ScoreManager.ScoreInstance.GetHonor () && cPlayer.GetSmithLevel() < nMaxLevel && Hanabi.bIsPlay == false) 
 		{
@@ -83,7 +83,7 @@ public class SmithPanelUI : EnhanceUI {
 			ScoreManager.ScoreInstance.HonorPlus (-fCostHonor);
 
 			if (cPlayer.GetSmithLevel () < nMaxLevel) {
-				CostGoldText.text = ChangeValue ((float)(nBasicHonor + (nPlusPercent * nLevel - 1)));
+				CostGoldText.text = ChangeValue ((float)(nBasicHonor + (nPlusPercent * (nLevel - 1))));
 			
 				EnhanceText.text = string.Format ("{0} {1}", strEnhanceName, nLevel);
 			} else {

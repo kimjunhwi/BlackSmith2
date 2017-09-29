@@ -54,7 +54,7 @@ public class Cleo : ArbaitBatch {
 	{
 		m_CharacterChangeData.name = name;
 		m_CharacterChangeData.strExplains = string.Format ("물 사용시 모든 직원 공격속도 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
-
+		m_CharacterChangeData.strPurchasing = string.Format ("대장간 등급 3");
 	}
 
 	protected override void OnDisable()

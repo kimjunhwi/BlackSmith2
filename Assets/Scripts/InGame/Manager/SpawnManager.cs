@@ -380,8 +380,11 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		m_fLevelTime = 0.0f;
 	
 
-		if(questManager.isInGameOnOff == true && m_nDay < _nDay)
-			SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_DAYS, _nDay);
+		if (questManager.isInGameOnOff == true && m_nDay < _nDay) 
+		{
+			int days = _nDay - m_nDay;
+			SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_DAYS, days);
+		}
 		
 		m_nDay = _nDay;
 

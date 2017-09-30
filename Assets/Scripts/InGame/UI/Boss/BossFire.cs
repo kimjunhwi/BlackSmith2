@@ -348,9 +348,10 @@ public class BossFire : BossCharacter
 				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSFIRESUCCESS, 1);
 				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ANYBOSSSUCCESS, 1);
 
-				if (GameManager.Instance.cBossPanelListInfo [0].nBossFireCurLevel <= nCurLevel) 
+				if (GameManager.Instance.cBossPanelListInfo [0].nBossFireMaxLevel <= nCurLevel) 
 				{
-					GameManager.Instance.cBossPanelListInfo [0].nBossFireCurLevel = nCurLevel + 1;
+					GameManager.Instance.cBossPanelListInfo [0].nBossFireMaxLevel = nCurLevel + 1;
+					GameManager.Instance.cBossPanelListInfo [0].nBossFireCurLevel = GameManager.Instance.cBossPanelListInfo [0].nBossFireMaxLevel;
 					GameManager.Instance.SaveBossPanelInfoList ();
 				}
 			} 

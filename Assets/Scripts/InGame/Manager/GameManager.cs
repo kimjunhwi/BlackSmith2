@@ -557,6 +557,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		if(creatorWeaponData != null)
 			SaveCreateWeaponData ();
 
+		SpawnManager.Instance.questManager.SaveQuestData ();
         SavePlayerData();
 
         SaveEquiment();
@@ -2584,7 +2585,11 @@ public class BossPanelInfo
 	public int nBossIceCurLevel;
 	public int nBossFireCurLevel;
 
-	
+	public int nBossSasinMaxLevel;
+	public int nBossMusicMaxLevel;
+	public int nBossIceMaxLevel;
+	public int nBossFireMaxLevel;
+
 
 
 	public BossPanelInfo()
@@ -2614,6 +2619,13 @@ public class BossPanelInfo
 		nBossMusicCurLevel = 1;
 		nBossIceCurLevel = 1;
 		nBossFireCurLevel = 1;
+
+
+		nBossSasinMaxLevel = 1;
+		nBossMusicMaxLevel = 1;
+		nBossIceMaxLevel = 1;
+		nBossFireMaxLevel = 1;
+
 
 		nBossInviteMentCurMin = 19;
 		fBossInviteMentCurSec = 59f;

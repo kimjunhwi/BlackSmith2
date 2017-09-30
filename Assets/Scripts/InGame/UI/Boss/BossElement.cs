@@ -26,29 +26,29 @@ public class BossElement : MonoBehaviour
 	public int nBossIndex = 0;
 
 	public int curLevel = 1;	//현재래벨
-	private int maxLevel = 0;	//최대래벨
+	public int maxLevel = 1;	//최대래벨
 	private int minLevel = 1;	//최소래벨
 
 
 
 	public void AddLevel()
 	{
-		if(nBossIndex == 0)
-			maxLevel  = GameManager.Instance.cBossPanelListInfo [0].nBossIceCurLevel;
-		else if(nBossIndex == 1)
-			maxLevel  = GameManager.Instance.cBossPanelListInfo [0].nBossSasinCurLevel;
-		else if(nBossIndex == 2)
-			maxLevel  = GameManager.Instance.cBossPanelListInfo [0].nBossFireCurLevel;
-		else
-			maxLevel  = GameManager.Instance.cBossPanelListInfo [0].nBossMusicCurLevel;
-
+		
 		SoundManager.instance.PlaySound(eSoundArray.ES_TouchSound_Menu);
 		if (curLevel < maxLevel)
 		{
-			if(curLevel != 1 || maxLevel != 1)
+			if (curLevel != 1 || maxLevel != 1) {
 				curLevel++;
+				if (curLevel >= maxLevel) 
+				{
+					maxLevel = curLevel;
+					bossLevelRight_Button.gameObject.SetActive (false);
+				}
+			}
 		}
 		bossLevel_Text.text = string.Format ("Lv {0}", curLevel);
+
+		ShowBossHealth ();
 	}
 
 	public void MinusLevel()
@@ -57,8 +57,10 @@ public class BossElement : MonoBehaviour
 		SoundManager.instance.PlaySound(eSoundArray.ES_TouchSound_Menu);
 		if (curLevel > minLevel) {
 			curLevel--;
+			bossLevelRight_Button.gameObject.SetActive (true);
 		}
 		bossLevel_Text.text = "Lv " + curLevel.ToString ();
+		ShowBossHealth ();
 	}
 
 	public void ShowBossInfo(int _nIndex)
@@ -70,4 +72,25 @@ public class BossElement : MonoBehaviour
 		bossCreator.bossHint_Obj.GetComponent<BossHintTextBlink> ().StartBlinkText ();
 	}
 
+
+	public void  ShowBossHealth()
+	{
+		float fOriValue = (24 + (curLevel * 5));
+		float fMinusValue = (Mathf.Floor( (24f + (float)curLevel * 5f) * 0.1f ) ) * 10;
+		float result = fOriValue - fMinusValue;
+		double dCurComplete = 0;
+		if(nBossIndex == 0)
+			dCurComplete = ( GameManager.Instance.bossInfo [nBossIndex].dComplate * Mathf.Pow (2, (Mathf.Floor( Mathf.Max (((24 + (curLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 8;
+		else if(nBossIndex == 1)
+			dCurComplete = ( GameManager.Instance.bossInfo [nBossIndex].dComplate * Mathf.Pow (2, (Mathf.Floor( Mathf.Max (((44 + (curLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 8;
+		else if(nBossIndex == 2)
+			dCurComplete = ( GameManager.Instance.bossInfo [nBossIndex].dComplate * Mathf.Pow (2, (Mathf.Floor( Mathf.Max (((64 + (curLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 8;
+		else
+			dCurComplete = ( GameManager.Instance.bossInfo [nBossIndex].dComplate * Mathf.Pow (2, (Mathf.Floor( Mathf.Max (((84 + (curLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 8;
+
+
+		string strCurBossHealth =  SpawnManager.Instance.repairObject.ChangeValue (dCurComplete);
+
+		BossHealth_Text.text = string.Format ("{0}", strCurBossHealth);
+	}
 }

@@ -295,9 +295,10 @@ public class BossSasin : BossCharacter
 				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSSASINSUCCESS, 1);
 				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ANYBOSSSUCCESS, 1);
 
-				if (GameManager.Instance.cBossPanelListInfo [0].nBossSasinCurLevel <= nCurLevel) 
+				if (GameManager.Instance.cBossPanelListInfo [0].nBossSasinMaxLevel <= nCurLevel) 
 				{
-					GameManager.Instance.cBossPanelListInfo [0].nBossSasinCurLevel = nCurLevel + 1;
+					GameManager.Instance.cBossPanelListInfo [0].nBossSasinMaxLevel = nCurLevel + 1;
+					GameManager.Instance.cBossPanelListInfo [0].nBossSasinCurLevel = GameManager.Instance.cBossPanelListInfo [0].nBossSasinMaxLevel;
 					GameManager.Instance.SaveBossPanelInfoList ();
 				}
 			} 

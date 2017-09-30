@@ -134,6 +134,7 @@ public class BossMusic : BossCharacter
 				isReflect = false;
 				fCurReflectTime = 0f;
 				repairObj.bossWeaponAnimator.SetBool ("isPhase00_Reflect", false);
+				SoundManager.instance.PlaySound (eSoundArray.ES_BossMusicDJScratch);
 				Debug.Log ("상태 변환 : 반사 -> 노말");
 			}
 				
@@ -149,6 +150,7 @@ public class BossMusic : BossCharacter
 				isSwitch = true;
 				repairObj.bossWeaponAnimator.SetBool ("isPhase00_Reflect", true);
 				Debug.Log ("상태 변환 : 노말 -> 반사");
+				SoundManager.instance.PlaySound (eSoundArray.ES_BossMusicDJScratch);
 			}
 
 			//Reflect
@@ -217,6 +219,7 @@ public class BossMusic : BossCharacter
 				isReflect = false;
 				fCurReflectTime = 0f;
 				repairObj.bossWeaponAnimator.SetBool ("isPhase01_Reflect", false);
+				SoundManager.instance.PlaySound (eSoundArray.ES_BossMusicDJScratch);
 				Debug.Log ("상태 변환 : 반사 -> 노말");
 			}
 
@@ -231,6 +234,7 @@ public class BossMusic : BossCharacter
 				isReflect = true;
 				isSwitch = true;
 				repairObj.bossWeaponAnimator.SetBool ("isPhase01_Reflect", true);
+				SoundManager.instance.PlaySound (eSoundArray.ES_BossMusicDJScratch);
 				Debug.Log ("상태 변환 : 노말 -> 반사");
 			}
 
@@ -291,6 +295,7 @@ public class BossMusic : BossCharacter
 				isReflect = false;
 				fCurReflectTime = 0f;
 				repairObj.bossWeaponAnimator.SetBool ("isPhase01_Reflect", false);
+				SoundManager.instance.PlaySound (eSoundArray.ES_BossMusicDJScratch);
 				Debug.Log ("상태 변환 : 반사 -> 노말");
 			}
 
@@ -305,6 +310,7 @@ public class BossMusic : BossCharacter
 				isReflect = true;
 				isSwitch = true;
 				repairObj.bossWeaponAnimator.SetBool ("isPhase01_Reflect", true);
+				SoundManager.instance.PlaySound (eSoundArray.ES_BossMusicDJScratch);
 				Debug.Log ("상태 변환 : 노말 -> 반사");
 			}
 
@@ -426,9 +432,10 @@ public class BossMusic : BossCharacter
 				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ANYBOSSSUCCESS, 1);
 
 
-				if (GameManager.Instance.cBossPanelListInfo [0].nBossMusicCurLevel <= nCurLevel) 
+				if (GameManager.Instance.cBossPanelListInfo [0].nBossMusicMaxLevel <= nCurLevel) 
 				{
-					GameManager.Instance.cBossPanelListInfo [0].nBossMusicCurLevel = nCurLevel + 1;
+					GameManager.Instance.cBossPanelListInfo [0].nBossMusicMaxLevel = nCurLevel + 1;
+					GameManager.Instance.cBossPanelListInfo [0].nBossMusicCurLevel = GameManager.Instance.cBossPanelListInfo [0].nBossMusicMaxLevel;
 					GameManager.Instance.SaveBossPanelInfoList ();
 				}
 			} 

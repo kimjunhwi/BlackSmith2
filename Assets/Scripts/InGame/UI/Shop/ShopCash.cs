@@ -706,7 +706,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 		if (getCashItemInfo[_index].sItemName == "프리패스" || getCashItemInfo[_index].sItemName == "프리패스5" || getCashItemInfo[_index].sItemName == "프리패스10")
 		{
 			SpawnManager.Instance.SetDayInitInfo (_day);
-			SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_DAYS, _day);
+			//SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_DAYS, _day);
 		}
 
 		ScoreManager.ScoreInstance.GoldPlus (_gold);

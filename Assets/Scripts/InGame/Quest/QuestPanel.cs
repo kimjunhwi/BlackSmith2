@@ -70,7 +70,7 @@ public class QuestPanel : MonoBehaviour
 	public void GiveUpActive()
 	{
 		bIsQuest = false;
-		questManager.GiveUpQuest ();
+		questManager.GiveUpQuest (nQuestPanelIndex);
 	}
 
 	public void GetQuest(CGameQuestInfo _quest, QusetManager _questManager)
@@ -96,6 +96,8 @@ public class QuestPanel : MonoBehaviour
 		nCompleteCondition = 0;
 		nCompleteCondition = questData.nCompleteCondition *  randomRange;
 		nMutiplyValue = randomRange;
+
+		questTypeIndex = questManager.ReturnQuestType (nQuestIndex);
 
 		textProgressValue.text = string.Format ("{0}", nCompareCondition)  +"/" + string.Format ("{0}", nCompleteCondition);
 		textQuestUpValue.text = string.Format ("{0}" , nMutiplyValue) + " pt";
@@ -174,7 +176,7 @@ public class QuestPanel : MonoBehaviour
 		sButton = completeButton.GetComponent<Button> ();
 		sButton.onClick.RemoveAllListeners ();
 		sButton.onClick.AddListener (GetQuestCompleteReward);
-		sButton.onClick.AddListener (questManager.CheckCompleteQuestDestroy);
+		sButton.onClick.AddListener (() => questManager.CheckCompleteQuestDestroy(nQuestPanelIndex));
 
 
 	}

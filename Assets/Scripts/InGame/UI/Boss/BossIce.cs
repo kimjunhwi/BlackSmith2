@@ -350,9 +350,10 @@ public class BossIce : BossCharacter
 				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_BOSSICESUCCESS, 1);
 				qusetManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_ANYBOSSSUCCESS, 1);
 
-				if (GameManager.Instance.cBossPanelListInfo [0].nBossIceCurLevel <= nCurLevel) 
+				if (GameManager.Instance.cBossPanelListInfo [0].nBossIceMaxLevel <= nCurLevel) 
 				{
-					GameManager.Instance.cBossPanelListInfo [0].nBossIceCurLevel = nCurLevel + 1;
+					GameManager.Instance.cBossPanelListInfo [0].nBossIceMaxLevel = nCurLevel + 1;
+					GameManager.Instance.cBossPanelListInfo [0].nBossIceCurLevel = GameManager.Instance.cBossPanelListInfo [0].nBossIceMaxLevel;
 					GameManager.Instance.SaveBossPanelInfoList ();
 				}
 

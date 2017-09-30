@@ -24,8 +24,11 @@ public class UIDisable : MonoBehaviour, IPointerDownHandler
 
 		if (getInfoGameObject.gameObject.name == "BackGroundPanel") {
 			getInfoGameObject.transform.parent.gameObject.SetActive (false);
+			SpawnManager.Instance.shopCash.YesNoPopUp_Obj.SetActive (false);
+			SpawnManager.Instance.shopCash.YesPopUp_Obj.SetActive (false);
 
 		}
+
 
 		if (getInfoGameObject.gameObject.name == "BossBackGround" && isBossSummon == false)
 		{

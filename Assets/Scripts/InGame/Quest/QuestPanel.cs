@@ -64,7 +64,9 @@ public class QuestPanel : MonoBehaviour
 	public int nBossMusicSuccessCount;
 	public int nConstantAccessCount;
 
-	private bool bIsCheckComplete;
+
+
+
 
 
 	public void GiveUpActive()
@@ -77,7 +79,6 @@ public class QuestPanel : MonoBehaviour
     {
 		completeButton.SetActive (false);
 		bIsQuest = true;
-		bIsCheckComplete = false;
 		giveUpButton.onClick.RemoveAllListeners();
 		giveUpButton.onClick.AddListener(GiveUpActive);
 
@@ -126,7 +127,6 @@ public class QuestPanel : MonoBehaviour
 	public void GetQuest(CGameQuestInfo _quest, QusetManager _questManager , int _compareValue , int _multiplyValue)
 	{
 		bIsQuest = true;
-		bIsCheckComplete = false;
 		giveUpButton.onClick.RemoveAllListeners();
 		giveUpButton.onClick.AddListener(GiveUpActive);
 	

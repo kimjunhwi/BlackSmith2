@@ -105,7 +105,7 @@ public class BossConsumeItemInfo : MonoBehaviour
 			//1h + 40m
 			int nPassedTime_Min = (int)timeCal.TotalMinutes;
 			int nPassedTime_Sec = (int)timeCal.TotalSeconds % 60;
-
+		
 			//20분이 지나지 않았다면 저장된 분에서 지나간 분 만큼 뺀 시간을 시작한다
 			if (nPassedTime_Min < 20) {
 
@@ -118,6 +118,7 @@ public class BossConsumeItemInfo : MonoBehaviour
 					ResultTime_Sec = -ResultTime_Sec;
 
 				StartBossInviteMentTimer (ResultTime_Min, ResultTime_Sec);
+				inviteMentTimer_Text.enabled = true;
 				return;
 			} else if (nPassedTime_Min < 40) {
 				nPassedTime_Min -= 20;
@@ -130,6 +131,7 @@ public class BossConsumeItemInfo : MonoBehaviour
 					ResultTime_Sec = -ResultTime_Sec;
 
 				StartBossInviteMentTimer (ResultTime_Min, ResultTime_Sec);
+				inviteMentTimer_Text.enabled = true;
 				return;
 			} else if (nPassedTime_Min < 60) {
 				nPassedTime_Min -= 40;
@@ -142,6 +144,7 @@ public class BossConsumeItemInfo : MonoBehaviour
 					ResultTime_Sec = -ResultTime_Sec;
 
 				StartBossInviteMentTimer (ResultTime_Min, ResultTime_Sec);
+				inviteMentTimer_Text.enabled = true;
 				return;
 			} else if (nPassedTime_Min < 80) {
 				nPassedTime_Min -= 60;
@@ -154,6 +157,7 @@ public class BossConsumeItemInfo : MonoBehaviour
 					ResultTime_Sec = -ResultTime_Sec;
 
 				StartBossInviteMentTimer (ResultTime_Min, ResultTime_Sec);
+				inviteMentTimer_Text.enabled = true;
 				return;
 			}
 			else
@@ -168,9 +172,10 @@ public class BossConsumeItemInfo : MonoBehaviour
 					ResultTime_Sec = -ResultTime_Sec;
 
 				StartBossInviteMentTimer (ResultTime_Min, ResultTime_Sec);
+				inviteMentTimer_Text.enabled = true;
 				return;
 			}
-			inviteMentTimer_Text.enabled = true;
+	
 		}
 	}
 

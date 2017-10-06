@@ -148,15 +148,7 @@ public class PlayerTalk : MonoBehaviour ,IPointerDownHandler
 
 				yield return new WaitForSeconds (0.075f);
 			}
-
-
-			
-		
 		}
-
-		yield return null;
-
-
 	}
 
 	public void StartTextAvailableBlink()

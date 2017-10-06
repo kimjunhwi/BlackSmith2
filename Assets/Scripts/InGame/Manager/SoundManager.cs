@@ -89,10 +89,10 @@ public class SoundManager : MonoBehaviour
 
 	public GameObject kBgm = null;
 
-	ArrayList SourceArray = new ArrayList();
-	ArrayList CloneArray = new ArrayList();
+	//ArrayList SourceArray = new ArrayList();
+	//ArrayList CloneArray = new ArrayList();
 
-	ArrayList CooltimeArray = new ArrayList();
+	//ArrayList CooltimeArray = new ArrayList();
 
 	public List<GameObject> SoundArray = new List<GameObject>();
 	//FeverSound Array 소리 중복 안되게

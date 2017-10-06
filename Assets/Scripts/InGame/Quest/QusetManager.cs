@@ -249,7 +249,8 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			else
 				rewardCurMile_Text.text = string.Format("{0}", nQuestMileCount ) + " pt";
 		}
-		else{
+		else
+		{
 			if(nQuestMileCount < 0)
 				rewardCurMile_Text.text = string.Format("{0}", 0 ) + " pt";
 			else

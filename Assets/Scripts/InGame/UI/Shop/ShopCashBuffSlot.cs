@@ -87,19 +87,6 @@ public class ShopCashBuffSlot : MonoBehaviour {
 
 	public void LoadTimer(int _curMin, int _curSec)
 	{
-		if (sSlotName == "골드부스터")
-			shopCash.isConumeBuff_Gold = true;
-
-		if (sSlotName == "명예부스터")
-			shopCash.isConumeBuff_Honor = true;
-
-		if (sSlotName == "직원부스터")
-			shopCash.isConumeBuff_Staff = true;
-
-		if (sSlotName == "터치부스터")
-			shopCash.isConumeBuff_Attack = true;
-		
-
 		StartCoroutine (Timer (_curMin, _curMin));
 	}
 
@@ -107,7 +94,8 @@ public class ShopCashBuffSlot : MonoBehaviour {
 	{
 		curMin += _Min;
 		fCurSec += _Sec;
-		if (fCurSec >= 60) {
+		if (fCurSec >= 60) 
+		{
 			while (true) 
 			{
 				if (fCurSec < 60) 
@@ -115,8 +103,8 @@ public class ShopCashBuffSlot : MonoBehaviour {
 					fCurSec = fCurSec;
 					break;
 				}
-				else {
-
+				else 
+				{
 					curMin++;
 					fCurSec -= 60;
 				}

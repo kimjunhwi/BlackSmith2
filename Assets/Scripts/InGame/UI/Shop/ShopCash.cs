@@ -798,18 +798,9 @@ public class ShopCash : MonoBehaviour , IStoreListener
 				shopCashBuffSlot.icon_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (iconPaths [(int)_index]);
 				shopCashBuffSlot.shopCash = this;
 
-				if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD)
-					shopCashBuffSlot.shopCash.isConumeBuff_Gold = true;
-				if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK)
-					shopCashBuffSlot.shopCash.isConumeBuff_Attack = true;
-				if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR)
-					shopCashBuffSlot.shopCash.isConumeBuff_Honor = true;
-				if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF)
-					shopCashBuffSlot.shopCash.isConumeBuff_Staff = true;
-				
-
 				shopCashBuffSlot.sSlotName = getCashItemInfo [(int)_index].sItemName;
 				shopCashBuffSlot.LoadTimer (_CurMin, (int)_CurSec);
+				shopCashBuffSlot.shopCash.isConumeBuff_Gold = true;
 
 				shopCashBuffSlot.pool_Obj = CashBuffSlotPool;
 				shopCashBuffSlots [(int)_index] = shopCashBuffSlot;
@@ -817,24 +808,9 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			else 
 			{
 				shopCashBuffSlots [(int)_index].AddTimer (_CurMin, _CurSec);
-
-				if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_GOLD)
-					shopCashBuffSlots[(int)_index].shopCash.isConumeBuff_Gold = true;
-				if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_ATTACK)
-					shopCashBuffSlots[(int)_index].shopCash.isConumeBuff_Attack = true;
-				if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR)
-					shopCashBuffSlots[(int)_index].shopCash.isConumeBuff_Honor = true;
-				if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_STAFF)
-					shopCashBuffSlots[(int)_index].shopCash.isConumeBuff_Staff = true;
-				
-
+				shopCashBuffSlots[(int)_index].shopCash.isConumeBuff_Gold = true;
 			}
-
-
-
-
-	
-
+				
 		}
 		if (_index == E_BOOSTERTYPE.E_BOOSTERTYPE_HONOR)
 		{
@@ -848,8 +824,10 @@ public class ShopCash : MonoBehaviour , IStoreListener
 				ShopCashBuffSlot shopCashBuffSlot = consumeSlot.GetComponent<ShopCashBuffSlot> ();
 				shopCashBuffSlot.icon_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (iconPaths [(int)_index]);
 				shopCashBuffSlot.shopCash = this;
+
 				shopCashBuffSlot.sSlotName = getCashItemInfo [(int)_index].sItemName;
 				shopCashBuffSlot.LoadTimer (_CurMin, (int)_CurSec);
+				shopCashBuffSlots[(int)_index].shopCash.isConumeBuff_Honor = true;
 
 				shopCashBuffSlot.pool_Obj = CashBuffSlotPool;
 				shopCashBuffSlots [(int)_index] = shopCashBuffSlot;
@@ -857,6 +835,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			else 
 			{
 				shopCashBuffSlots [(int)_index].AddTimer (_CurMin, _CurSec);
+				shopCashBuffSlots[(int)_index].shopCash.isConumeBuff_Honor = true;
 			}
 
 		}
@@ -872,8 +851,10 @@ public class ShopCash : MonoBehaviour , IStoreListener
 				ShopCashBuffSlot shopCashBuffSlot = consumeSlot.GetComponent<ShopCashBuffSlot> ();
 				shopCashBuffSlot.icon_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (iconPaths [(int)_index]);
 				shopCashBuffSlot.shopCash = this;
+			
 				shopCashBuffSlot.sSlotName = getCashItemInfo [(int)_index].sItemName;
 				shopCashBuffSlot.LoadTimer (_CurMin, (int)_CurSec);
+				shopCashBuffSlots[(int)_index].shopCash.isConumeBuff_Staff = true;
 
 				shopCashBuffSlot.pool_Obj = CashBuffSlotPool;
 				shopCashBuffSlots [(int)_index] = shopCashBuffSlot;
@@ -881,6 +862,8 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			else 
 			{
 				shopCashBuffSlots [(int)_index].AddTimer (_CurMin, _CurSec);
+
+				shopCashBuffSlots[(int)_index].shopCash.isConumeBuff_Staff = true;
 			}
 
 		}
@@ -896,8 +879,12 @@ public class ShopCash : MonoBehaviour , IStoreListener
 				ShopCashBuffSlot shopCashBuffSlot = consumeSlot.GetComponent<ShopCashBuffSlot> ();
 				shopCashBuffSlot.icon_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (iconPaths [(int)_index]);
 				shopCashBuffSlot.shopCash = this;
+
+			
 				shopCashBuffSlot.sSlotName = getCashItemInfo [(int)_index].sItemName;
 				shopCashBuffSlot.LoadTimer (_CurMin, (int)_CurSec);
+				shopCashBuffSlots[(int)_index].shopCash.isConumeBuff_Attack = true;
+
 
 				shopCashBuffSlot.pool_Obj = CashBuffSlotPool;
 				shopCashBuffSlots [(int)_index] = shopCashBuffSlot;
@@ -905,8 +892,8 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			else 
 			{
 				shopCashBuffSlots [(int)_index].AddTimer (_CurMin, _CurSec);
+				shopCashBuffSlots[(int)_index].shopCash.isConumeBuff_Attack = true;
 			}
-
 		}
 	}
 

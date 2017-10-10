@@ -307,6 +307,9 @@ public class ShopCash : MonoBehaviour , IStoreListener
 						shopCashSlot.itemTag_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_02);
 						shopCashSlot.itemBuy_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (getCashItemInfo [i].sImagePath_03);
 
+						//값 표현
+						shopCashSlot.itemBuyValue_Text.text = string.Format ("{0}", getCashItemInfo [i].fRuby);
+						shopCashSlot.itemBuyValue_Text.alignment = TextAnchor.MiddleCenter;
 
 						if (getCashItemInfo [i].sItemName == "200명예") 
 						{
@@ -798,6 +801,8 @@ public class ShopCash : MonoBehaviour , IStoreListener
 				shopCashBuffSlot.icon_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (iconPaths [(int)_index]);
 				shopCashBuffSlot.shopCash = this;
 
+				shopCashBuffSlots [(int)_index] = shopCashBuffSlot;
+
 				shopCashBuffSlot.sSlotName = getCashItemInfo [(int)_index].sItemName;
 				shopCashBuffSlot.LoadTimer (_CurMin, (int)_CurSec);
 				shopCashBuffSlot.shopCash.isConumeBuff_Gold = true;
@@ -824,6 +829,8 @@ public class ShopCash : MonoBehaviour , IStoreListener
 				ShopCashBuffSlot shopCashBuffSlot = consumeSlot.GetComponent<ShopCashBuffSlot> ();
 				shopCashBuffSlot.icon_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (iconPaths [(int)_index]);
 				shopCashBuffSlot.shopCash = this;
+
+				shopCashBuffSlots [(int)_index] = shopCashBuffSlot;
 
 				shopCashBuffSlot.sSlotName = getCashItemInfo [(int)_index].sItemName;
 				shopCashBuffSlot.LoadTimer (_CurMin, (int)_CurSec);
@@ -852,6 +859,8 @@ public class ShopCash : MonoBehaviour , IStoreListener
 				shopCashBuffSlot.icon_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (iconPaths [(int)_index]);
 				shopCashBuffSlot.shopCash = this;
 			
+				shopCashBuffSlots [(int)_index] = shopCashBuffSlot;
+
 				shopCashBuffSlot.sSlotName = getCashItemInfo [(int)_index].sItemName;
 				shopCashBuffSlot.LoadTimer (_CurMin, (int)_CurSec);
 				shopCashBuffSlots[(int)_index].shopCash.isConumeBuff_Staff = true;
@@ -880,6 +889,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 				shopCashBuffSlot.icon_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache (iconPaths [(int)_index]);
 				shopCashBuffSlot.shopCash = this;
 
+				shopCashBuffSlots [(int)_index] = shopCashBuffSlot;
 			
 				shopCashBuffSlot.sSlotName = getCashItemInfo [(int)_index].sItemName;
 				shopCashBuffSlot.LoadTimer (_CurMin, (int)_CurSec);

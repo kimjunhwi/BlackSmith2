@@ -32,7 +32,7 @@ public class SmithPanelUI : EnhanceUI {
 			CostGoldText.text = "Max";
 		}
 
-		NextPercentText.text = (cPlayer.GetBasicGoldPlusPercent() + 10).ToString();
+		NextPercentText.text = (cPlayer.GetBasicGoldPlusPercent() + 10).ToString() + "%";
 	}
 
 	public void OnEnable()
@@ -76,9 +76,9 @@ public class SmithPanelUI : EnhanceUI {
 
 			cPlayer.SetBasicHonorPlusPercent (dEnhanceValue);
 
-			EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
+			EnhanceText.text =string.Format("{0} {1}%", strEnhanceName , nLevel);
 
-			NextPercentText.text = (cPlayer.GetBasicGoldPlusPercent() + 50).ToString();
+			NextPercentText.text = (cPlayer.GetBasicGoldPlusPercent() + 10).ToString() + "%";
 
 			ScoreManager.ScoreInstance.HonorPlus (-fCostHonor);
 

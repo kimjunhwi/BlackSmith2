@@ -27,13 +27,25 @@ public class Shop : MonoBehaviour {
 
     List<CGameEquiment> EquimentList = new List<CGameEquiment>();
 
-    System.DateTime StartDate = new System.DateTime();
+	//현재 시간
+    System.DateTime StartDate =new System.DateTime();
 
     System.DateTime EndData;
 
     System.TimeSpan timeCal;
 
     private string strTime ="";
+
+
+	//끈 시간
+	System.DateTime CloseDate =new System.DateTime();
+
+	System.DateTime CloseEndData;
+
+	System.TimeSpan ClosetimeCal;
+
+	private string strCloseTime ="";
+
 
 	Player playerData;
 
@@ -151,7 +163,7 @@ public class Shop : MonoBehaviour {
 					FirstCheck ();
 				}
 
-				StartCoroutine (Timer( nCurMin, (int)fCurSec));
+
 			}
             //완전 처음 일 경우 
             else
@@ -166,10 +178,47 @@ public class Shop : MonoBehaviour {
                 }
 
 				FirstCheck ();
-
-				StartCoroutine (Timer (nInitTime_Min, nInitTime_Sec));
 			}
         }
+
+
+		if (PlayerPrefs.HasKey ("ShopCloseTime")) 
+		{
+			strCloseTime = PlayerPrefs.GetString ("ShopCloseTime");
+
+			CloseEndData = System.Convert.ToDateTime (strCloseTime);
+
+			StartDate = System.DateTime.Now;
+			timeCal = StartDate - CloseEndData;
+
+			int nStartTime = StartDate.Hour * 3600 + StartDate.Minute * 60 + StartDate.Second;
+			int nEndTime = CloseEndData.Hour * 3600 + CloseEndData.Minute * 60 + CloseEndData.Second;
+			int nCheck = Mathf.Abs(nEndTime - nStartTime);
+
+			int nPassedTime_Min = (int)timeCal.TotalMinutes;	//전체 분s
+			int nPassedTime_Sec = (int)timeCal.TotalSeconds % 60; 	//전채 초에서 나머지
+
+			//60분이 지나지 않았다면 저장된 분에서 지나간 분 만큼 뺀 시간을 시작한다
+			if (nPassedTime_Min < 59) {
+				int ResultTime_Min = GameManager.Instance.GetPlayer().changeStats.nShopMinutes - nPassedTime_Min;
+				if (ResultTime_Min < 0)
+					ResultTime_Min = -ResultTime_Min;
+
+				int ResultTime_Sec = (int)GameManager.Instance.GetPlayer().changeStats.fShopSecond - nPassedTime_Sec;
+				if (ResultTime_Sec < 0)
+					ResultTime_Sec = -ResultTime_Sec;
+
+				StartCoroutine (Timer( ResultTime_Min, (int)ResultTime_Sec));
+			}
+		} 
+		else 
+		{
+			CloseEndData = System.DateTime.Now;
+
+			PlayerPrefs.SetString ("BossRegenTime", EndData.ToString ());
+
+			StartCoroutine (Timer (nInitTime_Min, nInitTime_Sec));
+		}
 
         GameManager.Instance.SaveShopList(EquimentList);
     }
@@ -183,7 +232,12 @@ public class Shop : MonoBehaviour {
         if (getEquiment == null)
             return GetEquiment();
 
-		resultEquiment = getEquiment;
+        resultEquiment.nIndex = getEquiment.nIndex;
+		resultEquiment.sGrade = getEquiment.sGrade;
+        resultEquiment.strName = getEquiment.strName;
+        resultEquiment.nSlotIndex = getEquiment.nSlotIndex;
+		resultEquiment.fOptionPlus = getEquiment.fOptionPlus;
+        resultEquiment.strResource = getEquiment.strResource;
 
 		int nLength = int.Parse( resultEquiment.sGrade);
 
@@ -210,7 +264,6 @@ public class Shop : MonoBehaviour {
 		}
 
 		EndData = System.DateTime.Now;
-
 		timeCal = EndData - StartDate;
 
 		int nStartTime = StartDate.Hour * 3600 + StartDate.Minute * 60 + StartDate.Second;
@@ -224,9 +277,6 @@ public class Shop : MonoBehaviour {
 		
 		else
 			return false;
-
-		
-
 	}
 
 	public IEnumerator Timer(int _curMin, int _curSec)
@@ -291,6 +341,8 @@ public class Shop : MonoBehaviour {
 			{
 					if(50 <= ScoreManager.ScoreInstance.GetRuby())
 					{
+						ScoreManager.ScoreInstance.RubyPlus(-50);
+
 						PlayerPrefs.SetString("NowTime", EndData.ToString());
 
 						EquimentList.Clear();
@@ -466,11 +518,14 @@ public class Shop : MonoBehaviour {
 		return 0;
 	}
 
-    //void OnDisable()
-    //{
-    //    if (EquimentList == null)
-    //        return;
+    void OnDisable()
+    {
+        if (EquimentList == null)
+            return;
 
-    //    GameManager.Instance.SaveEquiment(EquimentList);
-    //}
+		CloseDate = System.DateTime.Now;
+		PlayerPrefs.SetString ("ShopCloseTime", CloseDate.ToString ());
+		GameManager.Instance.GetPlayer ().changeStats.nShopMinutes = nCurMin;
+		GameManager.Instance.GetPlayer ().changeStats.fShopSecond = fCurSec;
+	}
 }

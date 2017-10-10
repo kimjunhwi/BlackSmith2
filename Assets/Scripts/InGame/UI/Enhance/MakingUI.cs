@@ -349,14 +349,14 @@ public class MakingUI : MonoBehaviour {
 
 	public void MakeWeapon()
 	{
-		if (playerData.GetDay() <= 10)
+		if (playerData.GetDay() <= 5)
 			return;
 
 		SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_CREATEHAMMER, 1);
 		
 		ResultUI.Init (playerData, BossSoulSlots);
 
-		SpawnManager.Instance.SetDayInitInfo (playerData.GetDay () - 10);
+		SpawnManager.Instance.SetDayInitInfo (playerData.GetDay () - 5);
 		if (SpawnManager.Instance.tutorialPanel.eTutorialState == TutorialOrder.E_TUTORIAL_START_SHOWCONSTRUCT)
 		{
 			SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
@@ -667,11 +667,11 @@ public class MakingUI : MonoBehaviour {
 	private void SetShowText()
 	{
 		int nDay = playerData.GetDay ();
-		float fOriValue = nDay - 1;
-		float fMinusValue = Mathf.Floor( (nDay - 1) * 0.1f ) * 10;
+		float fOriValue = nDay + 10;
+		float fMinusValue = Mathf.Floor( (nDay + 10) * 0.1f ) * 10;
 		float result = fOriValue - fMinusValue;
 
-		double dCurComplete = 3 * Mathf.Max( Mathf.Pow (1.9f, (Mathf.Floor((nDay + 9) * 0.1f))),1) * (1 + (result) * 0.05f);
+		double dCurComplete = 3 * Mathf.Max( Mathf.Pow (1.9f, (Mathf.Floor((nDay + 20) * 0.1f))),1) * (1 + (result) * 0.05f);
 
 		dCalcMinRepair = dCurComplete - dCurComplete * 0.1f;
 

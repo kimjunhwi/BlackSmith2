@@ -17,13 +17,9 @@ public class RepairPanelUI : EnhanceUI {
 
 		double dCurComplete;
 
-		if (nLevel <= 10) {
-			dCurComplete = GameManager.Instance.GetPlayer().GetCreatorWeapon ().dRepair + nLevel + 1;
-		} else {
-			dCurComplete = GameManager.Instance.GetPlayer().GetCreatorWeapon ().dRepair * Mathf.Pow (1.022f, (Mathf.Floor ((nLevel - 10) * 0.1f))) * (1 + (nLevel - 19 * 0.03f));
+		dCurComplete = GameManager.Instance.GetPlayer().GetCreatorWeapon ().dRepair * Mathf.Pow (1.022f, (Mathf.Floor (nLevel * 0.1f))) * (1 + (nLevel * 0.02f));
 
-			dCurComplete += nLevel + 1;
-		}
+		dCurComplete += nLevel;
 
 		NextPercentText.text = ScoreManager.ScoreInstance.ChangeMoney (dCurComplete);
 	}
@@ -32,13 +28,11 @@ public class RepairPanelUI : EnhanceUI {
 	{
 		double dCurComplete;
 
-		if (nLevel <= 10) {
-			dCurComplete = GameManager.Instance.GetPlayer().GetCreatorWeapon().dRepair + nLevel + 1;
-		} else {
-			dCurComplete = GameManager.Instance.GetPlayer().GetCreatorWeapon().dRepair * Mathf.Pow (1.022f, (Mathf.Floor ((nLevel - 10) * 0.1f))) * (1 + (nLevel - 9 * 0.03f));
 
-			dCurComplete += nLevel + 1;
-		}
+		dCurComplete = GameManager.Instance.GetPlayer().GetCreatorWeapon().dRepair * Mathf.Pow (1.022f, (Mathf.Floor ((nLevel * 0.1f))) * (1 + ((nLevel * 0.02f));
+
+		dCurComplete += nLevel;
+		
 
 		NextPercentText.text = ScoreManager.ScoreInstance.ChangeMoney (dCurComplete);
 	}
@@ -61,25 +55,21 @@ public class RepairPanelUI : EnhanceUI {
 
 			double dCurComplete;
 
-			if (nLevel <= 10) {
-				dCurComplete = cPlayer.GetCreatorWeapon ().dRepair + nLevel;
-			} else {
-				dCurComplete = cPlayer.GetCreatorWeapon ().dRepair * Mathf.Pow (1.022f, (Mathf.Floor ((nLevel - 11) * 0.1f))) * (1 + ((nLevel - 10) * 0.03f));
 
-				dCurComplete += nLevel;
-			}
+			dCurComplete = cPlayer.GetCreatorWeapon ().dRepair * Mathf.Pow (1.022f, (Mathf.Floor ((nLevel - 1) * 0.1f))) * (1 + ((nLevel -1)  * 0.02f));
+
+			dCurComplete += nLevel;
+
 
 			cPlayer.SetBasicRepairPower (dCurComplete);
 
 			EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 
-			if (nLevel <= 10) {
-				dCurComplete = cPlayer.GetCreatorWeapon ().dRepair + nLevel + 1;
-			} else {
-				dCurComplete = cPlayer.GetCreatorWeapon ().dRepair * Mathf.Pow (1.022f, (Mathf.Floor ((nLevel - 10) * 0.1f))) * (1 + (nLevel - 9 * 0.03f));
 
-				dCurComplete += nLevel + 1;
-			}
+			dCurComplete = cPlayer.GetCreatorWeapon ().dRepair * Mathf.Pow (1.022f, (Mathf.Floor ((nLevel ) * 0.1f))) * (1 + ((nLevel) * 0.02f));
+
+			dCurComplete += nLevel;
+
 
 			NextPercentText.text = ScoreManager.ScoreInstance.ChangeMoney (dCurComplete);
 

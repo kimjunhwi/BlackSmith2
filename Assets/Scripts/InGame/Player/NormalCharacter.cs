@@ -102,10 +102,10 @@ public class NormalCharacter : Character {
 			nDay = cPlayerData.GetDay ();
 
 			float fOriValue = nDay - 1;
-			float fMinusValue = Mathf.Floor( (nDay - 1) * 0.1f ) * 10;
+			float fMinusValue = Mathf.Floor( (nDay + 9) * 0.1f ) * 10;
 			float result = fOriValue - fMinusValue;
 
-			double dCurComplete = 500 * Mathf.Max( Mathf.Pow (2, (Mathf.Floor((nDay - 1) * 0.1f))),1) * (0.5 + (result) * 0.08f);
+			double dCurComplete = 500 * Mathf.Max( Mathf.Pow (2, (Mathf.Floor((nDay + 9) * 0.1f))),1) * (0.5 + (result) * 0.08f);
 
 			weaponData.dMaxComplate = dCurComplete; 
 		}

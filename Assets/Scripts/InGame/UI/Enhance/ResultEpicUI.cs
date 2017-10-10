@@ -134,11 +134,11 @@ public class ResultEpicUI : MonoBehaviour {
 		createWeapon = new CreatorWeapon ();
 
 		int nDay = playerData.GetDay ();
-		float fOriValue = nDay - 1;
-		float fMinusValue = Mathf.Floor( (nDay) * 0.1f ) * 10;
+		float fOriValue = nDay + 10;
+		float fMinusValue = Mathf.Floor( (nDay + 10) * 0.1f ) * 10;
 		float result = fOriValue - fMinusValue;
 
-		double dCurComplete = 3 * Mathf.Max( Mathf.Pow (1.9f, (Mathf.Floor((nDay + 10) * 0.1f))),1) * (1 + (result) * 0.05f);
+		double dCurComplete = 3 * Mathf.Max( Mathf.Pow (1.9f, (Mathf.Floor((nDay + 20) * 0.1f))),1) * (1 + (result) * 0.05f);
 
 		dCalcMinRepair = dCurComplete - dCurComplete * 0.1f;
 
@@ -507,7 +507,7 @@ public class ResultEpicUI : MonoBehaviour {
 	public void ShowAd()
 	{
 		//감소를 시켜 놨기 때문에 현재 일차에서 10일을 추가 시켜준다.
-		playerData.SetDay (playerData.GetDay () + 10);
+		playerData.SetDay (playerData.GetDay () + 5);
 
 		//무기 제작
 		CreateWeapon ();
@@ -515,7 +515,7 @@ public class ResultEpicUI : MonoBehaviour {
 		//결과를 넣어줌
 		makingUI.CreateWeapon (createWeapon, createEpic, LIST_OPTION);
 
-		playerData.SetDay (playerData.GetDay () - 10);
+		playerData.SetDay (playerData.GetDay () - 5);
 
 		//옵션 재설
 		RefreshDisplay ();

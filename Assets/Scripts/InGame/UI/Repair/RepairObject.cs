@@ -460,10 +460,13 @@ public class RepairObject : MonoBehaviour
                     else
                     {
 						dCurrentComplate = 0;
+						fComplateSlideTime = 0;
 
 						if (bossCharacter == null)
 						{
 							dCurrentComplate = 0;
+							ComplateSlider.value = 0;
+
 
 							//터지는 파티클
 							ShowBreakWeapon ();

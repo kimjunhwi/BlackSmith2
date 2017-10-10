@@ -2475,7 +2475,6 @@ public class RepairObject : MonoBehaviour
 
 	public void SetFinishBoss()
 	{
-		
 
 		bossWeaponObject.transform.position = bossWeaponObjOriginPosition;
 		bossWeaponRectTransform.sizeDelta = bossWeaponObjOriginSize;
@@ -2522,7 +2521,7 @@ public class RepairObject : MonoBehaviour
 		//물 충전량 50% 감소
 		if (bossFire != null)
 		{
-			GameManager.Instance.player.SetBasicWaterPlus (GameManager.Instance.player.GetBasicWaterPlus () * 2f);
+			GameManager.Instance.player.SetBasicWaterPlus (bossFire.fOriginPlayerWaterValue);
 
 			//FireBoss
 			fSmallFireMinusWater = 0f;				

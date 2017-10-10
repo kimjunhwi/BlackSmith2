@@ -963,8 +963,6 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 		isMile01Get = true;
 		isMileOn01 = false;
 
-
-
 		if (isMile01Get == true && isMile02Get == true && isMile03Get == true)
 			LoopQuest ();
 

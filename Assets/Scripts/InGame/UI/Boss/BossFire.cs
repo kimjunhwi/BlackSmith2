@@ -33,11 +33,14 @@ public class BossFire : BossCharacter
 
 	public double dBossComplete = 0;
 
+	public float fOriginPlayerWaterValue;
+
 
 	private void Start()
 	{
+		fOriginPlayerWaterValue = 0;
 		isSmallFireActive = false;
-		nSmallFireMaxCount = 12;
+		nSmallFireMaxCount = 5;
 		bossFireBoom.bossFire = this;
 		bossFireBoom.repairObj = repairObj;
 		animator = gameObject.GetComponent<Animator> ();
@@ -72,6 +75,8 @@ public class BossFire : BossCharacter
 		
 	protected override IEnumerator BossWait ()
 	{
+		fOriginPlayerWaterValue = GameManager.Instance.GetPlayer ().GetWaterPlus ();
+
 		while (true)
 		{
 			//무기 이미지 추가
@@ -117,6 +122,7 @@ public class BossFire : BossCharacter
 
 	protected override IEnumerator BossSkillStandard ()
 	{
+		nSmallFireMaxCount = 5;
 		uiManager.AllDisable ();
 		bossPanel.SetActive (true);
 		isSmallFireActive = true;
@@ -136,8 +142,6 @@ public class BossFire : BossCharacter
 			if (fTime >= 2.0f && nCurFireCount < nSmallFireMaxCount && isSmallFireActive == true)
 				CreateSmallFire ();
 		
-		
-
 			if (dCurComplete < 0) 
 			{
 				FailState ();
@@ -160,7 +164,7 @@ public class BossFire : BossCharacter
 
 	protected override IEnumerator BossSkill_01 ()
 	{
-		
+		nSmallFireMaxCount = 5;
 		bossTalkPanel.StartShowBossTalkWindow (2f, bossWord[(int)E_BOSSWORD.E_BOSSWORD_PHASE01]);
 
 		bossEffect.ActiveEffect (BOSSEFFECT.BOSSEFFECT_FIREANGRY);
@@ -201,7 +205,7 @@ public class BossFire : BossCharacter
 
 	protected override IEnumerator BossSKill_02 ()
 	{
-		nSmallFireMaxCount = 20;
+		nSmallFireMaxCount = 5;
 		bossTalkPanel.StartShowBossTalkWindow (2f,bossWord[(int)E_BOSSWORD.E_BOSSWORD_PHASE02]);
 		while (true)
 		{
@@ -214,18 +218,20 @@ public class BossFire : BossCharacter
 			double dCurComplete = repairObj.GetCurCompletion ();
 			double dMaxComplete = dBossComplete;
 
-			if (fTime >= 1.0f  && nCurFireCount < 20 && isSmallFireActive == true)
+			if (fTime >= 1.0f  && nCurFireCount < nSmallFireMaxCount && isSmallFireActive == true)
 				CreateSmallFire ();
 
-			//불씨 개수 10개 일시 터진다
+			//불씨 개수 5개 일시 터진다
 			if (nCurFireCount >= 5)
 			{
 				bossFireBoom.StartBoolFireSmall ();
 			}
 
-			if (isActivePassiveSkill02 == false)
-				GameManager.Instance.player.SetBasicWaterPlus (GameManager.Instance.player.GetBasicWaterPlus() * 0.5f);
-			
+			if (isActivePassiveSkill02 == false) 
+			{
+				isActivePassiveSkill02 = true;
+				GameManager.Instance.player.SetBasicWaterPlus (GameManager.Instance.player.GetBasicWaterPlus () * 0.5f);
+			}
 				
 		
 			if (dCurComplete < 0) 

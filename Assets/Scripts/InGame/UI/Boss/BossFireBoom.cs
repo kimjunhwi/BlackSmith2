@@ -37,16 +37,17 @@ public class BossFireBoom : MonoBehaviour
 		repairObj.SetMaxTempuratrue();
 
 
-		if (bossFire.smallFireRespawnPoint.childCount >= 10) 
+		if (bossFire.smallFireRespawnPoint.childCount >= 5) 
 		{
-			nRemoveCount = 10;
-			bossFire.nCurFireCount -= 10;
+			nRemoveCount = 5;
+			bossFire.nCurFireCount -= 5;
 		} 
 		else
 		{
 			nRemoveCount = bossFire.smallFireRespawnPoint.childCount;
 			bossFire.nCurFireCount -= nRemoveCount;
 		}
+
 		while (nRemoveCount != 0) 
 		{
 			GameObject go = bossFire.smallFireRespawnPoint.GetChild (0).gameObject;
@@ -54,7 +55,7 @@ public class BossFireBoom : MonoBehaviour
 			nRemoveCount--;
 
 			//불씨 하나당 물 충전량 -3%
-			repairObj.fSmallFireMinusWater -= (float)(GameManager.Instance.playerData.fWaterPlus * 0.03);
+			repairObj.fSmallFireMinusWater -= 0.03f;
 			//불씨 하나당 온도 증가량 10%
 			repairObj.fSmallFirePlusTemperatrue -= 0.1f;
 		}

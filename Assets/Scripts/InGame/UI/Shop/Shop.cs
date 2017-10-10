@@ -178,17 +178,12 @@ public class Shop : MonoBehaviour {
     {
         CGameEquiment resultEquiment = new CGameEquiment();
 
-
         CGameEquiment getEquiment = GameManager.Instance.GetEquimentData(Random.Range(0, nEquimentLength-1));
 
         if (getEquiment == null)
             return GetEquiment();
 
-        resultEquiment.nIndex = getEquiment.nIndex;
-		resultEquiment.sGrade = getEquiment.sGrade;
-        resultEquiment.strName = getEquiment.strName;
-        resultEquiment.nSlotIndex = getEquiment.nSlotIndex;
-        resultEquiment.strResource = getEquiment.strResource;
+		resultEquiment = getEquiment;
 
 		int nLength = int.Parse( resultEquiment.sGrade);
 

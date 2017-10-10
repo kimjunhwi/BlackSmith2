@@ -29,7 +29,7 @@ public class RepairPanelUI : EnhanceUI {
 		double dCurComplete;
 
 
-		dCurComplete = GameManager.Instance.GetPlayer().GetCreatorWeapon().dRepair * Mathf.Pow (1.022f, (Mathf.Floor ((nLevel * 0.1f))) * (1 + ((nLevel * 0.02f))));
+		dCurComplete = GameManager.Instance.GetPlayer().GetCreatorWeapon().dRepair * Mathf.Pow (1.022f, (Mathf.Floor (nLevel * 0.1f)) * (1 + (nLevel * 0.02f)));
 
 		dCurComplete += nLevel;
 		

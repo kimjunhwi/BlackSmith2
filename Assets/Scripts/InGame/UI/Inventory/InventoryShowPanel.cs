@@ -195,7 +195,7 @@ public class InventoryShowPanel : MonoBehaviour {
 			newText.text = string.Format("{0}%",  strName);
 
 		else
-			newText.text = string.Format("{0}{1}%",  strName , nValue.ToString());
+			newText.text = string.Format("{0}{1}%",  strName , nValue.ToString("N2"));
 	}
 
 

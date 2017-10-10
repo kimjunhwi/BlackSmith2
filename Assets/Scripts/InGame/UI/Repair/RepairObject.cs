@@ -467,6 +467,7 @@ public class RepairObject : MonoBehaviour
 							dCurrentComplate = 0;
 							ComplateSlider.value = 0;
 
+							ComplateText.text = string.Format("{0} / {1}", 0, strMaxComplate);
 
 							//터지는 파티클
 							ShowBreakWeapon ();

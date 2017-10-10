@@ -2040,7 +2040,7 @@ public class CGameEquiment
 	public float fAccuracyRate 		= 0;
 	public int nStrenthCount 		= 0;
     public bool bIsEquip 			= false;
-	public float fOptionPlus = 1.0f;
+	public float fOptionPlus = 0.0f;
 	public int nBasicGold = 1000;
 	public string strWeaponExplain ="";
 	public float fBossOptionValue = 0.0f;

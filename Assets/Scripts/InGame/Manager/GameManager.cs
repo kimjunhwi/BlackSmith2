@@ -1214,10 +1214,10 @@ public class GameManager : GenericMonoSingleton<GameManager>
         return cEquimentInfo[nIndex];
     }
 
-	public int GetSearchName(string strName)
+	public int GetSearchName(int nUnicode)
 	{
 		for (int nIndex = 0; nIndex < cHammerNames.Length; nIndex++) 
-			if (cHammerNames [nIndex].strName == strName)
+			if (cHammerNames [nIndex].nUnicode == nUnicode)
 				return cHammerNames [nIndex].nIndex;
 		
 		return -1;

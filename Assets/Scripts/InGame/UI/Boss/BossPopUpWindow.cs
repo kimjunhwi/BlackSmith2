@@ -340,7 +340,7 @@ public class BossPopUpWindow : MonoBehaviour
 		}
 		//BossSoul
 		float nRandom_Weapon03 = Random.Range (0f, 1f);	
-		if (nRandom_Weapon02 <= 1.0f)
+		if (nRandom_Weapon02 <= 0.3f)
 		{
 			GameObject Reward = rewardObjPool.GetObject ();
 			Reward.transform.SetParent (PopUpWindow_RewardPanel.transform, false);

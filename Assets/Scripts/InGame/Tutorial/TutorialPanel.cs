@@ -283,7 +283,7 @@ public class TutorialPanel : MonoBehaviour
 	public void StartDays10()
 	{
 		StartTutorialFullScreenTextPanelAlpha (TutorialOption.E_TUTORIAL_OPTION_FADEOUT);
-		ScoreManager.ScoreInstance.SetCurrentDays (11);
+		ScoreManager.ScoreInstance.SetCurrentDays (6);
 		button.SetActive (false);
 		text01.text = "";
 		text02.text = "";

@@ -1128,7 +1128,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			SpawnManager.Instance.array_ArbaitData[(int)ReadOnlys.E_ARBAIT.E_SASIN].BuyCharacter();
 			SpawnManager.Instance.list_ArbaitUI [(int)ReadOnlys.E_ARBAIT.E_SASIN].CheckBuyCharacter ();
 
-			GameManager.Instance.GetPlayer ().changeStats.bIsBossSasinPackageBuy = true;
+			GameManager.Instance.GetPlayer ().changeStats.bIsBossIcePackageBuy = true;
 			ShopCashSlot shopCashSlot2 = addSlotObjs [(int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE].transform.GetChild (1).GetComponent<ShopCashSlot> ();
 			shopCashSlot2.BlockImage_Obj.SetActive (true);
 			break;
@@ -1139,7 +1139,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			SpawnManager.Instance.array_ArbaitData[(int)ReadOnlys.E_ARBAIT.E_ICE].BuyCharacter();
 			SpawnManager.Instance.list_ArbaitUI [(int)ReadOnlys.E_ARBAIT.E_ICE].CheckBuyCharacter ();
 
-			GameManager.Instance.GetPlayer ().changeStats.bIsBossIcePackageBuy = true;
+			GameManager.Instance.GetPlayer ().changeStats.bIsBossSasinPackageBuy = true;
 			ShopCashSlot shopCashSlot3 = addSlotObjs [(int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE].transform.GetChild (2).GetComponent<ShopCashSlot> ();
 			shopCashSlot3.BlockImage_Obj.SetActive (true);
 			break;
@@ -1167,8 +1167,7 @@ public class ShopCash : MonoBehaviour , IStoreListener
 			shopCashSlot5.BlockImage_Obj.SetActive (true);
 			break;
 		}
-
-
+			
 		return PurchaseProcessingResult.Complete;
 	}
 

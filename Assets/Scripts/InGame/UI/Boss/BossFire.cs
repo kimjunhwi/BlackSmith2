@@ -440,6 +440,7 @@ public class BossFire : BossCharacter
 		StartCoroutine (BossDie ());
 	}
 
+
 	public void CreateSmallFire()
 	{
 		Debug.Log ("SmallFire Count = " + nCurFireCount);
@@ -450,7 +451,7 @@ public class BossFire : BossCharacter
 		smallFire.name = "SmallFireTouch";
 
 		//불씨 하나당 물 충전량 -3%
-		repairObj.fSmallFireMinusWater += 0.03f;
+		//repairObj.fSmallFireMinusWater += 0.03f;
 		//불씨 하나당 온도 증가량 10%
 		repairObj.fSmallFirePlusTemperatrue += 0.1f;
 

@@ -559,7 +559,7 @@ public class RepairObject : MonoBehaviour
 			fWaterSlideTime = 0.0f;
 			fTemperatureSlideTime = 0.0f;
 
-			fCurrentWater += (fPlusWater  - (fPlusWater * fSmallFireMinusWater));
+			fCurrentWater += fPlusWater;
 
 			if (fCurrentWater / player.GetBasicMaxWaterPlus () > 0.7)
 				SpawnManager.Instance.WaterCheck ();
@@ -1791,8 +1791,6 @@ public class RepairObject : MonoBehaviour
 			//Phase02
 			else
 			{
-				//물 충전량 50% 감소
-				GameManager.Instance.player.SetBasicWaterPlus(	GameManager.Instance.player.GetBasicWaterPlus() * 0.5f);
 				//불씨에 따른 온도 상승량
 				fCurrentTemperature += (fMaxTemperature * 0.08f) + ((fMaxTemperature * 0.08f) * fSmallFirePlusTemperatrue);
 			}

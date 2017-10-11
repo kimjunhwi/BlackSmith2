@@ -81,6 +81,11 @@ public class BossPopUpWindow : MonoBehaviour
 	private const string strGoldImagePath = "DungeonUI/dungeon_reward_gold";
 	private const string strHonorImagePath = "DungeonUI/dungeon_reward_honor";
 	private const string strRubyImagePath = "DungeonUI/dungeon_reward_roobie";
+	private const string strBossIceMaterial = "Crafts/IceSoul";
+	private const string strBossSasinMaterial = "Crafts/SasinSoul";
+	private const string strBossFireMaterial= "Crafts/SkullSoul";
+	private const string strBossMusicMaterial= "Crafts/DodomSoul";
+
 
 	void Start()
 	{
@@ -208,36 +213,29 @@ public class BossPopUpWindow : MonoBehaviour
 
 			if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_ICE)
 			{
-				GameManager.Instance.GetPlayer ().changeStats.nIceMaterial++;
+
 				SpawnManager.Instance.list_ArbaitUI [(int)E_ARBAIT.E_ICE].CheckArbaitScoutCount (true);
 				RewardShowAndAdd (0, 1);
 			}
 
 			if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_SASIN)
 			{
-				GameManager.Instance.GetPlayer ().changeStats.nSasinMaterial++;
 				SpawnManager.Instance.list_ArbaitUI [(int)E_ARBAIT.E_SASIN].CheckArbaitScoutCount (true);
 				RewardShowAndAdd (2, 3);
 			}
 
 			if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_FIRE)
 			{
-				GameManager.Instance.GetPlayer ().changeStats.nFireMaterial++;
 				SpawnManager.Instance.list_ArbaitUI [(int)E_ARBAIT.E_SKULL].CheckArbaitScoutCount (true);
-				RewardShowAndAdd (4, 1);
+				RewardShowAndAdd (4, 5);
 			}
 
 			if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_MUSIC)
 			{
-				GameManager.Instance.GetPlayer ().changeStats.nRusiuMaterial++;
 				SpawnManager.Instance.list_ArbaitUI [(int)E_ARBAIT.E_DODOMCHIT].CheckArbaitScoutCount (true);
 				RewardShowAndAdd (6, 7);
 			}
-
-
-		
-
-
+				
 			PopUpWindow_Reward.SetActive (true);
 			isRewardPanelOn_Success = true;
 		} 
@@ -308,7 +306,7 @@ public class BossPopUpWindow : MonoBehaviour
 			bossCharacter = bossIce;
 		if (_bossWeaponIndex01 == 2 && _bossWeaponIndex02 == 3)
 			bossCharacter = bossSasin;
-		if (_bossWeaponIndex01 == 4 && _bossWeaponIndex02 == 1)
+		if (_bossWeaponIndex01 == 4 && _bossWeaponIndex02 == 5)
 			bossCharacter = bossFire;
 		if (_bossWeaponIndex01 == 6 && _bossWeaponIndex02 == 7)
 			bossCharacter = bossMusic;
@@ -317,6 +315,7 @@ public class BossPopUpWindow : MonoBehaviour
 		float nRandom_Weapon01 = Random.Range (0f, 1f);	
 		if (nRandom_Weapon01 <= bossCharacter.bossInfo.fDropPercent) 
 		{
+			
 			GameObject Reward = rewardObjPool.GetObject ();
 			Reward.transform.SetParent (PopUpWindow_RewardPanel.transform, false);
 			Reward.transform.localScale = Vector3.one;
@@ -339,6 +338,39 @@ public class BossPopUpWindow : MonoBehaviour
 			RewardImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache (GameManager.Instance.bossWeaponInfo [_bossWeaponIndex02].strResource);
 			GameManager.Instance.player.inventory.GetEquimnet (GetEquiment(_bossWeaponIndex02));
 		}
+		//BossSoul
+		float nRandom_Weapon03 = Random.Range (0f, 1f);	
+		if (nRandom_Weapon02 <= 1.0f)
+		{
+			GameObject Reward = rewardObjPool.GetObject ();
+			Reward.transform.SetParent (PopUpWindow_RewardPanel.transform, false);
+			Reward.transform.localScale = Vector3.one;
+			Text RewardText = Reward.GetComponentInChildren<Text> ();
+			RewardText.text = "소울";
+			Image RewardImage = Reward.transform.GetChild(1).GetComponent<Image> ();
+
+			if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_ICE)
+			{
+				GameManager.Instance.GetPlayer ().changeStats.nIceMaterial++;
+				RewardImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache (strBossIceMaterial);
+			} 
+			else if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_SASIN) 
+			{
+				GameManager.Instance.GetPlayer ().changeStats.nSasinMaterial++;
+				RewardImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache (strBossSasinMaterial);
+			} 
+			else if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_FIRE) 
+			{
+				GameManager.Instance.GetPlayer ().changeStats.nFireMaterial++;
+				RewardImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache (strBossFireMaterial);
+			} 
+			else 
+			{
+				GameManager.Instance.GetPlayer ().changeStats.nRusiuMaterial++;
+				RewardImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache (strBossMusicMaterial);
+			}
+		}
+
 		//Gold
 		GameObject Gold = rewardObjPool.GetObject ();
 		Gold.transform.SetParent (PopUpWindow_RewardPanel.transform, false);

@@ -55,7 +55,9 @@ public class BossFireBoom : MonoBehaviour
 			nRemoveCount--;
 
 			//불씨 하나당 물 충전량 -3%
-			repairObj.fSmallFireMinusWater -= 0.03f;
+			//if(repairObj.fSmallFireMinusWater > 0)
+			//	repairObj.fSmallFireMinusWater -= 0.03f;
+			
 			//불씨 하나당 온도 증가량 10%
 			repairObj.fSmallFirePlusTemperatrue -= 0.1f;
 		}

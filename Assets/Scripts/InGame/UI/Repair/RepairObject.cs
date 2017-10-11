@@ -170,7 +170,7 @@ public class RepairObject : MonoBehaviour
 
 	//MissText
 	public GameObject textParent;
-	private const int nEnableTime = 1;
+	private const float nEnableTime = 0.7f;
 	public SimpleObjectPool damageTextPool;
 
 	//WeaponBoom

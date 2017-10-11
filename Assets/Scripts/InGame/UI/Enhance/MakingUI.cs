@@ -90,6 +90,9 @@ public class MakingUI : MonoBehaviour {
 
 			createWeapon.nOptionChangeCount = LoadCreateWeapon.nOptionChangeCount;
 
+			if ( LoadCreateWeapon.fRepairPercent != 0)
+				CheckData (createWeapon, (int)E_CREATOR.E_REPAIRPERCENT, (int)LoadCreateWeapon.fRepairPercent);
+
 			if ( LoadCreateWeapon.fArbaitRepair != 0)
 				CheckData (createWeapon, (int)E_CREATOR.E_ARBAIT, (int)LoadCreateWeapon.fArbaitRepair);
 
@@ -233,15 +236,13 @@ public class MakingUI : MonoBehaviour {
 				LIST_OPTION.Add (EpicOption);
 
 				createWeapon.WeaponSprite = Resources.Load<Sprite> ("Crafts/CreatorWeapon/" + createEpic.nIndex);
-
-				WeaponNameText.text = GameManager.Instance.cHammerNames [createEpic.nIndex].strName;
 			} 
 			else 
 			{
-				createWeapon.WeaponSprite = Resources.Load<Sprite> ("Crafts/CreatorWeapon/" + GameManager.Instance.GetSearchName(LoadCreateWeapon.nUnicodeIndex));
-
-				WeaponNameText.text = GameManager.Instance.cUnicodeData[LoadCreateWeapon.nUnicodeIndex].strName;
+				createWeapon.WeaponSprite = Resources.Load<Sprite> ("Crafts/CreatorWeapon/" + (LoadCreateWeapon.nUnicodeIndex - 175).ToString());
 			}
+
+			WeaponNameText.text = GameManager.Instance.cUnicodeData[LoadCreateWeapon.nUnicodeIndex].strName;
 
 			createWeapon.strName = WeaponNameText.text;
 

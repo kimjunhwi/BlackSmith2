@@ -99,6 +99,8 @@ public class ShopButton : MonoBehaviour {
 			WeaponPanelImage.sprite = NoneSelectSprite;
 		}
 
+		_equimnet.strName = GameManager.Instance.cUnicodeData [_equimnet.nUnicode].strName;
+
         EquitName.text = equitMent.strName;
 
         EquitImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache(equitMent.strResource);

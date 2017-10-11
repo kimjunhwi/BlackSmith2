@@ -238,6 +238,7 @@ public class Shop : MonoBehaviour {
         resultEquiment.nSlotIndex = getEquiment.nSlotIndex;
 		resultEquiment.fOptionPlus = getEquiment.fOptionPlus;
         resultEquiment.strResource = getEquiment.strResource;
+		resultEquiment.nUnicode = getEquiment.nUnicode;
 
 		int nLength = int.Parse(resultEquiment.sGrade) + 1;
 

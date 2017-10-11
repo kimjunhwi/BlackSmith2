@@ -238,9 +238,9 @@ public class MakingUI : MonoBehaviour {
 			} 
 			else 
 			{
-				createWeapon.WeaponSprite = Resources.Load<Sprite> ("Crafts/CreatorWeapon/" + GameManager.Instance.GetSearchName(LoadCreateWeapon.strName));
+				createWeapon.WeaponSprite = Resources.Load<Sprite> ("Crafts/CreatorWeapon/" + GameManager.Instance.cUnicodeData[LoadCreateWeapon.nUnicodeIndex].strName);
 
-				WeaponNameText.text = LoadCreateWeapon.strName;
+				WeaponNameText.text = GameManager.Instance.cUnicodeData[LoadCreateWeapon.nUnicodeIndex].strName;
 			}
 
 			createWeapon.strName = WeaponNameText.text;

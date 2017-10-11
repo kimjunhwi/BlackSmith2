@@ -36,6 +36,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	public CGameHammer[] cHammerNames = null;
 
+	public CGameUnicode[] cUnicodeData = null;
+
 	public ArbaitEnhance[] cArbaitEnhance = null;
 	public SmithEnhance[] cSmithEnhance = null;
 	public EquipmentEnhance[] cEquipmentEnhance = null;
@@ -125,6 +127,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		logoManager = GameObject.Find("LogoManager").GetComponent<LogoManager>();
 
+		Load_TableInfo_Unicode();
+
 		Load_TableInfo_Sound ();
 
 		Load_TableInfo_Weapon();
@@ -191,6 +195,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 #elif UNITY_ANDROID
 		logoManager = GameObject.Find("LogoManager").GetComponent<LogoManager>();
+
+		Load_TableInfo_Unicode();
 
 		Load_TableInfo_Sound ();
 
@@ -815,10 +821,40 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			kInfo[i - 1] = new CGameHammer();
 			kInfo[i - 1].nIndex = int.Parse(Cells[0]);
 			kInfo[i - 1].strName = Cells[1];
+			kInfo [i - 1].nUnicode = int.Parse (Cells [2]);
 
 		}
 		cHammerNames = kInfo;
 	}
+
+
+	void Load_TableInfo_Unicode()
+	{
+		if (cUnicodeData.Length != 0) return;
+
+		string txtFilePath = "Unicode";
+		TextAsset ta = LoadTextAsset(txtFilePath);
+		List<string> line = LineSplit(ta.text);
+
+		CGameUnicode[] kInfo = new CGameUnicode[line.Count - 1];
+
+		for (int i = 0; i < line.Count; i++)
+		{
+			//Console.WriteLine("line : " + line[i]);
+			if (line[i] == null) continue;
+			if (i == 0) continue; 	// Title skip
+
+			string[] Cells = line[i].Split("\t"[0]);	// cell split, tab
+			if (Cells[0] == "") continue;
+
+			kInfo[i - 1] = new CGameUnicode();
+			kInfo[i - 1].nUnicodeIndex = int.Parse(Cells[0]);
+			kInfo[i - 1].strName = Cells[1];
+
+		}
+		cUnicodeData = kInfo;
+	}
+
 
     void Load_TableInfo_Quest()
     {
@@ -898,6 +934,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			kInfo [i - 1].nBasicGold = int.Parse (Cells [17]);
 			kInfo [i - 1].strWeaponExplain = Cells [18];
 			kInfo [i - 1].bIsBoss = false;
+			kInfo [i - 1].nUnicode = int.Parse (Cells [20]);
         }
 
         cEquimentInfo = kInfo;
@@ -988,6 +1025,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			kInfo [i - 1].nBasicGold = int.Parse (Cells [17]);
 			kInfo [i - 1].strWeaponExplain = Cells [18];
 			kInfo [i - 1].bIsBoss = true;
+			kInfo [i - 1].nUnicode = int.Parse (Cells [20]);
 		}
 
 		bossWeaponInfo = kInfo;
@@ -2027,6 +2065,7 @@ public class CGameHammer
 {
 	public int nIndex = 0;
 	public string strName = "";
+	public int nUnicode = 0;
 }
 
 [System.Serializable]
@@ -2055,6 +2094,7 @@ public class CGameEquiment
 	public float fBossOptionValue = 0.0f;
 	public float fBasicOptionValue = 0.0f;
 	public bool bIsBoss = false;
+	public int nUnicode = 0;
 
 	public CGameEquiment(){}
 
@@ -2083,6 +2123,7 @@ public class CGameEquiment
 		nBasicGold = _equimentData.nBasicGold;
 		strWeaponExplain = _equimentData.strWeaponExplain;
 		bIsBoss = _equimentData.bIsBoss;
+		nUnicode = _equimentData.nUnicode;
 	}
 }
 
@@ -2115,6 +2156,7 @@ public class CreatorWeapon
 	public int nCostDay = 0;
 	public bool bIsLock = false;
 	public Sprite WeaponSprite = null;
+	public int nUnicodeIndex = 0;
 
 	public CreatorWeapon()
 	{
@@ -2143,6 +2185,7 @@ public class CreatorWeapon
 		nEpicIndex = _creatorWeapon.nEpicIndex;
 		nCostDay = _creatorWeapon.nCostDay;
 		bIsLock = _creatorWeapon.bIsLock;
+		nUnicodeIndex = _creatorWeapon.nUnicodeIndex;
 	}
 }
 
@@ -2303,6 +2346,13 @@ public class CGameArbaitGrade
 	public int nPercentPlusSkill;
 	public int nGoldCost;
 	public int nHonorCost;
+}
+
+[System.Serializable]
+public class CGameUnicode
+{
+	public int nUnicodeIndex;
+	public string strName;
 }
 
 

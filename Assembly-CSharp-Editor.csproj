@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{76C5A979-DDAF-D62E-2364-C93F60525531}</ProjectGuid>
+    <ProjectGuid>{9A3A5316-2DFD-E5F4-9F14-CDA369C18E22}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
@@ -66,32 +66,31 @@
      <Compile Include="Assets\GooglePlayGames\Editor\xcode\Serializer.cs" />
      <Compile Include="Assets\GooglePlayGames\Editor\xcode\Utils.cs" />
      <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Editor\ReporterEditor.cs" />
-     <None Include="Assets\Resources\Data\HammerEpic.txt" />
      <None Include="Assets\Resources\Data\BossWeapon.txt" />
+     <None Include="Assets\Resources\Data\Shop.txt" />
      <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver_v1.2.37.0.txt" />
      <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />
      <None Include="Assets\Resources\Data\Character.txt" />
-     <None Include="Assets\Resources\Data\HammerName.txt" />
      <None Include="Assets\GooglePlayGames\Editor\template-AndroidManifest.txt" />
+     <None Include="Assets\Resources\Data\HammerName.txt" />
      <None Include="Assets\Resources\Data\Weapon.txt" />
+     <None Include="Assets\Resources\Data\Unicode.txt" />
      <None Include="Assets\Boomlagoon\JSON\Readme.txt" />
      <None Include="Assets\Resources\Data\Arbait.txt" />
      <None Include="Assets\PlayServicesResolver\proguard-unity.txt" />
      <None Include="Assets\Plugins\UnityPurchasing\script\link.xml" />
-     <None Include="Assets\Resources\Data\ArbaitEnhance2.txt" />
      <None Include="Assets\GooglePlayGames\Editor\template-Constants.txt" />
      <None Include="Assets\Resources\Data\CashShop.txt" />
      <None Include="Assets\Resources\Data\Boss.txt" />
      <None Include="Assets\Plugins\Android\MainLibProj\AndroidManifest.xml" />
      <None Include="Assets\Resources\Data\SmithEnhance2.txt" />
-     <None Include="Assets\Resources\Data\Shop.txt" />
+     <None Include="Assets\Resources\Data\HammerEpic.txt" />
      <None Include="Assets\Resources\Data\sound.txt" />
      <None Include="Assets\PlayServicesResolver\proguard-messaging-workaround.txt" />
      <None Include="Assets\Resources\Data\Quest.txt" />
      <None Include="Assets\StreamingAssets\build_info.txt" />
-     <None Include="Assets\Resources\Data\EquimpentEnhance2.txt" />
  <Reference Include="Facebook.Unity.Settings">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Advertisements">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
@@ -156,62 +155,53 @@
  <Reference Include="UnityEditor.iOS.Extensions">
  <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll</HintPath>
  </Reference>
- <Reference Include="UnityEditor.WebGL.Extensions">
- <HintPath>/Applications/Unity/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.WindowsStandalone.Extensions">
- <HintPath>/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
- </Reference>
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
  </Reference>
- <Reference Include="UnityEditor.Facebook.Extensions">
- <HintPath>/Applications/Unity/PlaybackEngines/Facebook/UnityEditor.Facebook.Extensions.dll</HintPath>
- </Reference>
  <Reference Include="Google.IOSResolver_v1.2.37.0">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/PlayServicesResolver/Editor/Google.IOSResolver_v1.2.37.0.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/PlayServicesResolver/Editor/Google.IOSResolver_v1.2.37.0.dll</HintPath>
  </Reference>
  <Reference Include="Google.JarResolver_v1.2.37.0">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/PlayServicesResolver/Editor/Google.JarResolver_v1.2.37.0.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/PlayServicesResolver/Editor/Google.JarResolver_v1.2.37.0.dll</HintPath>
  </Reference>
  <Reference Include="Google.VersionHandler">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/PlayServicesResolver/Editor/Google.VersionHandler.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/PlayServicesResolver/Editor/Google.VersionHandler.dll</HintPath>
  </Reference>
  <Reference Include="Google.VersionHandlerImpl_v1.2.37.0">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/PlayServicesResolver/Editor/Google.VersionHandlerImpl_v1.2.37.0.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/PlayServicesResolver/Editor/Google.VersionHandlerImpl_v1.2.37.0.dll</HintPath>
  </Reference>
  <Reference Include="LitJson">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/LitJson.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/LitJson.dll</HintPath>
  </Reference>
  <Reference Include="ChannelPurchase">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityChannel/ChannelPurchase.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityChannel/ChannelPurchase.dll</HintPath>
  </Reference>
  <Reference Include="UnityStore">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityChannel/UnityStore.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityChannel/UnityStore.dll</HintPath>
  </Reference>
  <Reference Include="Editor">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityPurchasing/Bin/Editor.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityPurchasing/Bin/Editor.dll</HintPath>
  </Reference>
  <Reference Include="Purchasing.Common">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityPurchasing/Bin/Purchasing.Common.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityPurchasing/Bin/Purchasing.Common.dll</HintPath>
  </Reference>
  <Reference Include="Stores">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityPurchasing/Bin/Stores.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityPurchasing/Bin/Stores.dll</HintPath>
  </Reference>
  <Reference Include="Apple">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityPurchasing/Bin/Apple/Apple.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityPurchasing/Bin/Apple/Apple.dll</HintPath>
  </Reference>
  <Reference Include="FacebookStore">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityPurchasing/Bin/Facebook/FacebookStore.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityPurchasing/Bin/Facebook/FacebookStore.dll</HintPath>
  </Reference>
  <Reference Include="Security">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityPurchasing/Bin/Security/live/Security.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityPurchasing/Bin/Security/live/Security.dll</HintPath>
  </Reference>
  <Reference Include="Tizen">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityPurchasing/Bin/Tizen/Tizen.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityPurchasing/Bin/Tizen/Tizen.dll</HintPath>
  </Reference>
  <Reference Include="winrt">
- <HintPath>/Users/cheolgeungi/BlackSmith2/Assets/Plugins/UnityPurchasing/winrt/winrt.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/BlackSmith5/Assets/Plugins/UnityPurchasing/winrt/winrt.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
@@ -222,11 +212,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{9D1AD331-F560-ACE4-162A-5BBCD303572B}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{F49E9064-2226-82A2-D42C-2BF833439C58}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
     <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{032E6113-5154-DBEF-C990-75F04C44DDC9}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
+      <Project>{84A2A1A5-67DD-7303-38C9-0D0090307477}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
     <ProjectReference Include="Assembly-CSharp-Editor-firstpass.csproj">
-      <Project>{EC62F0E5-5313-4CFD-C6FB-9FDA19EE59B9}</Project>      <Name>Assembly-CSharp-Editor-firstpass</Name>    </ProjectReference>
+      <Project>{2227F201-6341-6CBE-2F08-95F297DE4562}</Project>      <Name>Assembly-CSharp-Editor-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

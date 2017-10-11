@@ -50,7 +50,7 @@ public class BossSmallFireObject : MonoBehaviour, IPointerDownHandler
 					bossfire.nCurFireCount--;
 			
 					smallFireObjPull.ReturnObject (getInfoGameObject);
-					//Debug.Log ("CurFireMinusWater : " + repairObj.fSmallFireMinusWater + "/ CurPlusTemperatrue : " +  repairObj.fSmallFirePlusTemperatrue);
+					Debug.Log ("CurFireMinusWater : " + repairObj.fSmallFireMinusWater + "/ CurPlusTemperatrue : " +  repairObj.fSmallFirePlusTemperatrue);
 				}
 			}
 		}

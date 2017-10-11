@@ -165,8 +165,6 @@ public class QuestTimer : MonoBehaviour
 		gameObject.SetActive (true);
 		QuestTimer_Text.enabled = true;
 		isTimeOn = true;
-		nInitTime_Min = 59;
-		nInitTime_sec = 59;
 
 		StartCoroutine (Timer (nInitTime_Min, nInitTime_sec));
 	}

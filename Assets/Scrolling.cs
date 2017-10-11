@@ -33,6 +33,8 @@ public class Scrolling : MonoBehaviour
 
 	private float fAlphaMax = 0f;
 
+	public float fTimer;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -43,6 +45,7 @@ public class Scrolling : MonoBehaviour
 		isQuadBack = false;
 		isQuadChangeFinsihed = true;
 		isFirstOn = false;
+		fTimer = 0.0f;
 	}
 	
 	// Update is called once per frame
@@ -74,7 +77,11 @@ public class Scrolling : MonoBehaviour
 	{
 		bIsPlay = true;
 
+
+		fTimer = 0.0f;
+
 		fChangedValue = _fChangeValue;
+
 
 		StartCoroutine (ChangeBackground (_changeBackground));
 	}
@@ -93,7 +100,6 @@ public class Scrolling : MonoBehaviour
 				isQuadBack = true;
 			else
 				isQuadBack = false;
-
 		}
 		Color QuadBackColor;
 		Color QuadFrontColor;
@@ -103,11 +109,9 @@ public class Scrolling : MonoBehaviour
 
 		isQuadChangeFinsihed = false;	//아직 바뀌지 않았다.
 
-		yield return null;
-
+	
 		if (isQuadBack == false)
 		{
-			
 			QuadBackMaterial = backGroundMaterials [(int)_changeBackground];
 			QuadBackMaterial.color = new Color (QuadBackMaterial.color.r, QuadBackMaterial.color.g, QuadBackMaterial.color.b, fAlphaMax);
 			QuadBack.material = QuadBackMaterial;

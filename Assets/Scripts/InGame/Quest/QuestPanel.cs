@@ -213,15 +213,6 @@ public class QuestPanel : MonoBehaviour
 			questManager.rewardCheckImage01.SetActive(false);
 			questManager.rewardCheckImage01.SetActive(false);
 		}
-		//마일리지 카운트에따라 이미지 온
-		if (questManager.nQuestMileCount >= questManager.nFirstReward)
-			questManager.rewardCheckImage01.SetActive(true);
-
-		if (questManager.nQuestMileCount >= questManager.nSecondReward)
-			questManager.rewardCheckImage02.SetActive(true);
-
-		if (questManager.nQuestMileCount >= questManager.nThirdReward)
-			questManager.rewardCheckImage03.SetActive(true);
 	
 		completeButton.SetActive (false);
 

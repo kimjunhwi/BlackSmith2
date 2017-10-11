@@ -61,34 +61,22 @@ public class NoteObject : MonoBehaviour  ,IPointerDownHandler
 	{
 		while (true) 
 		{
-
 			yield return null;
 
-
 			//4면 충돌 확인
-			if (myRectTransform.anchoredPosition.x >= (((canvasWidth / 2) - (noteSizeWidth / 2)) + 42f))
-			{
+			if (myRectTransform.anchoredPosition.x >= (((canvasWidth / 2) - (noteSizeWidth / 2)) + 42f)) {
 				//Debug.Log ("Right Collision");
 				randomDir = Vector3.Reflect (randomDir, Vector3.left);
 				randomDir = new Vector3 (-1.0f, randomDir.y, 0f);
-			}
-
-			else if (myRectTransform.anchoredPosition.x <= -(((canvasWidth / 2) - (noteSizeWidth / 2)) + 29f))
-			{
+			} else if (myRectTransform.anchoredPosition.x <= -(((canvasWidth / 2) - (noteSizeWidth / 2)) + 29f)) {
 				//Debug.Log ("Left Collision");
 				randomDir = Vector3.Reflect (randomDir, Vector3.right);
 				randomDir = new Vector3 (1.0f, randomDir.y, 0f);
-			}
-
-			else if (myRectTransform.anchoredPosition.y >= (((canvasHeight/2) - (noteSizeHeight / 2)) + 10f))
-			{
+			} else if (myRectTransform.anchoredPosition.y >= (((canvasHeight / 2) - (noteSizeHeight / 2)) + 10f)) {
 				//Debug.Log ("Top Collision");
 				randomDir = Vector3.Reflect (randomDir, Vector3.down);
 				randomDir = new Vector3 (randomDir.x, -1.0f, 0f);
-			}
-
-			else if (myRectTransform.anchoredPosition.y <= -(((canvasHeight / 2) - (noteSizeHeight / 2)) - 15f)) 
-			{
+			} else if (myRectTransform.anchoredPosition.y <= -(((canvasHeight / 2) - (noteSizeHeight / 2)) - 15f)) {
 				//Debug.Log ("Down Collision");
 				randomDir = Vector3.Reflect (randomDir, Vector3.up);
 				randomDir = new Vector3 (randomDir.x, 1.0f, 0f);
@@ -103,9 +91,7 @@ public class NoteObject : MonoBehaviour  ,IPointerDownHandler
 			transform.Translate (fMoveSpeed * randomDir * 2f);
 
 			#endif
-
 		}
-		yield break;
 	}
 		
 	public void OnPointerDown (PointerEventData eventData)
@@ -114,7 +100,6 @@ public class NoteObject : MonoBehaviour  ,IPointerDownHandler
 	
 		if (getInfoGameObject.gameObject.name == "Note")
 		{
-			
 			CreateNote ();
 		}
 		 

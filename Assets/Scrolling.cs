@@ -165,9 +165,9 @@ public class Scrolling : MonoBehaviour
 			QuadBack.materials [0].color = QuadBackColor;
 			QuadFront.materials [0].color = QuadFrontColor;
 
+			fTimer += Time.deltaTime;
 
-
-			if (fQuadFrontAlpha <= 0) 
+			if (fQuadFrontAlpha <= 0 || fTimer >= 3.0f) 
 			{
 				//Debug.Log ("배경바꾸기 완료");
 				//앞뒤 바뀐다

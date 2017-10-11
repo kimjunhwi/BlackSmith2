@@ -48,6 +48,8 @@ public class InventoryButton : MonoBehaviour {
         
 		inventoryPanel = _inventoryPanel;
 
+		currentEquiment.strName = GameManager.Instance.cUnicodeData [currentEquiment.nUnicode].strName;
+
 		EnhanceText.text = string.Format ("+{0}", equimentData.nStrenthCount);
 
 		WeaponImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache(equimentData.strResource);

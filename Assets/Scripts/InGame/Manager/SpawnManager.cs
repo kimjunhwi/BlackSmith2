@@ -140,7 +140,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 			CriticalTouchPool.Instance.Init ();
 
-			Input.multiTouchEnabled = true;
+			Input.multiTouchEnabled = false;
 
 			//SoundInit
 			SoundManager.instance.SetSoundObjPool (simpleSoundObjPool);

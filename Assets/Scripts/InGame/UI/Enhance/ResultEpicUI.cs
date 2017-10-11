@@ -241,7 +241,11 @@ public class ResultEpicUI : MonoBehaviour {
 
 				createWeapon.nEpicIndex = nRandomIndex;
 
+				createWeapon.nUnicodeIndex = nRandomIndex + 175;
+
 				createWeapon.nCostDay = playerData.GetDay ();
+
+				createWeapon.strName = GameManager.Instance.cUnicodeData [createWeapon.nUnicodeIndex].strName;
 
 				if (createEpic != null)
 					createEpic.Init (playerData.GetDay (), playerData);	
@@ -273,19 +277,21 @@ public class ResultEpicUI : MonoBehaviour {
 
 			createWeapon.WeaponSprite = Resources.Load<Sprite> ("Crafts/CreatorWeapon/" + createEpic.nIndex);
 
-			createWeapon.nUnicodeIndex = GameManager.Instance.cHammerNames [createEpic.nIndex].nUnicode;
-
 			SoundManager.instance.PlaySound (eSoundArray.ES_CraftSound_GreatFinish);
 		} 
 		else 
 		{
-			int nRandomWeaponIndex = (int)Random.Range (9, 28);
+			int nRandomWeaponIndex = (int)Random.Range (184, 211);
 
-			createWeapon.WeaponSprite = Resources.Load<Sprite> ("Crafts/CreatorWeapon/" + nRandomWeaponIndex);
+			//184,211
 
-			createWeapon.strName = GameManager.Instance.cHammerNames [nRandomWeaponIndex].strName;
+			createWeapon.nEpicIndex = -1;
 
-			createWeapon.nUnicodeIndex = GameManager.Instance.cHammerNames [nRandomWeaponIndex].nUnicode;
+			createWeapon.WeaponSprite = Resources.Load<Sprite> ("Crafts/CreatorWeapon/" + (nRandomWeaponIndex - 175).ToString());
+
+			createWeapon.strName = GameManager.Instance.cUnicodeData [nRandomWeaponIndex].strName;
+
+			createWeapon.nUnicodeIndex = nRandomWeaponIndex;
 
 			SoundManager.instance.PlaySound (eSoundArray.ES_CraftSound_Finish);
 		}

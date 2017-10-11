@@ -81,7 +81,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
     private string strWeaponPath;
 
-    public Player player;
+	public Player player;
 
     public CGamePlayerData playerData;
 	public CreatorWeapon creatorWeaponData = null;
@@ -108,8 +108,13 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	private BossCreator bossCreator = null;
 
+
+
+	public bool bIsLoad = false;
+
 	public IEnumerator DataLoad()
     {
+		
 		//PlayerPrefs.DeleteKey ("BossRegenTime");
 		//PlayerPrefs.DeleteKey ("BossInvitementSaveTime");
 		//PlayerPrefs.DeleteKey("FirstLogin");
@@ -356,6 +361,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		InitAds ();
 
         logoManager.bIsSuccessed = true;
+
+		bIsLoad = true;
 
         yield break;
     }
@@ -1532,7 +1539,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 						inputCount++;
 						if (inputCount == 1) {
 							playerData = JsonHelper.ListFromJson<CGamePlayerData> (getCloudDataString) [0];
-							player.Init (cInvetoryInfo, playerData,creatorWeaponData);
+			
 							Debug.Log ("Google Loaded GameData  Player = RepairPower : " + playerData.dRepairPower + "  nDays : " + playerData.nDay + "  nMaxDays : " + playerData.nMaxDay);
 							getCloudDataString = "";
 							continue;
@@ -1604,7 +1611,9 @@ public class GameManager : GenericMonoSingleton<GameManager>
 				player.changeStats.fHonorPlusBuffSecond = 0f;
 
 				//SaveLocal
-				DataSave ();
+				player.Init (cInvetoryInfo, playerData,CreateWeapon[0]);
+
+
 				SceneManager.LoadScene (0);
 			}
 

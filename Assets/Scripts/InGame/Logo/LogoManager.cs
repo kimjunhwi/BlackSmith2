@@ -36,7 +36,10 @@ public class LogoManager : MonoBehaviour
 	{
 		strPlayerNick = "";
 		#if UNITY_EDITOR
-		StartCoroutine( GameManager.Instance.DataLoad());
+		if(!GameManager.Instance.bIsLoad)
+			StartCoroutine( GameManager.Instance.DataLoad());
+		else
+			bIsSuccessed = true;
 		#elif UNITY_ANDROID
 		//EnableGameSave
 		// enables saving game progress.
@@ -46,7 +49,11 @@ public class LogoManager : MonoBehaviour
 		PlayGamesPlatform.InitializeInstance(config);
 		//GoogleLogin Active
 		PlayGamesPlatform.Activate();
-		StartCoroutine( GameManager.Instance.DataLoad());
+
+		if(!GameManager.Instance.bIsLoad)
+			StartCoroutine( GameManager.Instance.DataLoad());
+		else
+			bIsSuccessed = true;
 		#endif
 	}
 

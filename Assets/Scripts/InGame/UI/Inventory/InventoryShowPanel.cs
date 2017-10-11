@@ -89,6 +89,17 @@ public class InventoryShowPanel : MonoBehaviour {
 
 	private void SellItem()
 	{
+		if (ItemData.nSlotIndex == (int)E_EQUIMNET_INDEX.E_WEAPON ) {
+			if (ItemData.bIsEquip) {
+
+				ItemData.bIsEquip = false;
+
+				player.NoneEquipItem (ItemData);
+				
+				MoruImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("ShopItem/0");
+			}
+		}
+
 		GameManager.Instance.GetPlayer ().inventory.inventorySlots [ItemData.nSlotIndex].RemoveItem (ItemData);
 
 		ItemData = null;
@@ -155,7 +166,25 @@ public class InventoryShowPanel : MonoBehaviour {
 
 		NameText.text = string.Format("{0} +{1}", ItemData.strName , ItemData.nStrenthCount);
 
-		GradeText.text = ItemData.sGrade + "등급";
+		string strGrade = "";
+
+		switch (ItemData.sGrade) 
+		{
+		case "0":
+			strGrade = "C";
+			break;
+		case "1":
+			strGrade = "B";
+			break;
+		case "2":
+			strGrade = "A";
+			break;
+		case "3":
+			strGrade = "S";
+			break;
+		}
+
+		GradeText.text = strGrade + "등급";
 
 		WeaponImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache(ItemData.strResource);
 	

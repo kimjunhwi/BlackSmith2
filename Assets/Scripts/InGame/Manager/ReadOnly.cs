@@ -52,8 +52,8 @@ namespace ReadOnlys
 		E_ELLIE,
 		E_MICHEAL,
 		E_BELL,
-		E_SASIN,
 		E_ICE,
+		E_SASIN,
 		E_SKULL,
 		E_DODOMCHIT,
 	}

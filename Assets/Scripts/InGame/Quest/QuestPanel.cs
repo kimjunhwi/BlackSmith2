@@ -103,23 +103,32 @@ public class QuestPanel : MonoBehaviour
 		textProgressValue.text = string.Format ("{0}", nCompareCondition)  +"/" + string.Format ("{0}", nCompleteCondition);
 		textQuestUpValue.text = string.Format ("{0}" , nMutiplyValue) + " pt";
 
-		if (nMutiplyValue >= 3) {
+		//Potion
+		if (nMutiplyValue >= 3) 
 			potionImage.enabled = true;
-		} else {
-			potionImage.enabled = false;
-		}
 
+		else 
+			potionImage.enabled = false;
+
+
+		//Ruby
+		if (nMutiplyValue > 3)
+		{
+			if (questData.nRewardRuby != 0) 
+			{
+				int getRuby = questData.nRewardRuby * randomRange;
+				textReward_Ruby.text = string.Format ("{0}", getRuby);
+			}
+		}
+		else
+			textReward_Ruby.text = string.Format ("{0}", 0);
 		if (questData.nRewardHonor != 0)
 		{
 			int getHonor = questData.nRewardHonor * randomRange;
 			textReward_Honor.text = string.Format ("{0}", getHonor);
 		}
 
-		if (questData.nRewardRuby != 0) 
-		{
-			int getRuby = questData.nRewardRuby * randomRange;
-			textReward_Ruby.text = string.Format ("{0}", getRuby);
-		}
+
 
 			
     }
@@ -144,21 +153,29 @@ public class QuestPanel : MonoBehaviour
 		textProgressValue.text = string.Format ("{0}", nCompareCondition)  +"/" + string.Format ("{0}", nCompleteCondition);
 		textQuestUpValue.text = string.Format ("{0}" , nMutiplyValue) + " pt";
 
+
+		//Potion
 		if (nMutiplyValue >= 3) 
-		{
 			potionImage.enabled = true;
+		
+		else 
+			potionImage.enabled = false;
+		
+
+		//Ruby
+		if (nMutiplyValue > 3)
+		{
 			if (questData.nRewardRuby != 0) 
 			{
 				int getRuby = questData.nRewardRuby * _multiplyValue;
 				textReward_Ruby.text = string.Format ("{0}", getRuby);
 			}
-		} 
-		else 
-		{
-			potionImage.enabled = false;
-			textReward_Ruby.text = string.Format ("{0}", 0);
 		}
+		else
+			textReward_Ruby.text = string.Format ("{0}", 0);
 
+
+		//honor
 		if (questData.nRewardHonor != 0)
 		{
 			int getHonor = questData.nRewardHonor * _multiplyValue;

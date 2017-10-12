@@ -109,7 +109,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 	enum E_GUEST
 	{
 		E_NONE = 0,
-		E_GOBLIN = 10,
+		E_GOBLIN = 20,
 	}
 
     private void Awake()
@@ -196,6 +196,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 				PlayerPrefs.DeleteKey ("EndSaveTime");
 				PlayerPrefs.DeleteKey ("BossRegenTime");
 				PlayerPrefs.DeleteKey ("BossInvitementSaveTime");
+				PlayerPrefs.DeleteKey ("NowTime");
+				PlayerPrefs.DeleteKey ("ShopCloseTime");
 			}
 
 

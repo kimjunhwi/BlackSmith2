@@ -167,8 +167,8 @@ public class ResultEpicUI : MonoBehaviour {
 		LIST_OPTION.Clear();
 
 		//추가 옵션 범위 
-		nCalcAddMinOption = Mathf.RoundToInt(m_nBasicMinOption + (float)(m_nBasicMinOption *(m_nPlusOptionMinPercent * nDight * 0.01f)));
-		nCalcAddMaxOption = Mathf.RoundToInt(m_nBasicMaxOption + (float)(m_nBasicMaxOption *(m_nPlusOptionMaxPercent * nDight * 0.01f)));
+		nCalcAddMinOption = Mathf.RoundToInt(m_nBasicMinOption + (float)(m_nBasicMinOption * nDight * 0.1f));
+		nCalcAddMaxOption = Mathf.RoundToInt(m_nBasicMaxOption + (float)(m_nBasicMaxOption * nDight * 0.1f));
 
 		//옵션 셋팅 
 		while(nOptionLength > 0)
@@ -286,6 +286,8 @@ public class ResultEpicUI : MonoBehaviour {
 			//184,211
 
 			createWeapon.nEpicIndex = -1;
+
+			createWeapon.nCostDay = playerData.GetDay ();
 
 			createWeapon.WeaponSprite = Resources.Load<Sprite> ("Crafts/CreatorWeapon/" + (nRandomWeaponIndex - 175).ToString());
 

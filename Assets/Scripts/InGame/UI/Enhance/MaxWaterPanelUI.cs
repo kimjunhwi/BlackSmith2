@@ -39,9 +39,9 @@ public class MaxWaterPanelUI : EnhanceUI {
 
 			fEnhanceValue = cPlayer.GetBasicMaxWater() + (fBasic * 0.5f);
 
-			cPlayer.SetBasicMaxWater(fEnhanceValue);
+			cPlayer.SetBasicMaxWater((float)fEnhanceValue);
 
-			repairObject.fMaxWater = fEnhanceValue;
+			repairObject.fMaxWater = (float)fEnhanceValue;
 
 			EnhanceText.text =string.Format("{0} : {1}", strEnhanceName , nLevel);
 

@@ -91,7 +91,7 @@ public class Cleric : ArbaitBatch {
 
 	public override void EnhacneArbait ()
 	{
-		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
+		m_CharacterChangeData.fSkillPercent = m_CharacterChangeData.fSkillPercent + 0.2f;
 
 		strSkillExplain = string.Format ("본인 크리시 대장장이 수리력, 크리확률 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
 	}
@@ -278,6 +278,12 @@ public class Cleric : ArbaitBatch {
 	{
 		yield return new WaitForSeconds(0.1f);
 
+		if (m_CharacterChangeData.fAttackSpeed < 0.3)
+			fMinAttackSpeed = 0.3f;
+
+		else
+			fMinAttackSpeed = m_CharacterChangeData.fAttackSpeed;
+
 		switch (E_STATE)
 		{
 		case E_ArbaitState.E_WAIT:
@@ -300,7 +306,7 @@ public class Cleric : ArbaitBatch {
 				SpawnManager.Instance.InsertWeaponArbait(m_CharacterChangeData.index, nBatchIndex);
 
 			//수리 시간이 되면 0으로 초기화 하고 수리해줌
-			if (fTime >= m_CharacterChangeData.fAttackSpeed)
+			if (fTime >= fMinAttackSpeed)
 			{
 				fTime = 0.0f;
 				m_dCalComaplete = 0;
@@ -353,7 +359,7 @@ public class Cleric : ArbaitBatch {
 			fTime += Time.deltaTime;
 
 			//수리 시간이 되면 0으로 초기화 하고 수리해줌
-			if(fTime >= m_fRepairTime)
+			if(fTime >= fMinAttackSpeed)
 			{
 				fTime = 0.0f;
 				m_dCalComaplete = 0;

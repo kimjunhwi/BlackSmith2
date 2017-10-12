@@ -428,15 +428,8 @@ public class ArbaitCharacter : MonoBehaviour {
 		{
 			ScoreManager.ScoreInstance.HonorPlus (-(m_CharacterData.nBasicHonor + ((m_CharacterData.level - 1) * 0.4 * m_CharacterData.nBasicHonor)));
 
-			m_CharacterData.fAttackSpeed -=  0.005f;
-
-			if (m_CharacterData.fAttackSpeed <= 0.1f)
-				m_CharacterData.fAttackSpeed = 0.1f;
-			
-			m_CharacterData.fCritical +=  0.01f;
-
 			m_CharacterData.level++;
-			m_CharacterData.nPlayerGetRepair++;
+			m_CharacterData.nPlayerGetRepair ++;
 
 			spawnManager.array_ArbaitData [nIndex].EnhacneArbait();
 

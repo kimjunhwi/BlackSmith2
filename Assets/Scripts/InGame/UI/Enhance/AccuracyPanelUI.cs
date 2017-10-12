@@ -32,7 +32,7 @@ public class AccuracyPanelUI : EnhanceUI {
 
 			fEnhanceValue = cPlayer.GetBasicAccuracyRate() + (fBasic * 0.01f);
 
-			cPlayer.SetBasicAccuracyRate(fEnhanceValue);
+			cPlayer.SetBasicAccuracyRate((float)fEnhanceValue);
 
 			EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 

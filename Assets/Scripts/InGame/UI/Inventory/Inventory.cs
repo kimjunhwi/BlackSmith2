@@ -9,6 +9,8 @@ public class Inventory : MonoBehaviour {
 
 	public SpriteRenderer moruImage;
 
+	public GameObject InventroyShowPanelObject;
+
     private List<CGameEquiment> List_Equiments;
 
     public InventoryScrollList[] inventorySlots;
@@ -21,6 +23,10 @@ public class Inventory : MonoBehaviour {
 		GameManager.Instance.player.SetInventroy(this,moruImage);
     }
 
+	public void OnDisable()
+	{
+		InventroyShowPanelObject.SetActive (false);
+	}
 
     //인벤토리 세팅
     public void SetInventory(Player _player, List<CGameEquiment> _list)

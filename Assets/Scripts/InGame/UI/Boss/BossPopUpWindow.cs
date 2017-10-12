@@ -479,6 +479,8 @@ public class BossPopUpWindow : MonoBehaviour
 		resultEquiment.nSlotIndex = getEquiment.nSlotIndex;
 		resultEquiment.strResource = getEquiment.strResource;
 		resultEquiment.strWeaponExplain = getEquiment.strWeaponExplain;
+		resultEquiment.fOptionPlus = getEquiment.fOptionPlus;
+		resultEquiment.nUnicode = getEquiment.nUnicode;
 
 		if (getEquiment.nIndex == (int)E_BOSS_ITEM.ICE_MORU)
 			resultEquiment.fBossOptionValue = 3;

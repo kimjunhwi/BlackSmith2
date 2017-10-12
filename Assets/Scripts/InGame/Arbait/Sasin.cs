@@ -90,7 +90,7 @@ public class Sasin : ArbaitBatch {
 
 	public override void EnhacneArbait ()
 	{
-		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
+		m_CharacterChangeData.fSkillPercent = m_CharacterChangeData.fSkillPercent + 0.3f;
 
 		m_CharacterChangeData.strExplains = string.Format ("현재 완성도 50% 이하 일 때 사신 공격력, 공격속도 {0:F1}% 상승, 대장장이 수리력 {1:F1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
 	}
@@ -172,6 +172,12 @@ public class Sasin : ArbaitBatch {
 	{
 		yield return new WaitForSeconds(0.1f);
 
+		if (m_CharacterChangeData.fAttackSpeed < 0.3)
+			fMinAttackSpeed = 0.3f;
+
+		else
+			fMinAttackSpeed = m_CharacterChangeData.fAttackSpeed;
+
 		switch (E_STATE)
 		{
 		case E_ArbaitState.E_WAIT:
@@ -195,7 +201,7 @@ public class Sasin : ArbaitBatch {
 				SpawnManager.Instance.InsertWeaponArbait(m_CharacterChangeData.index, nBatchIndex);
 
 			//수리 시간이 되면 0으로 초기화 하고 수리해줌
-			if (fTime >= m_CharacterChangeData.fAttackSpeed - m_dMinusAttackSpeed)
+			if (fTime >= fMinAttackSpeed - m_dMinusAttackSpeed)
 			{
 				fTime = 0.0f;
 				m_dCalComaplete = 0;
@@ -259,7 +265,7 @@ public class Sasin : ArbaitBatch {
 			fTime += Time.deltaTime;
 
 			//수리 시간이 되면 0으로 초기화 하고 수리해줌
-			if(fTime >= m_fRepairTime)
+			if(fTime >= fMinAttackSpeed)
 			{
 				fTime = 0.0f;
 				m_dCalComaplete = 0;

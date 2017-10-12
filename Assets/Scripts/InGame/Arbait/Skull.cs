@@ -89,7 +89,7 @@ public class Skull : ArbaitBatch {
 
 	public override void EnhacneArbait ()
 	{
-		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
+		m_CharacterChangeData.fSkillPercent = m_CharacterChangeData.fSkillPercent + 0.01f;
 
 		m_CharacterChangeData.strExplains = string.Format ("온도 1%당 직원 크리확률 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
 	}

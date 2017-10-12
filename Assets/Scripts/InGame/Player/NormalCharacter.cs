@@ -439,7 +439,7 @@ public class NormalCharacter : Character {
 
 			playerController.GuestSuccessed ();
 
-			dGold = weaponData.dGold * Mathf.Pow (1.09f, nDay - 1);
+			dGold = weaponData.dGold * Mathf.Pow (1.08f, nDay - 1);
 
 			if (cPlayerData.GearEquipmnet != null)
 			{

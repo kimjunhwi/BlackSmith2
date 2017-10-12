@@ -76,7 +76,7 @@ public class Cleo : ArbaitBatch {
 
 	public override void EnhacneArbait ()
 	{
-		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
+		m_CharacterChangeData.fSkillPercent = m_CharacterChangeData.fSkillPercent + 0.2f;
 
 		m_CharacterChangeData.strExplains = string.Format ("물 사용시 모든 직원 공격속도 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
 	}

@@ -149,6 +149,8 @@ public class Shop : MonoBehaviour {
 
 					}
 
+
+
 					FirstCheck ();
 
 
@@ -177,48 +179,49 @@ public class Shop : MonoBehaviour {
                     EquimentList.Add(cGameEquiment);
                 }
 
+
+
 				FirstCheck ();
 			}
-        }
 
+			if (PlayerPrefs.HasKey ("ShopCloseTime")) 
+			{
+				strCloseTime = PlayerPrefs.GetString ("ShopCloseTime");
 
-		if (PlayerPrefs.HasKey ("ShopCloseTime")) 
-		{
-			strCloseTime = PlayerPrefs.GetString ("ShopCloseTime");
+				CloseEndData = System.Convert.ToDateTime (strCloseTime);
 
-			CloseEndData = System.Convert.ToDateTime (strCloseTime);
+				StartDate = System.DateTime.Now;
+				timeCal = StartDate - CloseEndData;
 
-			StartDate = System.DateTime.Now;
-			timeCal = StartDate - CloseEndData;
+				int nStartTime = StartDate.Hour * 3600 + StartDate.Minute * 60 + StartDate.Second;
+				int nEndTime = CloseEndData.Hour * 3600 + CloseEndData.Minute * 60 + CloseEndData.Second;
+				int nCheck = Mathf.Abs(nEndTime - nStartTime);
 
-			int nStartTime = StartDate.Hour * 3600 + StartDate.Minute * 60 + StartDate.Second;
-			int nEndTime = CloseEndData.Hour * 3600 + CloseEndData.Minute * 60 + CloseEndData.Second;
-			int nCheck = Mathf.Abs(nEndTime - nStartTime);
+				int nPassedTime_Min = (int)timeCal.TotalMinutes;	//전체 분s
+				int nPassedTime_Sec = (int)timeCal.TotalSeconds % 60; 	//전채 초에서 나머지
 
-			int nPassedTime_Min = (int)timeCal.TotalMinutes;	//전체 분s
-			int nPassedTime_Sec = (int)timeCal.TotalSeconds % 60; 	//전채 초에서 나머지
+				//60분이 지나지 않았다면 저장된 분에서 지나간 분 만큼 뺀 시간을 시작한다
+				if (nPassedTime_Min < 59) {
+					int ResultTime_Min = GameManager.Instance.GetPlayer().changeStats.nShopMinutes - nPassedTime_Min;
+					if (ResultTime_Min < 0)
+						ResultTime_Min = -ResultTime_Min;
 
-			//60분이 지나지 않았다면 저장된 분에서 지나간 분 만큼 뺀 시간을 시작한다
-			if (nPassedTime_Min < 59) {
-				int ResultTime_Min = GameManager.Instance.GetPlayer().changeStats.nShopMinutes - nPassedTime_Min;
-				if (ResultTime_Min < 0)
-					ResultTime_Min = -ResultTime_Min;
+					int ResultTime_Sec = (int)GameManager.Instance.GetPlayer().changeStats.fShopSecond - nPassedTime_Sec;
+					if (ResultTime_Sec < 0)
+						ResultTime_Sec = -ResultTime_Sec;
 
-				int ResultTime_Sec = (int)GameManager.Instance.GetPlayer().changeStats.fShopSecond - nPassedTime_Sec;
-				if (ResultTime_Sec < 0)
-					ResultTime_Sec = -ResultTime_Sec;
+					StartCoroutine (Timer( ResultTime_Min, (int)ResultTime_Sec));
+				}
+			} 
+			else 
+			{
+				CloseEndData = System.DateTime.Now;
 
-				StartCoroutine (Timer( ResultTime_Min, (int)ResultTime_Sec));
+				PlayerPrefs.SetString ("BossRegenTime", EndData.ToString ());
+
+				StartCoroutine (Timer (nInitTime_Min, nInitTime_Sec));
 			}
-		} 
-		else 
-		{
-			CloseEndData = System.DateTime.Now;
-
-			PlayerPrefs.SetString ("BossRegenTime", EndData.ToString ());
-
-			StartCoroutine (Timer (nInitTime_Min, nInitTime_Sec));
-		}
+        }
 
         GameManager.Instance.SaveShopList(EquimentList);
     }
@@ -521,9 +524,6 @@ public class Shop : MonoBehaviour {
 
     void OnDisable()
     {
-        if (EquimentList == null)
-            return;
-
 		CloseDate = System.DateTime.Now;
 		PlayerPrefs.SetString ("ShopCloseTime", CloseDate.ToString ());
 		GameManager.Instance.GetPlayer ().changeStats.nShopMinutes = nCurMin;

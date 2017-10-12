@@ -79,7 +79,7 @@ public class Bell : ArbaitBatch {
 
 	public override void EnhacneArbait ()
 	{
-		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
+		m_CharacterChangeData.fSkillPercent = m_CharacterChangeData.fSkillPercent + 0.2f;
 
 		m_CharacterChangeData.strExplains = string.Format ("물 게이지 70%이상 일 때 모든 직원 수리력, 크리 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
 	}

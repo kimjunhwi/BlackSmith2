@@ -51,8 +51,6 @@
      <Compile Include="Assets\Plugins\UnityChannel\XiaomiSupport\Editor\AppStoreSettingsEditor.cs" />
      <Compile Include="Assets\Plugins\UnityChannel\XiaomiSupport\Editor\XiaomiPackageNameExtension.cs" />
      <Compile Include="Assets\Plugins\UnityPurchasing\Editor\IAPButtonEditor.cs" />
-     <None Include="Assets\Resources\Data\BossWeapon.txt" />
-     <None Include="Assets\Resources\Data\Shop.txt" />
      <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver_v1.2.37.0.txt" />
      <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />
      <None Include="Assets\Resources\Data\Character.txt" />
@@ -61,9 +59,11 @@
      <None Include="Assets\Resources\Data\Weapon.txt" />
      <None Include="Assets\Boomlagoon\JSON\Readme.txt" />
      <None Include="Assets\Resources\Data\Arbait.txt" />
+     <None Include="Assets\Resources\Data\BossWeapon.txt" />
      <None Include="Assets\PlayServicesResolver\proguard-unity.txt" />
      <None Include="Assets\Plugins\UnityPurchasing\script\link.xml" />
      <None Include="Assets\Resources\Data\Unicode.txt" />
+     <None Include="Assets\Resources\Data\Shop.txt" />
      <None Include="Assets\GooglePlayGames\Editor\template-Constants.txt" />
      <None Include="Assets\Resources\Data\CashShop.txt" />
      <None Include="Assets\Resources\Data\Boss.txt" />

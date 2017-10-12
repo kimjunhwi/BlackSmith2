@@ -90,7 +90,7 @@ public class Sasin : ArbaitBatch {
 
 	public override void EnhacneArbait ()
 	{
-		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
+		m_CharacterChangeData.fSkillPercent = m_CharacterChangeData.fSkillPercent + 0.3f;
 
 		m_CharacterChangeData.strExplains = string.Format ("현재 완성도 50% 이하 일 때 사신 공격력, 공격속도 {0:F1}% 상승, 대장장이 수리력 {1:F1}% 증가", m_CharacterChangeData.fSkillPercent, m_CharacterChangeData.fSkillPercent);
 	}

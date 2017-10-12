@@ -27,8 +27,8 @@ public class MakingUI : MonoBehaviour {
 	//기본 값
 	const int m_nBasicMinRepair = 6;
 	const int m_nBasicMaxRepair = 10;
-	const int m_nBasicMinOption = 3;
-	const int m_nBasicMaxOption = 5;
+	const int m_nBasicMinOption = 6;
+	const int m_nBasicMaxOption = 10;
 
 	//일차 별로 증가하는 값, 단 추가옵션과 보스옵션 같은 경우 10 레벨 마다 증가 한다.
 	const int m_nPlusRepairMinPercent = 10;
@@ -242,6 +242,8 @@ public class MakingUI : MonoBehaviour {
 				createWeapon.WeaponSprite = Resources.Load<Sprite> ("Crafts/CreatorWeapon/" + (LoadCreateWeapon.nUnicodeIndex - 175).ToString());
 			}
 
+			createWeapon.nUnicodeIndex = LoadCreateWeapon.nUnicodeIndex;
+
 			WeaponNameText.text = GameManager.Instance.cUnicodeData[LoadCreateWeapon.nUnicodeIndex].strName;
 
 			createWeapon.strName = WeaponNameText.text;
@@ -324,8 +326,8 @@ public class MakingUI : MonoBehaviour {
 		}
 
 		//추가 옵션 범위 
-		nCalcAddMinOption = Mathf.RoundToInt(m_nBasicMinOption + (float)(m_nBasicMinOption *(m_nPlusOptionMinPercent * nDight * 0.01f)));
-		nCalcAddMaxOption = Mathf.RoundToInt(m_nBasicMaxOption + (float)(m_nBasicMaxOption *(m_nPlusOptionMaxPercent * nDight * 0.01f)));
+		nCalcAddMinOption = Mathf.RoundToInt(m_nBasicMinOption + (float)(m_nBasicMinOption  * nDight * 0.1f));
+		nCalcAddMaxOption = Mathf.RoundToInt(m_nBasicMaxOption + (float)(m_nBasicMaxOption  * nDight * 0.1f));
 
 		for (int nIndex = 0; nIndex < 4; nIndex++) 
 		{

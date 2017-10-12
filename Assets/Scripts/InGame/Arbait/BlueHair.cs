@@ -78,7 +78,8 @@ public class BlueHair : ArbaitBatch {
 
 	public override void EnhacneArbait ()
 	{
-		m_CharacterChangeData.fSkillPercent += m_CharacterChangeData.fSkillPercent * 1 * 0.01f;
+
+		m_CharacterChangeData.fSkillPercent = m_CharacterChangeData.fSkillPercent + 0.1f;
 
 		m_CharacterChangeData.strExplains = string.Format ("대장장이 수리력 {0:F1}% 증가", m_CharacterChangeData.fSkillPercent);
 	}

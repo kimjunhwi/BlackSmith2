@@ -58,8 +58,6 @@ public class InventoryShowPanel : MonoBehaviour {
 				
 			ScoreManager.ScoreInstance.GoldPlus (-ItemData.nBasicGold * Mathf.Pow(1.1f, ItemData.nStrenthCount - 1));
 
-			Debug.Log ("강화 성공!!");
-
 			if (ItemData.fReapirPower 		!= 0) ItemData.fReapirPower 	+= ItemData.fOptionPlus;
 			if (ItemData.fArbaitRepair      != 0) ItemData.fArbaitRepair 	+= ItemData.fOptionPlus;
 			if (ItemData.fHonorPlus         != 0) ItemData.fHonorPlus 		+= ItemData.fOptionPlus;

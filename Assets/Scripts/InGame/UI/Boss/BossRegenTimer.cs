@@ -145,6 +145,26 @@ public class BossRegenTimer : MonoBehaviour
 				isTimeOn = true;
 				//break;
 
+				bossCreator.nBossSasinLeftCount = 3;
+				bossCreator.nBossIceLeftCount = 3;
+				bossCreator.nBossMusicLeftCount = 3;
+				bossCreator.nBossFireLeftCount = 3;
+
+				bossCreator.bossElementList[0].BossLeftCount_Text.text = 
+					string.Format("{0} / {1}",  bossCreator.nBossIceLeftCount, bossCreator.nBossMaxLeftCount);
+
+				bossCreator.bossElementList[1].BossLeftCount_Text.text = 
+					string.Format("{0} / {1}",  bossCreator.nBossSasinLeftCount, bossCreator.nBossMaxLeftCount);
+				
+				bossCreator.bossElementList[2].BossLeftCount_Text.text = 
+					string.Format("{0} / {1}",  bossCreator.nBossFireLeftCount, bossCreator.nBossMaxLeftCount);
+				
+				bossCreator.bossElementList[3].BossLeftCount_Text.text = 
+					string.Format("{0} / {1}",  bossCreator.nBossMusicLeftCount, bossCreator.nBossMaxLeftCount);
+
+				bossCreator.BossPanelInfoSave ();
+				
+
 				nInitTime_Min = 119;
 				nInitTime_sec = 59;
 				break;

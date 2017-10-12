@@ -16,8 +16,7 @@ public enum E_BOSSCONSUMEINFO
 	E_BOSSCONSUMEINFO_BOSSREGENCURMIN,
 	E_BOSSCONSUMEINFO_BOSSREGENCURSEC,
 }
-
-
+	
 public class BossConsumeItemInfo : MonoBehaviour 
 {
 	public Text positionCount_Text;			//포션 개수 텍스트
@@ -53,6 +52,7 @@ public class BossConsumeItemInfo : MonoBehaviour
 
 		Debug.Log ("BossInvitement Time Save : " + EndData.ToString ());
 	}
+
 	public void BossInviteMentLoadTime()
 	{
 		//저장된 초대장 시간이 있다면

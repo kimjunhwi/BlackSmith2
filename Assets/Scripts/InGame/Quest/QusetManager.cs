@@ -789,11 +789,12 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 				if(questPanel.nCompareCondition >= questPanel.nCompleteCondition && questPanel.bIsQuest == true) 
 				{
+					questPanel.nCompareCondition = questPanel.nCompleteCondition;
+					questPanel.ShowProgress ();	
 					questPanel.bIsQuest = false;
 					expressionMark.SetActive (true);
 					questPanel.QuestCompleteActive ();
 				}
-			
 			}
 		}
 

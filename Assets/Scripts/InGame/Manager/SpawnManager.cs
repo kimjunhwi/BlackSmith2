@@ -204,6 +204,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			//QuestSetUp
 			questManager.SetUp();
 
+			//uiManager.
+
 
 			bIsFirst = true;
 

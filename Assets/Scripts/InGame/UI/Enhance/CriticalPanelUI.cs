@@ -32,7 +32,7 @@ public class CriticalPanelUI : EnhanceUI {
 
 			fEnhanceValue = cPlayer.GetBasicCriticalChance() + (fBasic * 0.01f);
 
-			cPlayer.SetBasicCriticalChance(fEnhanceValue);
+			cPlayer.SetBasicCriticalChance((float)fEnhanceValue);
 
 			EnhanceText.text = strEnhanceName + nLevel;
 

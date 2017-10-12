@@ -50,7 +50,7 @@ public class FeverTimeUI : EnhanceUI{
 
 			fEnhanceValue = cPlayer.GetBasicFeverTime() + (fBasic * 0.05f);
 
-			cPlayer.SetBasicFeverTime(fEnhanceValue);
+			cPlayer.SetBasicFeverTime((float)fEnhanceValue);
 
 			EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 

@@ -7,11 +7,11 @@ using ReadOnlys;
 public class EnhanceUI : MonoBehaviour {
 
 	public int nLevel = 0;
-	public float fCostGold = 0.0f;
-	public float fCostHonor = 0.0f;
+	public double fCostGold = 0.0f;
+	public double fCostHonor = 0.0f;
 
-	public float fEnhanceValue = 0.0f;
-	public float fNextEnhanceValue = 0.0f;
+	public double fEnhanceValue = 0.0f;
+	public double fNextEnhanceValue = 0.0f;
 
 	public string strEnhanceName = null;
 
@@ -38,7 +38,7 @@ public class EnhanceUI : MonoBehaviour {
 	protected virtual void EnhanceButtonClick() { }
 
 	//값을 수치로 표기하기 위한 함수 
-	public string ChangeValue(float _dValue)
+	public string ChangeValue(double _dValue)
 	{ 
 		long[] cVal = new long[100]; 
 

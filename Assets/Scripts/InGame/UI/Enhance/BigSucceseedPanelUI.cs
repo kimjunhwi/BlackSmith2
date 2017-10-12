@@ -36,7 +36,7 @@ public class BigSucceseedPanelUI : EnhanceUI {
 
 			fEnhanceValue = cPlayer.GetBasicBigSuccessedPercent() + (fBasic * 0.05f);
 
-			cPlayer.SetBasicBigSuccessedPercent(fEnhanceValue);
+			cPlayer.SetBasicBigSuccessedPercent((float)fEnhanceValue);
 
 			EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 

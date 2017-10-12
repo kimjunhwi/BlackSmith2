@@ -34,7 +34,7 @@ public class InventoryShowPanel : MonoBehaviour {
 
     Player player;
 
-	string[] unit = new string[]{ "G", "K", "M", "B", "T", "aa", "bb", "cc", "dd", "ee" }; 
+	string[] unit = new string[]{ "G", "K", "M", "B", "T", "aa", "bb", "cc", "dd", "ee","ff","gg","hh","ii","jj","kk","ll","mm","nn","oo","pp","qq","rr","ss","tt","uu","vv","ww","xx","yy","zz","aaa", "bbb", "ccc", "ddd", "eee","fff","ggg","hhh","iii","jjj","kkk","lll","mmm","nnn","ooo","ppp","qqq","rrr","sss","ttt","uuu","vvv","www","xxx","yyy","zzz" }; 
 
 	void Awake()
 	{
@@ -247,7 +247,7 @@ public class InventoryShowPanel : MonoBehaviour {
 	//값을 수치로 표기하기 위한 함수 
 	string ChangeValue(double _dValue)
 	{ 
-		int[] cVal = new int[10]; 
+		long[] cVal = new long[100]; 
 
 		int index = 0; 
 
@@ -262,13 +262,13 @@ public class InventoryShowPanel : MonoBehaviour {
 
 				last4 = strValue.Substring (strValue.Length - 4); 
 
-				int intLast4 = int.Parse (last4); 
+				long intLast4 = long.Parse (last4); 
 
 				cVal [index] = intLast4 % 1000; 
 
 				strValue = strValue.Remove (strValue.Length - 3); 
 			} else { 
-				cVal [index] = int.Parse (strValue); 
+				cVal [index] = long.Parse (strValue); 
 				break; 
 			} 
 
@@ -288,7 +288,7 @@ public class InventoryShowPanel : MonoBehaviour {
 
 			if (_dValue >= 100) 
 			{
-				int nResult = cVal [index] * 1000 + cVal [index - 1]; 
+				long nResult = cVal [index] * 1000 + cVal [index - 1]; 
 
 				string strFirstValue = nResult.ToString ().Substring (0, 3);
 
@@ -297,7 +297,7 @@ public class InventoryShowPanel : MonoBehaviour {
 				return string.Format ("{0}.{1:##}{2}", strFirstValue, strSecondValue, unit [index]); 
 			} else if (_dValue >= 10) 
 			{
-				int nResult = cVal [index] * 1000 + cVal [index - 1]; 
+				long nResult = cVal [index] * 1000 + cVal [index - 1]; 
 
 				string strFirstValue = nResult.ToString ().Substring (0, 2);
 
@@ -306,7 +306,7 @@ public class InventoryShowPanel : MonoBehaviour {
 				return string.Format ("{0}.{1:##}{2}", strFirstValue, strSecondValue, unit [index]); 
 			} else 
 			{
-				int nResult = cVal [index] * 1000 + cVal [index - 1]; 
+				long nResult = cVal [index] * 1000 + cVal [index - 1]; 
 
 				string strFirstValue = nResult.ToString ().Substring (0, 1);
 

@@ -7,6 +7,8 @@ public class ArbaitBatch : MonoBehaviour {
 
 	public ArbaitData m_CharacterChangeData;
 
+	public float fMinAttackSpeed= 0.0f;
+
 	protected Player playerData;
 
     string[] strBuffsIndex;

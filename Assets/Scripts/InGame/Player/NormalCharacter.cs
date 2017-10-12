@@ -427,6 +427,8 @@ public class NormalCharacter : Character {
 			SpawnManager.Instance.questManager.QuestSuccessCheck (QuestType.E_QUESTTYPE_NOWATERUSE, 1);
 		else
 			SpawnManager.Instance.repairObject.bIsWaterUse = false;
+
+
 		//Quest
 		SpawnManager.Instance.questManager.QuestSuccessCheck(QuestType.E_QUESTTYPE_CUSTOMERSUCCESS, 1);
 

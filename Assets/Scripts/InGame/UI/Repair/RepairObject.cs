@@ -493,8 +493,7 @@ public class RepairObject : MonoBehaviour
 				}
 			}
 
-			if (fMaxWater > fCurrentWater) 
-			{
+			if (fMaxWater >= fCurrentWater) {
 				fWaterSlideTime += Time.deltaTime;
 				WaterSlider.value = Mathf.Lerp (WaterSlider.value, fCurrentWater, fWaterSlideTime);
 
@@ -503,20 +502,17 @@ public class RepairObject : MonoBehaviour
 						player.SetRepairPower ();
 				}
 
-				if (fCurrentWater >= 1000f) 
-				{
+				if (fCurrentWater >= 1000f) {
 					isTouchWaterAvailable = true;
 					waterPaching.SetActive (true);
-				} 
-				else 
-				{
+				} else {
 					isTouchWaterAvailable = false;
 					waterPaching.SetActive (false);
 				}
-			} 
-			else
+			} else 
 				fCurrentWater = fMaxWater;
 
+			
 			if (ComplateSlider.value != dCurrentComplate) 
 			{
 				fComplateSlideTime += Time.deltaTime * 5f;

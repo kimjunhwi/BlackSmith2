@@ -29,10 +29,10 @@ public class MaxWaterPanelUI : EnhanceUI {
 
 	protected override void EnhanceButtonClick ()
 	{
-		fCostHonor = nBasicHonor * nLevel;
+		fCostHonor = nBasicHonor * nLevel * 3;
 
-		if (fCostHonor <= ScoreManager.ScoreInstance.GetHonor () && cPlayer.GetMaxWaterLevel() <  nMaxLevel) {
-
+		if (fCostHonor <= ScoreManager.ScoreInstance.GetHonor () && cPlayer.GetMaxWaterLevel() <  nMaxLevel) 
+		{
 			nLevel++;
 
 			cPlayer.SetMaxWaterLevel (nLevel);
@@ -49,7 +49,7 @@ public class MaxWaterPanelUI : EnhanceUI {
 
 			ScoreManager.ScoreInstance.HonorPlus (-fCostHonor);
 
-			CostGoldText.text  = (nBasicHonor * nLevel).ToString();
+			CostGoldText.text  = (nBasicHonor * nLevel * 3).ToString();
 
 			repairObject.WaterSlider.maxValue = cPlayer.GetBasicMaxWater ();
 		}

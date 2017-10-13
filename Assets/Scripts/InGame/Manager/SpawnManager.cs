@@ -969,11 +969,11 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 	{
 		bool checkTrue = false;
 
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 14; i++)
 		{
 			if (array_ArbaitData [i].E_STATE != E_ArbaitState.E_FREEZE && m_BatchArbait [i].activeSelf)
 				checkTrue = true;
-			if (i == 9 && checkTrue == true)
+			if (i == 13 && checkTrue == true)
 				return true;		
 		}
 		return false;
@@ -982,7 +982,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	public void DeFreezeArbait(int _nIndex)
 	{
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 14; i++)
 		{
 			//Debug.Log ("ChangeState");
 			if (array_ArbaitData [i].nBatchIndex == _nIndex) 

@@ -44,7 +44,7 @@ public class BossSoul : MonoBehaviour {
 	{
 	}
 
-	public void ReSetting()
+	public void  ReSetting()
 	{
 		bIsCheck = false;
 

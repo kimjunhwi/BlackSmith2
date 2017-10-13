@@ -20,7 +20,7 @@ public class BossSoulFire : BossSoul {
 				return;
 
 			//개수가 있는지 확인 , 현재 활성화 된 버튼이 몇 개인지 확인
-			if (playerData.GetSasinMaterial () > 0) {
+			if (playerData.GetFireMaterial () > 0) {
 
 				bIsCheck = true;
 

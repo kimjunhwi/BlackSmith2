@@ -14,6 +14,8 @@ public class ResultEpicUI : MonoBehaviour {
 	public Text WeaponNameText;
 	public Text RepairText;
 
+	public bool bIsCreate = false;
+
 	//기본 값
 	const int m_nBasicGold = 1200;
 	const int m_nBasicHonor = 300;
@@ -48,7 +50,7 @@ public class ResultEpicUI : MonoBehaviour {
 	CreatorWeapon createWeapon = null;
 	List<CGameMainWeaponOption> LIST_OPTION = new List<CGameMainWeaponOption> ();
 
-	public MakingUI makingUI;
+	public MakingUI makingUI = null;
 	public BossSoul[] BossSoulSlots;
 	public SimpleObjectPool OptionPool;
 	public EpicOption createEpic = null;
@@ -120,6 +122,8 @@ public class ResultEpicUI : MonoBehaviour {
 
 	public void CreateWeapon()
 	{
+		bIsCreate = true;
+
 		int nDight = 0;
 		int nDightCost = playerData.GetDay ();
 
@@ -192,21 +196,15 @@ public class ResultEpicUI : MonoBehaviour {
 
 				if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_ICE) {
 					createWeapon.fIceBossValue = nInsertValue;
-					playerData.changeStats.nIceMaterial--;
 
 				} else if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_SASIN) {
 					createWeapon.fSasinBossValue = nInsertValue;
-					playerData.changeStats.nSasinMaterial--;
-				} else if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_FIRE) {
+				} else if (nIndex == 3) {
 					createWeapon.fFireBossValue = nInsertValue;
-					playerData.changeStats.nFireMaterial--;
 
-				} else if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_MUSIC) {
+				} else if (nIndex == 2) {
 					createWeapon.fRusiuBossValue = nInsertValue;
-					playerData.changeStats.nRusiuMaterial--;
 				}
-
-				BossSoulSlots [nIndex].ReSetting ();
 
 				CGameMainWeaponOption plusItem = new CGameMainWeaponOption ();
 
@@ -509,12 +507,51 @@ public class ResultEpicUI : MonoBehaviour {
 		SpawnManager.Instance.tutorialPanel.eTutorialState = TutorialOrder.E_TUTORIAL_FINISH;
 	}
 
-	void ShowAdButton()
+	void OnDisable()
 	{
-		GameManager.Instance.ShowRewardedAd_Creator (this);
+		if (bIsCreate != false) {
+
+
+			Debug.Log ("2");
+
+			for (int nIndex = 0; nIndex < BossSoulSlots.Length; nIndex++) {
+				if (BossSoulSlots [nIndex].bIsCheck) {
+					BossSoulSlots [nIndex].ReSetting ();
+
+					if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_ICE) {
+						playerData.changeStats.nIceMaterial--;
+
+					} else if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_SASIN) {
+						playerData.changeStats.nSasinMaterial--;
+					} else if (nIndex == 2) {
+						playerData.changeStats.nRusiuMaterial--;
+
+					} else if (nIndex == 3) {
+						playerData.changeStats.nFireMaterial--;
+					}
+				}
+			}
+			for (int nIndex = 0; nIndex < 4; nIndex++) {
+				if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_ICE) {
+					BossSoulSlots [nIndex].ExplainText.text = string.Format ("{0} ~ {1}", nCalcAddMinOption, nCalcAddMaxOption);
+					BossSoulSlots [nIndex].AmountText.text = string.Format ("x {0}", playerData.changeStats.nIceMaterial);
+				} else if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_SASIN) {
+					BossSoulSlots [nIndex].ExplainText.text = string.Format ("{0} ~ {1}", nCalcAddMinOption, nCalcAddMaxOption);
+					BossSoulSlots [nIndex].AmountText.text = string.Format ("x {0}", playerData.changeStats.nSasinMaterial);
+				} else if (nIndex == 2) {
+					BossSoulSlots [nIndex].ExplainText.text = string.Format ("{0} ~ {1}", nCalcAddMinOption, nCalcAddMaxOption);
+					BossSoulSlots [nIndex].AmountText.text = string.Format ("x {0}", playerData.changeStats.nRusiuMaterial);
+				} else if (nIndex == 3) {
+					BossSoulSlots [nIndex].ExplainText.text = string.Format ("{0} ~ {1}", nCalcAddMinOption, nCalcAddMaxOption);
+					BossSoulSlots [nIndex].AmountText.text = string.Format ("x {0}", playerData.changeStats.nFireMaterial);
+				}
+			}
+		}
+
+		bIsCreate = false;
 	}
 
-	public void ShowAd()
+	void ShowAdButton()
 	{
 		//감소를 시켜 놨기 때문에 현재 일차에서 10일을 추가 시켜준다.
 		playerData.SetDay (playerData.GetDay () + 5);
@@ -525,12 +562,21 @@ public class ResultEpicUI : MonoBehaviour {
 		//결과를 넣어줌
 		makingUI.CreateWeapon (createWeapon, createEpic, LIST_OPTION);
 
-		playerData.SetDay (playerData.GetDay () - 5);
+		SpawnManager.Instance.SetDayInitInfo (playerData.GetDay () - 5);
 
 		//옵션 재설
 		RefreshDisplay ();
 
 		AdButton.gameObject.SetActive (false);
+
+		GameManager.Instance.ShowRewardedAd_Creator (this);
+	}
+
+	public void ShowAd()
+	{
+
+		Debug.Log ("1");
+
 	}
 }
 

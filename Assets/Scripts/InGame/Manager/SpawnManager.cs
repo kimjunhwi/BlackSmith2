@@ -204,7 +204,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			//QuestSetUp
 			questManager.SetUp();
 
-			//uiManager.
+		
 
 
 			bIsFirst = true;
@@ -1100,15 +1100,20 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		SoundManager.instance.PlaySound (eSoundArray.ES_TouchSound_Menu);
 		questManager.questAdsPopUpWindow_YesNo.SetActive (false);
 
-		if (_isRuby == true) 
+		if (_isRuby == true && ScoreManager.ScoreInstance.GetRuby () >= 50) 
 		{
 			ScoreManager.ScoreInstance.RubyPlus (-50);
 			questManager.QuestInit ();
 			return;
 		}
+		if(_isRuby == true && ScoreManager.ScoreInstance.GetRuby () < 50)
+		{
+			questManager.questYesAndExitPopUpWindow_Yes_Text.text = "루비가 부족합니다.";
+			questManager.questYesAndExitPopUpWindow_Yes.SetActive (true);
+		}
 
-		
-		GameManager.Instance.ShowSkipAd_Quest (questManager);
+		if(_isRuby == false)
+			GameManager.Instance.ShowSkipAd_Quest (questManager);
 	}
 
 	public void ShowRewardInGameManager(BossCreator bossCreator , bool _isRuby)
@@ -1116,7 +1121,8 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 		SoundManager.instance.PlaySound(eSoundArray.ES_TouchSound_Menu);
 
-		if (_isRuby == true) {
+		if (_isRuby == true && ScoreManager.ScoreInstance.GetRuby () >= 50) 
+		{
 			ScoreManager.ScoreInstance.RubyPlus (-50);
 			GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCount = 5;
 			SpawnManager.Instance.bossCreator.bossConsumeItemInfo.nInviteMentCurCount = GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCount;
@@ -1126,7 +1132,15 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			bossCreator.bossConsumeItemInfo.inviteMentTimer_Text.enabled = false;
 			return;
 		}
-		GameManager.Instance.ShowRewardAdd_Boss (bossCreator);
+
+		if (_isRuby == true && ScoreManager.ScoreInstance.GetRuby () < 50) 
+		{
+			SpawnManager.Instance.bossCreator.bossPopUpWindow.PopUpWindow_Yes.SetActive (true);
+			SpawnManager.Instance.bossCreator.bossPopUpWindow.PopUpWindow_Yes.transform.GetChild (0).GetComponent<Text> ().text = "루비가 부족합니다.";
+		}
+
+		if(_isRuby == false)
+			GameManager.Instance.ShowRewardAdd_Boss (bossCreator);
 	}
 
 	public bool CheckIsTimer()

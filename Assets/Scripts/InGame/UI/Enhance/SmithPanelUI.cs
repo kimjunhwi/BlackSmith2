@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using ReadOnlys;
 
-public class SmithPanelUI : EnhanceUI {
-
+public class SmithPanelUI : EnhanceUI 
+{
 	const int nMaxLevel = 10;
-
 	const int nBasicHonor = 300;
-	const int nPlusPercent = 450;
+	const int nPlusPercent = 900;
 
 	public GameObject UpgradeEffectObject;
 	public HanabiTest Hanabi;
@@ -32,14 +31,12 @@ public class SmithPanelUI : EnhanceUI {
 			CostGoldText.text = "Max";
 		}
 
-		NextPercentText.text = (cPlayer.GetBasicGoldPlusPercent() + 10).ToString() + "%";
+		NextPercentText.text = (cPlayer.GetBasicGoldPlusPercent() + 5).ToString() + "%";
 	}
 
 	public void OnEnable()
 	{
 //		fCostHonor;
-
-
 
 	}
 
@@ -68,17 +65,17 @@ public class SmithPanelUI : EnhanceUI {
 
 			Hanabi.Play ();
 
-			dEnhanceValue = cPlayer.GetBasicGoldPlusPercent() + 10;
+			dEnhanceValue = cPlayer.GetBasicGoldPlusPercent() + 5;
 
 			cPlayer.SetBasicGoldPlusPercent(dEnhanceValue);
 
-			dEnhanceValue = cPlayer.GetBasicHonorGoldPlusPercent() + 10;
+			dEnhanceValue = cPlayer.GetBasicHonorGoldPlusPercent() + 5;
 
 			cPlayer.SetBasicHonorPlusPercent (dEnhanceValue);
 
 			EnhanceText.text =string.Format("{0} {1}%", strEnhanceName , nLevel);
 
-			NextPercentText.text = (cPlayer.GetBasicGoldPlusPercent() + 10).ToString() + "%";
+			NextPercentText.text = (cPlayer.GetBasicGoldPlusPercent() + 5).ToString() + "%";
 
 			ScoreManager.ScoreInstance.HonorPlus (-fCostHonor);
 

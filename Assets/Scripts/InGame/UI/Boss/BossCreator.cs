@@ -680,21 +680,21 @@ public class BossCreator : MonoBehaviour
 			
 			nBossSasinLeftCount = 3;
 			bossElementList [_index].BossLeftCount_Text.text =
-				string.Format ("{0} / {0}", nBossIceLeftCount, nBossMaxLeftCount);
+				string.Format ("{0} / {0}", nBossSasinLeftCount, nBossMaxLeftCount);
 			bossElementList [_index].ReloadButton_Obj.SetActive (false);
 		} 
 		else if (_index == (int)E_BOSSNAME.E_BOSSNAME_FIRE)
 		{
 			nBossFireLeftCount = 3;
 			bossElementList [_index].BossLeftCount_Text.text =
-				string.Format ("{0} / {0}", nBossIceLeftCount, nBossMaxLeftCount);
+				string.Format ("{0} / {0}", nBossFireLeftCount, nBossMaxLeftCount);
 			bossElementList [_index].ReloadButton_Obj.SetActive (false);
 		}
 		else 
 		{
 			nBossMusicLeftCount = 3;
 			bossElementList [_index].BossLeftCount_Text.text =
-				string.Format ("{0} / {0}", nBossIceLeftCount, nBossMaxLeftCount);
+				string.Format ("{0} / {0}", nBossMusicLeftCount, nBossMaxLeftCount);
 			bossElementList [_index].ReloadButton_Obj.SetActive (false);
 		}
 

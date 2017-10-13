@@ -119,6 +119,8 @@ public class MakingUI : MonoBehaviour {
 
 			if ( LoadCreateWeapon.fIceBossValue != 0) 
 			{
+				createWeapon.fIceBossValue = LoadCreateWeapon.fIceBossValue;
+
 				CGameMainWeaponOption plusItem = new CGameMainWeaponOption ();
 
 				plusItem.nIndex = (int)E_CREATOR.E_BOSS_ICE;
@@ -134,6 +136,9 @@ public class MakingUI : MonoBehaviour {
 
 			if ( LoadCreateWeapon.fRusiuBossValue != 0) 
 			{
+
+				createWeapon.fRusiuBossValue = LoadCreateWeapon.fRusiuBossValue;
+
 				CGameMainWeaponOption plusItem = new CGameMainWeaponOption ();
 
 				plusItem.nIndex = (int)E_CREATOR.E_BOSS_RUSIU;
@@ -149,6 +154,8 @@ public class MakingUI : MonoBehaviour {
 
 			if ( LoadCreateWeapon.fSasinBossValue != 0) 
 			{
+				createWeapon.fSasinBossValue = LoadCreateWeapon.fSasinBossValue;
+				
 				CGameMainWeaponOption plusItem = new CGameMainWeaponOption ();
 
 				plusItem.nIndex = (int)E_CREATOR.E_BOSS_SASIN;
@@ -163,6 +170,8 @@ public class MakingUI : MonoBehaviour {
 
 			if ( LoadCreateWeapon.fFireBossValue != 0) 
 			{
+				createWeapon.fFireBossValue = LoadCreateWeapon.fFireBossValue;
+
 				CGameMainWeaponOption plusItem = new CGameMainWeaponOption ();
 
 				plusItem.nIndex = (int)E_CREATOR.E_BOSS_FIRE;
@@ -181,7 +190,7 @@ public class MakingUI : MonoBehaviour {
 
 			if (LoadCreateWeapon.fSasinBossValue != 0) {
 
-				if (BossSlotOne != null) {
+				if (BossSlotOne.sprite != null) {
 					BossSlotTwo.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/SasinSoul");
 
 				} else {
@@ -191,7 +200,7 @@ public class MakingUI : MonoBehaviour {
 			}
 
 			if (LoadCreateWeapon.fRusiuBossValue != 0) {
-				if (BossSlotOne != null) {
+				if (BossSlotOne.sprite != null) {
 					BossSlotTwo.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/DodomSoul");
 
 				} else {
@@ -200,7 +209,7 @@ public class MakingUI : MonoBehaviour {
 			}
 
 			if (LoadCreateWeapon.fFireBossValue != 0) {
-				if (BossSlotOne != null) {
+				if (BossSlotOne.sprite != null) {
 					BossSlotTwo.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/SkullSoul");
 
 				} else {
@@ -339,11 +348,11 @@ public class MakingUI : MonoBehaviour {
 				BossSoulSlots [nIndex].ExplainText.text = string.Format ("{0} ~ {1}", nCalcAddMinOption, nCalcAddMaxOption);
 				BossSoulSlots [nIndex].AmountText.text = string.Format ("x {0}", playerData.changeStats.nSasinMaterial);
 			}
-			else if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_MUSIC) {
+			else if (nIndex == 2) {
 				BossSoulSlots [nIndex].ExplainText.text = string.Format ("{0} ~ {1}", nCalcAddMinOption, nCalcAddMaxOption);
 				BossSoulSlots [nIndex].AmountText.text = string.Format ("x {0}", playerData.changeStats.nRusiuMaterial);
 			}
-			else if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_FIRE) {
+			else if (nIndex == 3) {
 				BossSoulSlots [nIndex].ExplainText.text = string.Format ("{0} ~ {1}", nCalcAddMinOption, nCalcAddMaxOption);
 				BossSoulSlots [nIndex].AmountText.text = string.Format ("x {0}", playerData.changeStats.nFireMaterial);
 			}
@@ -393,6 +402,7 @@ public class MakingUI : MonoBehaviour {
 
 	public void CreateWeapon(CreatorWeapon _weapon,EpicOption _epicOption, List<CGameMainWeaponOption> _List_Option)
 	{
+
 		BossSlotOne.sprite = null;
 		BossSlotTwo.sprite = null;
 
@@ -414,7 +424,7 @@ public class MakingUI : MonoBehaviour {
 
 		if (_weapon.fSasinBossValue != 0) {
 
-			if (BossSlotOne != null) {
+			if (BossSlotOne.sprite != null) {
 				BossSlotTwo.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/SasinSoul");
 
 			} else {
@@ -424,7 +434,7 @@ public class MakingUI : MonoBehaviour {
 		}
 
 		if (_weapon.fRusiuBossValue != 0) {
-			if (BossSlotOne != null) {
+			if (BossSlotOne.sprite != null) {
 				BossSlotTwo.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/DodomSoul");
 
 			} else {
@@ -433,7 +443,7 @@ public class MakingUI : MonoBehaviour {
 		}
 
 		if (_weapon.fFireBossValue != 0) {
-			if (BossSlotOne != null) {
+			if (BossSlotOne.sprite != null) {
 				BossSlotTwo.sprite = ObjectCashing.Instance.LoadSpriteFromCache ("Crafts/SkullSoul");
 
 			} else {

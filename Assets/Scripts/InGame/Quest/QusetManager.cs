@@ -383,18 +383,21 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			//추후 루비 추가 해야됨 ,광고 추가 
 			questAdsPopUpWindow_YesNo.SetActive (true);
 
-			if (questObjects.Count == nQuestMaxHaveCount) 
+			if (questObjects.Count >= nQuestMaxHaveCount)
 			{
 				questAdsPopUpWindow_YesNo.SetActive (false);
 				ShowEmptyQuestFull ();
+				return;
 			}
+			else
+			{
+				questAdsPopUpWindow_AdsButton.onClick.RemoveAllListeners(); 
+				questAdsPopUpWindow_RubyButton.onClick.RemoveAllListeners ();
 
+				questAdsPopUpWindow_AdsButton.onClick.AddListener (() => SpawnManager.Instance.ShowAdsSkipInGameManager(false)); 	//QuestInit에서 다시 지움
+				questAdsPopUpWindow_RubyButton.onClick.AddListener(() => SpawnManager.Instance.ShowAdsSkipInGameManager(true));		
+			}
 			//questAdsPopUpWindowYesNo_Text.text = "퀘스트를 초기화 하기위해 광고나 루비 무엇을 쓰시겠습니까?";
-			questAdsPopUpWindow_AdsButton.onClick.RemoveAllListeners(); 
-			questAdsPopUpWindow_RubyButton.onClick.RemoveAllListeners ();
-
-			questAdsPopUpWindow_AdsButton.onClick.AddListener (() => SpawnManager.Instance.ShowAdsSkipInGameManager(false)); 	//QuestInit에서 다시 지움
-			questAdsPopUpWindow_RubyButton.onClick.AddListener(() => SpawnManager.Instance.ShowAdsSkipInGameManager(true));		
 		}
 		else
 		{
@@ -509,7 +512,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 
 			//개수가 최대 개수와 같으면 경고창을 띄운다
-			if (questObjects.Count == nQuestMaxHaveCount) 
+			if (questObjects.Count >= nQuestMaxHaveCount) 
 			{
 				ShowEmptyQuestFull ();
 				questTimer.isTimeOn = false;
@@ -563,7 +566,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			questTimer.InitQuestTimer ();
 
 			//개수가 최대 개수와 같으면 경고창을 띄운다
-			if (questObjects.Count == nQuestMaxHaveCount) 
+			if (questObjects.Count >= nQuestMaxHaveCount) 
 			{
 				ShowEmptyQuestFull ();
 				questTimer.isTimeOn = false;

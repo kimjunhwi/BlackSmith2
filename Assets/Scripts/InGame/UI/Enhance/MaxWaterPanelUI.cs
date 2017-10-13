@@ -20,7 +20,7 @@ public class MaxWaterPanelUI : EnhanceUI {
 
 		EnhanceText.text = string.Format("{0} : {1}", strEnhanceName , nLevel);
 
-		fCostHonor = nBasicHonor * nLevel;
+		fCostHonor = nBasicHonor * nLevel * 3;
 
 		CostGoldText.text = fCostHonor.ToString();
 

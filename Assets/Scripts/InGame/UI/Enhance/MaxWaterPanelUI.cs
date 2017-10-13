@@ -18,13 +18,22 @@ public class MaxWaterPanelUI : EnhanceUI {
 
 		nLevel = cPlayer.GetMaxWaterLevel ();
 
-		EnhanceText.text = string.Format("{0} : {1}", strEnhanceName , nLevel);
+		if (cPlayer.GetMaxWaterLevel () < nMaxLevel) {
 
-		fCostHonor = nBasicHonor * nLevel * 3;
+			EnhanceText.text = string.Format("{0} : {1}", strEnhanceName ,nLevel);
 
-		CostGoldText.text = fCostHonor.ToString();
+			fCostHonor = nBasicHonor * nLevel * 3;
 
-		NextPercentText.text = (cPlayer.GetBasicMaxWater () + 1000).ToString();
+			CostGoldText.text = fCostHonor.ToString();
+
+			NextPercentText.text = (cPlayer.GetBasicMaxWater () + 1000).ToString();
+		} else {
+			EnhanceText.text = string.Format("{0} : {1}", strEnhanceName ,"Max");
+
+			CostGoldText.text = "Max";
+
+			NextPercentText.text = "Max";
+		}
 	}
 
 	protected override void EnhanceButtonClick ()
@@ -52,6 +61,20 @@ public class MaxWaterPanelUI : EnhanceUI {
 			CostGoldText.text  = (nBasicHonor * nLevel * 3).ToString();
 
 			repairObject.WaterSlider.maxValue = cPlayer.GetBasicMaxWater ();
+
+			if (cPlayer.GetMaxWaterLevel () < nMaxLevel) {
+				EnhanceText.text = string.Format("{0} : {1}", strEnhanceName ,nLevel);
+
+				fCostHonor = nBasicHonor * nLevel * 3;
+
+				CostGoldText.text = fCostHonor.ToString();
+
+				NextPercentText.text = (cPlayer.GetBasicMaxWater () + 1000).ToString();
+			} else {
+				CostGoldText.text = "Max";
+				EnhanceText.text =string.Format("{0} {1}", strEnhanceName , "Max");
+				NextPercentText.text = "Max";
+			}
 		}
 	}
 }

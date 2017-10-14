@@ -102,7 +102,7 @@ public class NormalCharacter : Character {
 		{
 			nDay = cPlayerData.GetDay ();
 
-			double dCurComplete = 500 * Mathf.Max( Mathf.Pow (2, (Mathf.Floor((nDay + 9) * 0.1f))),1) * (0.5 + ((nDay + 9) % 10) * 0.08f);
+			double dCurComplete = 500 * Math.Max( Math.Pow (2, (Mathf.Floor((nDay + 9) * 0.1f))),1) * (0.5 + ((nDay + 9) % 10) * 0.08f);
 
 			weaponData.dMaxComplate = dCurComplete; 
 		}

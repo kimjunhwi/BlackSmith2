@@ -343,7 +343,7 @@ public class Player
 			fResultArbaitRepairPower += creatorWeapon.fRusiuBossValue;
 		}
 
-		m_fArbaitRepairPower = changeStats.fArbaitsPower + (changeStats.fArbaitsPower * fResultArbaitRepairPower * 0.01f);
+		m_fArbaitRepairPower = changeStats.fArbaitsPower + fResultArbaitRepairPower;
 
 		if (PlayerInfo != null)
 			PlayerInfo.SetArbaitRepairText ();

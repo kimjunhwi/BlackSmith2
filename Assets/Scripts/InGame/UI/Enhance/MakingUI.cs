@@ -685,7 +685,7 @@ public class MakingUI : MonoBehaviour {
 		float fMinusValue = Mathf.Floor( (nDay + 10) * 0.1f ) * 10;
 		float result = fOriValue - fMinusValue;
 
-		double dCurComplete = 3 * Mathf.Max( Mathf.Pow (1.9f, (Mathf.Floor((nDay + 20) * 0.1f))),1) * (1 + (result) * 0.05f);
+		double dCurComplete = 3 * Math.Max( Math.Pow (1.9f, (Mathf.Floor((nDay + 20) * 0.1f))),1) * (1 + (result) * 0.05f);
 
 		dCalcMinRepair = dCurComplete - dCurComplete * 0.1f;
 

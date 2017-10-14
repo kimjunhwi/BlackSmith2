@@ -456,8 +456,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 	{
 		GameObject quest;
 		questAdsPopUpWindow_YesNo.SetActive (false);
-		//questAdsPopUpWindow_AdsButton.onClick.RemoveListener (SpawnManager.Instance.ShowAdsSkipInGameManager);
-		//questAdsPopUpWindow_RubyButton.onClick.RemoveListener (SpawnManager.Instance.ShowAdsSkipInGameManager);		
+	
 
 		//처음 퀘스트 켜질시
 		if (GameManager.Instance.cQuestSaveListInfo [0].bIsFirstActive == true)
@@ -575,7 +574,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 				return;
 			}
 
-			for (int i = questObjects.Count ; questObjects.Count < nQuestMaxHaveCount  ; i++)
+			for (int i = questObjects.Count ; i < nQuestMaxHaveCount  ; i++)
 			{
 				nQuestCount++;
 				quest = questObjectPool.GetObject ();
@@ -594,13 +593,16 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 
 				int nQuestIndex = GetQuestRandomIndex ();
 				questPanel.GetQuest( GameManager.Instance.cQusetInfo [nQuestIndex], this);
-
-				QuestDataDispatch (i);	//Data Dispatch
+				questObjects.Add (questPanel);
+				//QuestDataDispatch (i);	//Data Dispatch
 
 			}
 			SaveQuestData();
 
-
+			questTimer.isTimeOn = false;
+			questTimer.isTimeEnd = false;
+			questTimer.InitQuestTimer ();
+			questTimer.addQuestToEmptySpace.SetActive (false);
 
 			return;
 		}
@@ -818,7 +820,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 			{
 				if (questObjects.Count == 1) 
 				{
-					Debug.Log ("QuestObjetc Count : 1");
+					//Debug.Log ("QuestObjetc Count : 1");
 					if (i == 0)
 					{
 						QuestPanel questPanel = questObjects [0].gameObject.GetComponent<QuestPanel> ();
@@ -841,7 +843,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 				} 
 				else if (questObjects.Count == 2) 
 				{
-					Debug.Log ("QuestObjetc Count : 2");
+					//Debug.Log ("QuestObjetc Count : 2");
 					if (i == 0) {
 						QuestPanel questPanel = questObjects [0].gameObject.GetComponent<QuestPanel> ();
 						GameManager.Instance.cQuestSaveListInfo [0].nQuestIndex01 = questPanel.nQuestIndex;
@@ -868,7 +870,7 @@ public class QusetManager : MonoBehaviour, IPointerClickHandler
 				} 
 				else
 				{
-					Debug.Log ("QuestObjetc Count : 3");
+					//Debug.Log ("QuestObjetc Count : 3");
 					if (i == 0) 
 					{
 						QuestPanel questPanel = questObjects [0].gameObject.GetComponent<QuestPanel> ();

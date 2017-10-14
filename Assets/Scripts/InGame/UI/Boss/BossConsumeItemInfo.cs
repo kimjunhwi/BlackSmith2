@@ -43,14 +43,47 @@ public class BossConsumeItemInfo : MonoBehaviour
 	public BossRegenTimer bossRegenTimer;
 	public BossCreator bossCreator;
 
+	public bool isFirstActive = false;
+
 	public void BossInviteMentSaveTime()
 	{
-		EndData = System.DateTime.Now;
-		PlayerPrefs.SetString ("BossInvitementSaveTime", EndData.ToString ());
-		GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCurMin = curMin;
-		GameManager.Instance.cBossPanelListInfo [0].fBossInviteMentCurSec = fCurSec;
+		if (GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCurMin == -1 && 
+			GameManager.Instance.cBossPanelListInfo [0].fBossInviteMentCurSec == -1 ) 
+		{
+			curMin = 19;
+			fCurSec = 59;
+			isFirstActive = true;
+			EndData = System.DateTime.Now;
+			PlayerPrefs.SetString ("BossInvitementSaveTime", EndData.ToString ());
+			GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCurMin = curMin;
+			GameManager.Instance.cBossPanelListInfo [0].fBossInviteMentCurSec = fCurSec;
 
-		Debug.Log ("BossInvitement Time Save : " + EndData.ToString ());
+			Debug.Log ("BossInvitement Time Save : " + GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCurMin
+			+ ":" + GameManager.Instance.cBossPanelListInfo [0].fBossInviteMentCurSec);
+			Debug.Log ("BossInvitement Time Save : " + EndData.ToString ());
+		}
+		else 
+		{
+			if (isFirstActive == false)
+			{
+				isFirstActive = true;
+				curMin = GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCurMin;
+				fCurSec = GameManager.Instance.cBossPanelListInfo [0].fBossInviteMentCurSec;
+				nInviteMentCurCount = GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCount;
+				bossCreator.BossPanelInfoSave ();
+			} 
+			else 
+			{
+				EndData = System.DateTime.Now;
+				PlayerPrefs.SetString ("BossInvitementSaveTime", EndData.ToString ());
+
+				if (curMin != 0 && fCurSec != 0) {
+					GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCurMin = curMin;
+					GameManager.Instance.cBossPanelListInfo [0].fBossInviteMentCurSec = fCurSec;
+
+				}
+			}
+		}
 	}
 
 	public void BossInviteMentLoadTime()
@@ -66,10 +99,10 @@ public class BossConsumeItemInfo : MonoBehaviour
 		//없으면 (맨 처음 최초 실행때만 호출)
 		else 
 		{
+			Debug.Log ("맨 처음 보스 실행");
 			nInviteMentCurCount = 5;
 			nInviteMentMaxCount = 5;
 			PlayerPrefs.SetString ("BossInvitementSaveTime", EndData.ToString ());
-			Debug.Log ("BossInvitement init Time : " + EndData.ToString ());
 			inviteMentCount_Text.text = nInviteMentCurCount.ToString () + " / " + nInviteMentMaxCount.ToString ();
 			inviteMentTimer_Text.enabled = false;
 
@@ -87,14 +120,16 @@ public class BossConsumeItemInfo : MonoBehaviour
 
 		int nCheck = Mathf.Abs(nEndTime - nStartTime);
 
-		//하루가 지나거나 20분이 지나거나 현재 초대장이 가득 찼으면
+		//하루가 지나거나 100분이 지나거나 현재 초대장이 가득 찼으면
 		if (timeCal.Days != 0 || nCheck >= 6000 || nInviteMentCurCount == nInviteMentMaxCount) 
 		{
+			Debug.Log("BossInvitement AllRefill");
 			//초대장 갯수 풀로 할것
 			nInviteMentCurCount = nInviteMentMaxCount;
 			isTimeOn_BossInviteMentTimer = false;
 			inviteMentTimer_Text.enabled = false;
 			inviteMentCount_Text.text = nInviteMentCurCount.ToString () + " / " + nInviteMentMaxCount.ToString ();
+			return;
 		}
 		//
 		else 
@@ -107,8 +142,11 @@ public class BossConsumeItemInfo : MonoBehaviour
 			int nPassedTime_Sec = (int)timeCal.TotalSeconds % 60;
 		
 			//20분이 지나지 않았다면 저장된 분에서 지나간 분 만큼 뺀 시간을 시작한다
-			if (nPassedTime_Min < 20) {
-
+			if (nPassedTime_Min < 20)
+			{
+				Debug.Log ("20분 미만");
+				Debug.Log ("저장된 시간 :" + GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCurMin + ":" + 
+					GameManager.Instance.cBossPanelListInfo [0].fBossInviteMentCurSec );
 				int ResultTime_Min = GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCurMin - nPassedTime_Min;
 				if (ResultTime_Min < 0)
 					ResultTime_Min = -ResultTime_Min;
@@ -116,24 +154,32 @@ public class BossConsumeItemInfo : MonoBehaviour
 				int ResultTime_Sec = (int)GameManager.Instance.cBossPanelListInfo [0].fBossInviteMentCurSec - nPassedTime_Sec;
 				if (ResultTime_Sec < 0)
 					ResultTime_Sec = -ResultTime_Sec;
+
+
+				Debug.Log ("결과 시간 : " + ResultTime_Min.ToString()+ ":" + ResultTime_Sec.ToString());
 
 				StartBossInviteMentTimer (ResultTime_Min, ResultTime_Sec);
 				inviteMentTimer_Text.enabled = true;
 				return;
-			} else if (nPassedTime_Min < 40) {
+			} else if (nPassedTime_Min < 40) 
+			{
+				Debug.Log ("40분 미만");
 				nPassedTime_Min -= 20;
 				int ResultTime_Min = GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCurMin - nPassedTime_Min;
 				if (ResultTime_Min < 0)
 					ResultTime_Min = -ResultTime_Min;
-
+			
 				int ResultTime_Sec = (int)GameManager.Instance.cBossPanelListInfo [0].fBossInviteMentCurSec - nPassedTime_Sec;
 				if (ResultTime_Sec < 0)
 					ResultTime_Sec = -ResultTime_Sec;
+				Debug.Log (ResultTime_Min.ToString() + ":" + ResultTime_Sec.ToString());
+				nInviteMentCurCount += 1;
 
 				StartBossInviteMentTimer (ResultTime_Min, ResultTime_Sec);
 				inviteMentTimer_Text.enabled = true;
 				return;
 			} else if (nPassedTime_Min < 60) {
+				Debug.Log ("60분 미만");
 				nPassedTime_Min -= 40;
 				int ResultTime_Min = GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCurMin - nPassedTime_Min;
 				if (ResultTime_Min < 0)
@@ -142,11 +188,14 @@ public class BossConsumeItemInfo : MonoBehaviour
 				int ResultTime_Sec = (int)GameManager.Instance.cBossPanelListInfo [0].fBossInviteMentCurSec - nPassedTime_Sec;
 				if (ResultTime_Sec < 0)
 					ResultTime_Sec = -ResultTime_Sec;
+				Debug.Log (ResultTime_Min.ToString()+ ":" + ResultTime_Sec.ToString());
+				nInviteMentCurCount += 2;
 
 				StartBossInviteMentTimer (ResultTime_Min, ResultTime_Sec);
 				inviteMentTimer_Text.enabled = true;
 				return;
 			} else if (nPassedTime_Min < 80) {
+				Debug.Log ("80분 미만");
 				nPassedTime_Min -= 60;
 				int ResultTime_Min = GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCurMin - nPassedTime_Min;
 				if (ResultTime_Min < 0)
@@ -155,6 +204,8 @@ public class BossConsumeItemInfo : MonoBehaviour
 				int ResultTime_Sec = (int)GameManager.Instance.cBossPanelListInfo [0].fBossInviteMentCurSec - nPassedTime_Sec;
 				if (ResultTime_Sec < 0)
 					ResultTime_Sec = -ResultTime_Sec;
+				Debug.Log (ResultTime_Min.ToString()+ ":" + ResultTime_Sec.ToString());
+				nInviteMentCurCount += 3;
 
 				StartBossInviteMentTimer (ResultTime_Min, ResultTime_Sec);
 				inviteMentTimer_Text.enabled = true;
@@ -162,6 +213,7 @@ public class BossConsumeItemInfo : MonoBehaviour
 			}
 			else
 			{
+				Debug.Log ("80분 미만");
 				nPassedTime_Min -= 80;
 				int ResultTime_Min = GameManager.Instance.cBossPanelListInfo [0].nBossInviteMentCurMin - nPassedTime_Min;
 				if (ResultTime_Min < 0)
@@ -170,6 +222,8 @@ public class BossConsumeItemInfo : MonoBehaviour
 				int ResultTime_Sec = (int)GameManager.Instance.cBossPanelListInfo [0].fBossInviteMentCurSec - nPassedTime_Sec;
 				if (ResultTime_Sec < 0)
 					ResultTime_Sec = -ResultTime_Sec;
+				Debug.Log (ResultTime_Min.ToString()+":" + ResultTime_Sec.ToString());
+				nInviteMentCurCount += 4;
 
 				StartBossInviteMentTimer (ResultTime_Min, ResultTime_Sec);
 				inviteMentTimer_Text.enabled = true;
@@ -213,20 +267,16 @@ public class BossConsumeItemInfo : MonoBehaviour
 
 			inviteMentCount_Text.text = nInviteMentCurCount.ToString () + " / " + nInviteMentMaxCount.ToString ();
 
-
-			nInitTime_Min = curMin;
-			nInitTime_sec = second;
-
-			if (curMin == 0 && second == 0f)
+			if (curMin <= 0 && second <= 0f)
 			{
 				isTimeOn_BossInviteMentTimer = true;
 				//break;
 				nInviteMentCurCount++;
 				inviteMentCount_Text.text = nInviteMentCurCount.ToString () + " / " + nInviteMentMaxCount.ToString ();
-				nInitTime_Min = 19;
-				nInitTime_sec = 59;
+				curMin = 20;
+				second = 00;
 
-				if (nInviteMentCurCount == nInviteMentMaxCount) 
+				if (nInviteMentCurCount >= nInviteMentMaxCount) 
 				{
 					nInitTime_Min = 19;
 					nInitTime_sec = 59;
@@ -235,9 +285,11 @@ public class BossConsumeItemInfo : MonoBehaviour
 					yield break;
 
 				}
+
+				continue;
 			}
 
-			if (curMin != 0 && second == 0f) 
+			if (curMin != 0 && second <= 0f) 
 			{
 				fCurSec = 59f;
 				curMin--;

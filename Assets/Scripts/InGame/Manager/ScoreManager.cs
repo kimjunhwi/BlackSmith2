@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 //제네릭 싱글톤을 사용하지 않은 이유는
 //이 씬에서만 유지되게 하기 위함
 public class ScoreManager : MonoBehaviour 
@@ -194,7 +195,7 @@ public class ScoreManager : MonoBehaviour
 	public double GetFreePassGold()
 	{
 		int nCurDay = GameManager.Instance.player.GetDay ();
-		double gold = (250 * Mathf.Pow (1.09f, nCurDay - 1)) * 10;
+		double gold = (250 * Math.Pow (1.09f, nCurDay - 1)) * 10;
 		return gold;
 	}
 

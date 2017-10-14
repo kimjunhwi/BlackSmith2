@@ -21,10 +21,10 @@ MonoBehaviour:
     y: 30
     width: 1280
     height: 635
-  m_MinSize: {x: 713, y: 492}
-  m_MaxSize: {x: 18008, y: 14042}
+  m_MinSize: {x: 713, y: 495}
+  m_MaxSize: {x: 18008, y: 14045}
   vertical: 0
-  controlID: 1589
+  controlID: 24493
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 442}
   m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
-  controlID: 1503
+  controlID: 24494
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -315,10 +315,10 @@ MonoBehaviour:
     y: 0
     width: 352
     height: 635
-  m_MinSize: {x: 234, y: 492}
-  m_MaxSize: {x: 10004, y: 14042}
+  m_MinSize: {x: 234, y: 495}
+  m_MaxSize: {x: 10004, y: 14045}
   vertical: 1
-  controlID: 1525
+  controlID: 24537
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -337,8 +337,8 @@ MonoBehaviour:
     y: 0
     width: 352
     height: 325
-  m_MinSize: {x: 204, y: 221}
-  m_MaxSize: {x: 4004, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 10}
   m_Panes:
   - {fileID: 10}
@@ -372,9 +372,9 @@ MonoBehaviour:
     height: 304
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 88c50000
+    m_SelectedIDs: be2d0000
     m_LastClickedID: 0
-    m_ExpandedIDs: b819feff801afeff9822feffa022feffae22feffd243feff9a44feffae4cfeffb24cfeffbc4cfeff7a65ffff4266ffff5a6effff626effff706effffd0fbffff00000000
+    m_ExpandedIDs: 2815d9ffb415d9fff021d9fff821d9ff0622d9ffd02ed9ff962fd9ffd23bd9ffda3bd9ffe83bd9ffda53d9ff6654d9ffa260d9ffaa60d9ffb860d9ffba6cd9ff466dd9ff7e79d9ff8279d9ff8c79d9ffa68bd9ff768cd9ffb696d9ffba96d9ffc296d9ff8aa1d9ff5aa2d9ff96aed9ff9eaed9ffacaed9ff8840e0ff924ae0ffdc4be0ffaa4de0ff7253e0ff80fae0ff7e0be1ffc80ce1ff960ee1ff5e14e1ffc665e1ff3a81e1ffd2d5e1ff5c79e2ffb0bde3ffaa36ecff30ebecff8493eeffe89beeff90a0eeff0a56f2fff6a9f8ffe0aef8ff64dcf9ff4628faff3277faff64c4faffd0fbfffff4ffffff00000000a0740100ac7601005a780100ce7801007c7a0100287d01002e8501003a870100e88801005c8901000a8b0100b68d0100b6900100bc950100c897010076990100989b0100449e01004aa6010056a8010004aa010078aa010026ac0100d2ae01008eea0100343e04001cd1060058100700641207001214070034160700e0180700fc30070008330700b6340700d8360700843907009e400700aa420700584407007a4607002649070092880700448b070056c4070008c70700
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -469,10 +469,10 @@ MonoBehaviour:
   m_LastProjectPath: /Users/cheolgeungi/BlackSmith2
   m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 640}
-    m_SelectedIDs: 6a3a0000
-    m_LastClickedID: 14954
-    m_ExpandedIDs: 000000006a280000082c0000042d00004c2d0000582d000080320000f032000004340000e2370000b63b00002a3c0000ca3e0000d041000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 644}
+    m_SelectedIDs: 6c3a0000
+    m_LastClickedID: 14956
+    m_ExpandedIDs: 000000006a280000082c0000042d00004c2d0000582d000080320000f032000006340000e4370000b83b00002c3c0000ca3e0000d041000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -500,7 +500,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 350.00214}
     m_SelectedIDs: 4c4f0000
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000006a280000082c0000042d00004c2d0000582d000080320000f032000004340000e2370000b63b00002a3c0000ca3e0000d041000000ca9a3bffffff7f
+    m_ExpandedIDs: 000000006a280000082c0000042d00004c2d0000582d000080320000f032000006340000e4370000b83b00002c3c0000ca3e0000d041000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -525,10 +525,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 88c50000
-    m_LastClickedInstanceID: 50568
+    m_SelectedInstanceIDs: be2d0000
+    m_LastClickedInstanceID: 11710
     m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: e44600000c410000b64c0000000000002e0a00006a330000
+    m_ExpandedInstanceIDs: e44600000c410000b64c00002e0a00006a33000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

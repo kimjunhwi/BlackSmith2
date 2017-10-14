@@ -15,8 +15,8 @@ public class QuestTimer : MonoBehaviour
 
 	public float fCurSec;
 	public int curMin;													//현재 분
-	private int nInitTime_Min = 1;
-	private int nInitTime_sec = 0;
+	private int nInitTime_Min = 59;
+	private int nInitTime_sec = 59;
 
 	public bool isTimeOn = false;										//시간이 켜져 있는지 아닌지
 	public bool isTimeEnd = false;										//시간이 끝났는지 아닌지
@@ -179,8 +179,8 @@ public class QuestTimer : MonoBehaviour
 	}
 	public void InitQuestTimer()
 	{
-		nInitTime_Min = 1;
-		nInitTime_sec = 0;
+		nInitTime_Min = 59;
+		nInitTime_sec = 59;
 	
 		QuestTimer_Text.enabled = false;
 		isTimeOn = false;

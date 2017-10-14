@@ -973,7 +973,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 		{
 			if (array_ArbaitData [i].E_STATE != E_ArbaitState.E_FREEZE && m_BatchArbait [i].activeSelf)
 				checkTrue = true;
-			if (i == 9 && checkTrue == true)
+			if (i == 13 && checkTrue == true)
 				return true;		
 		}
 		return false;

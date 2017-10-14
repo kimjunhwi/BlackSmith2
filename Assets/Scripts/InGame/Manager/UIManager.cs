@@ -45,9 +45,13 @@ public class UIManager : MonoBehaviour
 			SpawnManager.Instance.tutorialPanel.ShowTutorialImage (3);
 		}
 
+	
+
 
 		if (uiPanels [nIndex].activeSelf) 
 		{
+
+
 			//보스 패널 닫을시 시간 저장 
 			if (nIndex == 3)
 			{
@@ -73,13 +77,16 @@ public class UIManager : MonoBehaviour
 				uiButtons [nIndex].spriteState = tmpSpriteState;
 
 				AllHilightImageAdd (nIndex);
+			
 			}
+
+
 		}
 		else
 		{
 			AllDisable ();
 			questManager.questTimer.isTimeOn = false;
-
+		
 			uiPanels [nIndex].SetActive (true);
 
 			if (nIndex == 5)
@@ -87,14 +94,12 @@ public class UIManager : MonoBehaviour
 
 			if (nIndex != 5 && nIndex != 6)
 			{
-				
 				SpriteState tmpSpriteState = new SpriteState ();
 				tmpSpriteState.disabledSprite = uiButtons [nIndex].spriteState.disabledSprite;
 				tmpSpriteState.pressedSprite = uiButtons [nIndex].spriteState.pressedSprite;
 				tmpSpriteState.highlightedSprite = uiSprite [nIndex];
 
 				uiButtons [nIndex].spriteState = tmpSpriteState;
-
 			}
 			yesNoButton.SetActive (false);
 
@@ -109,8 +114,9 @@ public class UIManager : MonoBehaviour
 				bossCreator.bossConsumeItemInfo.BossInviteMentLoadTime ();
 				bossCreator.bossConsumeItemInfo.bossRegenTimer.BossRegenTimeLoad ();
 			}
-		
 		}
+
+
 	}
 
 	//활성화된 버튼 빼고 나머지는 하이라이트 이미지를 넣는다.
@@ -135,7 +141,19 @@ public class UIManager : MonoBehaviour
 		SpawnManager.Instance.questManager.isQuestWindowOn = false;
 		foreach (GameObject obj in uiPanels) 
 		{
+			if (uiPanels [3].activeSelf && SpawnManager.Instance.bossCreator.bIsFirstActive == true) {
+				bossCreator.BossPanelInfoSave ();
+			}
+			if (uiPanels [5].activeSelf) 
+			{
+				questManager.SaveQuestData ();
+				questManager.isQuestWindowOn = false;
+				questManager.questTimer.SaveTime ();
+				questManager.questTimer.isTimeOn = false;
+			
+			}
 			obj.SetActive (false);	
+
 		}
 	}
 

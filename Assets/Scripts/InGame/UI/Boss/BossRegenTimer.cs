@@ -21,15 +21,44 @@ public class BossRegenTimer : MonoBehaviour
 	private int nInitTime_Min = 119;
 	private int nInitTime_sec = 59;
 
+
+	private bool isFirstActive = false;
+
 	public BossCreator bossCreator;
 
 	public void BossRegenTimeSave()
 	{
-		EndData = System.DateTime.Now;
-		PlayerPrefs.SetString ("BossRegenTime", EndData.ToString ());
-		GameManager.Instance.cBossPanelListInfo [0].nBossRegenCurMin = curMin;
-		GameManager.Instance.cBossPanelListInfo [0].fBossRegenCurSec = fCurSec;
-		Debug.Log ("BossRegen Time Save : " + EndData.ToString ());
+		if (GameManager.Instance.cBossPanelListInfo [0].nBossRegenCurMin == -1 &&
+		    GameManager.Instance.cBossPanelListInfo [0].fBossRegenCurSec == -1f) {
+			curMin = 119;
+			fCurSec = 59f;
+
+			EndData = System.DateTime.Now;
+			PlayerPrefs.SetString ("BossRegenTime", EndData.ToString ());
+			GameManager.Instance.cBossPanelListInfo [0].nBossRegenCurMin = curMin;
+			GameManager.Instance.cBossPanelListInfo [0].fBossRegenCurSec = fCurSec;
+			Debug.Log ("BossRegen Time Save : " + EndData.ToString ());
+		} 
+		else
+		{
+			if (isFirstActive == false) 
+			{
+				isFirstActive = true;
+				curMin = GameManager.Instance.cBossPanelListInfo [0].nBossRegenCurMin;
+				fCurSec = GameManager.Instance.cBossPanelListInfo [0].fBossRegenCurSec;
+			}
+			else 
+			{
+				EndData = System.DateTime.Now;
+				PlayerPrefs.SetString ("BossRegenTime", EndData.ToString ());
+				if (curMin != 0 && fCurSec != 0) {
+					GameManager.Instance.cBossPanelListInfo [0].nBossRegenCurMin = curMin;
+					GameManager.Instance.cBossPanelListInfo [0].fBossRegenCurSec = fCurSec;
+				}
+				Debug.Log ("BossRegen Time Save : " + EndData.ToString ());
+			}
+		}
+
 	}
 	void Update()
 	{

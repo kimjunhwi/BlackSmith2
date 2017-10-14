@@ -2686,10 +2686,10 @@ public class BossPanelInfo
 		nBossFireMaxLevel = 1;
 
 
-		nBossInviteMentCurMin = 19;
-		fBossInviteMentCurSec = 59f;
-		nBossRegenCurMin = 119;
-		fBossRegenCurSec = 59f;
+		nBossInviteMentCurMin = -1;
+		fBossInviteMentCurSec = -1f;
+		nBossRegenCurMin = -1;
+		fBossRegenCurSec = -1f;
 
 	}
 }

@@ -74,7 +74,7 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 
 	int m_nDay = 1;
 
-	private bool bIsFirst = false;
+	public bool bIsFirst = false;
 
 	public int nTutorialCurGuestCount = 0;
 

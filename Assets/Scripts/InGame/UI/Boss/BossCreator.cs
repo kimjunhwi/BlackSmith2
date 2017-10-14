@@ -83,6 +83,8 @@ public class BossCreator : MonoBehaviour
 
 	private int nBossIndex =0; 
 
+	public bool bIsFirstActive = false;
+
 	void Awake()
 	{
 		uiManager = FindObjectOfType<UIManager> ();
@@ -131,7 +133,7 @@ public class BossCreator : MonoBehaviour
 		if (GameManager.Instance.cBossPanelListInfo[0].isSaved == true) 
 		{
 			Debug.Log ("Load Saved Info");
-
+			bIsFirstActive = true;
 			bossElementList[0].BossLeftCount_Text.text = string.Format("{0} / {1}", GameManager.Instance.cBossPanelListInfo[0].nBossIceLeftCount, nBossMaxLeftCount);
 			bossElementList[0].bossLevel_Text.text = string.Format ("Lv {0}", GameManager.Instance.cBossPanelListInfo[0].nBossIceCurLevel);
 			bossElementList [0].curLevel = GameManager.Instance.cBossPanelListInfo [0].nBossIceCurLevel;
@@ -222,7 +224,7 @@ public class BossCreator : MonoBehaviour
 		else
 		{
 			Debug.Log ("Load Init Info");
-	
+			bIsFirstActive = true;
 			bossElementList[0].BossLeftCount_Text.text = string.Format("{0} / {1}", GameManager.Instance.cBossPanelListInfo[0].nBossIceLeftCount, nBossMaxLeftCount);
 			bossElementList[0].bossLevel_Text.text = string.Format ("Lv {0}", GameManager.Instance.cBossPanelListInfo[0].nBossIceCurLevel);
 			bossElementList [0].curLevel = GameManager.Instance.cBossPanelListInfo [0].nBossIceCurLevel;
@@ -253,15 +255,12 @@ public class BossCreator : MonoBehaviour
 			bossElementList [3].bossLevelRight_Button.gameObject.SetActive (false);
 			bossElementList [3].ShowBossHealth ();
 
-			bossConsumeItemInfo.nInviteMentCurCount = GameManager.Instance.cBossPanelListInfo[0].nBossPotionCount;
-
 
 			bossConsumeItemInfo.nInviteMentCurCount = bossConsumeItemInfo.nInviteMentMaxCount;
 			bossConsumeItemInfo.inviteMentCount_Text.text = string.Format ("{0}/{1}" ,bossConsumeItemInfo.nInviteMentCurCount, bossConsumeItemInfo.nInviteMentMaxCount);
 
-
-			bossConsumeItemInfo.positionCount_Text.text = string.Format ("{0}",GameManager.Instance.cBossPanelListInfo[0].nBossPotionCount);
 			bossConsumeItemInfo.nPotionCount = GameManager.Instance.cBossPanelListInfo [0].nBossPotionCount;
+			bossConsumeItemInfo.positionCount_Text.text = string.Format ("{0}",GameManager.Instance.cBossPanelListInfo[0].nBossPotionCount);
 
 			nBossSasinLeftCount = GameManager.Instance.cBossPanelListInfo [0].nBossSasinLeftCount;
 			nBossIceLeftCount = GameManager.Instance.cBossPanelListInfo [0].nBossIceLeftCount;
@@ -556,7 +555,7 @@ public class BossCreator : MonoBehaviour
 
 	public void BossPanelInfoSave()
 	{
-		Debug.Log ("Save BossPanel Info!!");
+		Debug.Log ("Save BossPanel Info!! " + bossConsumeItemInfo.nInviteMentCurCount );
 		GameManager.Instance.cBossPanelListInfo [0].isSaved = true;
 		//현재 남은 보스 (개별)도전횟수 
 		GameManager.Instance.cBossPanelListInfo [0].nBossMusicLeftCount = nBossMusicLeftCount;

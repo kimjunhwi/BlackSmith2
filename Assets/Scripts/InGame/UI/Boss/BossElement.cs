@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class BossElement : MonoBehaviour 
 {
@@ -80,13 +81,13 @@ public class BossElement : MonoBehaviour
 		float result = fOriValue - fMinusValue;
 		double dCurComplete = 0;
 		if(nBossIndex == 0)
-			dCurComplete = ( GameManager.Instance.bossInfo [nBossIndex].dComplate * Mathf.Pow (2, (Mathf.Floor( Mathf.Max (((24 + (curLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 15;
+			dCurComplete = ( GameManager.Instance.bossInfo [nBossIndex].dComplate * Math.Pow (2, (Mathf.Floor( Mathf.Max (((24 + (curLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 15;
 		else if(nBossIndex == 1)
-			dCurComplete = ( GameManager.Instance.bossInfo [nBossIndex].dComplate * Mathf.Pow (2, (Mathf.Floor( Mathf.Max (((44 + (curLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 15;
+			dCurComplete = ( GameManager.Instance.bossInfo [nBossIndex].dComplate * Math.Pow (2, (Mathf.Floor( Mathf.Max (((44 + (curLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 15;
 		else if(nBossIndex == 2)
-			dCurComplete = ( GameManager.Instance.bossInfo [nBossIndex].dComplate * Mathf.Pow (2, (Mathf.Floor( Mathf.Max (((64 + (curLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 15;
+			dCurComplete = ( GameManager.Instance.bossInfo [nBossIndex].dComplate * Math.Pow (2, (Mathf.Floor( Mathf.Max (((64 + (curLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 15;
 		else
-			dCurComplete = ( GameManager.Instance.bossInfo [nBossIndex].dComplate * Mathf.Pow (2, (Mathf.Floor( Mathf.Max (((84 + (curLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 15;
+			dCurComplete = ( GameManager.Instance.bossInfo [nBossIndex].dComplate * Math.Pow (2, (Mathf.Floor( Mathf.Max (((84 + (curLevel * 5)) * 0.1f), 1))))) * (0.5 + (result) * 0.08f) * 15;
 
 
 		string strCurBossHealth =  SpawnManager.Instance.repairObject.ChangeValue (dCurComplete);

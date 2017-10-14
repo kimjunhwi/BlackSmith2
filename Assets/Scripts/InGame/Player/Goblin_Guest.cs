@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ReadOnlys;
+using System;
 using UnityEngine.EventSystems;
 
 enum E_GOBLIN_INDEX
@@ -56,13 +57,13 @@ public class Goblin_Guest : Character {
 
 		boxCollider.isTrigger = false;
 
-		nRandomIndex = Random.Range (0, (int)E_GOBLIN_INDEX.E_MAX);
+		nRandomIndex = UnityEngine.Random.Range (0, (int)E_GOBLIN_INDEX.E_MAX);
 
 
 		switch (nRandomIndex) 
 		{
 		case (int)E_GOBLIN_INDEX.E_GOBLIN_GOLD:
-			dValue = (250 * Mathf.Pow (1.09f, cPlayerData.GetDay () - 1)) * 10;
+			dValue = (250 * Math.Pow (1.09, cPlayerData.GetDay () - 1)) * 10;
 
 			break;
 		case (int)E_GOBLIN_INDEX.E_GOBLIN_HONOR:

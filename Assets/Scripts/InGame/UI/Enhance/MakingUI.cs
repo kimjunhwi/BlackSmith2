@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using ReadOnlys;
+using System;
 
 public class MakingUI : MonoBehaviour {
 
@@ -698,8 +699,8 @@ public class MakingUI : MonoBehaviour {
 			nPlusCount++;
 		}
 
-		dCalcMinRepair = dCalcMinRepair * Mathf.Pow(10,nPlusCount);
-		dCurComplete = dCurComplete * Mathf.Pow(10,nPlusCount);
+		dCalcMinRepair = dCalcMinRepair * Math.Pow(10,nPlusCount);
+		dCurComplete = dCurComplete * Math.Pow(10,nPlusCount);
 
 		NowRepairPower.text = 	ScoreManager.ScoreInstance.ChangeMoney( GameManager.Instance.GetPlayer().GetCreatorWeapon().dRepair);
 

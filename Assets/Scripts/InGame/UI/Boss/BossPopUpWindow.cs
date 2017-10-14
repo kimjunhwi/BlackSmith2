@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using ReadOnlys;
+using System;
 
 enum PANELINDEX
 {
@@ -312,7 +313,7 @@ public class BossPopUpWindow : MonoBehaviour
 			bossCharacter = bossMusic;
 
 
-		float nRandom_Weapon01 = Random.Range (0f, 1f);	
+		float nRandom_Weapon01 = UnityEngine.Random.Range (0f, 1f);	
 		if (nRandom_Weapon01 <= bossCharacter.bossInfo.fDropPercent) 
 		{
 			
@@ -326,7 +327,7 @@ public class BossPopUpWindow : MonoBehaviour
 			GameManager.Instance.player.inventory.GetEquimnet (GetEquiment(_bossWeaponIndex01));
 		}
 
-		float nRandom_Weapon02 = Random.Range (0f, 1f);	
+		float nRandom_Weapon02 = UnityEngine.Random.Range (0f, 1f);	
 		if (nRandom_Weapon02 <= bossCharacter.bossInfo.fDropPercent)
 		{
 			GameObject Reward = rewardObjPool.GetObject ();
@@ -339,7 +340,7 @@ public class BossPopUpWindow : MonoBehaviour
 			GameManager.Instance.player.inventory.GetEquimnet (GetEquiment(_bossWeaponIndex02));
 		}
 		//BossSoul
-		float nRandom_Weapon03 = Random.Range (0f, 1f);	
+		float nRandom_Weapon03 = UnityEngine.Random.Range (0f, 1f);	
 		if (nRandom_Weapon02 <= 0.3f)
 		{
 			GameObject Reward = rewardObjPool.GetObject ();
@@ -383,13 +384,13 @@ public class BossPopUpWindow : MonoBehaviour
 		double goldValue =0f;
 
 		if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_ICE)
-			goldValue = 250 * Mathf.Pow (1.09f, 24 + nCurBossLevel * 5) * 8;
+			goldValue = 250 * Math.Pow (1.09f, 24 + nCurBossLevel * 5) * 8;
 		else if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_SASIN)
-			goldValue = 250 * Mathf.Pow (1.09f, 44 + nCurBossLevel * 5) * 8;
+			goldValue = 250 * Math.Pow (1.09f, 44 + nCurBossLevel * 5) * 8;
 		else if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_FIRE)
-			goldValue = 250 * Mathf.Pow (1.09f, 64 + nCurBossLevel * 5) * 8;
+			goldValue = 250 * Math.Pow (1.09f, 64 + nCurBossLevel * 5) * 8;
 		else if (nBossIndex == (int)E_BOSSNAME.E_BOSSNAME_MUSIC)
-			goldValue = 250 * Mathf.Pow (1.09f, 84 + nCurBossLevel * 5) * 8;
+			goldValue = 250 * Math.Pow (1.09f, 84 + nCurBossLevel * 5) * 8;
 		else
 			goldValue = 0;
 		
@@ -507,7 +508,7 @@ public class BossPopUpWindow : MonoBehaviour
 
 		while(nLength > 0)
 		{
-			nInsertIndex = Random.Range((int)E_Equiment.E_REPAIR, (int)E_Equiment.E_MAX);
+			nInsertIndex = UnityEngine.Random.Range((int)E_Equiment.E_REPAIR, (int)E_Equiment.E_MAX);
 
 			if (CheckData(resultEquiment, nInsertIndex))
 				nLength--;

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using ReadOnlys;
 using UnityEngine.EventSystems;
 
@@ -439,7 +440,7 @@ public class NormalCharacter : Character {
 
 			playerController.GuestSuccessed ();
 
-			dGold = weaponData.dGold * Mathf.Pow (1.08f, nDay - 1);
+			dGold = weaponData.dGold * Math.Pow (1.08, nDay - 1);
 
 			if (cPlayerData.GearEquipmnet != null)
 			{

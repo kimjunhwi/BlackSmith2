@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using ReadOnlys;
+using System;
 
 public class OptionItem : MonoBehaviour {
 
@@ -141,7 +142,7 @@ public class OptionItem : MonoBehaviour {
 		} 
 		else if (WeaponOption.nIndex <= (int)E_CREATOR.E_MAX) 
 		{
-			dCostGold = 250 * Mathf.Pow (1.09f, GameManager.Instance.GetPlayer().GetCreatorWeapon().nCostDay - 1) * 5 * GameManager.Instance.GetPlayer().GetCreatorWeapon().nOptionChangeCount;
+			dCostGold = 250 * Math.Pow (1.09, GameManager.Instance.GetPlayer().GetCreatorWeapon().nCostDay - 1) * 5 * GameManager.Instance.GetPlayer().GetCreatorWeapon().nOptionChangeCount;
 
 			string strCostGold = ScoreManager.ScoreInstance.ChangeMoney (dCostGold);
 
@@ -194,7 +195,7 @@ public class OptionItem : MonoBehaviour {
 		{
 			int nInsertIndex = 0;
 
-			nInsertIndex = Random.Range((int)E_CREATOR.E_REPAIRPERCENT, (int)E_CREATOR.E_MAX);
+			nInsertIndex = UnityEngine.Random.Range((int)E_CREATOR.E_REPAIRPERCENT, (int)E_CREATOR.E_MAX);
 
 			if (makingUI.CheckData(weapon, nInsertIndex, (int)WeaponOption.nValue ))
 				nRandomOptionLength--;

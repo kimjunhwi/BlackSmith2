@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ReadOnlys;
+using System;
 
 public class WaterPlusPanelUI : EnhanceUI {
 
@@ -15,14 +16,14 @@ public class WaterPlusPanelUI : EnhanceUI {
 
 		EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 
-		CostGoldText.text = ChangeValue(800 * Mathf.Pow (1.095f, nLevel - 1));
+		CostGoldText.text = ChangeValue(800 * Math.Pow (1.095, nLevel - 1));
 
 		NextPercentText.text = (cPlayer.GetBasicWaterPlus() + (fBasic * 0.01f)).ToString();
 	}
 
 	protected override void EnhanceButtonClick ()
 	{
-		fCostGold = 800 * Mathf.Pow (1.095f, nLevel - 1);
+		fCostGold = 800 * Math.Pow (1.095, nLevel - 1);
 
 		if (fCostGold <= ScoreManager.ScoreInstance.GetGold ()) {
 
@@ -40,7 +41,7 @@ public class WaterPlusPanelUI : EnhanceUI {
 
 			ScoreManager.ScoreInstance.GoldPlus (-fCostGold	);
 
-			CostGoldText.text  = ChangeValue(800 * Mathf.Pow (1.095f, nLevel - 1));
+			CostGoldText.text  = ChangeValue(800 * Math.Pow (1.095, nLevel - 1));
 		}
 	}
 }

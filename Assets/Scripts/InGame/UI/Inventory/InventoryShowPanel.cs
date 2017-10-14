@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using ReadOnlys;
+using System;
 
 public class InventoryShowPanel : MonoBehaviour {
 
@@ -54,9 +55,9 @@ public class InventoryShowPanel : MonoBehaviour {
 	private void EnhanceItem()
 	{
 
-		if (ItemData.nBasicGold * Mathf.Pow(1.1f, ItemData.nStrenthCount - 1) <= ScoreManager.ScoreInstance.GetGold ()) {
+		if (ItemData.nBasicGold * Math.Pow(1.1, ItemData.nStrenthCount - 1) <= ScoreManager.ScoreInstance.GetGold ()) {
 				
-			ScoreManager.ScoreInstance.GoldPlus (-ItemData.nBasicGold * Mathf.Pow(1.1f, ItemData.nStrenthCount - 1));
+			ScoreManager.ScoreInstance.GoldPlus (-ItemData.nBasicGold * Math.Pow(1.1, ItemData.nStrenthCount - 1));
 
 			if (ItemData.fReapirPower 		!= 0) ItemData.fReapirPower 	+= ItemData.fOptionPlus;
 			if (ItemData.fArbaitRepair      != 0) ItemData.fArbaitRepair 	+= ItemData.fOptionPlus;
@@ -69,13 +70,13 @@ public class InventoryShowPanel : MonoBehaviour {
 			if (ItemData.fAccuracyRate      != 0) ItemData.fAccuracyRate 	+= ItemData.fOptionPlus;
 
 			if (ItemData.bIsBoss)
-				ItemData.fBossOptionValue += ItemData.fBasicOptionValue * ItemData.fOptionPlus * 0.1f;
+				ItemData.fBossOptionValue += 0.05f;
 
 			ItemData.nStrenthCount++;
 
 			player.inventory.inventorySlots [ItemData.nSlotIndex].RefreshDisplay ();
 
-			EnhanceCostText.text = ChangeValue(ItemData.nBasicGold * Mathf.Pow(1.1f, ItemData.nStrenthCount - 1));
+			EnhanceCostText.text = ChangeValue(ItemData.nBasicGold * Math.Pow(1.1, ItemData.nStrenthCount - 1));
 
 			ResetItemText ();
 
@@ -188,7 +189,7 @@ public class InventoryShowPanel : MonoBehaviour {
 	
 		ResetItemText ();
 
-		EnhanceCostText.text = ChangeValue(ItemData.nBasicGold * Mathf.Pow(1.1f, ItemData.nStrenthCount - 1));
+		EnhanceCostText.text = ChangeValue(ItemData.nBasicGold * Math.Pow(1.1, ItemData.nStrenthCount - 1));
 
 		if (strExplain != null)
 			CreateText (strExplain, 0f);

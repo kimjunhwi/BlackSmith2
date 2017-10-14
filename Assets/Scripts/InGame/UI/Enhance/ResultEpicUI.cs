@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using ReadOnlys;
+using System;
 
 public class ResultEpicUI : MonoBehaviour {
 
@@ -156,9 +157,9 @@ public class ResultEpicUI : MonoBehaviour {
 			nPlusCount++;
 		}
 
-		float fResult = Random.Range ((float)dCalcMinRepair, (float)dCurComplete);
+		float fResult = UnityEngine.Random.Range ((float)dCalcMinRepair, (float)dCurComplete);
 
-		dCurComplete = fResult * Mathf.Pow(10,nPlusCount);
+		dCurComplete = fResult * Math.Pow(10,nPlusCount);
 
 		RepairText.text = ScoreManager.ScoreInstance.ChangeMoney (dCurComplete);
 
@@ -179,8 +180,8 @@ public class ResultEpicUI : MonoBehaviour {
 		{
 			int nInsertIndex = 0;
 
-			nInsertIndex = Random.Range((int)E_CREATOR.E_REPAIRPERCENT, (int)E_CREATOR.E_MAX);
-			nInsertValue = Random.Range (nCalcAddMinOption, nCalcAddMaxOption + 1);
+			nInsertIndex = UnityEngine.Random.Range((int)E_CREATOR.E_REPAIRPERCENT, (int)E_CREATOR.E_MAX);
+			nInsertValue = UnityEngine.Random.Range (nCalcAddMinOption, nCalcAddMaxOption + 1);
 
 			if (CheckData(createWeapon, nInsertIndex, nInsertValue))
 				nOptionLength--;
@@ -192,7 +193,7 @@ public class ResultEpicUI : MonoBehaviour {
 			//만약 체크가 됐다면 
 			if (BossSoulSlots [nIndex].bIsCheck) {
 
-				nInsertValue = Random.Range (nCalcAddMinOption, nCalcAddMaxOption + 1);
+				nInsertValue = UnityEngine.Random.Range (nCalcAddMinOption, nCalcAddMaxOption + 1);
 
 				if (nIndex == (int)E_BOSSNAME.E_BOSSNAME_ICE) {
 					createWeapon.fIceBossValue = nInsertValue;
@@ -232,8 +233,8 @@ public class ResultEpicUI : MonoBehaviour {
 				createEpic.Relive ();
 			
 			//특수 옵션 미정
-			if (Random.Range (0, 100) <= 10) {
-				int nRandomIndex = (int)Random.Range (0, (int)E_EPIC_INDEX.E_EPIC_MAX);
+			if (UnityEngine.Random.Range (0, 100) <= 10) {
+				int nRandomIndex = (int)UnityEngine.Random.Range (0, (int)E_EPIC_INDEX.E_EPIC_MAX);
 
 				createEpic = EpicFactory (nRandomIndex);
 
@@ -279,7 +280,7 @@ public class ResultEpicUI : MonoBehaviour {
 		} 
 		else 
 		{
-			int nRandomWeaponIndex = (int)Random.Range (184, 211);
+			int nRandomWeaponIndex = (int)UnityEngine.Random.Range (184, 211);
 
 			//184,211
 

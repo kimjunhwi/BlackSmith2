@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public enum E_SLIDERCOLOR
 {
@@ -44,7 +45,7 @@ public class CompleteSlider : MonoBehaviour
 		if (nCurDay <= 100)
 			result = (double) (500 * 0.5f);
 		else
-			result  =(double) Mathf.Pow (1024, Mathf.Floor((float)nCurDay * 0.01f)) * 500 * 0.5f;
+			result  =(double) Math.Pow (1024, Mathf.Floor((float)nCurDay * 0.01f)) * 500 * 0.5f;
 
 		float nEachSliderTotalCount =  Mathf.Floor((float)_dCurComplete / (float)result);
 		nLeftLineCount = (int)nEachSliderTotalCount;

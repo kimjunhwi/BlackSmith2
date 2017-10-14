@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ReadOnlys;
+using System;
 
 public class CriticalPanelUI : EnhanceUI {
 
@@ -15,14 +16,14 @@ public class CriticalPanelUI : EnhanceUI {
 
 		EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 
-		CostGoldText.text  = ChangeValue(1000 * Mathf.Pow (1.095f, nLevel - 1));
+		CostGoldText.text  = ChangeValue(1000 * Math.Pow (1.095, nLevel - 1));
 
 		NextPercentText.text = (cPlayer.GetBasicCriticalChance() + (fBasic * 0.01f)).ToString();
 	}
 
 	protected override void EnhanceButtonClick ()
 	{
-		fCostGold = 1000 * Mathf.Pow (1.095f, nLevel - 1);
+		fCostGold = 1000 * Math.Pow (1.095, nLevel - 1);
 
 		if (fCostGold <= ScoreManager.ScoreInstance.GetGold ()) {
 
@@ -40,7 +41,7 @@ public class CriticalPanelUI : EnhanceUI {
 
 			NextPercentText.text = (cPlayer.GetBasicCriticalChance() + (fBasic * 0.01f)).ToString();
 
-			CostGoldText.text  = ChangeValue(1000 * Mathf.Pow (1.095f, nLevel - 1));
+			CostGoldText.text  = ChangeValue(1000 * Math.Pow (1.095, nLevel - 1));
 
 			EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 		}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ReadOnlys;
+using System;
 using UnityEngine.UI;
 
 [System.Serializable]
@@ -180,7 +181,7 @@ public class Player
 		if (changeStats.nEnhanceRepaireLevel <= 10) {
 			dCurComplete = _weapon.dRepair + changeStats.nEnhanceRepaireLevel;
 		} else {
-			dCurComplete = _weapon.dRepair * Mathf.Pow (1.022f, (Mathf.Floor ((changeStats.nEnhanceRepaireLevel - 11) * 0.1f))) * (1 + ((changeStats.nEnhanceRepaireLevel - 10) * 0.03f));
+			dCurComplete = _weapon.dRepair * Math.Pow (1.022f, (Mathf.Floor ((changeStats.nEnhanceRepaireLevel - 11) * 0.1f))) * (1 + ((changeStats.nEnhanceRepaireLevel - 10) * 0.03f));
 
 			dCurComplete += changeStats.nEnhanceRepaireLevel;
 		}

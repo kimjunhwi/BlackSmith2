@@ -519,7 +519,7 @@ public class RepairObject : MonoBehaviour
 
 				ComplateSlider.value = Mathf.Lerp (ComplateSlider.value, (float)dCurrentComplate, fComplateSlideTime);
 
-				ComplateText.text = string.Format("{0} / {1}", ChangeValue(ComplateSlider.value), ChangeValue(ComplateSlider.maxValue));
+				ComplateText.text = string.Format("{0} / {1}", ChangeValue(dCurrentComplate), ChangeValue(weaponData.dMaxComplate));
 			}
 		}
 	}
@@ -2326,7 +2326,7 @@ public class RepairObject : MonoBehaviour
 				fCurrentWater = 0;
 
 			if (fCurrentTemperature < 0)
-				fCurrentTemperature = 0;
+				fCurrentTemperature = 0;	
 
 			TemperatureSlider.value = fCurrentTemperature;
 
@@ -2343,7 +2343,7 @@ public class RepairObject : MonoBehaviour
 	//값을 수치로 표기하기 위한 함수 
 	public string ChangeValue(double _dValue)
 	{ 
-		long[] cVal = new long[100]; 
+		long[] cVal = new long[1000]; 
 
 		int index = 0; 
 

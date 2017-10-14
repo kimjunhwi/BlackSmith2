@@ -194,8 +194,9 @@ public class ScoreManager : MonoBehaviour
 	public double GetFreePassGold()
 	{
 		int nCurDay = GameManager.Instance.player.GetDay ();
-		double gold = (250 * Mathf.Pow (1.09f, nCurDay - 1)) * 10;
-		return gold;
+		//double asd = Mathf.Pow (1.09, (double)nCurDay - 1);
+		//double gold = (250 * (double)Mathf.Pow (1.09f, nCurDay - 1)) * 10;
+		return nCurDay;
 	}
 
 

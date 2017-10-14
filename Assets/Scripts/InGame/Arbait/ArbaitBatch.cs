@@ -137,8 +137,6 @@ public class ArbaitBatch : MonoBehaviour {
 	// Use this for initialization
 	protected virtual void Awake()
     {
-
-
 		animator = gameObject.GetComponent<Animator>();
 
 		myCharacterSprite = gameObject.GetComponent<SpriteRenderer>();

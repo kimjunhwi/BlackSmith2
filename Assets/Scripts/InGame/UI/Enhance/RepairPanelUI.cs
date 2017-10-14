@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ReadOnlys;
+using System;
 
 public class RepairPanelUI : EnhanceUI {
 
@@ -13,11 +14,11 @@ public class RepairPanelUI : EnhanceUI {
 
 		EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 
-		CostGoldText.text = ChangeValue(1000 * Mathf.Pow (1.095f, nLevel - 1));
+		CostGoldText.text = ChangeValue(1000 * Math.Pow (1.095, nLevel - 1));
 
 		double dCurComplete;
 
-		dCurComplete = GameManager.Instance.GetPlayer().GetCreatorWeapon ().dRepair * Mathf.Pow (1.022f, (Mathf.Floor ((nLevel + 1) * 0.1f))) * (1 + ((nLevel + 1) * 0.02f));
+		dCurComplete = GameManager.Instance.GetPlayer().GetCreatorWeapon ().dRepair * Math.Pow (1.022, (Mathf.Floor ((nLevel + 1) * 0.1f))) * (1 + ((nLevel + 1) * 0.02f));
 
 		dCurComplete += nLevel;
 
@@ -39,7 +40,7 @@ public class RepairPanelUI : EnhanceUI {
 
 	protected override void EnhanceButtonClick ()
 	{
-		fCostGold = 1000 * Mathf.Pow (1.095f, nLevel - 1);
+		fCostGold = 1000 * Math.Pow (1.095, nLevel - 1);
 
 		if (fCostGold <= ScoreManager.ScoreInstance.GetGold ()) {
 
@@ -56,7 +57,7 @@ public class RepairPanelUI : EnhanceUI {
 			double dCurComplete;
 
 
-			dCurComplete = cPlayer.GetCreatorWeapon ().dRepair * Mathf.Pow (1.022f, (Mathf.Floor ((nLevel - 1) * 0.1f))) * (1 + ((nLevel -1)  * 0.02f));
+			dCurComplete = cPlayer.GetCreatorWeapon ().dRepair * Math.Pow (1.022, (Mathf.Floor ((nLevel - 1) * 0.1f))) * (1 + ((nLevel -1)  * 0.02f));
 
 			dCurComplete += nLevel;
 
@@ -66,7 +67,7 @@ public class RepairPanelUI : EnhanceUI {
 			EnhanceText.text =string.Format("{0} {1}", strEnhanceName , nLevel);
 
 
-			dCurComplete = cPlayer.GetCreatorWeapon ().dRepair * Mathf.Pow (1.022f, (Mathf.Floor ((nLevel + 1) * 0.1f))) * (1 + ((nLevel + 1) * 0.02f));
+			dCurComplete = cPlayer.GetCreatorWeapon ().dRepair * Math.Pow (1.022, (Mathf.Floor ((nLevel + 1) * 0.1f))) * (1 + ((nLevel + 1) * 0.02f));
 
 			dCurComplete += nLevel;
 
@@ -75,7 +76,7 @@ public class RepairPanelUI : EnhanceUI {
 
 			ScoreManager.ScoreInstance.GoldPlus (-fCostGold	);
 
-			CostGoldText.text  = ChangeValue(1000 * Mathf.Pow (1.095f, nLevel - 1));
+			CostGoldText.text  = ChangeValue(1000 * Math.Pow (1.095, nLevel - 1));
 		}
 	}
 }

@@ -90,7 +90,7 @@ public class PlayerSpecificInfo : MonoBehaviour {
 
 	public void SetArbaitRepairText()
 	{
-		ArbaitRepairIncreaseText.text = string.Format("아르바이트 수리력 : {0} ", player.GetArbaitRepairPower ().ToString ("N1"));
+		ArbaitRepairIncreaseText.text = string.Format("아르바이트 수리력 : +{0} ", player.GetArbaitRepairPower ().ToString ("N1"));
 	}
 
 	public void SetCriticalDamamgeText()

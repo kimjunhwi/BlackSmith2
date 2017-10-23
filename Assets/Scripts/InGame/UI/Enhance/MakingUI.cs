@@ -91,6 +91,8 @@ public class MakingUI : MonoBehaviour {
 
 			createWeapon.nOptionChangeCount = LoadCreateWeapon.nOptionChangeCount;
 
+			createWeapon.bIsLock = LoadCreateWeapon.bIsLock;
+
 			if ( LoadCreateWeapon.fRepairPercent != 0)
 				CheckData (createWeapon, (int)E_CREATOR.E_REPAIRPERCENT, (int)LoadCreateWeapon.fRepairPercent);
 
@@ -231,17 +233,17 @@ public class MakingUI : MonoBehaviour {
 
 				createEpic = EpicFactory (createWeapon.nEpicIndex);
 
-				createEpic.Init (createWeapon.nCostDay, playerData);
+				createEpic.Init (LoadCreateWeapon.nCostDay, playerData);
 
 				//에픽 옵션 추가 
 				CGameMainWeaponOption EpicOption = new CGameMainWeaponOption ();
 
 				EpicOption.nIndex = (int)E_CREATOR.E_EPIC;
 				EpicOption.strOptionName = createEpic.strExplain;
-				EpicOption.nValue = nInsertValue;
+				EpicOption.nValue = (int)createEpic.fValue;
 				EpicOption.strOptionExplain = createEpic.strExplain;
-				EpicOption.bIsLock = false;
-				createEpic.bIsLock = false;
+				EpicOption.bIsLock = createWeapon.bIsLock;
+				createEpic.bIsLock = createWeapon.bIsLock;
 
 				LIST_OPTION.Add (EpicOption);
 
@@ -315,6 +317,7 @@ public class MakingUI : MonoBehaviour {
 			newButton.transform.localScale = Vector3.one;
 
 			OptionItem sampleButton = newButton.GetComponent<OptionItem> ();
+			sampleButton.SetInit ();
 			sampleButton.Setup (item,this);
 		}
 	}
@@ -685,7 +688,7 @@ public class MakingUI : MonoBehaviour {
 		float fMinusValue = Mathf.Floor( (nDay + 10) * 0.1f ) * 10;
 		float result = fOriValue - fMinusValue;
 
-		double dCurComplete = 3 * Math.Max( Math.Pow (1.9f, (Mathf.Floor((nDay + 20) * 0.1f))),1) * (1 + (result) * 0.05f);
+		double dCurComplete = 3 * Math.Max( Math.Pow (1.83, (Mathf.Floor((nDay + 20) * 0.1f))),1) * (1 + (result) * 0.05f);
 
 		dCalcMinRepair = dCurComplete - dCurComplete * 0.1f;
 

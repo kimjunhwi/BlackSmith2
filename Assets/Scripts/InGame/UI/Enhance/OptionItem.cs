@@ -30,7 +30,7 @@ public class OptionItem : MonoBehaviour {
 	private double dCostGold;
 
 	private MakingUI makingUI;
-	private CGameMainWeaponOption WeaponOption;
+	public CGameMainWeaponOption WeaponOption;
 
 	void Awake()
 	{
@@ -98,7 +98,7 @@ public class OptionItem : MonoBehaviour {
 					{
 						if(rt == "0")
 						{
-							GameManager.Instance.ShowRewardedAd_EpicChange(this);
+							GameManager.Instance.ShowRewardedAd_Option_Lock(this);
 						}
 						else if(rt == "1")
 						{
@@ -174,6 +174,13 @@ public class OptionItem : MonoBehaviour {
 	}
 
 	public void Lock_EpicOption()
+	{
+		OptionImage.sprite = ActiveEpicSprite;
+		LockImage.sprite = ActiveEpicLockSprite;
+		GameManager.Instance.GetPlayer().GetCreatorWeapon().bIsLock = true;
+	}
+
+	public void AdLockOption()
 	{
 		WeaponOption.bIsLock = true;
 		OptionImage.sprite = ActiveEpicSprite;

@@ -23,8 +23,18 @@ public class BossRegenTimer : MonoBehaviour
 
 
 	private bool isFirstActive = false;
+	private bool isMinuteZero = false;
+	private bool isEndSecondZero = false;
 
 	public BossCreator bossCreator;
+
+	void Update()
+	{
+		if (isTimeOn == true) {
+			StartTimer (nInitTime_Min, nInitTime_sec);
+			isTimeOn = false;
+		}
+	}
 
 	public void BossRegenTimeSave()
 	{
@@ -51,23 +61,22 @@ public class BossRegenTimer : MonoBehaviour
 			{
 				EndData = System.DateTime.Now;
 				PlayerPrefs.SetString ("BossRegenTime", EndData.ToString ());
-				if (curMin != 0 && fCurSec != 0) {
+				if (curMin != 0 && fCurSec != 0) 
+				{
+					GameManager.Instance.cBossPanelListInfo [0].nBossRegenCurMin = curMin;
+					GameManager.Instance.cBossPanelListInfo [0].fBossRegenCurSec = fCurSec;
+				}
+				if (curMin == 0 && fCurSec != 0) {
 					GameManager.Instance.cBossPanelListInfo [0].nBossRegenCurMin = curMin;
 					GameManager.Instance.cBossPanelListInfo [0].fBossRegenCurSec = fCurSec;
 				}
 				Debug.Log ("BossRegen Time Save : " + EndData.ToString ());
 			}
+			GameManager.Instance.SaveBossPanelInfoList ();
 		}
 
 	}
-	void Update()
-	{
-		if (isTimeOn == true) 
-		{
-			StartTimer (nInitTime_Min, nInitTime_sec);
-			isTimeOn = false;
-		}
-	}
+
 
 	public void BossRegenTimeLoad()
 	{
@@ -118,7 +127,7 @@ public class BossRegenTimer : MonoBehaviour
 		//
 		else 
 		{
-			int nPassedTime_Min = (int)timeCal.TotalMinutes;	//전체 분s
+			int nPassedTime_Min = (int)timeCal.TotalMinutes;		//전체 분s
 			int nPassedTime_Sec = (int)timeCal.TotalSeconds % 60; 	//전채 초에서 나머지
 
 			//120분이 지나지 않았다면 저장된 분에서 지나간 분 만큼 뺀 시간을 시작한다
@@ -165,11 +174,7 @@ public class BossRegenTimer : MonoBehaviour
 				bossRegenTimerText.text = curMin.ToString () + ":" + second.ToString ();
 			
 
-
-			nInitTime_Min = curMin;
-			nInitTime_sec = second;
-
-			if (curMin == 0 && second == 0f)
+			if (curMin == 0 && second == 0)
 			{
 				isTimeOn = true;
 				//break;
@@ -181,29 +186,39 @@ public class BossRegenTimer : MonoBehaviour
 
 				bossCreator.bossElementList[0].BossLeftCount_Text.text = 
 					string.Format("{0} / {1}",  bossCreator.nBossIceLeftCount, bossCreator.nBossMaxLeftCount);
+				bossCreator.bossElementList [0].ReloadButton_Obj.SetActive (false);
 
 				bossCreator.bossElementList[1].BossLeftCount_Text.text = 
 					string.Format("{0} / {1}",  bossCreator.nBossSasinLeftCount, bossCreator.nBossMaxLeftCount);
-				
+				bossCreator.bossElementList [1].ReloadButton_Obj.SetActive (false);
+
 				bossCreator.bossElementList[2].BossLeftCount_Text.text = 
 					string.Format("{0} / {1}",  bossCreator.nBossFireLeftCount, bossCreator.nBossMaxLeftCount);
+				bossCreator.bossElementList [2].ReloadButton_Obj.SetActive (false);
 				
 				bossCreator.bossElementList[3].BossLeftCount_Text.text = 
 					string.Format("{0} / {1}",  bossCreator.nBossMusicLeftCount, bossCreator.nBossMaxLeftCount);
+				bossCreator.bossElementList [3].ReloadButton_Obj.SetActive (false);
+
 
 				bossCreator.BossPanelInfoSave ();
 				
 
 				nInitTime_Min = 119;
 				nInitTime_sec = 59;
+				//다시 호출을 해서 break해줘야 함
 				break;
 			}
 
-			if (curMin != 0 && second == 0f) 
+			if (curMin != 0 && second <= 0f) 
 			{
+				
 				fCurSec = 59f;
 				curMin--;
+
 			}
+
+
 				
 			yield return null;
 		}

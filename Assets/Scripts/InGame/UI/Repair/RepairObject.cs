@@ -509,7 +509,8 @@ public class RepairObject : MonoBehaviour
 					isTouchWaterAvailable = false;
 					waterPaching.SetActive (false);
 				}
-			} else 
+			} 
+			else 
 				fCurrentWater = fMaxWater;
 
 			
@@ -519,7 +520,7 @@ public class RepairObject : MonoBehaviour
 
 				ComplateSlider.value = Mathf.Lerp (ComplateSlider.value, (float)dCurrentComplate, fComplateSlideTime);
 
-				ComplateText.text = string.Format("{0} / {1}", ChangeValue(dCurrentComplate), ChangeValue(weaponData.dMaxComplate));
+				ComplateText.text = string.Format("{0} / {1}", ChangeValue(dCurrentComplate), ChangeValue(ComplateSlider.maxValue));
 			}
 		}
 	}

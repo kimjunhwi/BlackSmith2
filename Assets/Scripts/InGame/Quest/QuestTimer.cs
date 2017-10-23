@@ -115,11 +115,11 @@ public class QuestTimer : MonoBehaviour
 			{
 				Debug.Log ("Local Load");
 
-				int ResultTime_Min = nInitTime_Min - nPassedTime_Min;
+				int ResultTime_Min = GameManager.Instance.cQuestSaveListInfo[0].nCurLeftMin - nPassedTime_Min;
 				if (ResultTime_Min < 0)
 					ResultTime_Min = -ResultTime_Min;
 
-				int ResultTime_Sec = nInitTime_sec - nPassedTime_Sec;
+				int ResultTime_Sec = (int)GameManager.Instance.cQuestSaveListInfo[0].fCurLeftSec - nPassedTime_Sec;
 				if (ResultTime_Sec < 0)
 					ResultTime_Sec = -ResultTime_Sec;
 
@@ -210,10 +210,10 @@ public class QuestTimer : MonoBehaviour
 			//inviteMentCount_Text.text = nInviteMentCurCount.ToString () + " / " + nInviteMentMaxCount.ToString ();
 
 
-			nInitTime_Min = curMin;
-			nInitTime_sec = second;
+			//nInitTime_Min = curMin;
+			//nInitTime_sec = second;
 
-			if (curMin == 0 && second <= 0f)
+			if (curMin == 0 && second == 0f)
 			{
 				isTimeEnd = true;
 				//break;

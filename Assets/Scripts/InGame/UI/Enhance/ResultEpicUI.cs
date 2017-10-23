@@ -143,7 +143,7 @@ public class ResultEpicUI : MonoBehaviour {
 		float fMinusValue = Mathf.Floor( (nDay + 10) * 0.1f ) * 10;
 		float result = fOriValue - fMinusValue;
 
-		double dCurComplete = 3 * Math.Max( Mathf.Pow (1.9f, (Math.Floor((nDay + 20) * 0.1f))),1) * (1 + (result) * 0.05f);
+		double dCurComplete = 3 * Math.Max( Math.Pow (1.83, (Math.Floor((nDay + 20) * 0.1f))),1) * (1 + (result) * 0.05f);
 
 		dCalcMinRepair = dCurComplete - dCurComplete * 0.1f;
 
@@ -224,6 +224,7 @@ public class ResultEpicUI : MonoBehaviour {
 		{
 			createWeapon.bIsLock = playerData.GetCreatorWeapon().bIsLock;
 			createWeapon.nEpicIndex = playerData.GetCreatorWeapon().nEpicIndex;
+			createWeapon.nUnicodeIndex = playerData.GetCreatorWeapon().nUnicodeIndex;
 		}
 
 		//락이 아닐 경우 다시 에픽 확률을 계산 해서 넣어 줌 
@@ -257,6 +258,10 @@ public class ResultEpicUI : MonoBehaviour {
 			createEpic = EpicFactory (createWeapon.nEpicIndex);
 
 			createEpic.Init (playerData.GetDay (), playerData);
+
+			createWeapon.nCostDay = playerData.GetDay ();
+
+			createWeapon.strName = GameManager.Instance.cUnicodeData [createWeapon.nUnicodeIndex].strName;
 
 			createWeapon.bIsLock = false;
 		}

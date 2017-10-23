@@ -1806,6 +1806,37 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		}
 	}
 
+	public void ShowRewardedAd_Option_Lock(OptionItem _optionItem)
+	{
+		optionUI = _optionItem;
+
+		if (Advertisement.IsReady("rewardedVideo"))
+		{
+			var options = new ShowOptions { resultCallback = HandleShowResult_Option_Lock };
+			Advertisement.Show("rewardedVideo", options);
+		}
+	}
+
+	private void HandleShowResult_Option_Lock(ShowResult result)
+	{
+		switch (result)
+		{
+		case ShowResult.Finished:
+			Debug.Log ("The ad was successfully shown.");
+			//
+			// YOUR CODE TO REWARD THE GAMER
+			// Give coins etc.
+
+			optionUI.AdLockOption ();
+
+			break;
+
+		case ShowResult.Failed:
+			Debug.LogError("The ad failed to be shown.");
+			break;
+		}
+	}
+
 
 	public void ShowRewardedAd_Creator(ResultEpicUI _ResultEpicUI)
 	{

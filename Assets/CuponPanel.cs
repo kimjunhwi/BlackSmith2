@@ -11,7 +11,6 @@ public class CuponPanel : MonoBehaviour {
 
 	public void CuponCheckButton()
 	{
-		PlayerPrefs.DeleteKey ("HasCupon");
 
 		if(PlayerPrefs.HasKey("HasCupon"))
 		{

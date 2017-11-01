@@ -38,6 +38,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	public CGameUnicode[] cUnicodeData = null;
 
+	public CGameCupon[] cCuponData = null;
+
 	public ArbaitEnhance[] cArbaitEnhance = null;
 	public SmithEnhance[] cSmithEnhance = null;
 	public EquipmentEnhance[] cEquipmentEnhance = null;
@@ -129,6 +131,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		Load_TableInfo_Unicode();
 
+		Load_TableInfo_Cupon();
+
 		Load_TableInfo_Sound ();
 
 		Load_TableInfo_Weapon();
@@ -197,6 +201,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		logoManager = GameObject.Find("LogoManager").GetComponent<LogoManager>();
 
 		Load_TableInfo_Unicode();
+		Load_TableInfo_Cupon();
 
 		Load_TableInfo_Sound ();
 
@@ -855,6 +860,33 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		cUnicodeData = kInfo;
 	}
 
+	void Load_TableInfo_Cupon()
+	{
+		if (cCuponData.Length != 0) return;
+
+		string txtFilePath = "cupon";
+		TextAsset ta = LoadTextAsset(txtFilePath);
+		List<string> line = LineSplit(ta.text);
+
+		CGameCupon[] kInfo = new CGameCupon[line.Count - 1];
+
+		for (int i = 0; i < line.Count; i++)
+		{
+			//Console.WriteLine("line : " + line[i]);
+			if (line[i] == null) continue;
+			if (i == 0) continue; 	// Title skip
+
+			string[] Cells = line[i].Split("\t"[0]);	// cell split, tab
+			if (Cells[0] == "") continue;
+
+			kInfo[i - 1] = new CGameCupon();
+			kInfo[i - 1].strName = Cells[0];
+			kInfo[i - 1].nRuby = int.Parse(Cells[1]);
+
+		}
+		cCuponData = kInfo;
+	}
+
 
     void Load_TableInfo_Quest()
     {
@@ -1176,6 +1208,16 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		else
 			return cEquipmentEnhance [2];
 
+	}
+
+	public bool CheckCupon(string strIndex)
+	{
+		for (int nIndex = 0; nIndex < cCuponData.Length; nIndex++) {
+			if (cCuponData [nIndex].strName == strIndex)
+				return true;
+		}
+
+		return false;
 	}
 
 
@@ -2786,6 +2828,13 @@ public class GameCashItemShop
 	public float fGold;
 	public float fCash;
 	public string sItemContents;
+}
+
+[System.Serializable]
+public class CGameCupon
+{
+	public string strName;
+	public int nRuby;
 }
 
 

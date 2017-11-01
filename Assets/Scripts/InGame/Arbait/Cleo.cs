@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ReadOnlys;
+using System;
 
 public class Cleo : ArbaitBatch {
 
@@ -215,7 +216,7 @@ public class Cleo : ArbaitBatch {
 
 
 				//크리티컬 확률 
-				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) {
+				if (UnityEngine.Random.Range (0, 100) <= Math.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) {
 					animator.SetTrigger ("bIsCriticalRepair");
 					m_dCalComaplete += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
 				} else {
@@ -268,7 +269,7 @@ public class Cleo : ArbaitBatch {
 
 
 				//크리티컬 확률 
-				if (Random.Range (0, 100) <= Mathf.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) {
+				if (UnityEngine.Random.Range (0, 100) <= Math.Round (m_CharacterChangeData.fCritical + fBossCriticalPercent)) {
 					animator.SetTrigger ("bIsCriticalRepair");
 					m_dCalComaplete += m_CharacterChangeData.dRepairPower * 1.5f + dDodomchitRepair;
 				} else {

@@ -23,8 +23,6 @@ public class BossRegenTimer : MonoBehaviour
 
 
 	private bool isFirstActive = false;
-	private bool isMinuteZero = false;
-	private bool isEndSecondZero = false;
 
 	public BossCreator bossCreator;
 

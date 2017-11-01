@@ -52,8 +52,6 @@ public class QuestTimer : MonoBehaviour
 		{
 			EndData = System.DateTime.Now;
 		}
-
-
 		StartedTime = System.DateTime.Now;
 		Debug.Log ("StartTime :"+ StartedTime + " / EndTime :" + EndData);
 		timeCal = StartedTime - EndData;

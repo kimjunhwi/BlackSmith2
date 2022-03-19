@@ -98,7 +98,6 @@ public class OptionItem : MonoBehaviour {
 					{
 						if(rt == "0")
 						{
-							GameManager.Instance.ShowRewardedAd_Option_Lock(this);
 						}
 						else if(rt == "1")
 						{
@@ -152,7 +151,6 @@ public class OptionItem : MonoBehaviour {
 					//광고
 					if(rt == "0")
 					{
-						GameManager.Instance.ShowRewardedAd_Option(this);
 					}
 					//골드
 					else if(rt == "1")

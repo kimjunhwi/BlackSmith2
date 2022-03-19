@@ -154,7 +154,6 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			shopCash.SetUpItemList ((int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_RUBY);
 			shopCash.SetUpItemList ((int)E_CASHSHOPTYPE.E_CASHSHOPTYPE_PACKAGE);
 
-			shopCash.InitializePurchasing ();
 			shopCash.gameObject.SetActive (false);
 
 			//CashShop Booster Load
@@ -1111,9 +1110,6 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			questManager.questYesAndExitPopUpWindow_Yes_Text.text = "루비가 부족합니다.";
 			questManager.questYesAndExitPopUpWindow_Yes.SetActive (true);
 		}
-
-		if(_isRuby == false)
-			GameManager.Instance.ShowSkipAd_Quest (questManager);
 	}
 
 	public void ShowRewardInGameManager(BossCreator bossCreator , bool _isRuby)
@@ -1138,9 +1134,6 @@ public class SpawnManager : GenericMonoSingleton<SpawnManager>
 			SpawnManager.Instance.bossCreator.bossPopUpWindow.PopUpWindow_Yes.SetActive (true);
 			SpawnManager.Instance.bossCreator.bossPopUpWindow.PopUpWindow_Yes.transform.GetChild (0).GetComponent<Text> ().text = "루비가 부족합니다.";
 		}
-
-		if(_isRuby == false)
-			GameManager.Instance.ShowRewardAdd_Boss (bossCreator);
 	}
 
 	public bool CheckIsTimer()

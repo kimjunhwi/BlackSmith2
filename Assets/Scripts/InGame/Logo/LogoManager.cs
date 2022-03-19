@@ -2,9 +2,6 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using GooglePlayGames;
-using GooglePlayGames.BasicApi;
-using GooglePlayGames.BasicApi.SavedGame;
 using System.Text;
 using UnityEngine.SocialPlatforms;
 
@@ -41,14 +38,6 @@ public class LogoManager : MonoBehaviour
 		else
 			bIsSuccessed = true;
 		#elif UNITY_ANDROID
-		//EnableGameSave
-		// enables saving game progress.
-		PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
-		.EnableSavedGames()
-		.Build();
-		PlayGamesPlatform.InitializeInstance(config);
-		//GoogleLogin Active
-		PlayGamesPlatform.Activate();
 
 		if(!GameManager.Instance.bIsLoad)
 			StartCoroutine( GameManager.Instance.DataLoad());

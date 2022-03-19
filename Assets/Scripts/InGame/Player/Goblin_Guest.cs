@@ -221,7 +221,6 @@ public class Goblin_Guest : Character {
 
 				//광고 보고 2배
 				if (rt == "0") {
-					GameManager.Instance.ShowRewardedAd_Goblin(this);
 				} 
 				// 그냥 받기 
 				else if (rt == "1") {

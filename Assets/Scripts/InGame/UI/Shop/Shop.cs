@@ -339,7 +339,6 @@ public class Shop : MonoBehaviour {
 		{ 
 			if (rt == "0") 
 			{
-				GameManager.Instance.ShowRewardedAd_Shop(this);
 			} 
 			else if (rt == "1") 
 			{

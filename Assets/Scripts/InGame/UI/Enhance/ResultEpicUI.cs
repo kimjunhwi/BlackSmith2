@@ -574,8 +574,6 @@ public class ResultEpicUI : MonoBehaviour {
 		RefreshDisplay ();
 
 		AdButton.gameObject.SetActive (false);
-
-		GameManager.Instance.ShowRewardedAd_Creator (this);
 	}
 
 	public void ShowAd()
